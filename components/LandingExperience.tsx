@@ -81,11 +81,189 @@ const productNodes: ProductNode[] = [
   },
 ];
 
+const productGroups = [
+  {
+    title: "Marketing",
+    items: [
+      { name: "IcyPluto", desc: "Autonomous marketing engine" },
+      { name: "IcyLingo", desc: "Multilingual translation AI" },
+      { name: "IcyLunar", desc: "Campaign creative studio" },
+      { name: "IcyQuill", desc: "AI content & copywriter" },
+      { name: "Fire Reach", desc: "Omnichannel outreach" },
+      { name: "Pluto Circle", desc: "Audience intelligence" },
+    ],
+  },
+  {
+    title: "Learning",
+    items: [
+      { name: "Rabbitt Learning", desc: "Enterprise skill platform" },
+      { name: "Drip", desc: "Adaptive micro-learning" },
+      { name: "LMS", desc: "Sovereign learning management" },
+      { name: "Code Bunny", desc: "Interactive AI coding tutor" },
+      { name: "AI Learning Platform Gamified", desc: "Gamified skill quests" },
+      { name: "OnSkill", desc: "Workforce competency hub" },
+      { name: "R Proctor", desc: "AI exam & integrity proctor" },
+    ],
+  },
+  {
+    title: "Specialized solutions",
+    items: [
+      { name: "Voice Rabbitt", desc: "Conversational voice agents" },
+      { name: "Cloud Watcher", desc: "Cloud cost & health monitor" },
+      { name: "Ping Me", desc: "Incident response assistant" },
+    ],
+  },
+  {
+    title: "Technology",
+    items: [
+      { name: "ChanceRAG", desc: "Sovereign enterprise RAG" },
+      { name: "HRMS", desc: "AI people operations" },
+      { name: "Canvas", desc: "Visual AI workflow builder" },
+    ],
+  },
+  {
+    title: "Councils",
+    items: [
+      { name: "GMA Council", desc: "Global media & AI summit" },
+      { name: "WES Council", desc: "Workforce evolution council" },
+      { name: "AI World", desc: "Global sovereign AI network" },
+    ],
+  },
+];
+
+function ProductIcon({ name }: { name: string }) {
+  switch (name) {
+    case "IcyPluto":
+      return <Image src="/Icypluto.svg" alt="" width={22} height={22} className="h-5 w-5 object-contain" />;
+    case "IcyQuill":
+      return <Image src="/quill.svg" alt="" width={22} height={22} className="h-5 w-5 object-contain" />;
+    case "Drip":
+      return <Image src="/drip.svg" alt="" width={22} height={22} className="h-5 w-5 object-contain" />;
+    case "OnSkill":
+      return <Image src="/onskill.svg" alt="" width={22} height={22} className="h-5 w-5 object-contain" />;
+    case "Cloud Watcher":
+      return <Image src="/cloudwatcher.svg" alt="" width={22} height={22} className="h-5 w-5 object-contain" />;
+    case "Ping Me":
+      return <Image src="/pingu.svg" alt="" width={22} height={22} className="h-5 w-5 object-contain" />;
+    case "ChanceRAG":
+      return <Image src="/chance.svg" alt="" width={22} height={22} className="h-5 w-5 object-contain" />;
+    case "AI Learning Platform Gamified":
+      return <Image src="/aiquest.svg" alt="" width={22} height={22} className="h-5 w-5 object-contain" />;
+    case "Rabbitt Learning":
+    case "Voice Rabbitt":
+      return <Image src="/logo.svg" alt="" width={22} height={22} className="h-5 w-5 object-contain" />;
+    case "AI World":
+      return <Image src="/globe.svg" alt="" width={22} height={22} className="h-5 w-5 object-contain" />;
+    case "IcyLingo":
+      return (
+        <svg className="h-4 w-4 text-sky-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="10" />
+          <path d="M2 12h20" />
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+        </svg>
+      );
+    case "IcyLunar":
+      return (
+        <svg className="h-4 w-4 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+          <path d="M19 3v4" />
+          <path d="M21 5h-4" />
+        </svg>
+      );
+    case "Fire Reach":
+      return (
+        <svg className="h-4 w-4 text-orange-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" />
+        </svg>
+      );
+    case "Pluto Circle":
+      return (
+        <svg className="h-4 w-4 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="9" strokeDasharray="3 3" />
+          <circle cx="12" cy="12" r="4" fill="currentColor" fillOpacity="0.3" />
+          <circle cx="12" cy="3" r="2" fill="currentColor" />
+        </svg>
+      );
+    case "LMS":
+      return (
+        <svg className="h-4 w-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z" />
+          <path d="M6 6h10" />
+          <path d="M6 10h10" />
+        </svg>
+      );
+    case "Code Bunny":
+      return (
+        <svg className="h-4 w-4 text-sky-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="16 18 22 12 16 6" />
+          <polyline points="8 6 2 12 8 18" />
+          <line x1="14" y1="4" x2="10" y2="20" />
+        </svg>
+      );
+    case "R Proctor":
+      return (
+        <svg className="h-4 w-4 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" />
+          <circle cx="12" cy="11" r="2.5" />
+        </svg>
+      );
+    case "HRMS":
+      return (
+        <svg className="h-4 w-4 text-violet-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+          <circle cx="9" cy="7" r="4" />
+          <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+        </svg>
+      );
+    case "Canvas":
+      return (
+        <svg className="h-4 w-4 text-teal-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <rect width="18" height="18" x="3" y="3" rx="2" />
+          <path d="M3 9h18" />
+          <path d="M9 21V9" />
+        </svg>
+      );
+    case "GMA Council":
+      return (
+        <svg className="h-4 w-4 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+        </svg>
+      );
+    case "WES Council":
+      return (
+        <svg className="h-4 w-4 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 2l8 4.5v11L12 22l-8-4.5v-11L12 2z" />
+          <circle cx="12" cy="12" r="3" />
+        </svg>
+      );
+    default:
+      return <span className="text-xs font-bold text-sky-300">{name.slice(0, 1)}</span>;
+  }
+}
+
+const services = [
+  "Content writing",
+  "Content strategy",
+  "Video editing & Generation",
+  "University training programs",
+  "Website revamp services",
+  "Corporate trainings",
+];
+
 type Point = { x: number; y: number };
 type NodeTargets = Record<string, Point>;
 
 function nodePath(node: ProductNode) {
-  return `M 0 -7.3 C ${node.curveControl.cx1} ${node.curveControl.cy1}, ${node.curveControl.cx2} ${node.curveControl.cy2}, ${node.pos.desktop.x} ${node.pos.desktop.y}`;
+  const target = node.pos.desktop;
+  const distance = Math.hypot(target.x, target.y);
+  const ringRadius = 22;
+  const start = {
+    x: (target.x / distance) * ringRadius,
+    y: (target.y / distance) * ringRadius,
+  };
+  const delta = { x: target.x - start.x, y: target.y - start.y };
+  return `M ${start.x} ${start.y} C ${start.x + delta.x * 0.34} ${start.y + delta.y * 0.34}, ${target.x - delta.x * 0.2} ${target.y - delta.y * 0.2}, ${target.x} ${target.y}`;
 }
 
 export default function LandingExperience() {
@@ -95,14 +273,13 @@ export default function LandingExperience() {
   const hatOpeningRef = useRef<HTMLSpanElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
   const brandTargetRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLDivElement>(null);
-  const titleTargetRef = useRef<HTMLDivElement>(null);
   const navTitleTargetRef = useRef<HTMLDivElement>(null);
+  const navRef = useRef<HTMLElement>(null);
+  const heroTitleRef = useRef<HTMLHeadingElement>(null);
   const desktopNodeRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const mobileNodeRefs = useRef<Record<string, HTMLDivElement | null>>({});
-  // Motion values for the nav-title target delta (set in measureTargets, reactive to useTransform)
-  const navTitleDeltaX = useMotionValue(0);
-  const navTitleDeltaY = useMotionValue(0);
+  const heroTitleDeltaX = useMotionValue(0);
+  const heroTitleDeltaY = useMotionValue(0);
   const [targets, setTargets] = useState<{
     nodes: NodeTargets;
     logo: Point;
@@ -120,6 +297,8 @@ export default function LandingExperience() {
   const [blurRevealActive, setBlurRevealActive] = useState(
     prefersReducedMotion ?? false,
   );
+  const [openMenu, setOpenMenu] = useState<"products" | "services" | null>(null);
+  const [activeProductGroup, setActiveProductGroup] = useState("Marketing");
   const sequenceProgress = useMotionValue(prefersReducedMotion ? 1 : 0);
   const ecosystemReveal = useMotionValue(prefersReducedMotion ? 1 : 0);
   const animationProgress = useTransform(sequenceProgress, (value) =>
@@ -141,48 +320,29 @@ export default function LandingExperience() {
   // so useTransform always picks up the latest value reactively.
   const logoTargetX = useMotionValue(0);
   const logoTargetY = useMotionValue(0);
-  const titleTargetX = useMotionValue(0);
-  const titleTargetY = useMotionValue(0);
 
   const logoX = useTransform(
     [animationProgress, logoTargetX] as const,
     ([p, tx]) => {
-      const t = Math.max(0, Math.min(1, ((p as number) - 0.45) / (0.72 - 0.45)));
+      const t = Math.max(
+        0,
+        Math.min(1, ((p as number) - 0.45) / (0.72 - 0.45)),
+      );
       return t * (tx as number);
     },
   );
   const logoY = useTransform(
     [animationProgress, logoTargetY] as const,
     ([p, ty]) => {
-      const t = Math.max(0, Math.min(1, ((p as number) - 0.45) / (0.72 - 0.45)));
+      const t = Math.max(
+        0,
+        Math.min(1, ((p as number) - 0.45) / (0.72 - 0.45)),
+      );
       return t * (ty as number);
     },
   );
   const logoScale = useTransform(animationProgress, [0.43, 0.72], [1, 0.22]);
-  const titleX = useTransform(
-    [animationProgress, titleTargetX] as const,
-    ([p, tx]) => {
-      const t = Math.max(0, Math.min(1, ((p as number) - 0.5) / (0.82 - 0.5)));
-      return t * (tx as number);
-    },
-  );
-  const titleY = useTransform(
-    [animationProgress, titleTargetY] as const,
-    ([p, ty]) => {
-      const t = Math.max(0, Math.min(1, ((p as number) - 0.5) / (0.82 - 0.5)));
-      return t * (ty as number);
-    },
-  );
-  const titleScale = useTransform(animationProgress, [0.5, 0.82], [1, 1.15]);
-  const titleOpacity = useTransform(
-    animationProgress,
-    [0.42, 0.64],
-    [1, 0],
-  );
-
-  // Stable, non-measured destinations for the finished hero and navbar brand.
-  // Keeping these outside the scaled launch elements prevents their targets
-  // from drifting when the animation itself changes the element's dimensions.
+  // Stable source title that becomes the navbar label on scroll.
   const heroTitleOpacity = useTransform(
     animationProgress,
     [0.58, 0.82],
@@ -202,23 +362,45 @@ export default function LandingExperience() {
   const postScrollProgress = useTransform(scrollY, [0, 550], [0, 1], {
     clamp: true,
   });
-  const heroTitlePostOpacity = useTransform(scrollY, [0, 420], [1, 0]);
-  const navBrandTitleOpacity = useTransform(
-    postScrollProgress,
-    [0.55, 1],
-    [0, 1],
-  );
-  // Rabbitt AI title: translate toward navTitleTargetRef (measured in measureTargets)
-  const postTitleX = useTransform(
-    [postScrollProgress, navTitleDeltaX] as const,
+  const heroTitleX = useTransform(
+    [postScrollProgress, heroTitleDeltaX] as const,
     ([p, dx]) => (p as number) * (dx as number),
   );
-  const postTitleY = useTransform(
-    [postScrollProgress, navTitleDeltaY] as const,
+  const heroTitleY = useTransform(
+    [postScrollProgress, heroTitleDeltaY] as const,
     ([p, dy]) => (p as number) * (dy as number),
   );
-  // Scale from current intro scale (1.15) down to navbar brand size
-  const postTitleScale = useTransform(postScrollProgress, [0, 1], [1, 0.26]);
+  const heroTitleScale = useTransform(postScrollProgress, [0, 1], [1, 0.36]);
+  const heroTitleGradientOpacity = useTransform(
+    postScrollProgress,
+    [0, 0.72, 1],
+    [1, 1, 0],
+  );
+  const heroTitleWhiteOpacity = useTransform(
+    postScrollProgress,
+    [0, 0.72, 1],
+    [0, 0, 1],
+  );
+  // At the end of the scroll hand-off (0.8 -> 0.95), replace the moving title with the
+  // navbar's fixed wordmark so the complete brand stays locked in place with zero duplication.
+  const heroTitleExitOpacity = useTransform(
+    postScrollProgress,
+    [0.8, 0.96],
+    [1, 0],
+  );
+  const heroTitleVisibleOpacity = useTransform(
+    [heroTitleOpacity, heroTitleExitOpacity] as const,
+    ([intro, exit]) => (intro as number) * (exit as number),
+  );
+  const navWordmarkOpacity = useTransform(
+    [navOpacity, postScrollProgress] as const,
+    ([nav, scroll]) => {
+      const s = scroll as number;
+      if (s < 0.8) return 0;
+      const progress = Math.min(1, Math.max(0, (s - 0.8) / (0.96 - 0.8)));
+      return (nav as number) * progress;
+    },
+  );
   // Second-screen text scrolls up at 1:1 with window scroll and fades out slightly
   const secondScreenPostY = useTransform(scrollY, [0, 550], [0, -420]);
   const secondScreenPostOpacity = useTransform(
@@ -267,6 +449,19 @@ export default function LandingExperience() {
       }
       window.scrollTo(0, 0);
     }
+  }, []);
+
+  useEffect(() => {
+    const closeMenuOnOutsideClick = (event: PointerEvent) => {
+      if (!navRef.current?.contains(event.target as Node)) setOpenMenu(null);
+    };
+    const closeMenuOnScroll = () => setOpenMenu(null);
+    document.addEventListener("pointerdown", closeMenuOnOutsideClick);
+    window.addEventListener("scroll", closeMenuOnScroll, { passive: true });
+    return () => {
+      document.removeEventListener("pointerdown", closeMenuOnOutsideClick);
+      window.removeEventListener("scroll", closeMenuOnScroll);
+    };
   }, []);
 
   useEffect(() => {
@@ -370,9 +565,7 @@ export default function LandingExperience() {
       const opening = hatOpeningRef.current?.getBoundingClientRect();
       const logo = logoRef.current?.getBoundingClientRect();
       const brand = brandTargetRef.current?.getBoundingClientRect();
-      const title = titleRef.current?.getBoundingClientRect();
-      const titleTarget = titleTargetRef.current?.getBoundingClientRect();
-      if (!opening || !logo || !brand || !title || !titleTarget) return;
+      if (!opening || !logo || !brand) return;
       const activeNodeRefs =
         window.innerWidth >= 768
           ? desktopNodeRefs.current
@@ -392,50 +585,15 @@ export default function LandingExperience() {
           x: brand.left + brand.width / 2 - (logo.left + logo.width / 2),
           y: brand.top + brand.height / 2 - (logo.top + logo.height / 2),
         },
-        title: {
-          x:
-            titleTarget.left +
-            titleTarget.width / 2 -
-            (title.left + title.width / 2),
-          y:
-            titleTarget.top +
-            titleTarget.height / 2 -
-            (title.top + title.height / 2),
-        },
+        title: { x: 0, y: 0 },
       });
-      // Keep the actual animated values in sync with the measured destinations.
-      // The previous scroll change left these values at zero, so neither the hat
-      // nor the title could leave the centre of the hero.
+      // Keep the launch-hat destination in sync with the navbar slot.
       logoTargetX.set(
         brand.left + brand.width / 2 - (logo.left + logo.width / 2),
       );
       logoTargetY.set(
         brand.top + brand.height / 2 - (logo.top + logo.height / 2),
       );
-      titleTargetX.set(
-        titleTarget.left +
-          titleTarget.width / 2 -
-          (title.left + title.width / 2),
-      );
-      titleTargetY.set(
-        titleTarget.top +
-          titleTarget.height / 2 -
-          (title.top + title.height / 2),
-      );
-      // Compute delta for post-scroll: from titleTargetRef center to navTitleTargetRef center
-      const navTitleTarget = navTitleTargetRef.current?.getBoundingClientRect();
-      if (navTitleTarget) {
-        navTitleDeltaX.set(
-          navTitleTarget.left +
-            navTitleTarget.width / 2 -
-            (titleTarget.left + titleTarget.width / 2),
-        );
-        navTitleDeltaY.set(
-          navTitleTarget.top +
-            navTitleTarget.height / 2 -
-            (titleTarget.top + titleTarget.height / 2),
-        );
-      }
     };
     // Use rAF so measurement always runs after the browser has finished layout/paint
     let rafId = requestAnimationFrame(measureTargets);
@@ -458,11 +616,42 @@ export default function LandingExperience() {
     introPhase,
     logoTargetX,
     logoTargetY,
-    navTitleDeltaX,
-    navTitleDeltaY,
-    titleTargetX,
-    titleTargetY,
   ]);
+
+  useLayoutEffect(() => {
+    const measureHeroTitleDestination = () => {
+      const target = navTitleTargetRef.current?.getBoundingClientRect();
+      if (!target) return;
+      // Calculate target position in navbar
+      const targetCenterX = target.left + target.width / 2;
+      const targetCenterY = target.top + target.height / 2;
+      
+      // Calculate base un-transformed hero title position
+      const heroTitleTopPercent = window.innerWidth >= 768 ? 0.14 : window.innerWidth >= 640 ? 0.13 : 0.12;
+      const heroTitleHalfHeight = window.innerWidth >= 768 ? 40 : window.innerWidth >= 640 ? 32 : 28;
+      const baseHeroCenterX = window.innerWidth / 2;
+      const baseHeroCenterY = window.innerHeight * heroTitleTopPercent + heroTitleHalfHeight;
+      
+      heroTitleDeltaX.set(targetCenterX - baseHeroCenterX);
+      heroTitleDeltaY.set(targetCenterY - baseHeroCenterY);
+    };
+    let frame = requestAnimationFrame(measureHeroTitleDestination);
+    const observer = new ResizeObserver(() => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(measureHeroTitleDestination);
+    });
+    if (sceneRef.current) observer.observe(sceneRef.current);
+    const onResize = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(measureHeroTitleDestination);
+    };
+    window.addEventListener("resize", onResize);
+    return () => {
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+      window.removeEventListener("resize", onResize);
+    };
+  }, [introPhase, heroTitleDeltaX, heroTitleDeltaY]);
 
   const isInitializing = introPhase === "initializing";
   const isShockwaveOrAfter =
@@ -474,10 +663,11 @@ export default function LandingExperience() {
       ref={scrollAreaRef}
       className="bg-[#030712] selection:bg-blue-600 selection:text-white"
     >
-      {/* Hero — sticky so it stays fixed while the post-intro scroll phase plays out */}
-      <div
+      <div className="relative">
+        {/* Hero — sticky so it stays fixed while the post-intro scroll phase plays out */}
+        <div
         ref={sceneRef}
-        className="relative sticky top-0 h-svh overflow-hidden transform-gpu font-sans antialiased bg-[#F8FAFC]"
+        className="relative sticky top-0 z-20 h-svh overflow-hidden font-sans antialiased bg-[#F8FAFC]"
       >
         {/* Layer 1: Initial Bright Technical Canvas (Visible at rest 0%, fades on scroll) */}
         <motion.div
@@ -585,57 +775,207 @@ export default function LandingExperience() {
         </motion.div>
 
         <motion.nav
+          ref={navRef}
           style={{ opacity: navOpacity }}
-          className="absolute inset-x-0 top-0 z-50 flex h-20 items-center px-5 sm:px-8"
+          className="fixed inset-x-0 top-0 z-[100] h-[4.5rem] border-b border-white/[0.08] bg-[#030712]/75 px-5 shadow-[0_10px_30px_rgba(2,6,23,0.3)] backdrop-blur-xl sm:px-8"
           aria-label="Main navigation"
         >
-          <div
-            ref={brandTargetRef}
-            className="h-10 w-10 shrink-0"
-            aria-hidden="true"
-          >
-            <motion.div
-              style={{ opacity: navOpacity }}
-              className="h-full w-full"
+          <div className="relative mx-auto flex h-full w-full max-w-[1600px] items-center">
+            <div
+              ref={brandTargetRef}
+              className="h-14 w-14 shrink-0"
+              aria-hidden="true"
             >
-              <Image
-                src="/logo.svg"
-                alt=""
-                width={40}
-                height={40}
-                className="h-full w-full object-contain"
-              />
-            </motion.div>
-          </div>
-          {/* Measurement target: where "Rabbitt AI" text lands in the navbar on scroll */}
-          <div
-            ref={navTitleTargetRef}
-            className="ml-3 h-8 w-28 shrink-0"
-            aria-hidden="true"
-          >
-            <motion.span
-              style={{ opacity: navBrandTitleOpacity }}
-              className="block whitespace-nowrap pt-1 text-xl font-bold tracking-tight text-white"
+              <motion.div style={{ opacity: navOpacity }} className="h-full w-full">
+                <Image
+                  src="/logo.svg"
+                  alt=""
+                  width={56}
+                  height={56}
+                  className="h-full w-full object-contain"
+                />
+              </motion.div>
+            </div>
+            {/* Destination for the real hero title as it scrolls into the navbar. */}
+            <div
+              ref={navTitleTargetRef}
+              className="ml-2 flex h-8 w-36 shrink-0 items-center"
+              aria-hidden="true"
             >
-              Rabbitt AI
-            </motion.span>
-          </div>
-          <div className="ml-auto hidden items-center gap-7 text-sm font-medium text-slate-300 md:flex">
-            <a
-              href="#ecosystem"
-              className="transition-colors hover:text-blue-400"
-            >
-              Ecosystem
-            </a>
-            <a href="#about" className="transition-colors hover:text-blue-400">
-              About
-            </a>
-            <a
-              href="#contact"
-              className="transition-colors hover:text-blue-400"
-            >
-              Contact
-            </a>
+              <motion.span
+                style={{ opacity: navWordmarkOpacity }}
+                className="whitespace-nowrap text-xl font-extrabold tracking-tight text-white"
+              >
+                Rabbitt AI
+              </motion.span>
+            </div>
+            <div className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-5 whitespace-nowrap text-sm font-semibold text-slate-200 lg:flex xl:gap-6">
+              <a href="#llm" className="group flex items-center gap-1 transition-colors hover:text-sky-300">
+                LLM <NavbarChevron />
+              </a>
+              <a href="#data" className="group flex items-center gap-1 transition-colors hover:text-sky-300">
+                Data <NavbarChevron />
+              </a>
+              <a href="#resources" className="group flex items-center gap-1 transition-colors hover:text-sky-300">
+                Resources <NavbarChevron />
+              </a>
+              <a href="#ai-pool" className="transition-colors hover:text-sky-300">AI Pool</a>
+              <a href="#ainama" className="transition-colors hover:text-sky-300">AINama</a>
+              <button
+                type="button"
+                aria-expanded={openMenu === "products"}
+                onClick={() => setOpenMenu(openMenu === "products" ? null : "products")}
+                className="group flex items-center gap-1 transition-colors hover:text-sky-300"
+              >
+                Products <NavbarChevron />
+              </button>
+              <button
+                type="button"
+                aria-expanded={openMenu === "services"}
+                onClick={() => setOpenMenu(openMenu === "services" ? null : "services")}
+                className="group flex items-center gap-1 transition-colors hover:text-sky-300"
+              >
+                Services <NavbarChevron />
+              </button>
+            </div>
+            <AnimatePresence>
+              {openMenu === "products" && (
+                <motion.div
+                  initial={{ opacity: 0, y: -8, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -8, scale: 0.98 }}
+                  transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
+                  className="absolute top-[calc(100%+8px)] left-1/2 w-[min(58rem,calc(100vw-2rem))] -translate-x-1/2 overflow-hidden rounded-2xl border border-sky-500/20 bg-[#050b1a]/95 shadow-[0_20px_60px_rgba(0,0,0,0.8),0_0_35px_rgba(56,189,248,0.12)] backdrop-blur-2xl"
+                >
+                  <div className="grid grid-cols-[11rem_1fr_12.5rem]">
+                    {/* Categories sidebar */}
+                    <div className="border-r border-white/5 bg-[#020612]/70 p-3">
+                      <p className="mb-2 px-3 text-[10px] font-bold uppercase tracking-[0.2em] text-sky-400">
+                        Products
+                      </p>
+                      <div className="space-y-1">
+                        {productGroups.map((group) => (
+                          <button
+                            key={group.title}
+                            type="button"
+                            onClick={() => setActiveProductGroup(group.title)}
+                            className={`w-full rounded-lg px-3 py-2 text-left text-xs font-semibold transition-all ${
+                              activeProductGroup === group.title
+                                ? "border-l-2 border-sky-400 bg-sky-500/15 text-white shadow-xs"
+                                : "text-slate-400 hover:bg-white/[0.04] hover:text-slate-200"
+                            }`}
+                          >
+                            {group.title}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Products Grid */}
+                    <div className="p-4 sm:p-5">
+                      {productGroups
+                        .filter((group) => group.title === activeProductGroup)
+                        .map((group) => (
+                          <section key={group.title}>
+                            <div className="flex items-center justify-between border-b border-white/5 pb-2.5">
+                              <div className="flex items-center gap-2">
+                                <span className="h-1.5 w-1.5 rounded-full bg-sky-400 shadow-[0_0_6px_#38BDF8]" />
+                                <h3 className="text-sm font-bold tracking-tight text-white">
+                                  {group.title === "Specialized solutions"
+                                    ? group.title
+                                    : `${group.title} Products`}
+                                </h3>
+                              </div>
+                              <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">
+                                {group.items.length} Products
+                              </span>
+                            </div>
+                            <div className="mt-3 grid grid-cols-2 gap-2.5">
+                              {group.items.map((item) => (
+                                <a
+                                  key={item.name}
+                                  href="#products"
+                                  className="group flex items-center gap-3 rounded-xl border border-white/[0.04] bg-white/[0.02] p-2 transition-all duration-150 hover:border-sky-400/30 hover:bg-white/[0.06]"
+                                >
+                                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-gradient-to-br from-sky-950/60 to-blue-950/40 p-1.5 shadow-xs transition-all group-hover:scale-105 group-hover:border-sky-400/50 group-hover:shadow-[0_0_10px_rgba(56,189,248,0.25)]">
+                                    <ProductIcon name={item.name} />
+                                  </div>
+                                  <div className="min-w-0 flex-1">
+                                    <p className="truncate text-xs font-semibold text-slate-100 transition-colors group-hover:text-sky-200">
+                                      {item.name}
+                                    </p>
+                                    <p className="truncate text-[10px] text-slate-400">
+                                      {item.desc}
+                                    </p>
+                                  </div>
+                                </a>
+                              ))}
+                            </div>
+                          </section>
+                        ))}
+                    </div>
+
+                    {/* Ecosystem promo panel */}
+                    <aside className="flex flex-col justify-between border-l border-white/5 bg-gradient-to-b from-sky-950/25 via-blue-950/15 to-transparent p-4 sm:p-5">
+                      <div>
+                        <span className="inline-flex items-center gap-1 rounded-full border border-sky-400/20 bg-sky-400/10 px-2 py-0.5 text-[10px] font-bold tracking-wider text-sky-300 uppercase">
+                          ✨ Sovereign AI
+                        </span>
+                        <h4 className="mt-3 text-xs font-bold text-white">
+                          Rabbitt Ecosystem
+                        </h4>
+                        <p className="mt-1.5 text-[11px] leading-relaxed text-slate-400">
+                          Deploy sovereign models, unified pipelines, and scalable enterprise intelligence.
+                        </p>
+                      </div>
+                      <a
+                        href="#products"
+                        className="mt-4 flex items-center justify-center gap-1.5 rounded-lg border border-sky-400/30 bg-sky-500/15 px-3 py-2 text-xs font-semibold text-sky-200 shadow-xs transition-all hover:border-sky-400/50 hover:bg-sky-500/25 hover:text-white"
+                      >
+                        View all products <span aria-hidden="true">→</span>
+                      </a>
+                    </aside>
+                  </div>
+                </motion.div>
+              )}
+              {openMenu === "services" && (
+                <motion.div
+                  initial={{ opacity: 0, y: -8, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -8, scale: 0.98 }}
+                  transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
+                  className="absolute top-[calc(100%+8px)] left-1/2 w-[min(42rem,calc(100vw-2rem))] -translate-x-1/2 rounded-2xl border border-sky-500/20 bg-[#050b1a]/95 p-5 shadow-[0_20px_60px_rgba(0,0,0,0.8),0_0_35px_rgba(56,189,248,0.12)] backdrop-blur-2xl"
+                >
+                  <div className="flex items-center justify-between border-b border-white/5 pb-2.5">
+                    <div className="flex items-center gap-2">
+                      <span className="h-1.5 w-1.5 rounded-full bg-sky-400 shadow-[0_0_6px_#38BDF8]" />
+                      <h3 className="text-sm font-bold tracking-tight text-white">
+                        Expert Enterprise Services
+                      </h3>
+                    </div>
+                    <span className="text-[10px] font-bold text-sky-400 uppercase tracking-wider">
+                      Services
+                    </span>
+                  </div>
+                  <div className="mt-3 grid grid-cols-2 gap-2.5">
+                    {services.map((service, index) => (
+                      <a
+                        key={service}
+                        href="#services"
+                        className="group flex items-center gap-3 rounded-xl border border-white/[0.04] bg-white/[0.02] p-2.5 transition-all hover:border-sky-400/30 hover:bg-white/[0.06]"
+                      >
+                        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-sky-400/25 bg-sky-400/10 text-xs font-bold text-sky-300 transition-colors group-hover:border-sky-400/50 group-hover:bg-sky-400/20">
+                          0{index + 1}
+                        </span>
+                        <span className="truncate text-xs font-semibold text-slate-200 transition-colors group-hover:text-white">
+                          {service}
+                        </span>
+                      </a>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </motion.nav>
 
@@ -854,7 +1194,12 @@ export default function LandingExperience() {
             </AnimatePresence>
             <motion.div
               ref={logoRef}
-              style={{ opacity: launchHatOpacity, x: logoX, y: logoY, scale: logoScale }}
+              style={{
+                opacity: launchHatOpacity,
+                x: logoX,
+                y: logoY,
+                scale: logoScale,
+              }}
               className="relative z-20 flex transform-gpu items-center justify-center will-change-transform"
             >
               <span
@@ -892,35 +1237,30 @@ export default function LandingExperience() {
                 />
               </motion.div>
             </motion.div>
-            {/* Post-scroll outer wrapper: moves "Rabbitt AI" into the navbar on scroll */}
-            <motion.div
-              style={{ x: postTitleX, y: postTitleY, scale: postTitleScale }}
-              className="origin-left transform-gpu will-change-transform"
-            >
-              <motion.div
-                ref={titleRef}
-                style={{
-                  x: titleX,
-                  y: titleY,
-                  scale: titleScale,
-                  opacity: titleOpacity,
-                }}
-                className="relative z-20 mt-6 origin-center transform-gpu will-change-transform"
-              >
-                <h1 className="select-none bg-gradient-to-r from-[#7EC5FF] via-[#2F80ED] to-[#0052FF] bg-clip-text text-4xl font-extrabold tracking-tight text-transparent drop-shadow-xs sm:text-5xl md:text-6xl lg:text-7xl">
-                  Rabbitt AI
-                </h1>
-              </motion.div>
-            </motion.div>
           </div>
 
-          {/* The final hero title has a stable canvas position. It stays clear of
-              the copy, then yields to the navbar label as the page scrolls. */}
+          {/* This is one title: scrolling carries it from the hero to the navbar. */}
           <motion.h1
-            style={{ opacity: heroTitleOpacity }}
-            className="pointer-events-none absolute inset-x-4 top-[18%] z-20 text-center text-4xl font-extrabold tracking-tight text-transparent bg-gradient-to-r from-[#7EC5FF] via-[#2F80ED] to-[#0052FF] bg-clip-text drop-shadow-xs sm:text-5xl md:text-6xl lg:text-7xl"
+            ref={heroTitleRef}
+            style={{
+              opacity: heroTitleVisibleOpacity,
+              x: heroTitleX,
+              y: heroTitleY,
+              scale: heroTitleScale,
+            }}
+            className={`pointer-events-none absolute inset-x-4 top-[12%] sm:top-[13%] md:top-[14%] z-[110] flex h-14 sm:h-16 md:h-20 items-center justify-center origin-center text-center text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl ${openMenu ? "invisible" : ""}`}
           >
-            <motion.span style={{ opacity: heroTitlePostOpacity }}>
+            <motion.span
+              style={{ opacity: heroTitleGradientOpacity }}
+              className="bg-gradient-to-r from-[#7EC5FF] via-[#2F80ED] to-[#0052FF] bg-clip-text text-transparent"
+            >
+              Rabbitt AI
+            </motion.span>
+            <motion.span
+              aria-hidden="true"
+              style={{ opacity: heroTitleWhiteOpacity }}
+              className="absolute inset-0 flex items-center justify-center text-white"
+            >
               Rabbitt AI
             </motion.span>
           </motion.h1>
@@ -931,17 +1271,14 @@ export default function LandingExperience() {
               opacity: secondScreenOpacity,
               y: secondScreenPostY,
             }}
-            className="pointer-events-none absolute inset-x-4 top-[10%] z-10 flex flex-col items-center text-center sm:inset-x-8 sm:top-[12%] md:top-[14%]"
+            className="pointer-events-none absolute inset-x-4 top-[12%] sm:top-[13%] md:top-[14%] z-10 flex flex-col items-center text-center sm:inset-x-8"
           >
-            <motion.div style={{ opacity: secondScreenPostOpacity }}>
-              <div
-                ref={titleTargetRef}
-                className="mx-auto h-28 max-w-2xl sm:h-32 md:h-36"
-                aria-hidden="true"
-              />
+            <motion.div style={{ opacity: secondScreenPostOpacity }} className="flex flex-col items-center">
+              {/* Slot precisely matching Rabbitt AI title height so H2 and paragraph sit directly below it */}
+              <div className="mx-auto h-14 sm:h-16 md:h-20 w-full" aria-hidden="true" />
               <h2
                 id="about"
-                className="mx-auto mt-6 text-2xl font-bold tracking-tight text-white drop-shadow-xs sm:mt-8 sm:text-3xl md:text-4xl"
+                className="mx-auto mt-3 sm:mt-4 text-2xl font-bold tracking-tight text-white drop-shadow-xs sm:text-3xl md:text-4xl"
               >
                 Own your AI, Own your Data
               </h2>
@@ -1011,11 +1348,107 @@ export default function LandingExperience() {
         </div>
       </div>
 
-      {/* Next section — placeholder height so the sticky hero has room to scroll through the post-intro phase */}
-      <div className="relative min-h-screen bg-[#030712]" id="next-section">
-        {/* Future content goes here */}
+        {/* Next section — placeholder height so the sticky hero has room to scroll through the post-intro phase */}
+        <div className="relative min-h-screen bg-[#030712]" id="next-section">
+          {/* Future content goes here */}
+        </div>
       </div>
+      <SiteFooter />
     </div>
+  );
+}
+
+function SiteFooter() {
+  return (
+    <footer className="relative z-[130] border-t border-white/10 bg-[#02050e] text-slate-300">
+      <div className="mx-auto max-w-[1440px] px-6 py-10 sm:px-8 lg:px-12">
+        <div className="grid gap-10 border-b border-white/10 pb-9 lg:grid-cols-[0.9fr_0.8fr_2.35fr]">
+          <section>
+            <div className="flex items-center gap-3">
+              <Image src="/logo.svg" alt="Rabbitt AI" width={44} height={44} className="h-11 w-11 object-contain" />
+              <span className="text-xl font-bold tracking-tight text-white">Rabbitt AI</span>
+            </div>
+            <div className="mt-6 space-y-3 text-sm">
+              <div>
+                <p className="font-semibold text-white">Sales</p>
+                <a className="mt-1 inline-block text-slate-400 transition-colors hover:text-sky-300" href="mailto:sales@rabbitt.ai">sales@rabbitt.ai</a>
+              </div>
+              <div>
+                <p className="font-semibold text-white">Contact</p>
+                <a className="mt-1 inline-block text-slate-400 transition-colors hover:text-sky-300" href="tel:+919911059386">+91 99110 59386</a>
+              </div>
+              <div>
+                <p className="font-semibold text-white">Social</p>
+                <div className="mt-2 flex gap-3">
+                  {(['Instagram', 'X', 'LinkedIn'] as const).map((network) => (
+                    <SocialIcon key={network} network={network} />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+          <section>
+            <h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-sky-300">Company</h2>
+            <ul className="mt-4 space-y-2 text-sm">
+              {['Home', 'About', 'Blogs', 'Case Studies', 'Contact Us'].map((item) => <li key={item}><a href={`#${item.toLowerCase().replaceAll(' ', '-')}`} className="text-slate-400 transition-colors hover:text-sky-300">{item}</a></li>)}
+            </ul>
+            <h2 className="mt-7 text-sm font-semibold uppercase tracking-[0.16em] text-sky-300">Services</h2>
+            <ul className="mt-4 space-y-2 text-sm">
+              {services.map((service) => <li key={service}><a href="#services" className="text-slate-400 transition-colors hover:text-sky-300">{service}</a></li>)}
+            </ul>
+          </section>
+          <section>
+            <h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-sky-300">Products</h2>
+            <div className="mt-4 grid grid-cols-2 gap-x-6 gap-y-7 sm:grid-cols-3 xl:grid-cols-5">
+              {productGroups.map((group) => (
+                <div key={group.title}>
+                  <h3 className="text-sm font-semibold text-white">{group.title}</h3>
+                  <ul className="mt-2 space-y-1.5 text-sm">
+                    {group.items.map((item) => <li key={item.name}><a href="#products" className="text-slate-400 transition-colors hover:text-sky-300">{item.name}</a></li>)}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </section>
+        </div>
+        <div className="flex flex-col gap-4 pt-5 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+          <p>© 2026 Rabbitt AI. All rights reserved.</p>
+          <div className="flex gap-5">
+            <a href="#privacy" className="transition-colors hover:text-sky-300">Privacy Policy</a>
+            <a href="#terms" className="transition-colors hover:text-sky-300">Terms of Use</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+function SocialIcon({ network }: { network: "Instagram" | "X" | "LinkedIn" }) {
+  return (
+    <a href={`#${network.toLowerCase()}`} aria-label={network} className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 text-slate-300 transition-colors hover:border-sky-300/50 hover:text-sky-200">
+      {network === "Instagram" && <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" /></svg>}
+      {network === "X" && <span className="text-sm font-bold">𝕏</span>}
+      {network === "LinkedIn" && <span className="text-sm font-bold">in</span>}
+    </a>
+  );
+}
+
+function NavbarChevron() {
+  return (
+    <svg
+      className="h-3.5 w-3.5 text-sky-300/80 transition-transform duration-200 group-hover:translate-y-0.5"
+      viewBox="0 0 16 16"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="m4 6 4 4 4-4"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }
 
