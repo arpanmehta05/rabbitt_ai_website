@@ -4,11 +4,12 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import {
   AnimatePresence,
+  animate,
   motion,
+  useMotionValue,
   useMotionValueEvent,
   useReducedMotion,
   useScroll,
-  useSpring,
   useTransform,
   type MotionValue,
 } from "framer-motion";
@@ -96,8 +97,12 @@ export default function LandingExperience() {
   const brandTargetRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
   const titleTargetRef = useRef<HTMLDivElement>(null);
+  const navTitleTargetRef = useRef<HTMLDivElement>(null);
   const desktopNodeRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const mobileNodeRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  // Motion values for the nav-title target delta (set in measureTargets, reactive to useTransform)
+  const navTitleDeltaX = useMotionValue(0);
+  const navTitleDeltaY = useMotionValue(0);
   const [targets, setTargets] = useState<{
     nodes: NodeTargets;
     logo: Point;
@@ -112,17 +117,12 @@ export default function LandingExperience() {
   const [textCompleted, setTextCompleted] = useState(
     prefersReducedMotion ?? false,
   );
-  const { scrollYProgress } = useScroll({
-    target: scrollAreaRef,
-    offset: ["start start", "end end"],
-  });
-  const smoothScrollProgress = useSpring(scrollYProgress, {
-    stiffness: 320,
-    damping: 36,
-    mass: 0.16,
-    restDelta: 0.0005,
-  });
-  const animationProgress = useTransform(smoothScrollProgress, (value) =>
+  const [blurRevealActive, setBlurRevealActive] = useState(
+    prefersReducedMotion ?? false,
+  );
+  const sequenceProgress = useMotionValue(prefersReducedMotion ? 1 : 0);
+  const ecosystemReveal = useMotionValue(prefersReducedMotion ? 1 : 0);
+  const animationProgress = useTransform(sequenceProgress, (value) =>
     prefersReducedMotion ? 1 : value,
   );
   const networkLength = useTransform(
@@ -137,45 +137,94 @@ export default function LandingExperience() {
   );
   const fieldOpacity = useTransform(animationProgress, [0.18, 0.52], [1, 0]);
   const navOpacity = useTransform(animationProgress, [0.48, 0.7], [0, 1]);
+  // Motion values for animation targets — set imperatively in measureTargets
+  // so useTransform always picks up the latest value reactively.
+  const logoTargetX = useMotionValue(0);
+  const logoTargetY = useMotionValue(0);
+  const titleTargetX = useMotionValue(0);
+  const titleTargetY = useMotionValue(0);
+
   const logoX = useTransform(
-    animationProgress,
-    [0.45, 0.72],
-    [0, targets.logo.x],
+    [animationProgress, logoTargetX] as const,
+    ([p, tx]) => {
+      const t = Math.max(0, Math.min(1, ((p as number) - 0.45) / (0.72 - 0.45)));
+      return t * (tx as number);
+    },
   );
   const logoY = useTransform(
-    animationProgress,
-    [0.45, 0.72],
-    [0, targets.logo.y],
+    [animationProgress, logoTargetY] as const,
+    ([p, ty]) => {
+      const t = Math.max(0, Math.min(1, ((p as number) - 0.45) / (0.72 - 0.45)));
+      return t * (ty as number);
+    },
   );
   const logoScale = useTransform(animationProgress, [0.43, 0.72], [1, 0.22]);
   const titleX = useTransform(
-    animationProgress,
-    [0.5, 0.82],
-    [0, targets.title.x],
+    [animationProgress, titleTargetX] as const,
+    ([p, tx]) => {
+      const t = Math.max(0, Math.min(1, ((p as number) - 0.5) / (0.82 - 0.5)));
+      return t * (tx as number);
+    },
   );
   const titleY = useTransform(
-    animationProgress,
-    [0.5, 0.82],
-    [0, targets.title.y],
+    [animationProgress, titleTargetY] as const,
+    ([p, ty]) => {
+      const t = Math.max(0, Math.min(1, ((p as number) - 0.5) / (0.82 - 0.5)));
+      return t * (ty as number);
+    },
   );
   const titleScale = useTransform(animationProgress, [0.5, 0.82], [1, 1.15]);
   const titleOpacity = useTransform(
     animationProgress,
-    [0.48, 0.66, 0.82],
+    [0.42, 0.64],
+    [1, 0],
+  );
+
+  // Stable, non-measured destinations for the finished hero and navbar brand.
+  // Keeping these outside the scaled launch elements prevents their targets
+  // from drifting when the animation itself changes the element's dimensions.
+  const heroTitleOpacity = useTransform(
+    animationProgress,
+    [0.58, 0.82],
+    [0, 1],
+  );
+  const launchHatOpacity = useTransform(animationProgress, [0.48, 0.7], [1, 0]);
+
+  // Second screen: fades in exactly in sync with the Rabbitt AI title (no delay)
+  const secondScreenOpacity = useTransform(
+    animationProgress,
+    [0.48, 0.72, 0.88],
     [0, 0, 1],
   );
 
-  // Second screen scroll-bound transforms:
-  // Strictly 0 on the first section and immediately disappears when scrolling back up
-  const secondScreenOpacity = useTransform(
-    animationProgress,
-    [0.65, 0.82],
+  // Post-intro scroll phase: "Rabbitt AI" moves into the navbar, second-screen content scrolls up
+  const { scrollY } = useScroll();
+  const postScrollProgress = useTransform(scrollY, [0, 550], [0, 1], {
+    clamp: true,
+  });
+  const heroTitlePostOpacity = useTransform(scrollY, [0, 420], [1, 0]);
+  const navBrandTitleOpacity = useTransform(
+    postScrollProgress,
+    [0.55, 1],
     [0, 1],
   );
-  const firstScreenScrollPromptOpacity = useTransform(
-    animationProgress,
-    [0, 0.08],
-    [1, 0],
+  // Rabbitt AI title: translate toward navTitleTargetRef (measured in measureTargets)
+  const postTitleX = useTransform(
+    [postScrollProgress, navTitleDeltaX] as const,
+    ([p, dx]) => (p as number) * (dx as number),
+  );
+  const postTitleY = useTransform(
+    [postScrollProgress, navTitleDeltaY] as const,
+    ([p, dy]) => (p as number) * (dy as number),
+  );
+  // Scale from current intro scale (1.15) down to navbar brand size
+  const postTitleScale = useTransform(postScrollProgress, [0, 1], [1, 0.26]);
+  // Second-screen text scrolls up at 1:1 with window scroll and fades out slightly
+  const secondScreenPostY = useTransform(scrollY, [0, 550], [0, -420]);
+  const secondScreenPostOpacity = useTransform(
+    scrollY,
+    [0, 350, 550],
+    [1, 0.5, 0],
   );
 
   // Scroll-driven Background Transformation:
@@ -235,12 +284,86 @@ export default function LandingExperience() {
       window.clearTimeout(ecosystemTimer);
     };
   }, [prefersReducedMotion]);
-  useMotionValueEvent(scrollYProgress, "change", (value) => {
-    setTransitionComplete(value > 0.78);
-    if (value < 0.72) {
+
+  // When ecosystem phase starts, animate the line-reveal clock 0→1 linearly.
+  // Each NodePath maps its stagger window on this value for the "shoot from hat" entry.
+  useEffect(() => {
+    if (prefersReducedMotion || introPhase !== "ecosystem") return;
+    const controls = animate(ecosystemReveal, 1, {
+      duration: 1.1,
+      ease: "linear",
+    });
+    return () => controls.stop();
+  }, [introPhase, prefersReducedMotion, ecosystemReveal]);
+
+  useEffect(() => {
+    if (prefersReducedMotion || introPhase !== "ecosystem") return;
+
+    let controls: ReturnType<typeof animate> | undefined;
+    const startTransition = window.setTimeout(() => {
+      controls = animate(sequenceProgress, 1, {
+        duration: 4,
+        ease: [0.22, 1, 0.36, 1],
+        onComplete: () => setTransitionComplete(true),
+      });
+    }, 1900);
+
+    return () => {
+      window.clearTimeout(startTransition);
+      controls?.stop();
+    };
+  }, [introPhase, prefersReducedMotion, sequenceProgress]);
+
+  // Trigger word-blur reveal as soon as animationProgress crosses 0.85
+  // (same moment the Rabbitt AI heading is fully visible) — no timer lag
+  useMotionValueEvent(animationProgress, "change", (value) => {
+    if (value >= 0.85) {
+      setBlurRevealActive(true);
+      setTransitionComplete(true);
+    } else if (value < 0.72) {
+      setBlurRevealActive(false);
       setTextCompleted(false);
     }
   });
+
+  useEffect(() => {
+    if (prefersReducedMotion || transitionComplete) return;
+
+    const previousBodyOverflow = document.body.style.overflow;
+    const previousDocumentOverflow = document.documentElement.style.overflow;
+    const previousTouchAction = document.documentElement.style.touchAction;
+    const preventScroll = (event: Event) => event.preventDefault();
+    const preventScrollKey = (event: KeyboardEvent) => {
+      if (
+        [
+          " ",
+          "ArrowDown",
+          "ArrowUp",
+          "PageDown",
+          "PageUp",
+          "Home",
+          "End",
+        ].includes(event.key)
+      )
+        event.preventDefault();
+    };
+
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+    document.documentElement.style.touchAction = "none";
+    window.addEventListener("wheel", preventScroll, { passive: false });
+    window.addEventListener("touchmove", preventScroll, { passive: false });
+    window.addEventListener("keydown", preventScrollKey);
+
+    return () => {
+      document.body.style.overflow = previousBodyOverflow;
+      document.documentElement.style.overflow = previousDocumentOverflow;
+      document.documentElement.style.touchAction = previousTouchAction;
+      window.removeEventListener("wheel", preventScroll);
+      window.removeEventListener("touchmove", preventScroll);
+      window.removeEventListener("keydown", preventScrollKey);
+    };
+  }, [prefersReducedMotion, transitionComplete]);
 
   useLayoutEffect(() => {
     const measureTargets = () => {
@@ -280,16 +403,66 @@ export default function LandingExperience() {
             (title.top + title.height / 2),
         },
       });
+      // Keep the actual animated values in sync with the measured destinations.
+      // The previous scroll change left these values at zero, so neither the hat
+      // nor the title could leave the centre of the hero.
+      logoTargetX.set(
+        brand.left + brand.width / 2 - (logo.left + logo.width / 2),
+      );
+      logoTargetY.set(
+        brand.top + brand.height / 2 - (logo.top + logo.height / 2),
+      );
+      titleTargetX.set(
+        titleTarget.left +
+          titleTarget.width / 2 -
+          (title.left + title.width / 2),
+      );
+      titleTargetY.set(
+        titleTarget.top +
+          titleTarget.height / 2 -
+          (title.top + title.height / 2),
+      );
+      // Compute delta for post-scroll: from titleTargetRef center to navTitleTargetRef center
+      const navTitleTarget = navTitleTargetRef.current?.getBoundingClientRect();
+      if (navTitleTarget) {
+        navTitleDeltaX.set(
+          navTitleTarget.left +
+            navTitleTarget.width / 2 -
+            (titleTarget.left + titleTarget.width / 2),
+        );
+        navTitleDeltaY.set(
+          navTitleTarget.top +
+            navTitleTarget.height / 2 -
+            (titleTarget.top + titleTarget.height / 2),
+        );
+      }
     };
-    measureTargets();
-    const observer = new ResizeObserver(measureTargets);
+    // Use rAF so measurement always runs after the browser has finished layout/paint
+    let rafId = requestAnimationFrame(measureTargets);
+    const observer = new ResizeObserver(() => {
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(measureTargets);
+    });
     if (sceneRef.current) observer.observe(sceneRef.current);
-    window.addEventListener("resize", measureTargets);
-    return () => {
-      observer.disconnect();
-      window.removeEventListener("resize", measureTargets);
+    const onResize = () => {
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(measureTargets);
     };
-  }, [introPhase]);
+    window.addEventListener("resize", onResize);
+    return () => {
+      cancelAnimationFrame(rafId);
+      observer.disconnect();
+      window.removeEventListener("resize", onResize);
+    };
+  }, [
+    introPhase,
+    logoTargetX,
+    logoTargetY,
+    navTitleDeltaX,
+    navTitleDeltaY,
+    titleTargetX,
+    titleTargetY,
+  ]);
 
   const isInitializing = introPhase === "initializing";
   const isShockwaveOrAfter =
@@ -299,11 +472,12 @@ export default function LandingExperience() {
   return (
     <div
       ref={scrollAreaRef}
-      className="relative h-[190svh] bg-[#030712] selection:bg-blue-600 selection:text-white"
+      className="bg-[#030712] selection:bg-blue-600 selection:text-white"
     >
+      {/* Hero — sticky so it stays fixed while the post-intro scroll phase plays out */}
       <div
         ref={sceneRef}
-        className="sticky top-0 h-svh overflow-hidden transform-gpu font-sans antialiased bg-[#F8FAFC]"
+        className="relative sticky top-0 h-svh overflow-hidden transform-gpu font-sans antialiased bg-[#F8FAFC]"
       >
         {/* Layer 1: Initial Bright Technical Canvas (Visible at rest 0%, fades on scroll) */}
         <motion.div
@@ -419,7 +593,33 @@ export default function LandingExperience() {
             ref={brandTargetRef}
             className="h-10 w-10 shrink-0"
             aria-hidden="true"
-          />
+          >
+            <motion.div
+              style={{ opacity: navOpacity }}
+              className="h-full w-full"
+            >
+              <Image
+                src="/logo.svg"
+                alt=""
+                width={40}
+                height={40}
+                className="h-full w-full object-contain"
+              />
+            </motion.div>
+          </div>
+          {/* Measurement target: where "Rabbitt AI" text lands in the navbar on scroll */}
+          <div
+            ref={navTitleTargetRef}
+            className="ml-3 h-8 w-28 shrink-0"
+            aria-hidden="true"
+          >
+            <motion.span
+              style={{ opacity: navBrandTitleOpacity }}
+              className="block whitespace-nowrap pt-1 text-xl font-bold tracking-tight text-white"
+            >
+              Rabbitt AI
+            </motion.span>
+          </div>
           <div className="ml-auto hidden items-center gap-7 text-sm font-medium text-slate-300 md:flex">
             <a
               href="#ecosystem"
@@ -494,27 +694,13 @@ export default function LandingExperience() {
               </defs>
               {isEcosystem &&
                 productNodes.map((node, index) => (
-                  <motion.path
+                  <NodePath
                     key={node.id}
-                    d={nodePath(node)}
-                    fill="none"
-                    stroke="url(#lineGradRest)"
-                    strokeWidth="0.22"
-                    strokeDasharray="0.6 0.6"
-                    initial={{ pathLength: 0, opacity: 0 }}
-                    animate={{ pathLength: 1, opacity: 0.85 }}
-                    transition={{
-                      pathLength: {
-                        duration: 0.42,
-                        delay: 0.04 + index * 0.035,
-                        ease: [0.16, 1, 0.3, 1],
-                      },
-                      opacity: { duration: 0.28, delay: 0.04 + index * 0.035 },
-                    }}
-                    style={{
-                      pathLength: networkLength,
-                      opacity: networkOpacity,
-                    }}
+                    node={node}
+                    index={index}
+                    ecosystemReveal={ecosystemReveal}
+                    exitLength={networkLength}
+                    exitOpacity={networkOpacity}
                   />
                 ))}
             </svg>
@@ -668,7 +854,7 @@ export default function LandingExperience() {
             </AnimatePresence>
             <motion.div
               ref={logoRef}
-              style={{ x: logoX, y: logoY, scale: logoScale }}
+              style={{ opacity: launchHatOpacity, x: logoX, y: logoY, scale: logoScale }}
               className="relative z-20 flex transform-gpu items-center justify-center will-change-transform"
             >
               <span
@@ -706,112 +892,107 @@ export default function LandingExperience() {
                 />
               </motion.div>
             </motion.div>
+            {/* Post-scroll outer wrapper: moves "Rabbitt AI" into the navbar on scroll */}
             <motion.div
-              ref={titleRef}
-              style={{
-                x: titleX,
-                y: titleY,
-                scale: titleScale,
-                opacity: titleOpacity,
-              }}
-              className="relative z-20 mt-6 origin-center transform-gpu will-change-transform"
+              style={{ x: postTitleX, y: postTitleY, scale: postTitleScale }}
+              className="origin-left transform-gpu will-change-transform"
             >
-              <h1 className="select-none bg-gradient-to-r from-[#7EC5FF] via-[#2F80ED] to-[#0052FF] bg-clip-text text-4xl font-extrabold tracking-tight text-transparent drop-shadow-xs sm:text-5xl md:text-6xl lg:text-7xl">
-                Rabbitt AI
-              </h1>
+              <motion.div
+                ref={titleRef}
+                style={{
+                  x: titleX,
+                  y: titleY,
+                  scale: titleScale,
+                  opacity: titleOpacity,
+                }}
+                className="relative z-20 mt-6 origin-center transform-gpu will-change-transform"
+              >
+                <h1 className="select-none bg-gradient-to-r from-[#7EC5FF] via-[#2F80ED] to-[#0052FF] bg-clip-text text-4xl font-extrabold tracking-tight text-transparent drop-shadow-xs sm:text-5xl md:text-6xl lg:text-7xl">
+                  Rabbitt AI
+                </h1>
+              </motion.div>
             </motion.div>
           </div>
 
+          {/* The final hero title has a stable canvas position. It stays clear of
+              the copy, then yields to the navbar label as the page scrolls. */}
+          <motion.h1
+            style={{ opacity: heroTitleOpacity }}
+            className="pointer-events-none absolute inset-x-4 top-[18%] z-20 text-center text-4xl font-extrabold tracking-tight text-transparent bg-gradient-to-r from-[#7EC5FF] via-[#2F80ED] to-[#0052FF] bg-clip-text drop-shadow-xs sm:text-5xl md:text-6xl lg:text-7xl"
+          >
+            <motion.span style={{ opacity: heroTitlePostOpacity }}>
+              Rabbitt AI
+            </motion.span>
+          </motion.h1>
+
+          {/* Second-screen content — tied to animationProgress + post-scroll */}
           <motion.div
-            style={{ opacity: secondScreenOpacity }}
+            style={{
+              opacity: secondScreenOpacity,
+              y: secondScreenPostY,
+            }}
             className="pointer-events-none absolute inset-x-4 top-[10%] z-10 flex flex-col items-center text-center sm:inset-x-8 sm:top-[12%] md:top-[14%]"
           >
-            <div
-              ref={titleTargetRef}
-              className="mx-auto h-20 max-w-2xl sm:h-24 md:h-28"
-              aria-hidden="true"
-            />
-            <h2
-              id="about"
-              className="mx-auto mt-6 text-2xl font-bold tracking-tight text-white drop-shadow-xs sm:mt-8 sm:text-3xl md:text-4xl"
-            >
-              Own your AI, Own your Data
-            </h2>
-            <WordBlurReveal
-              text="Rabbitt.AI taps into the full potential of enterprise data to develop reliable, scalable, and intelligent Generative AI solutions that transform complex business information into actionable insights, streamline operations, and deliver measurable value you can count on."
-              active={transitionComplete || (prefersReducedMotion ?? false)}
-              onComplete={() => setTextCompleted(true)}
-            />
+            <motion.div style={{ opacity: secondScreenPostOpacity }}>
+              <div
+                ref={titleTargetRef}
+                className="mx-auto h-28 max-w-2xl sm:h-32 md:h-36"
+                aria-hidden="true"
+              />
+              <h2
+                id="about"
+                className="mx-auto mt-6 text-2xl font-bold tracking-tight text-white drop-shadow-xs sm:mt-8 sm:text-3xl md:text-4xl"
+              >
+                Own your AI, Own your Data
+              </h2>
+              <WordBlurReveal
+                text="Rabbitt.AI taps into the full potential of enterprise data to develop reliable, scalable, and intelligent Generative AI solutions that transform complex business information into actionable insights, streamline operations, and deliver measurable value you can count on."
+                active={blurRevealActive || (prefersReducedMotion ?? false)}
+                onComplete={() => setTextCompleted(true)}
+              />
 
-            {/* Next Part Preview appears ONLY after the text blur completion */}
-            <AnimatePresence>
-              {(textCompleted || prefersReducedMotion) && (
-                <motion.div
-                  initial={{ opacity: 0, y: 14 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 8, transition: { duration: 0.15 } }}
-                  transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-                  className="pointer-events-auto mt-8 flex flex-col items-center gap-2.5 sm:mt-10"
-                >
-                  {/* Animated Down Arrow Icon */}
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full border border-blue-500/40 bg-blue-500/10 text-sky-400 backdrop-blur-sm shadow-[0_0_15px_rgba(56,189,248,0.25)] animate-bounce">
-                    <svg
-                      className="h-4 w-4"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth="2.5"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-                      />
-                    </svg>
-                  </div>
+              {/* Next Part Preview appears ONLY after the text blur completion */}
+              <AnimatePresence>
+                {(textCompleted || prefersReducedMotion) && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 14 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 8, transition: { duration: 0.15 } }}
+                    transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                    className="pointer-events-auto mt-8 flex flex-col items-center gap-2.5 sm:mt-10"
+                  >
+                    {/* Animated Down Arrow Icon */}
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full border border-blue-500/40 bg-blue-500/10 text-sky-400 backdrop-blur-sm shadow-[0_0_15px_rgba(56,189,248,0.25)] animate-bounce">
+                      <svg
+                        className="h-4 w-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth="2.5"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                        />
+                      </svg>
+                    </div>
 
-                  {/* Next Section Title & Description */}
-                  <h3 className="text-sm font-semibold tracking-tight text-slate-200 sm:text-base md:text-lg">
-                    Enterprise AI Infrastructure
-                  </h3>
-                  <p className="max-w-md text-xs leading-relaxed text-slate-400 sm:text-sm">
-                    Deploy sovereign models, unified pipelines, and scalable
-                    enterprise intelligence with complete data privacy.
-                  </p>
-                </motion.div>
-              )}
-            </AnimatePresence>
+                    {/* Next Section Title & Description */}
+                    <h3 className="text-sm font-semibold tracking-tight text-slate-200 sm:text-base md:text-lg">
+                      Enterprise AI Infrastructure
+                    </h3>
+                    <p className="max-w-md text-xs leading-relaxed text-slate-400 sm:text-sm">
+                      Deploy sovereign models, unified pipelines, and scalable
+                      enterprise intelligence with complete data privacy.
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+            {/* end secondScreenPostOpacity */}
           </motion.div>
 
-          {/* First Screen Scroll Prompt Down Arrow */}
-          {isEcosystem && (
-            <motion.div
-              style={{ opacity: firstScreenScrollPromptOpacity }}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-              className="pointer-events-none absolute inset-x-0 bottom-6 z-20 hidden flex-col items-center gap-1.5 md:flex"
-            >
-              <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-                Scroll to Explore
-              </span>
-              <div className="flex h-7 w-7 items-center justify-center rounded-full border border-slate-300/80 bg-white/90 text-blue-600 shadow-xs backdrop-blur-sm animate-bounce">
-                <svg
-                  className="h-3.5 w-3.5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="2.5"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-                  />
-                </svg>
-              </div>
-            </motion.div>
-          )}
           <div className="absolute inset-x-4 bottom-7 z-20 grid grid-cols-2 gap-2.5 md:hidden">
             {isEcosystem &&
               productNodes.map((node, index) => (
@@ -829,7 +1010,62 @@ export default function LandingExperience() {
           </div>
         </div>
       </div>
+
+      {/* Next section — placeholder height so the sticky hero has room to scroll through the post-intro phase */}
+      <div className="relative min-h-screen bg-[#030712]" id="next-section">
+        {/* Future content goes here */}
+      </div>
     </div>
+  );
+}
+
+// NodePath: renders one connector line.
+// Entry: shoots from hat (pathLength 0→1) with per-node stagger driven by ecosystemReveal.
+// Exit: pathLength is multiplied by exitLength so it shrinks as the intro animation plays.
+function NodePath({
+  node,
+  index,
+  ecosystemReveal,
+  exitLength,
+  exitOpacity,
+}: {
+  node: ProductNode;
+  index: number;
+  ecosystemReveal: MotionValue<number>;
+  exitLength: MotionValue<number>;
+  exitOpacity: MotionValue<number>;
+}) {
+  // Stagger: node i starts drawing at (i * 0.09) on the 0→1 clock, finishes at (i * 0.09 + 0.48)
+  const start = index * 0.09;
+  const end = Math.min(1, start + 0.48);
+  const entryLength = useTransform(ecosystemReveal, [start, end], [0, 1], {
+    clamp: true,
+  });
+
+  // Combined pathLength: entry shoots it out, exit pulls it back as intro progresses
+  const pathLength = useTransform(
+    [entryLength, exitLength] as const,
+    ([entry, exit]) => (entry as number) * (exit as number),
+  );
+
+  // Opacity fades in with entry (first 30% of its window) and out with exit
+  const entryOpacity = useTransform(entryLength, [0, 0.3], [0, 0.85], {
+    clamp: true,
+  });
+  const opacity = useTransform(
+    [entryOpacity, exitOpacity] as const,
+    ([entry, exit]) => Math.min(entry as number, exit as number),
+  );
+
+  return (
+    <motion.path
+      d={nodePath(node)}
+      fill="none"
+      stroke="url(#lineGradRest)"
+      strokeWidth="0.22"
+      strokeDasharray="0.6 0.6"
+      style={{ pathLength, opacity }}
+    />
   );
 }
 
@@ -1003,7 +1239,7 @@ function WordBlurReveal({
               },
             }}
             onAnimationComplete={() => {
-              if (isLastWord && onComplete) {
+              if (isLastWord && active && onComplete) {
                 onComplete();
               }
             }}
