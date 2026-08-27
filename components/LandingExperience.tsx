@@ -841,28 +841,28 @@ export default function LandingExperience() {
             <AnimatePresence>
               {openMenu === "products" && (
                 <motion.div
-                  initial={{ opacity: 0, y: -8, scale: 0.98 }}
+                  initial={{ opacity: 0, y: -6, scale: 0.98 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -8, scale: 0.98 }}
-                  transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-                  className="absolute top-[calc(100%+8px)] left-1/2 w-[min(58rem,calc(100vw-2rem))] -translate-x-1/2 overflow-hidden rounded-2xl border border-sky-500/20 bg-[#050b1a]/95 shadow-[0_20px_60px_rgba(0,0,0,0.8),0_0_35px_rgba(56,189,248,0.12)] backdrop-blur-2xl"
+                  exit={{ opacity: 0, y: -6, scale: 0.98 }}
+                  transition={{ duration: 0.16, ease: [0.16, 1, 0.3, 1] }}
+                  className="absolute top-[calc(100%+8px)] left-1/2 w-[min(56rem,calc(100vw-2rem))] -translate-x-1/2 overflow-hidden rounded-2xl border border-white/10 bg-[#060c18] shadow-[0_25px_70px_rgba(0,0,0,0.9),0_0_1px_1px_rgba(255,255,255,0.06)]"
                 >
-                  <div className="grid grid-cols-[11rem_1fr_12.5rem]">
+                  <div className="grid grid-cols-[10.5rem_1fr_12rem]">
                     {/* Categories sidebar */}
-                    <div className="border-r border-white/5 bg-[#020612]/70 p-3">
-                      <p className="mb-2 px-3 text-[10px] font-bold uppercase tracking-[0.2em] text-sky-400">
+                    <div className="border-r border-white/10 bg-[#030712] p-3">
+                      <p className="mb-2 px-3 text-[10px] font-bold uppercase tracking-[0.2em] text-sky-400/90">
                         Products
                       </p>
-                      <div className="space-y-1">
+                      <div className="space-y-0.5">
                         {productGroups.map((group) => (
                           <button
                             key={group.title}
                             type="button"
                             onClick={() => setActiveProductGroup(group.title)}
-                            className={`w-full rounded-lg px-3 py-2 text-left text-xs font-semibold transition-all ${
+                            className={`w-full text-left text-xs transition-all ${
                               activeProductGroup === group.title
-                                ? "border-l-2 border-sky-400 bg-sky-500/15 text-white shadow-xs"
-                                : "text-slate-400 hover:bg-white/[0.04] hover:text-slate-200"
+                                ? "border-l-2 border-sky-400 bg-sky-500/15 text-sky-200 font-semibold rounded-r-md px-3 py-2"
+                                : "text-slate-400 hover:bg-white/[0.04] hover:text-slate-200 rounded-md px-3 py-2 font-medium"
                             }`}
                           >
                             {group.title}
@@ -877,34 +877,31 @@ export default function LandingExperience() {
                         .filter((group) => group.title === activeProductGroup)
                         .map((group) => (
                           <section key={group.title}>
-                            <div className="flex items-center justify-between border-b border-white/5 pb-2.5">
-                              <div className="flex items-center gap-2">
-                                <span className="h-1.5 w-1.5 rounded-full bg-sky-400 shadow-[0_0_6px_#38BDF8]" />
-                                <h3 className="text-sm font-bold tracking-tight text-white">
-                                  {group.title === "Specialized solutions"
-                                    ? group.title
-                                    : `${group.title} Products`}
-                                </h3>
-                              </div>
-                              <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">
-                                {group.items.length} Products
+                            <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
+                              <h3 className="text-xs font-bold uppercase tracking-wider text-sky-400">
+                                {group.title === "Specialized solutions"
+                                  ? group.title
+                                  : `${group.title} Products`}
+                              </h3>
+                              <span className="text-[11px] font-medium text-slate-400">
+                                {group.items.length} products
                               </span>
                             </div>
-                            <div className="mt-3 grid grid-cols-2 gap-2.5">
+                            <div className="mt-2.5 grid grid-cols-2 gap-2">
                               {group.items.map((item) => (
                                 <a
                                   key={item.name}
                                   href="#products"
-                                  className="group flex items-center gap-3 rounded-xl border border-white/[0.04] bg-white/[0.02] p-2 transition-all duration-150 hover:border-sky-400/30 hover:bg-white/[0.06]"
+                                  className="group flex items-center gap-3 rounded-xl border border-white/[0.04] bg-[#091122]/60 p-2 transition-all duration-150 hover:border-sky-400/30 hover:bg-[#0f1d38]"
                                 >
-                                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-gradient-to-br from-sky-950/60 to-blue-950/40 p-1.5 shadow-xs transition-all group-hover:scale-105 group-hover:border-sky-400/50 group-hover:shadow-[0_0_10px_rgba(56,189,248,0.25)]">
+                                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-sky-500/20 bg-sky-950/60 p-1.5 shadow-xs transition-all group-hover:scale-105 group-hover:border-sky-400/50 group-hover:shadow-[0_0_10px_rgba(56,189,248,0.25)]">
                                     <ProductIcon name={item.name} />
                                   </div>
                                   <div className="min-w-0 flex-1">
-                                    <p className="truncate text-xs font-semibold text-slate-100 transition-colors group-hover:text-sky-200">
+                                    <p className="truncate text-xs font-semibold text-slate-100 transition-colors group-hover:text-white">
                                       {item.name}
                                     </p>
-                                    <p className="truncate text-[10px] text-slate-400">
+                                    <p className="truncate text-[10px] text-slate-400 mt-0.5">
                                       {item.desc}
                                     </p>
                                   </div>
@@ -916,23 +913,24 @@ export default function LandingExperience() {
                     </div>
 
                     {/* Ecosystem promo panel */}
-                    <aside className="flex flex-col justify-between border-l border-white/5 bg-gradient-to-b from-sky-950/25 via-blue-950/15 to-transparent p-4 sm:p-5">
+                    <aside className="flex flex-col justify-between border-l border-white/10 bg-[#040813] p-4 sm:p-5">
                       <div>
-                        <span className="inline-flex items-center gap-1 rounded-full border border-sky-400/20 bg-sky-400/10 px-2 py-0.5 text-[10px] font-bold tracking-wider text-sky-300 uppercase">
-                          ✨ Sovereign AI
+                        <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold tracking-wider text-sky-300 bg-sky-500/10 border border-sky-500/20 uppercase">
+                          Sovereign AI
                         </span>
                         <h4 className="mt-3 text-xs font-bold text-white">
                           Rabbitt Ecosystem
                         </h4>
                         <p className="mt-1.5 text-[11px] leading-relaxed text-slate-400">
-                          Deploy sovereign models, unified pipelines, and scalable enterprise intelligence.
+                          Deploy sovereign models, unified pipelines, and scalable enterprise intelligence with complete data privacy.
                         </p>
                       </div>
                       <a
                         href="#products"
-                        className="mt-4 flex items-center justify-center gap-1.5 rounded-lg border border-sky-400/30 bg-sky-500/15 px-3 py-2 text-xs font-semibold text-sky-200 shadow-xs transition-all hover:border-sky-400/50 hover:bg-sky-500/25 hover:text-white"
+                        className="mt-4 flex items-center justify-between pt-3 border-t border-white/10 text-xs font-semibold text-sky-300 hover:text-white transition-colors group"
                       >
-                        View all products <span aria-hidden="true">→</span>
+                        <span>View all products</span>
+                        <span className="transition-transform group-hover:translate-x-0.5" aria-hidden="true">→</span>
                       </a>
                     </aside>
                   </div>
@@ -940,31 +938,28 @@ export default function LandingExperience() {
               )}
               {openMenu === "services" && (
                 <motion.div
-                  initial={{ opacity: 0, y: -8, scale: 0.98 }}
+                  initial={{ opacity: 0, y: -6, scale: 0.98 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -8, scale: 0.98 }}
-                  transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-                  className="absolute top-[calc(100%+8px)] left-1/2 w-[min(42rem,calc(100vw-2rem))] -translate-x-1/2 rounded-2xl border border-sky-500/20 bg-[#050b1a]/95 p-5 shadow-[0_20px_60px_rgba(0,0,0,0.8),0_0_35px_rgba(56,189,248,0.12)] backdrop-blur-2xl"
+                  exit={{ opacity: 0, y: -6, scale: 0.98 }}
+                  transition={{ duration: 0.16, ease: [0.16, 1, 0.3, 1] }}
+                  className="absolute top-[calc(100%+8px)] left-1/2 w-[min(38rem,calc(100vw-2rem))] -translate-x-1/2 rounded-2xl border border-white/10 bg-[#060c18] p-4 sm:p-5 shadow-[0_25px_70px_rgba(0,0,0,0.9),0_0_1px_1px_rgba(255,255,255,0.06)]"
                 >
-                  <div className="flex items-center justify-between border-b border-white/5 pb-2.5">
-                    <div className="flex items-center gap-2">
-                      <span className="h-1.5 w-1.5 rounded-full bg-sky-400 shadow-[0_0_6px_#38BDF8]" />
-                      <h3 className="text-sm font-bold tracking-tight text-white">
-                        Expert Enterprise Services
-                      </h3>
-                    </div>
-                    <span className="text-[10px] font-bold text-sky-400 uppercase tracking-wider">
-                      Services
+                  <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-sky-400">
+                      Enterprise Services
+                    </h3>
+                    <span className="text-[11px] font-medium text-slate-400">
+                      {services.length} services
                     </span>
                   </div>
-                  <div className="mt-3 grid grid-cols-2 gap-2.5">
+                  <div className="mt-2.5 grid grid-cols-2 gap-2">
                     {services.map((service, index) => (
                       <a
                         key={service}
                         href="#services"
-                        className="group flex items-center gap-3 rounded-xl border border-white/[0.04] bg-white/[0.02] p-2.5 transition-all hover:border-sky-400/30 hover:bg-white/[0.06]"
+                        className="group flex items-center gap-3 rounded-xl border border-white/[0.04] bg-[#091122]/60 p-2.5 transition-all hover:border-sky-400/30 hover:bg-[#0f1d38]"
                       >
-                        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-sky-400/25 bg-sky-400/10 text-xs font-bold text-sky-300 transition-colors group-hover:border-sky-400/50 group-hover:bg-sky-400/20">
+                        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-sky-500/25 bg-sky-500/10 text-xs font-bold text-sky-300 transition-colors group-hover:border-sky-400/50 group-hover:bg-sky-500/20">
                           0{index + 1}
                         </span>
                         <span className="truncate text-xs font-semibold text-slate-200 transition-colors group-hover:text-white">
