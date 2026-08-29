@@ -37,12 +37,12 @@ export default function ProductsHero() {
   });
 
   return (
-    <section className="relative min-h-[90vh] overflow-hidden bg-[#030508] pt-32 sm:pt-40 pb-20 text-white flex flex-col justify-between">
+    <section className="relative min-h-[75vh] lg:min-h-[80vh] overflow-hidden bg-[#030508] pt-24 sm:pt-28 pb-2 text-white flex flex-col justify-between">
       {/* Background Subtle Radial Vignette */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(14,165,233,0.06),transparent_65%)]" />
 
       {/* Main Content Area */}
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-6 sm:px-10 lg:px-16 pt-6 sm:pt-12">
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-6 sm:px-10 lg:px-16 pt-4 sm:pt-8">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
@@ -50,30 +50,30 @@ export default function ProductsHero() {
           className="max-w-4xl"
         >
           {/* Main Title */}
-          <h1 className="font-[family-name:var(--font-newsreader)] text-5xl font-normal leading-[1.08] tracking-[-0.03em] sm:text-7xl lg:text-[5.4rem] text-white">
+          <h1 className="font-[family-name:var(--font-newsreader)] text-4xl font-normal leading-[1.08] tracking-[-0.03em] sm:text-6xl lg:text-[4.6rem] text-white">
             We turn your data
             <br />
             into AI that <span className="text-[#4b8aff]">delivers.</span>
           </h1>
 
           {/* Accent Blue Rule */}
-          <div className="mt-8 mb-6 h-[2px] w-12 rounded-full bg-sky-500/80" />
+          <div className="mt-6 mb-5 h-[2px] w-12 rounded-full bg-sky-500/80" />
 
           {/* Description Copy */}
-          <p className="max-w-xl text-base sm:text-lg leading-relaxed text-slate-300">
+          <p className="max-w-xl text-sm sm:text-base leading-relaxed text-slate-300">
             Rabbitt Ai builds secure, reliable and scalable AI solutions that help enterprises unlock real impact.
           </p>
         </motion.div>
       </div>
 
       {/* Bottom Wave Section */}
-      <div className="relative mt-auto w-full overflow-hidden pointer-events-none select-none pt-12">
+      <div className="relative mt-auto w-full overflow-hidden pointer-events-none select-none">
         {/* Soft Blue Center Radial Aura */}
-        <div className="pointer-events-none absolute bottom-12 left-1/2 h-56 w-[36rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(56,189,248,0.22)_0%,rgba(30,64,175,0.12)_45%,transparent_70%)] blur-[70px]" />
+        <div className="pointer-events-none absolute bottom-6 left-1/2 h-44 w-[32rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(56,189,248,0.2)_0%,rgba(30,64,175,0.1)_45%,transparent_70%)] blur-[60px]" />
 
         {/* Generative Luminous Wave SVG */}
         <svg
-          className="relative w-full h-[200px] sm:h-[300px] lg:h-[380px]"
+          className="relative w-full h-[140px] sm:h-[180px] lg:h-[220px]"
           viewBox="0 0 1440 400"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -133,14 +133,6 @@ export default function ProductsHero() {
             )
           )}
         </svg>
-
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-6 left-6 sm:bottom-10 sm:left-12 z-20 flex items-center gap-3">
-          <span className="h-6 w-px bg-white/25" />
-          <span className="text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.25em] text-slate-400">
-            Scroll
-          </span>
-        </div>
       </div>
     </section>
   );
