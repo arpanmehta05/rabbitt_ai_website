@@ -35,7 +35,12 @@ const categories: Record<string, Product[]> = {
 
 const categoryNames = Object.keys(categories);
 
-export default function SiteNavigation({ opacity, brandTargetRef }: { opacity: MotionValue<number>; brandTargetRef: RefObject<HTMLDivElement | null> }) {
+interface SiteNavigationProps {
+  opacity?: MotionValue<number> | number;
+  brandTargetRef?: RefObject<HTMLDivElement | null>;
+}
+
+export default function SiteNavigation({ opacity = 1, brandTargetRef }: SiteNavigationProps = {}) {
   const [open, setOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState("Marketing");
   const navigationRef = useRef<HTMLElement>(null);
@@ -65,7 +70,7 @@ export default function SiteNavigation({ opacity, brandTargetRef }: { opacity: M
       className="pointer-events-auto fixed inset-x-0 top-0 z-[100] border-b border-white/[0.08] bg-[#030507]/90 backdrop-blur-xl"
     >
       <nav ref={navigationRef} className="relative mx-auto flex h-16 max-w-[1600px] items-center px-8" aria-label="Main navigation">
-        <a href="#top" className="flex items-center gap-3">
+        <a href="/" className="flex items-center gap-3">
           <div ref={brandTargetRef} className="flex h-10 w-10 shrink-0 items-center justify-center">
             <Image src="/logo.svg" alt="Rabbitt Ai" width={40} height={40} className="h-10 w-10 object-contain" />
           </div>
@@ -117,7 +122,7 @@ export default function SiteNavigation({ opacity, brandTargetRef }: { opacity: M
                   </div>
                   <div className="grid grid-cols-2 gap-x-16">
                     {products.map((product) => (
-                      <a key={product.name} href="#products" className="group flex min-w-0 items-center gap-4 border-b border-white/[0.1] py-5">
+                      <a key={product.name} href="/products" className="group flex min-w-0 items-center gap-4 border-b border-white/[0.1] py-5">
                         <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#111a2b] p-1 text-2xl text-sky-400">
                           {product.logo ? (
                             <Image
