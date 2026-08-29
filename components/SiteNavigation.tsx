@@ -25,7 +25,7 @@ const categories: Record<string, Product[]> = {
   ],
   "Independent Products": [
     { name: "Voice Rabbitt", description: "Conversational voice experiences for enterprise.", icon: "◉" },
-    { name: "Ping Me", description: "Intelligent notifications and incident coordination.", icon: "◌", logo: "/pingu.svg" },
+    { name: "PingU", description: "Intelligent notifications and incident coordination.", icon: "◌", logo: "/pingu.svg" },
   ],
   "Other Initiatives": [
     { name: "AI World", description: "A global network advancing responsible AI.", icon: "✦" },
@@ -118,8 +118,22 @@ export default function SiteNavigation({ opacity, brandTargetRef }: { opacity: M
                   <div className="grid grid-cols-2 gap-x-16">
                     {products.map((product) => (
                       <a key={product.name} href="#products" className="group flex min-w-0 items-center gap-4 border-b border-white/[0.1] py-5">
-                        <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#111a2b] text-2xl text-sky-400">
-                          {product.logo ? <Image src={product.logo} alt="" width={32} height={32} className="h-8 w-8 object-contain" /> : product.icon}
+                        <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#111a2b] p-1 text-2xl text-sky-400">
+                          {product.logo ? (
+                            <Image
+                              src={product.logo}
+                              alt=""
+                              width={44}
+                              height={44}
+                              className={`object-contain ${
+                                product.name === "PingU" || product.name === "Drip"
+                                  ? "h-7 w-10"
+                                  : "h-9 w-9"
+                              }`}
+                            />
+                          ) : (
+                            product.icon
+                          )}
                         </span>
                         <span className="min-w-0 flex-1"><span className="block text-lg font-semibold text-white">{product.name}</span><span className="mt-1 block text-sm leading-6 text-slate-400">{product.description}</span></span>
                         <span className="text-2xl font-light text-slate-400 opacity-0 transition-all group-hover:translate-x-1 group-hover:opacity-100">→</span>

@@ -134,7 +134,7 @@ function ProductIcon({ name }: { name: string }) {
           className="h-5 w-5 object-contain"
         />
       );
-    case "Ping Me":
+    case "PingU":
       return (
         <Image
           src="/pingu.svg"

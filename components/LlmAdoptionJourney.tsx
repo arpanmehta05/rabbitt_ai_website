@@ -105,7 +105,7 @@ function ModelVisual() {
 }
 
 function ApplicationVisual() {
-  return <div className="h-full bg-[radial-gradient(circle_at_56%_78%,rgba(25,101,255,.6),transparent_38%),linear-gradient(135deg,#060f20,#05070d)]"><div className="absolute left-1/2 top-[13%] h-[78%] w-44 -translate-x-1/2 rounded-[2rem] border-[10px] border-white/80 bg-slate-100"><span className="absolute left-1/2 top-3 h-2 w-14 -translate-x-1/2 rounded-full bg-slate-300" /><Bubble className="left-[-5.5rem] top-[23%]" text="You can ask me anything!" /><Bubble className="right-[-5rem] top-[42%] bg-cyan-500 text-white" text="Sounds nice!" /><Bubble className="left-[-5.5rem] top-[60%]" text="How about this weekend?" /></div></div>;
+  return <div className="h-full bg-[radial-gradient(circle_at_56%_78%,rgba(25,101,255,.6),transparent_38%),linear-gradient(135deg,#060f20,#05070d)]"><div className="absolute left-1/2 top-[13%] h-[78%] w-44 -translate-x-1/2 rounded-[2rem] border-[10px] border-white/80 bg-slate-100"><span className="absolute left-1/2 top-3 h-2 w-14 -translate-x-1/2 rounded-full bg-slate-300" /><Bubble className="left-[-5.5rem] top-[23%]" text="You can ask me anything!" /><Bubble className="right-[-5rem] top-[42%] bg-sky-500 text-white" text="Sounds nice!" /><Bubble className="left-[-5.5rem] top-[60%]" text="How about this weekend?" /></div></div>;
 }
 
 function EvaluationVisual() {
