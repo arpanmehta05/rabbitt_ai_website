@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import SiteNavigation from "@/components/SiteNavigation";
 import ProductsHero from "@/components/ProductsHero";
-import ProductsGrid from "@/components/ProductsGrid";
 import SiteFooter from "@/components/SiteFooter";
 
 export const metadata: Metadata = {
@@ -12,15 +11,12 @@ export const metadata: Metadata = {
 
 export default function ProductsPage() {
   return (
-    <main className="bg-[#020305] min-h-screen">
+    <main className="bg-[#020305] min-h-screen flex flex-col justify-between">
       {/* Shared site navbar */}
       <SiteNavigation />
 
       {/* Hero section matching provided visual */}
       <ProductsHero />
-
-      {/* Product catalog grid */}
-      <ProductsGrid />
 
       {/* Shared site footer */}
       <SiteFooter />
