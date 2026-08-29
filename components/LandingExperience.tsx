@@ -444,7 +444,7 @@ export default function LandingExperience() {
       return easedT * (ty as number);
     },
   );
-  const logoScale = useTransform(animationProgress, [0.43, 0.84], [1, 0.15625]);
+  const logoScale = useTransform(animationProgress, [0.43, 0.84], [1, 0.208333]);
   const launchHatOpacity = useTransform(animationProgress, [0.76, 0.9], [1, 0]);
   const navOpacity = useTransform(animationProgress, [0.76, 0.9], [0, 1]);
   const referenceHeroOpacity = useTransform(

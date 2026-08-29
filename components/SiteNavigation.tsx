@@ -48,11 +48,14 @@ export default function SiteNavigation({ opacity, brandTargetRef }: { opacity: M
     const closeOnEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") setOpen(false);
     };
+    const closeOnPageScroll = () => setOpen(false);
     document.addEventListener("pointerdown", closeOnOutsideClick);
     window.addEventListener("keydown", closeOnEscape);
+    window.addEventListener("scroll", closeOnPageScroll, { passive: true });
     return () => {
       document.removeEventListener("pointerdown", closeOnOutsideClick);
       window.removeEventListener("keydown", closeOnEscape);
+      window.removeEventListener("scroll", closeOnPageScroll);
     };
   }, [open]);
 
@@ -82,7 +85,7 @@ export default function SiteNavigation({ opacity, brandTargetRef }: { opacity: M
 
         <div className="ml-auto flex items-center gap-6 text-[0.95rem]">
           <a href="#login" className="text-slate-100 transition-colors hover:text-sky-300">Login</a>
-          <a href="#contact" className="inline-flex items-center gap-3 rounded-lg border border-violet-300/65 px-4 py-2 text-slate-50 transition-colors hover:border-sky-300 hover:text-sky-100">Book a Demo <span className="text-xl leading-none">→</span></a>
+          <a href="#contact" className="inline-flex items-center gap-3 rounded-lg border border-sky-300/65 px-4 py-2 text-slate-50 transition-colors hover:border-sky-200 hover:text-sky-100">Book a Demo <span className="text-xl leading-none">→</span></a>
         </div>
 
         <AnimatePresence>
@@ -116,7 +119,7 @@ export default function SiteNavigation({ opacity, brandTargetRef }: { opacity: M
                     {products.map((product) => (
                       <a key={product.name} href="#products" className="group flex min-w-0 items-center gap-4 border-b border-white/[0.1] py-5">
                         <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#111a2b] text-2xl text-sky-400">
-                          {product.logo ? <Image src={product.logo} alt="" width={28} height={28} className="h-7 w-7 object-contain" /> : product.icon}
+                          {product.logo ? <Image src={product.logo} alt="" width={32} height={32} className="h-8 w-8 object-contain" /> : product.icon}
                         </span>
                         <span className="min-w-0 flex-1"><span className="block text-lg font-semibold text-white">{product.name}</span><span className="mt-1 block text-sm leading-6 text-slate-400">{product.description}</span></span>
                         <span className="text-2xl font-light text-slate-400 opacity-0 transition-all group-hover:translate-x-1 group-hover:opacity-100">→</span>
