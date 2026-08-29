@@ -427,9 +427,10 @@ export default function LandingExperience() {
     ([p, tx]) => {
       const t = Math.max(
         0,
-        Math.min(1, ((p as number) - 0.45) / (0.72 - 0.45)),
+        Math.min(1, ((p as number) - 0.45) / (0.84 - 0.45)),
       );
-      return t * (tx as number);
+      const easedT = t * t * (3 - 2 * t);
+      return easedT * (tx as number);
     },
   );
   const logoY = useTransform(
@@ -437,14 +438,15 @@ export default function LandingExperience() {
     ([p, ty]) => {
       const t = Math.max(
         0,
-        Math.min(1, ((p as number) - 0.45) / (0.72 - 0.45)),
+        Math.min(1, ((p as number) - 0.45) / (0.84 - 0.45)),
       );
-      return t * (ty as number);
+      const easedT = t * t * (3 - 2 * t);
+      return easedT * (ty as number);
     },
   );
-  const logoScale = useTransform(animationProgress, [0.43, 0.72], [1, 0.22]);
-  const launchHatOpacity = useTransform(animationProgress, [0.48, 0.7], [1, 0]);
-  const navOpacity = useTransform(animationProgress, [0.64, 0.78], [0, 1]);
+  const logoScale = useTransform(animationProgress, [0.43, 0.84], [1, 0.15625]);
+  const launchHatOpacity = useTransform(animationProgress, [0.76, 0.9], [1, 0]);
+  const navOpacity = useTransform(animationProgress, [0.76, 0.9], [0, 1]);
   const referenceHeroOpacity = useTransform(
     animationProgress,
     [0.72, 0.94],
@@ -964,7 +966,7 @@ export default function LandingExperience() {
                   y: logoY,
                   scale: logoScale,
                 }}
-                className="relative z-20 flex transform-gpu items-center justify-center will-change-transform"
+                className="relative z-20 flex transform-gpu items-center justify-center will-change-[transform,opacity] [backface-visibility:hidden] [transform:translateZ(0)]"
               >
                 <span
                   ref={hatOpeningRef}
@@ -1049,12 +1051,10 @@ function ReferenceHero() {
 
       <div className="relative z-10 grid w-full flex-1 grid-cols-1 items-center px-6 pb-7 pt-8 sm:px-10 lg:grid-cols-[0.92fr_1.08fr] lg:px-16 xl:px-[5.75rem]">
         <div className="relative z-20 max-w-[43rem] pt-5 lg:pt-0">
-          <h2 className="max-w-[42rem] text-[clamp(2.55rem,4.8vw,5.35rem)] font-medium leading-[0.98] tracking-[-0.065em] text-[#f6f7fb]">
-            <span className="bg-gradient-to-r from-[#7ec5ff] via-[#2f80ed] to-[#0052ff] bg-clip-text text-transparent">
-              Own your data,
-              <br />
-              own your AI.
-            </span>
+          <h2 className="max-w-[42rem] text-[clamp(2.55rem,4.8vw,5.35rem)] font-medium leading-[0.98] tracking-[-0.065em] text-white">
+            Own your data,
+            <br />
+            own your AI.
           </h2>
           <p className="mt-7 max-w-[31rem] text-[clamp(0.95rem,1.25vw,1.2rem)] leading-[1.62] tracking-[-0.025em] text-[#c0c4cf]">
             Rabbitt Ai transforms your enterprise data into reliable Generative
