@@ -93,7 +93,103 @@ function JourneyVisual({ activeIndex }: { activeIndex: number }) {
 }
 
 function DiscoveryVisual() {
-  return <div className="h-full bg-[radial-gradient(circle_at_55%_50%,rgba(14,165,233,0.32),transparent_32%),linear-gradient(135deg,#06101d,#05070d)]"><div className="absolute left-[12%] top-[24%] space-y-4">{[0, 1, 2].map((item) => <div key={item} className="h-14 w-36 rounded-lg border border-sky-200/25 bg-sky-400/[0.08]" />)}</div><div className="absolute right-[9%] top-[25%] h-44 w-40 rounded-xl border border-sky-200/25 bg-[#dbeafe] p-4"><span className="block h-4 w-full rounded bg-slate-700" /><span className="mt-4 block h-7 rounded bg-sky-600" /><span className="mt-3 block h-16 rounded bg-white" /></div><div className="absolute left-1/2 top-1/2 flex h-36 w-36 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-sky-300/30 bg-[#071321]"><Image src="/logo.svg" alt="Rabbitt AI" width={76} height={76} className="h-20 w-20 object-contain" /></div><svg className="absolute inset-0 h-full w-full" viewBox="0 0 600 360" preserveAspectRatio="none"><path d="M170 104H248C270 104 272 150 300 150M170 180H300M170 256H248C270 256 272 210 300 210M350 180H448" fill="none" stroke="rgba(125,211,252,.72)" strokeWidth="1.2" strokeLinecap="round" /></svg></div>;
+  return (
+    <div className="relative flex h-full w-full items-center justify-center bg-[radial-gradient(circle_at_55%_50%,rgba(14,165,233,0.32),transparent_40%),linear-gradient(135deg,#06101d,#05070d)] p-4 sm:p-6">
+      <svg
+        className="h-full w-full max-h-[380px] max-w-[680px]"
+        viewBox="0 0 680 380"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        {/* Left Input Cards */}
+        <g>
+          <rect
+            x="60"
+            y="70"
+            width="130"
+            height="54"
+            rx="10"
+            fill="rgba(14,165,233,0.08)"
+            stroke="rgba(56,189,248,0.25)"
+            strokeWidth="1.2"
+          />
+          <rect
+            x="60"
+            y="153"
+            width="130"
+            height="54"
+            rx="10"
+            fill="rgba(14,165,233,0.08)"
+            stroke="rgba(56,189,248,0.25)"
+            strokeWidth="1.2"
+          />
+          <rect
+            x="60"
+            y="236"
+            width="130"
+            height="54"
+            rx="10"
+            fill="rgba(14,165,233,0.08)"
+            stroke="rgba(56,189,248,0.25)"
+            strokeWidth="1.2"
+          />
+        </g>
+
+        {/* Connecting Lines */}
+        <g stroke="rgba(125,211,252,0.75)" strokeWidth="1.5" strokeLinecap="round" fill="none">
+          <path d="M 190 97 H 230 C 260 97 268 141 284 141" />
+          <path d="M 190 180 H 272" />
+          <path d="M 190 263 H 230 C 260 263 268 219 284 219" />
+          <path d="M 408 180 H 475" />
+        </g>
+
+        {/* Center Outer Ring */}
+        <circle
+          cx="340"
+          cy="180"
+          r="76"
+          fill="none"
+          stroke="rgba(56,189,248,0.18)"
+          strokeWidth="1"
+        />
+        {/* Center Main Circle */}
+        <circle
+          cx="340"
+          cy="180"
+          r="68"
+          fill="#071321"
+          stroke="rgba(56,189,248,0.35)"
+          strokeWidth="1.5"
+        />
+        {/* Center Logo */}
+        <image
+          href="/logo.svg"
+          x="296"
+          y="136"
+          width="88"
+          height="88"
+          preserveAspectRatio="xMidYMid meet"
+        />
+
+        {/* Right Output Preview Card */}
+        <g>
+          <rect
+            x="475"
+            y="95"
+            width="140"
+            height="170"
+            rx="16"
+            fill="#dbeafe"
+            stroke="rgba(56,189,248,0.3)"
+            strokeWidth="1.2"
+          />
+          <rect x="487" y="109" width="116" height="15" rx="4" fill="#334155" />
+          <rect x="487" y="132" width="116" height="28" rx="5" fill="#0284c7" />
+          <rect x="487" y="168" width="116" height="82" rx="6" fill="#ffffff" />
+        </g>
+      </svg>
+    </div>
+  );
 }
 
 function DataVisual() {
