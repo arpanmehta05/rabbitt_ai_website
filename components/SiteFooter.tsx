@@ -37,7 +37,7 @@ export default function SiteFooter() {
             <p className="mt-8 max-w-[17rem] text-[1.05rem] leading-[1.7] tracking-[-0.025em] text-white">
               Helping enterprises unlock the full potential of their data with secure, reliable and impactful Generative AI solutions.
             </p>
-            <a href="/contact" className="mt-9 inline-flex items-center gap-3 text-[1.05rem] text-white transition-colors hover:text-white/80">
+            <a href="#contact" className="mt-9 inline-flex items-center gap-3 text-[1.05rem] text-white transition-colors hover:text-white/80">
               Let&apos;s build the future together <span aria-hidden="true" className="text-2xl leading-none">→</span>
             </a>
             <SocialLinks className="mt-12" />
@@ -49,7 +49,7 @@ export default function SiteFooter() {
               <ul className="mt-9 space-y-5">
                 {column.links.map((link) => (
                   <li key={link}>
-                    <a href={link === "Contact Us" ? "/contact" : "#"} className="group flex items-center gap-4 text-[1rem] leading-snug text-white transition-colors hover:text-white/80">
+                    <a href="#" className="group flex items-center gap-4 text-[1rem] leading-snug text-white transition-colors hover:text-white/80">
                       <span aria-hidden="true" className="text-2xl font-light leading-none text-white transition-transform group-hover:translate-x-1">›</span>
                       <span>{link}</span>
                     </a>

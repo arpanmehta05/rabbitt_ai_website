@@ -90,7 +90,7 @@ export default function SiteNavigation({ opacity = 1, brandTargetRef }: SiteNavi
 
         <div className="ml-auto flex items-center gap-6 text-[0.95rem]">
           <a href="#login" className="text-slate-100 transition-colors hover:text-sky-300">Login</a>
-          <a href="/contact" className="inline-flex items-center gap-3 rounded-lg border border-sky-300/65 px-4 py-2 text-slate-50 transition-colors hover:border-sky-200 hover:text-sky-100">Book a Demo <span className="text-xl leading-none">→</span></a>
+          <a href="#contact" className="inline-flex items-center gap-3 rounded-lg border border-sky-300/65 px-4 py-2 text-slate-50 transition-colors hover:border-sky-200 hover:text-sky-100">Book a Demo <span className="text-xl leading-none">→</span></a>
         </div>
 
         <AnimatePresence>
