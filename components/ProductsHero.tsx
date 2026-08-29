@@ -37,12 +37,12 @@ export default function ProductsHero() {
   });
 
   return (
-    <section className="relative min-h-[75vh] lg:min-h-[80vh] overflow-hidden bg-[#030508] pt-24 sm:pt-28 pb-2 text-white flex flex-col justify-between">
+    <section className="relative min-h-[58vh] lg:min-h-[66vh] overflow-hidden bg-[#030508] pt-20 sm:pt-24 pb-0 text-white flex flex-col justify-between">
       {/* Background Subtle Radial Vignette */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(14,165,233,0.06),transparent_65%)]" />
 
       {/* Main Content Area */}
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-6 sm:px-10 lg:px-16 pt-4 sm:pt-8">
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-6 sm:px-10 lg:px-16 pt-3 sm:pt-6">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
@@ -57,7 +57,7 @@ export default function ProductsHero() {
           </h1>
 
           {/* Accent Blue Rule */}
-          <div className="mt-6 mb-5 h-[2px] w-12 rounded-full bg-sky-500/80" />
+          <div className="mt-5 mb-4 h-[2px] w-12 rounded-full bg-sky-500/80" />
 
           {/* Description Copy */}
           <p className="max-w-xl text-sm sm:text-base leading-relaxed text-slate-300">
@@ -69,12 +69,12 @@ export default function ProductsHero() {
       {/* Bottom Wave Section */}
       <div className="relative mt-auto w-full overflow-hidden pointer-events-none select-none">
         {/* Soft Blue Center Radial Aura */}
-        <div className="pointer-events-none absolute bottom-6 left-1/2 h-44 w-[32rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(56,189,248,0.2)_0%,rgba(30,64,175,0.1)_45%,transparent_70%)] blur-[60px]" />
+        <div className="pointer-events-none absolute bottom-4 left-1/2 h-36 w-[32rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(56,189,248,0.2)_0%,rgba(30,64,175,0.1)_45%,transparent_70%)] blur-[50px]" />
 
         {/* Generative Luminous Wave SVG */}
         <svg
-          className="relative w-full h-[140px] sm:h-[180px] lg:h-[220px]"
-          viewBox="0 0 1440 400"
+          className="relative w-full h-[95px] sm:h-[125px] lg:h-[155px]"
+          viewBox="0 210 1440 160"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           preserveAspectRatio="none"

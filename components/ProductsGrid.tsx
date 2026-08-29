@@ -148,7 +148,7 @@ export default function ProductsGrid() {
       : allProducts.filter((p) => p.category === selectedCategory);
 
   return (
-    <section id="products-catalog" className="relative z-10 bg-[#020305] py-24 sm:py-32 text-white border-t border-white/[0.08]">
+    <section id="products-catalog" className="relative z-10 bg-[#020305] pt-10 sm:pt-14 pb-24 text-white border-t border-white/[0.08]">
       <div className="mx-auto max-w-7xl px-6 sm:px-10 lg:px-16">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-12 border-b border-white/[0.08]">
