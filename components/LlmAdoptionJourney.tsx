@@ -65,7 +65,6 @@ export default function LlmAdoptionJourney() {
               <p className="text-sm font-medium uppercase tracking-[0.16em] text-sky-300">{activeStage.eyebrow}</p>
               <h3 className="mt-6 max-w-xl text-4xl font-semibold leading-[1.08] tracking-[-0.04em] sm:text-5xl">{activeStage.title}</h3>
               <p className="mt-7 max-w-lg text-lg leading-8 text-slate-300">{activeStage.description}</p>
-              <a href="#contact" className="mt-9 inline-flex items-center gap-3 text-base font-medium text-sky-300 transition-colors hover:text-sky-100">Talk to Rabbitt <span aria-hidden="true" className="text-2xl">→</span></a>
             </motion.div>
           </AnimatePresence>
 
