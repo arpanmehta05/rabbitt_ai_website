@@ -2,6 +2,7 @@
 
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
+import SiteNavigation from "@/components/SiteNavigation";
 import {
   AnimatePresence,
   animate,
@@ -79,82 +80,122 @@ const productNodes: ProductNode[] = [
   },
 ];
 
-const productGroups = [
-  {
-    title: "Marketing",
-    items: [
-      { name: "IcyPluto", desc: "Autonomous marketing engine" },
-      { name: "IcyLingo", desc: "Multilingual translation AI" },
-      { name: "IcyLunar", desc: "Campaign creative studio" },
-      { name: "IcyQuill", desc: "AI content & copywriter" },
-      { name: "Fire Reach", desc: "Omnichannel outreach" },
-      { name: "Pluto Circle", desc: "Audience intelligence" },
-    ],
-  },
-  {
-    title: "Learning",
-    items: [
-      { name: "Rabbitt Learning", desc: "Enterprise skill platform" },
-      { name: "Drip", desc: "Adaptive micro-learning" },
-      { name: "LMS", desc: "Sovereign learning management" },
-      { name: "Code Bunny", desc: "Interactive AI coding tutor" },
-      { name: "AI Learning Platform Gamified", desc: "Gamified skill quests" },
-      { name: "OnSkill", desc: "Workforce competency hub" },
-      { name: "R Proctor", desc: "AI exam & integrity proctor" },
-    ],
-  },
-  {
-    title: "Specialized solutions",
-    items: [
-      { name: "Voice Rabbitt", desc: "Conversational voice agents" },
-      { name: "Cloud Watcher", desc: "Cloud cost & health monitor" },
-      { name: "Ping Me", desc: "Incident response assistant" },
-    ],
-  },
-  {
-    title: "Technology",
-    items: [
-      { name: "ChanceRAG", desc: "Sovereign enterprise RAG" },
-      { name: "HRMS", desc: "AI people operations" },
-      { name: "Canvas", desc: "Visual AI workflow builder" },
-    ],
-  },
-  {
-    title: "Councils",
-    items: [
-      { name: "GMA Council", desc: "Global media & AI summit" },
-      { name: "WES Council", desc: "Workforce evolution council" },
-      { name: "AI World", desc: "Global sovereign AI network" },
-    ],
-  },
-];
-
+// Reserved for the next product-navigation implementation.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function ProductIcon({ name }: { name: string }) {
   switch (name) {
     case "IcyPluto":
-      return <Image src="/Icypluto.svg" alt="" width={22} height={22} className="h-5 w-5 object-contain" />;
+      return (
+        <Image
+          src="/Icypluto.svg"
+          alt=""
+          width={22}
+          height={22}
+          className="h-5 w-5 object-contain"
+        />
+      );
     case "IcyQuill":
-      return <Image src="/quill.svg" alt="" width={22} height={22} className="h-5 w-5 object-contain" />;
+      return (
+        <Image
+          src="/quill.svg"
+          alt=""
+          width={22}
+          height={22}
+          className="h-5 w-5 object-contain"
+        />
+      );
     case "Drip":
-      return <Image src="/drip.svg" alt="" width={22} height={22} className="h-5 w-5 object-contain" />;
+      return (
+        <Image
+          src="/drip.svg"
+          alt=""
+          width={22}
+          height={22}
+          className="h-5 w-5 object-contain"
+        />
+      );
     case "OnSkill":
-      return <Image src="/onskill.svg" alt="" width={22} height={22} className="h-5 w-5 object-contain" />;
+      return (
+        <Image
+          src="/onskill.svg"
+          alt=""
+          width={22}
+          height={22}
+          className="h-5 w-5 object-contain"
+        />
+      );
     case "Cloud Watcher":
-      return <Image src="/cloudwatcher.svg" alt="" width={22} height={22} className="h-5 w-5 object-contain" />;
+      return (
+        <Image
+          src="/cloudwatcher.svg"
+          alt=""
+          width={22}
+          height={22}
+          className="h-5 w-5 object-contain"
+        />
+      );
     case "Ping Me":
-      return <Image src="/pingu.svg" alt="" width={22} height={22} className="h-5 w-5 object-contain" />;
+      return (
+        <Image
+          src="/pingu.svg"
+          alt=""
+          width={22}
+          height={22}
+          className="h-5 w-5 object-contain"
+        />
+      );
     case "ChanceRAG":
-      return <Image src="/chance.svg" alt="" width={22} height={22} className="h-5 w-5 object-contain" />;
+      return (
+        <Image
+          src="/chance.svg"
+          alt=""
+          width={22}
+          height={22}
+          className="h-5 w-5 object-contain"
+        />
+      );
     case "AI Learning Platform Gamified":
-      return <Image src="/aiquest.svg" alt="" width={22} height={22} className="h-5 w-5 object-contain" />;
+      return (
+        <Image
+          src="/aiquest.svg"
+          alt=""
+          width={22}
+          height={22}
+          className="h-5 w-5 object-contain"
+        />
+      );
     case "Rabbitt Learning":
     case "Voice Rabbitt":
-      return <Image src="/logo.svg" alt="" width={22} height={22} className="h-5 w-5 object-contain" />;
+      return (
+        <Image
+          src="/logo.svg"
+          alt=""
+          width={22}
+          height={22}
+          className="h-5 w-5 object-contain"
+        />
+      );
     case "AI World":
-      return <Image src="/globe.svg" alt="" width={22} height={22} className="h-5 w-5 object-contain" />;
+      return (
+        <Image
+          src="/globe.svg"
+          alt=""
+          width={22}
+          height={22}
+          className="h-5 w-5 object-contain"
+        />
+      );
     case "IcyLingo":
       return (
-        <svg className="h-4 w-4 text-sky-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg
+          className="h-4 w-4 text-sky-400"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
           <circle cx="12" cy="12" r="10" />
           <path d="M2 12h20" />
           <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
@@ -162,7 +203,15 @@ function ProductIcon({ name }: { name: string }) {
       );
     case "IcyLunar":
       return (
-        <svg className="h-4 w-4 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg
+          className="h-4 w-4 text-indigo-400"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
           <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
           <path d="M19 3v4" />
           <path d="M21 5h-4" />
@@ -170,13 +219,29 @@ function ProductIcon({ name }: { name: string }) {
       );
     case "Fire Reach":
       return (
-        <svg className="h-4 w-4 text-orange-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg
+          className="h-4 w-4 text-orange-400"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
           <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" />
         </svg>
       );
     case "Pluto Circle":
       return (
-        <svg className="h-4 w-4 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg
+          className="h-4 w-4 text-cyan-400"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
           <circle cx="12" cy="12" r="9" strokeDasharray="3 3" />
           <circle cx="12" cy="12" r="4" fill="currentColor" fillOpacity="0.3" />
           <circle cx="12" cy="3" r="2" fill="currentColor" />
@@ -184,7 +249,15 @@ function ProductIcon({ name }: { name: string }) {
       );
     case "LMS":
       return (
-        <svg className="h-4 w-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg
+          className="h-4 w-4 text-emerald-400"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
           <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z" />
           <path d="M6 6h10" />
           <path d="M6 10h10" />
@@ -192,7 +265,15 @@ function ProductIcon({ name }: { name: string }) {
       );
     case "Code Bunny":
       return (
-        <svg className="h-4 w-4 text-sky-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg
+          className="h-4 w-4 text-sky-400"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
           <polyline points="16 18 22 12 16 6" />
           <polyline points="8 6 2 12 8 18" />
           <line x1="14" y1="4" x2="10" y2="20" />
@@ -200,14 +281,30 @@ function ProductIcon({ name }: { name: string }) {
       );
     case "R Proctor":
       return (
-        <svg className="h-4 w-4 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg
+          className="h-4 w-4 text-blue-400"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
           <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" />
           <circle cx="12" cy="11" r="2.5" />
         </svg>
       );
     case "HRMS":
       return (
-        <svg className="h-4 w-4 text-violet-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg
+          className="h-4 w-4 text-violet-400"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
           <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
           <circle cx="9" cy="7" r="4" />
           <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
@@ -216,7 +313,15 @@ function ProductIcon({ name }: { name: string }) {
       );
     case "Canvas":
       return (
-        <svg className="h-4 w-4 text-teal-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg
+          className="h-4 w-4 text-teal-400"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
           <rect width="18" height="18" x="3" y="3" rx="2" />
           <path d="M3 9h18" />
           <path d="M9 21V9" />
@@ -224,34 +329,44 @@ function ProductIcon({ name }: { name: string }) {
       );
     case "GMA Council":
       return (
-        <svg className="h-4 w-4 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg
+          className="h-4 w-4 text-amber-400"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
           <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
         </svg>
       );
     case "WES Council":
       return (
-        <svg className="h-4 w-4 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg
+          className="h-4 w-4 text-cyan-400"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
           <path d="M12 2l8 4.5v11L12 22l-8-4.5v-11L12 2z" />
           <circle cx="12" cy="12" r="3" />
         </svg>
       );
     default:
-      return <span className="text-xs font-bold text-sky-300">{name.slice(0, 1)}</span>;
+      return (
+        <span className="text-xs font-bold text-sky-300">
+          {name.slice(0, 1)}
+        </span>
+      );
   }
 }
 
-const services = [
-  "Content writing",
-  "Content strategy",
-  "Video editing & Generation",
-  "University training programs",
-  "Website revamp services",
-  "Corporate trainings",
-];
-
 // The former activation / ecosystem screen is intentionally retired from the
-// landing surface. Its implementation remains isolated below while the navbar
-// menus continue to use the same component state.
+// landing surface. Its implementation remains isolated below.
 const showLegacyIntro = true;
 
 type Point = { x: number; y: number };
@@ -276,7 +391,6 @@ export default function LandingExperience() {
   const hatOpeningRef = useRef<HTMLSpanElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
   const brandTargetRef = useRef<HTMLDivElement>(null);
-  const navRef = useRef<HTMLElement>(null);
   const desktopNodeRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const mobileNodeRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const [targets, setTargets] = useState<{
@@ -289,8 +403,6 @@ export default function LandingExperience() {
   const [transitionComplete, setTransitionComplete] = useState(
     prefersReducedMotion ?? false,
   );
-  const [openMenu, setOpenMenu] = useState<"products" | "services" | null>(null);
-  const [activeProductGroup, setActiveProductGroup] = useState("Marketing");
   const sequenceProgress = useMotionValue(prefersReducedMotion ? 1 : 0);
   const ecosystemReveal = useMotionValue(prefersReducedMotion ? 1 : 0);
   const animationProgress = useTransform(sequenceProgress, (value) =>
@@ -307,9 +419,6 @@ export default function LandingExperience() {
     [0.75, 0],
   );
   const fieldOpacity = useTransform(animationProgress, [0.18, 0.52], [1, 0]);
-  const navOpacity = useTransform(animationProgress, [0.48, 0.7], [0, 1]);
-  // Motion values for animation targets — set imperatively in measureTargets
-  // so useTransform always picks up the latest value reactively.
   const logoTargetX = useMotionValue(0);
   const logoTargetY = useMotionValue(0);
 
@@ -335,18 +444,12 @@ export default function LandingExperience() {
   );
   const logoScale = useTransform(animationProgress, [0.43, 0.72], [1, 0.22]);
   const launchHatOpacity = useTransform(animationProgress, [0.48, 0.7], [1, 0]);
+  const navOpacity = useTransform(animationProgress, [0.64, 0.78], [0, 1]);
   const referenceHeroOpacity = useTransform(
     animationProgress,
     [0.72, 0.94],
     [0, 1],
   );
-
-  // Scroll-driven Background Transformation:
-  // 0.00: 100% Light Technical Canvas
-  // 0.25: Light canvas begins cooling down with subtle blue aura
-  // 0.50: Deep midnight blue & expanding electric core glow emerges
-  // 0.75: Mostly midnight navy
-  // 1.00: Full dark AI infrastructure atmosphere
   const lightBgOpacity = useTransform(
     animationProgress,
     [0, 0.28, 0.68],
@@ -373,7 +476,6 @@ export default function LandingExperience() {
     [0, 0.65],
   );
 
-  // Reset scroll to top on page refresh/load to ensure clean initial hero animation
   useEffect(() => {
     if (typeof window !== "undefined") {
       if ("scrollRestoration" in window.history) {
@@ -381,19 +483,6 @@ export default function LandingExperience() {
       }
       window.scrollTo(0, 0);
     }
-  }, []);
-
-  useEffect(() => {
-    const closeMenuOnOutsideClick = (event: PointerEvent) => {
-      if (!navRef.current?.contains(event.target as Node)) setOpenMenu(null);
-    };
-    const closeMenuOnScroll = () => setOpenMenu(null);
-    document.addEventListener("pointerdown", closeMenuOnOutsideClick);
-    window.addEventListener("scroll", closeMenuOnScroll, { passive: true });
-    return () => {
-      document.removeEventListener("pointerdown", closeMenuOnOutsideClick);
-      window.removeEventListener("scroll", closeMenuOnScroll);
-    };
   }, []);
 
   useEffect(() => {
@@ -412,10 +501,9 @@ export default function LandingExperience() {
     };
   }, [prefersReducedMotion]);
 
-  // When ecosystem phase starts, animate the line-reveal clock 0→1 linearly.
-  // Each NodePath maps its stagger window on this value for the "shoot from hat" entry.
   useEffect(() => {
-    if (prefersReducedMotion || !showLegacyIntro || introPhase !== "ecosystem") return;
+    if (prefersReducedMotion || !showLegacyIntro || introPhase !== "ecosystem")
+      return;
     const controls = animate(ecosystemReveal, 1, {
       duration: 1.1,
       ease: "linear",
@@ -424,7 +512,8 @@ export default function LandingExperience() {
   }, [introPhase, prefersReducedMotion, ecosystemReveal]);
 
   useEffect(() => {
-    if (prefersReducedMotion || !showLegacyIntro || introPhase !== "ecosystem") return;
+    if (prefersReducedMotion || !showLegacyIntro || introPhase !== "ecosystem")
+      return;
 
     let controls: ReturnType<typeof animate> | undefined;
     const startTransition = window.setTimeout(() => {
@@ -506,7 +595,6 @@ export default function LandingExperience() {
           y: brand.top + brand.height / 2 - (logo.top + logo.height / 2),
         },
       });
-      // Keep the launch-hat destination in sync with the navbar slot.
       logoTargetX.set(
         brand.left + brand.width / 2 - (logo.left + logo.width / 2),
       );
@@ -514,7 +602,6 @@ export default function LandingExperience() {
         brand.top + brand.height / 2 - (logo.top + logo.height / 2),
       );
     };
-    // Use rAF so measurement always runs after the browser has finished layout/paint
     let rafId = requestAnimationFrame(measureTargets);
     const observer = new ResizeObserver(() => {
       cancelAnimationFrame(rafId);
@@ -531,11 +618,7 @@ export default function LandingExperience() {
       observer.disconnect();
       window.removeEventListener("resize", onResize);
     };
-  }, [
-    introPhase,
-    logoTargetX,
-    logoTargetY,
-  ]);
+  }, [introPhase, logoTargetX, logoTargetY]);
 
   const isInitializing = introPhase === "initializing";
   const isShockwaveOrAfter =
@@ -548,608 +631,416 @@ export default function LandingExperience() {
       className="bg-[#020305] selection:bg-blue-600 selection:text-white"
     >
       <div className="relative">
-        {/* Timed intro followed by the normal landing hero; no scroll choreography. */}
         <div
-        ref={sceneRef}
-        className="relative z-20 h-svh overflow-hidden font-sans antialiased bg-[#F8FAFC]"
-      >
-        {/* Layer 1: Initial Bright Technical Canvas (Visible at rest 0%, fades on scroll) */}
-        <motion.div
-          style={{ opacity: prefersReducedMotion ? 0 : lightBgOpacity }}
-          className="pointer-events-none absolute inset-0 z-0 overflow-hidden bg-[#F8FAFC]"
+          ref={sceneRef}
+          className="relative z-20 h-svh overflow-hidden font-sans antialiased bg-[#F8FAFC]"
         >
-          {/* Soft Central Radial Blue Glow */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[650px] bg-[radial-gradient(ellipse_65%_50%_at_50%_48%,rgba(191,219,254,0.55),transparent_70%)] blur-2xl opacity-80" />
-
-          {/* Fine Technical Grid across viewport (10% darker definition) */}
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#cbd5e1_1px,transparent_1px),linear-gradient(to_bottom,#cbd5e1_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_75%_65%_at_50%_48%,#000_70%,transparent_100%)] opacity-70" />
-        </motion.div>
-
-        {/* Layer 2: Progressive Dark Midnight Blue / Indigo Atmosphere (Reveals as scroll progresses) */}
-        <motion.div
-          style={{ opacity: prefersReducedMotion ? 1 : darkBgOpacity }}
-          className="pointer-events-none absolute inset-0 z-0 overflow-hidden bg-[#020305]"
-        >
-          {/* Base Midnight Navy to Deep Indigo Gradient */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_85%_70%_at_50%_46%,#071022_0%,#030711_52%,#020305_100%)]" />
-
-          {/* Soft Electric-Blue Atmospheric Radial Glow expanding from Rabbitt Core */}
           <motion.div
-            style={{ scale: prefersReducedMotion ? 1 : darkCoreScale }}
-            className="absolute top-[46%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[780px] h-[580px] bg-[radial-gradient(circle_380px_at_50%_50%,rgba(37,99,235,0.24)_0%,rgba(14,165,233,0.12)_40%,rgba(99,102,241,0.05)_70%,transparent_100%)] blur-2xl opacity-90 origin-center"
+            style={{ opacity: prefersReducedMotion ? 0 : lightBgOpacity }}
+            className="pointer-events-none absolute inset-0 z-0 overflow-hidden bg-[#F8FAFC]"
+          >
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[650px] bg-[radial-gradient(ellipse_65%_50%_at_50%_48%,rgba(191,219,254,0.55),transparent_70%)] blur-2xl opacity-80" />
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#cbd5e1_1px,transparent_1px),linear-gradient(to_bottom,#cbd5e1_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_75%_65%_at_50%_48%,#000_70%,transparent_100%)] opacity-70" />
+          </motion.div>
+          <motion.div
+            style={{ opacity: prefersReducedMotion ? 1 : darkBgOpacity }}
+            className="pointer-events-none absolute inset-0 z-0 overflow-hidden bg-[#020305]"
+          >
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_85%_70%_at_50%_46%,#071022_0%,#030711_52%,#020305_100%)]" />
+
+            <motion.div
+              style={{ scale: prefersReducedMotion ? 1 : darkCoreScale }}
+              className="absolute top-[46%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[780px] h-[580px] bg-[radial-gradient(circle_380px_at_50%_50%,rgba(37,99,235,0.24)_0%,rgba(14,165,233,0.12)_40%,rgba(99,102,241,0.05)_70%,transparent_100%)] blur-2xl opacity-90 origin-center"
+            />
+
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1100px] h-[750px] bg-[radial-gradient(ellipse_75%_55%_at_50%_50%,rgba(59,130,246,0.07)_0%,rgba(99,102,241,0.04)_50%,transparent_85%)] blur-3xl pointer-events-none" />
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.045)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.045)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_75%_65%_at_50%_46%,#000_30%,transparent_90%)] opacity-50" />
+
+            <motion.svg
+              style={{
+                opacity: prefersReducedMotion ? 0.65 : orbitalCurvesOpacity,
+              }}
+              className="absolute inset-0 h-full w-full"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              {/* Concentric Soft Orbital Curves */}
+              <ellipse
+                cx="50%"
+                cy="46%"
+                rx="520"
+                ry="310"
+                fill="none"
+                stroke="rgba(56, 189, 248, 0.05)"
+                strokeWidth="1"
+                strokeDasharray="3 8"
+              />
+              <ellipse
+                cx="50%"
+                cy="46%"
+                rx="720"
+                ry="430"
+                fill="none"
+                stroke="rgba(99, 102, 241, 0.04)"
+                strokeWidth="1"
+              />
+              <ellipse
+                cx="50%"
+                cy="46%"
+                rx="920"
+                ry="550"
+                fill="none"
+                stroke="rgba(37, 99, 235, 0.03)"
+                strokeWidth="1"
+                strokeDasharray="2 12"
+              />
+
+              {/* Subtle Infrastructure Contour Waves */}
+              <path
+                d="M -100 260 C 350 180, 800 360, 1350 240 S 1950 320, 2300 260"
+                fill="none"
+                stroke="rgba(56, 189, 248, 0.035)"
+                strokeWidth="1"
+              />
+              <path
+                d="M -100 580 C 450 680, 950 500, 1450 620 S 1950 540, 2300 600"
+                fill="none"
+                stroke="rgba(99, 102, 241, 0.03)"
+                strokeWidth="1"
+              />
+            </motion.svg>
+
+            {/* Tiny Barely Visible Micro-Particles for Cinematic Depth */}
+            <motion.div
+              style={{
+                opacity: prefersReducedMotion ? 1 : darkAtmosphereOpacity,
+              }}
+              className="absolute inset-0"
+            >
+              <div className="absolute top-[22%] left-[18%] h-1 w-1 rounded-full bg-sky-300/30 blur-[0.5px]" />
+              <div className="absolute top-[32%] right-[22%] h-1.5 w-1.5 rounded-full bg-blue-400/25 blur-[0.5px]" />
+              <div className="absolute top-[68%] left-[24%] h-1 w-1 rounded-full bg-indigo-300/25 blur-[0.5px]" />
+              <div className="absolute top-[74%] right-[28%] h-1 w-1 rounded-full bg-sky-300/30 blur-[0.5px]" />
+              <div className="absolute top-[18%] right-[38%] h-0.5 w-0.5 rounded-full bg-white/40" />
+              <div className="absolute top-[82%] left-[42%] h-0.5 w-0.5 rounded-full bg-sky-200/40" />
+              <div className="absolute top-[48%] left-[8%] h-1 w-1 rounded-full bg-blue-300/20 blur-[0.5px]" />
+              <div className="absolute top-[52%] right-[10%] h-1 w-1 rounded-full bg-indigo-200/25 blur-[0.5px]" />
+            </motion.div>
+          </motion.div>
+
+          <SiteNavigation
+            opacity={navOpacity}
+            brandTargetRef={brandTargetRef}
           />
 
-          {/* Secondary Ambient Indigo/Purple Depth Flare */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1100px] h-[750px] bg-[radial-gradient(ellipse_75%_55%_at_50%_50%,rgba(59,130,246,0.07)_0%,rgba(99,102,241,0.04)_50%,transparent_85%)] blur-3xl pointer-events-none" />
-
-          {/* Ultra-Subtle Technical Micro-Grid with Smooth Radial Mask */}
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.045)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.045)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_75%_65%_at_50%_46%,#000_30%,transparent_90%)] opacity-50" />
-
-          {/* Faint Flowing Contour Wave Lines & Soft Orbital Curves */}
-          <motion.svg
-            style={{
-              opacity: prefersReducedMotion ? 0.65 : orbitalCurvesOpacity,
-            }}
-            className="absolute inset-0 h-full w-full"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-          >
-            {/* Concentric Soft Orbital Curves */}
-            <ellipse
-              cx="50%"
-              cy="46%"
-              rx="520"
-              ry="310"
-              fill="none"
-              stroke="rgba(56, 189, 248, 0.05)"
-              strokeWidth="1"
-              strokeDasharray="3 8"
-            />
-            <ellipse
-              cx="50%"
-              cy="46%"
-              rx="720"
-              ry="430"
-              fill="none"
-              stroke="rgba(99, 102, 241, 0.04)"
-              strokeWidth="1"
-            />
-            <ellipse
-              cx="50%"
-              cy="46%"
-              rx="920"
-              ry="550"
-              fill="none"
-              stroke="rgba(37, 99, 235, 0.03)"
-              strokeWidth="1"
-              strokeDasharray="2 12"
-            />
-
-            {/* Subtle Infrastructure Contour Waves */}
-            <path
-              d="M -100 260 C 350 180, 800 360, 1350 240 S 1950 320, 2300 260"
-              fill="none"
-              stroke="rgba(56, 189, 248, 0.035)"
-              strokeWidth="1"
-            />
-            <path
-              d="M -100 580 C 450 680, 950 500, 1450 620 S 1950 540, 2300 600"
-              fill="none"
-              stroke="rgba(99, 102, 241, 0.03)"
-              strokeWidth="1"
-            />
-          </motion.svg>
-
-          {/* Tiny Barely Visible Micro-Particles for Cinematic Depth */}
-          <motion.div
-            style={{
-              opacity: prefersReducedMotion ? 1 : darkAtmosphereOpacity,
-            }}
-            className="absolute inset-0"
-          >
-            <div className="absolute top-[22%] left-[18%] h-1 w-1 rounded-full bg-sky-300/30 blur-[0.5px]" />
-            <div className="absolute top-[32%] right-[22%] h-1.5 w-1.5 rounded-full bg-blue-400/25 blur-[0.5px]" />
-            <div className="absolute top-[68%] left-[24%] h-1 w-1 rounded-full bg-indigo-300/25 blur-[0.5px]" />
-            <div className="absolute top-[74%] right-[28%] h-1 w-1 rounded-full bg-sky-300/30 blur-[0.5px]" />
-            <div className="absolute top-[18%] right-[38%] h-0.5 w-0.5 rounded-full bg-white/40" />
-            <div className="absolute top-[82%] left-[42%] h-0.5 w-0.5 rounded-full bg-sky-200/40" />
-            <div className="absolute top-[48%] left-[8%] h-1 w-1 rounded-full bg-blue-300/20 blur-[0.5px]" />
-            <div className="absolute top-[52%] right-[10%] h-1 w-1 rounded-full bg-indigo-200/25 blur-[0.5px]" />
-          </motion.div>
-        </motion.div>
-
-        <motion.nav
-          ref={navRef}
-          style={{ opacity: navOpacity }}
-          className="fixed inset-x-0 top-0 z-[100] h-[4.5rem] border-b border-white/[0.08] bg-[#020305]/75 px-5 shadow-[0_10px_30px_rgba(2,6,23,0.3)] backdrop-blur-xl sm:px-8"
-          aria-label="Main navigation"
-        >
-          <div className="relative mx-auto flex h-full w-full max-w-[1600px] items-center">
-            <div
-              ref={brandTargetRef}
-              className="h-14 w-14 shrink-0"
-              aria-hidden="true"
+          <div className="absolute inset-0 mx-auto w-full max-w-7xl px-4 sm:px-8">
+            <motion.div
+              style={{ opacity: fieldOpacity }}
+              className="pointer-events-none absolute left-1/2 top-1/2 h-[340px] w-[340px] -translate-x-1/2 -translate-y-1/2 sm:h-[380px] sm:w-[380px]"
             >
-              <motion.div style={{ opacity: navOpacity }} className="h-full w-full">
-                <Image
-                  src="/logo.svg"
-                  alt=""
-                  width={56}
-                  height={56}
-                  className="h-full w-full object-contain"
+              <svg
+                className="h-full w-full"
+                viewBox="0 0 380 380"
+                aria-hidden="true"
+              >
+                <circle
+                  cx="190"
+                  cy="190"
+                  r="155"
+                  fill="none"
+                  stroke="rgba(56,189,248,0.18)"
+                  strokeWidth="1.2"
                 />
-              </motion.div>
+                <circle
+                  cx="190"
+                  cy="190"
+                  r="165"
+                  fill="none"
+                  stroke="rgba(56,189,248,0.09)"
+                  strokeWidth="1"
+                  strokeDasharray="4 6"
+                />
+                <circle cx="190" cy="35" r="2" fill="#94A3B8" opacity="0.6" />
+                <circle cx="190" cy="345" r="2" fill="#94A3B8" opacity="0.6" />
+                <circle cx="35" cy="190" r="2" fill="#94A3B8" opacity="0.6" />
+                <circle cx="345" cy="190" r="2" fill="#94A3B8" opacity="0.6" />
+              </svg>
+            </motion.div>
+            <div className="pointer-events-none absolute inset-0 z-0 hidden md:block">
+              <svg
+                className="h-full w-full"
+                viewBox="-50 -50 100 100"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+              >
+                <defs>
+                  <linearGradient
+                    id="lineGradRest"
+                    x1="0%"
+                    y1="0%"
+                    x2="100%"
+                    y2="100%"
+                  >
+                    <stop offset="0%" stopColor="#38BDF8" stopOpacity="0.7" />
+                    <stop offset="50%" stopColor="#60A5FA" stopOpacity="0.45" />
+                    <stop offset="100%" stopColor="#818CF8" stopOpacity="0.2" />
+                  </linearGradient>
+                </defs>
+                {isEcosystem &&
+                  productNodes.map((node, index) => (
+                    <NodePath
+                      key={node.id}
+                      node={node}
+                      index={index}
+                      ecosystemReveal={ecosystemReveal}
+                      exitLength={networkLength}
+                      exitOpacity={networkOpacity}
+                    />
+                  ))}
+              </svg>
             </div>
             <div
-              className="ml-2 flex h-8 w-36 shrink-0 items-center"
-              aria-hidden="true"
+              id="ecosystem"
+              className="absolute inset-0 z-20 hidden md:block"
             >
-              <motion.span
-                style={{ opacity: 1 }}
-                className="whitespace-nowrap text-xl font-extrabold tracking-tight text-white"
-              >
-                Rabbitt.AI
-              </motion.span>
-            </div>
-            <div className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-5 whitespace-nowrap text-sm font-semibold text-slate-200 lg:flex xl:gap-6">
-              <a href="#llm" className="group flex items-center gap-1 transition-colors hover:text-sky-300">
-                LLM <NavbarChevron />
-              </a>
-              <a href="#data" className="group flex items-center gap-1 transition-colors hover:text-sky-300">
-                Data <NavbarChevron />
-              </a>
-              <a href="#resources" className="group flex items-center gap-1 transition-colors hover:text-sky-300">
-                Resources <NavbarChevron />
-              </a>
-              <a href="#ai-pool" className="transition-colors hover:text-sky-300">AI Pool</a>
-              <a href="#ainama" className="transition-colors hover:text-sky-300">AINama</a>
-              <button
-                type="button"
-                aria-expanded={openMenu === "products"}
-                onClick={() => setOpenMenu(openMenu === "products" ? null : "products")}
-                className="group flex items-center gap-1 transition-colors hover:text-sky-300"
-              >
-                Products <NavbarChevron />
-              </button>
-              <button
-                type="button"
-                aria-expanded={openMenu === "services"}
-                onClick={() => setOpenMenu(openMenu === "services" ? null : "services")}
-                className="group flex items-center gap-1 transition-colors hover:text-sky-300"
-              >
-                Services <NavbarChevron />
-              </button>
-            </div>
-            <AnimatePresence>
-              {openMenu === "products" && (
-                <motion.div
-                  initial={{ opacity: 0, y: -6, scale: 0.98 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -6, scale: 0.98 }}
-                  transition={{ duration: 0.16, ease: [0.16, 1, 0.3, 1] }}
-                  className="absolute top-[calc(100%+8px)] left-1/2 w-[min(56rem,calc(100vw-2rem))] -translate-x-1/2 overflow-hidden rounded-2xl border border-white/10 bg-[#060c18] shadow-[0_25px_70px_rgba(0,0,0,0.9),0_0_1px_1px_rgba(255,255,255,0.06)]"
-                >
-                  <div className="grid grid-cols-[10.5rem_1fr_12rem]">
-                    {/* Categories sidebar */}
-                    <div className="border-r border-white/10 bg-[#030712] p-3">
-                      <p className="mb-2 px-3 text-[10px] font-bold uppercase tracking-[0.2em] text-sky-400/90">
-                        Products
-                      </p>
-                      <div className="space-y-0.5">
-                        {productGroups.map((group) => (
-                          <button
-                            key={group.title}
-                            type="button"
-                            onClick={() => setActiveProductGroup(group.title)}
-                            className={`w-full text-left text-xs transition-all ${
-                              activeProductGroup === group.title
-                                ? "border-l-2 border-sky-400 bg-sky-500/15 text-sky-200 font-semibold rounded-r-md px-3 py-2"
-                                : "text-slate-400 hover:bg-white/[0.04] hover:text-slate-200 rounded-md px-3 py-2 font-medium"
-                            }`}
-                          >
-                            {group.title}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Products Grid */}
-                    <div className="p-4 sm:p-5">
-                      {productGroups
-                        .filter((group) => group.title === activeProductGroup)
-                        .map((group) => (
-                          <section key={group.title}>
-                            <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
-                              <h3 className="text-xs font-bold uppercase tracking-wider text-sky-400">
-                                {group.title === "Specialized solutions"
-                                  ? group.title
-                                  : `${group.title} Products`}
-                              </h3>
-                              <span className="text-[11px] font-medium text-slate-400">
-                                {group.items.length} products
-                              </span>
-                            </div>
-                            <div className="mt-2.5 grid grid-cols-2 gap-2">
-                              {group.items.map((item) => (
-                                <a
-                                  key={item.name}
-                                  href="#products"
-                                  className="group flex items-center gap-3 rounded-xl border border-white/[0.04] bg-[#091122]/60 p-2 transition-all duration-150 hover:border-sky-400/30 hover:bg-[#0f1d38]"
-                                >
-                                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-sky-500/20 bg-sky-950/60 p-1.5 shadow-xs transition-all group-hover:scale-105 group-hover:border-sky-400/50 group-hover:shadow-[0_0_10px_rgba(56,189,248,0.25)]">
-                                    <ProductIcon name={item.name} />
-                                  </div>
-                                  <div className="min-w-0 flex-1">
-                                    <p className="truncate text-xs font-semibold text-slate-100 transition-colors group-hover:text-white">
-                                      {item.name}
-                                    </p>
-                                    <p className="truncate text-[10px] text-slate-400 mt-0.5">
-                                      {item.desc}
-                                    </p>
-                                  </div>
-                                </a>
-                              ))}
-                            </div>
-                          </section>
-                        ))}
-                    </div>
-
-                    {/* Ecosystem promo panel */}
-                    <aside className="flex flex-col justify-between border-l border-white/10 bg-[#040813] p-4 sm:p-5">
-                      <div>
-                        <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold tracking-wider text-sky-300 bg-sky-500/10 border border-sky-500/20 uppercase">
-                          Sovereign AI
-                        </span>
-                        <h4 className="mt-3 text-xs font-bold text-white">
-                          Rabbitt Ecosystem
-                        </h4>
-                        <p className="mt-1.5 text-[11px] leading-relaxed text-slate-400">
-                          Deploy sovereign models, unified pipelines, and scalable enterprise intelligence with complete data privacy.
-                        </p>
-                      </div>
-                      <a
-                        href="#products"
-                        className="mt-4 flex items-center justify-between pt-3 border-t border-white/10 text-xs font-semibold text-sky-300 hover:text-white transition-colors group"
-                      >
-                        <span>View all products</span>
-                        <span className="transition-transform group-hover:translate-x-0.5" aria-hidden="true">→</span>
-                      </a>
-                    </aside>
-                  </div>
-                </motion.div>
-              )}
-              {openMenu === "services" && (
-                <motion.div
-                  initial={{ opacity: 0, y: -6, scale: 0.98 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -6, scale: 0.98 }}
-                  transition={{ duration: 0.16, ease: [0.16, 1, 0.3, 1] }}
-                  className="absolute top-[calc(100%+8px)] left-1/2 w-[min(38rem,calc(100vw-2rem))] -translate-x-1/2 rounded-2xl border border-white/10 bg-[#060c18] p-4 sm:p-5 shadow-[0_25px_70px_rgba(0,0,0,0.9),0_0_1px_1px_rgba(255,255,255,0.06)]"
-                >
-                  <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
-                    <h3 className="text-xs font-bold uppercase tracking-wider text-sky-400">
-                      Enterprise Services
-                    </h3>
-                    <span className="text-[11px] font-medium text-slate-400">
-                      {services.length} services
-                    </span>
-                  </div>
-                  <div className="mt-2.5 grid grid-cols-2 gap-2">
-                    {services.map((service, index) => (
-                      <a
-                        key={service}
-                        href="#services"
-                        className="group flex items-center gap-3 rounded-xl border border-white/[0.04] bg-[#091122]/60 p-2.5 transition-all hover:border-sky-400/30 hover:bg-[#0f1d38]"
-                      >
-                        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-sky-500/25 bg-sky-500/10 text-xs font-bold text-sky-300 transition-colors group-hover:border-sky-400/50 group-hover:bg-sky-500/20">
-                          0{index + 1}
-                        </span>
-                        <span className="truncate text-xs font-semibold text-slate-200 transition-colors group-hover:text-white">
-                          {service}
-                        </span>
-                      </a>
-                    ))}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        </motion.nav>
-
-        <div className="absolute inset-0 mx-auto w-full max-w-7xl px-4 sm:px-8">
-          <motion.div
-            style={{ opacity: fieldOpacity }}
-            className="pointer-events-none absolute left-1/2 top-1/2 h-[340px] w-[340px] -translate-x-1/2 -translate-y-1/2 sm:h-[380px] sm:w-[380px]"
-          >
-            <svg
-              className="h-full w-full"
-              viewBox="0 0 380 380"
-              aria-hidden="true"
-            >
-              <circle
-                cx="190"
-                cy="190"
-                r="155"
-                fill="none"
-                stroke="rgba(56,189,248,0.18)"
-                strokeWidth="1.2"
-              />
-              <circle
-                cx="190"
-                cy="190"
-                r="165"
-                fill="none"
-                stroke="rgba(56,189,248,0.09)"
-                strokeWidth="1"
-                strokeDasharray="4 6"
-              />
-              <circle cx="190" cy="35" r="2" fill="#94A3B8" opacity="0.6" />
-              <circle cx="190" cy="345" r="2" fill="#94A3B8" opacity="0.6" />
-              <circle cx="35" cy="190" r="2" fill="#94A3B8" opacity="0.6" />
-              <circle cx="345" cy="190" r="2" fill="#94A3B8" opacity="0.6" />
-            </svg>
-          </motion.div>
-          <div className="pointer-events-none absolute inset-0 z-0 hidden md:block">
-            <svg
-              className="h-full w-full"
-              viewBox="-50 -50 100 100"
-              preserveAspectRatio="none"
-              aria-hidden="true"
-            >
-              <defs>
-                <linearGradient
-                  id="lineGradRest"
-                  x1="0%"
-                  y1="0%"
-                  x2="100%"
-                  y2="100%"
-                >
-                  <stop offset="0%" stopColor="#38BDF8" stopOpacity="0.7" />
-                  <stop offset="50%" stopColor="#60A5FA" stopOpacity="0.45" />
-                  <stop offset="100%" stopColor="#818CF8" stopOpacity="0.2" />
-                </linearGradient>
-              </defs>
               {isEcosystem &&
                 productNodes.map((node, index) => (
-                  <NodePath
+                  <DesktopNode
                     key={node.id}
                     node={node}
                     index={index}
-                    ecosystemReveal={ecosystemReveal}
-                    exitLength={networkLength}
-                    exitOpacity={networkOpacity}
+                    progress={animationProgress}
+                    target={targets.nodes[node.id]}
+                    nodeRef={(element) => {
+                      desktopNodeRefs.current[node.id] = element;
+                    }}
                   />
                 ))}
-            </svg>
-          </div>
-          <div id="ecosystem" className="absolute inset-0 z-20 hidden md:block">
-            {isEcosystem &&
-              productNodes.map((node, index) => (
-                <DesktopNode
-                  key={node.id}
-                  node={node}
-                  index={index}
-                  progress={animationProgress}
-                  target={targets.nodes[node.id]}
-                  nodeRef={(element) => {
-                    desktopNodeRefs.current[node.id] = element;
-                  }}
-                />
-              ))}
-          </div>
+            </div>
 
-          <div className="absolute inset-0 z-30 flex flex-col items-center justify-center text-center">
-            <AnimatePresence>
-              {isShockwaveOrAfter && !prefersReducedMotion && (
-                <>
+            <div className="absolute inset-0 z-30 flex flex-col items-center justify-center text-center">
+              <AnimatePresence>
+                {isShockwaveOrAfter && !prefersReducedMotion && (
+                  <>
+                    <motion.div
+                      key="shockwave-primary"
+                      initial={{ opacity: 0.85, scale: 0.82 }}
+                      animate={{ opacity: 0, scale: 2.7 }}
+                      transition={{ duration: 0.52, ease: [0.1, 0.9, 0.2, 1] }}
+                      className="pointer-events-none absolute h-[280px] w-[280px] rounded-full border border-blue-500/70"
+                      style={{
+                        boxShadow:
+                          "0 0 35px rgba(37, 99, 235, 0.45), inset 0 0 20px rgba(37, 99, 235, 0.25)",
+                      }}
+                    />
+                    <motion.div
+                      key="shockwave-secondary"
+                      initial={{ opacity: 0.72, scale: 0.86 }}
+                      animate={{ opacity: 0, scale: 2.2 }}
+                      transition={{
+                        duration: 0.44,
+                        delay: 0.035,
+                        ease: [0.1, 0.8, 0.2, 1],
+                      }}
+                      className="pointer-events-none absolute h-[280px] w-[280px] rounded-full border border-sky-400/80"
+                    />
+                    <motion.div
+                      key="shockwave-flash"
+                      initial={{ opacity: 0, scale: 0.6 }}
+                      animate={{
+                        opacity: [0, 0.72, 0.1],
+                        scale: [0.6, 1.35, 1],
+                      }}
+                      transition={{ duration: 0.5, ease: "easeOut" }}
+                      className="pointer-events-none absolute h-72 w-72 rounded-full bg-gradient-to-r from-blue-400/35 via-sky-300/25 to-blue-500/35 blur-3xl"
+                    />
+                  </>
+                )}
+              </AnimatePresence>
+              <AnimatePresence>
+                {isInitializing && !prefersReducedMotion && (
                   <motion.div
-                    key="shockwave-primary"
-                    initial={{ opacity: 0.85, scale: 0.82 }}
-                    animate={{ opacity: 0, scale: 2.7 }}
-                    transition={{ duration: 0.52, ease: [0.1, 0.9, 0.2, 1] }}
-                    className="pointer-events-none absolute h-[280px] w-[280px] rounded-full border border-blue-500/70"
-                    style={{
-                      boxShadow:
-                        "0 0 35px rgba(37, 99, 235, 0.45), inset 0 0 20px rgba(37, 99, 235, 0.25)",
+                    key="laser-orbit"
+                    initial={{ opacity: 0.7 }}
+                    animate={{ opacity: [0.7, 0.7, 0], scale: [1, 1, 1.18] }}
+                    exit={{
+                      opacity: 0,
+                      scale: 1.12,
+                      transition: { duration: 0.1 },
                     }}
-                  />
-                  <motion.div
-                    key="shockwave-secondary"
-                    initial={{ opacity: 0.72, scale: 0.86 }}
-                    animate={{ opacity: 0, scale: 2.2 }}
                     transition={{
-                      duration: 0.44,
-                      delay: 0.035,
-                      ease: [0.1, 0.8, 0.2, 1],
+                      opacity: { duration: 0.6, times: [0, 0.82, 1] },
+                      scale: { duration: 0.6 },
                     }}
-                    className="pointer-events-none absolute h-[280px] w-[280px] rounded-full border border-sky-400/80"
-                  />
-                  <motion.div
-                    key="shockwave-flash"
-                    initial={{ opacity: 0, scale: 0.6 }}
-                    animate={{ opacity: [0, 0.72, 0.1], scale: [0.6, 1.35, 1] }}
-                    transition={{ duration: 0.5, ease: "easeOut" }}
-                    className="pointer-events-none absolute h-72 w-72 rounded-full bg-gradient-to-r from-blue-400/35 via-sky-300/25 to-blue-500/35 blur-3xl"
-                  />
-                </>
-              )}
-            </AnimatePresence>
-            <AnimatePresence>
-              {isInitializing && !prefersReducedMotion && (
+                    className="pointer-events-none absolute h-[340px] w-[340px] sm:h-[380px] sm:w-[380px]"
+                  >
+                    <svg
+                      className="h-full w-full"
+                      viewBox="0 0 380 380"
+                      aria-hidden="true"
+                    >
+                      <defs>
+                        <linearGradient
+                          id="introLaserGrad"
+                          x1="0%"
+                          y1="0%"
+                          x2="100%"
+                          y2="100%"
+                        >
+                          <stop
+                            offset="0%"
+                            stopColor="#0061FF"
+                            stopOpacity="0"
+                          />
+                          <stop
+                            offset="40%"
+                            stopColor="#0061FF"
+                            stopOpacity="0.6"
+                          />
+                          <stop
+                            offset="80%"
+                            stopColor="#38BDF8"
+                            stopOpacity="0.95"
+                          />
+                          <stop
+                            offset="100%"
+                            stopColor="#FFFFFF"
+                            stopOpacity="1"
+                          />
+                        </linearGradient>
+                        <filter
+                          id="introLaserGlow"
+                          x="-10%"
+                          y="-10%"
+                          width="120%"
+                          height="120%"
+                        >
+                          <feDropShadow
+                            dx="0"
+                            dy="0"
+                            stdDeviation="3"
+                            floodColor="#0061FF"
+                            floodOpacity="0.75"
+                          />
+                        </filter>
+                      </defs>
+                      <motion.g
+                        initial={{ rotate: 0 }}
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+                        style={{ transformOrigin: "190px 190px" }}
+                      >
+                        <motion.circle
+                          cx="190"
+                          cy="190"
+                          r="155"
+                          fill="none"
+                          stroke="url(#introLaserGrad)"
+                          strokeWidth="3.5"
+                          strokeLinecap="round"
+                          filter="url(#introLaserGlow)"
+                          initial={{ pathLength: 0.15 }}
+                          animate={{ pathLength: [0.15, 0.9, 1] }}
+                          transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+                        />
+                        <circle
+                          cx="345"
+                          cy="190"
+                          r="4.5"
+                          fill="#FFFFFF"
+                          className="drop-shadow-[0_0_8px_#38BDF8]"
+                        />
+                        <circle cx="345" cy="190" r="2" fill="#FFFFFF" />
+                      </motion.g>
+                    </svg>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+              <motion.div
+                ref={logoRef}
+                style={{
+                  opacity: launchHatOpacity,
+                  x: logoX,
+                  y: logoY,
+                  scale: logoScale,
+                }}
+                className="relative z-20 flex transform-gpu items-center justify-center will-change-transform"
+              >
+                <span
+                  ref={hatOpeningRef}
+                  className="pointer-events-none absolute left-1/2 top-[20%] h-3 w-12 -translate-x-1/2"
+                  aria-hidden="true"
+                />
                 <motion.div
-                  key="laser-orbit"
-                  initial={{ opacity: 0.7 }}
-                  animate={{ opacity: [0.7, 0.7, 0], scale: [1, 1, 1.18] }}
-                  exit={{
-                    opacity: 0,
-                    scale: 1.12,
-                    transition: { duration: 0.1 },
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{
+                    opacity: 1,
+                    scale: isShockwaveOrAfter
+                      ? [1, 1.18, 0.98, 1.01, 1]
+                      : [0.9, 1],
                   }}
                   transition={{
-                    opacity: { duration: 0.6, times: [0, 0.82, 1] },
-                    scale: { duration: 0.6 },
+                    opacity: { duration: 0.3 },
+                    scale: isShockwaveOrAfter
+                      ? {
+                          duration: 0.45,
+                          times: [0, 0.25, 0.55, 0.8, 1],
+                          ease: "easeOut",
+                        }
+                      : { duration: 0.4, ease: "easeOut" },
                   }}
-                  className="pointer-events-none absolute h-[340px] w-[340px] sm:h-[380px] sm:w-[380px]"
+                  className="relative h-52 w-40 drop-shadow-lg sm:h-64 sm:w-48"
                 >
-                  <svg
-                    className="h-full w-full"
-                    viewBox="0 0 380 380"
-                    aria-hidden="true"
-                  >
-                    <defs>
-                      <linearGradient
-                        id="introLaserGrad"
-                        x1="0%"
-                        y1="0%"
-                        x2="100%"
-                        y2="100%"
-                      >
-                        <stop offset="0%" stopColor="#0061FF" stopOpacity="0" />
-                        <stop
-                          offset="40%"
-                          stopColor="#0061FF"
-                          stopOpacity="0.6"
-                        />
-                        <stop
-                          offset="80%"
-                          stopColor="#38BDF8"
-                          stopOpacity="0.95"
-                        />
-                        <stop
-                          offset="100%"
-                          stopColor="#FFFFFF"
-                          stopOpacity="1"
-                        />
-                      </linearGradient>
-                      <filter
-                        id="introLaserGlow"
-                        x="-10%"
-                        y="-10%"
-                        width="120%"
-                        height="120%"
-                      >
-                        <feDropShadow
-                          dx="0"
-                          dy="0"
-                          stdDeviation="3"
-                          floodColor="#0061FF"
-                          floodOpacity="0.75"
-                        />
-                      </filter>
-                    </defs>
-                    <motion.g
-                      initial={{ rotate: 0 }}
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
-                      style={{ transformOrigin: "190px 190px" }}
-                    >
-                      <motion.circle
-                        cx="190"
-                        cy="190"
-                        r="155"
-                        fill="none"
-                        stroke="url(#introLaserGrad)"
-                        strokeWidth="3.5"
-                        strokeLinecap="round"
-                        filter="url(#introLaserGlow)"
-                        initial={{ pathLength: 0.15 }}
-                        animate={{ pathLength: [0.15, 0.9, 1] }}
-                        transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
-                      />
-                      <circle
-                        cx="345"
-                        cy="190"
-                        r="4.5"
-                        fill="#FFFFFF"
-                        className="drop-shadow-[0_0_8px_#38BDF8]"
-                      />
-                      <circle cx="345" cy="190" r="2" fill="#FFFFFF" />
-                    </motion.g>
-                  </svg>
+                  <Image
+                    src="/logo.svg"
+                    alt="Rabbitt Ai"
+                    width={208}
+                    height={277}
+                    priority
+                    className="h-full w-full object-contain"
+                  />
                 </motion.div>
-              )}
-            </AnimatePresence>
-            <motion.div
-              ref={logoRef}
-              style={{
-                opacity: launchHatOpacity,
-                x: logoX,
-                y: logoY,
-                scale: logoScale,
-              }}
-              className="relative z-20 flex transform-gpu items-center justify-center will-change-transform"
-            >
-              <span
-                ref={hatOpeningRef}
-                className="pointer-events-none absolute left-1/2 top-[20%] h-3 w-12 -translate-x-1/2"
-                aria-hidden="true"
-              />
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{
-                  opacity: 1,
-                  scale: isShockwaveOrAfter
-                    ? [1, 1.18, 0.98, 1.01, 1]
-                    : [0.9, 1],
-                }}
-                transition={{
-                  opacity: { duration: 0.3 },
-                  scale: isShockwaveOrAfter
-                    ? {
-                        duration: 0.45,
-                        times: [0, 0.25, 0.55, 0.8, 1],
-                        ease: "easeOut",
-                      }
-                    : { duration: 0.4, ease: "easeOut" },
-                }}
-                className="relative h-52 w-40 drop-shadow-lg sm:h-64 sm:w-48"
-              >
-                <Image
-                  src="/logo.svg"
-                  alt="Rabbitt AI"
-                  width={208}
-                  height={277}
-                  priority
-                  className="h-full w-full object-contain"
-                />
               </motion.div>
-            </motion.div>
-          </div>
+            </div>
 
-          <motion.section
-            style={{ opacity: referenceHeroOpacity }}
-            className="absolute left-1/2 top-0 z-40 h-full w-screen -translate-x-1/2 bg-[#020305] pt-[4.5rem]"
-            aria-label="Rabbitt AI enterprise data solutions"
-          >
-            <ReferenceHero />
-          </motion.section>
+            <motion.section
+              style={{ opacity: referenceHeroOpacity }}
+              className="absolute left-1/2 top-0 z-40 h-full w-screen -translate-x-1/2 bg-[#020305] pt-[4.5rem]"
+              aria-label="Rabbitt Ai enterprise data solutions"
+            >
+              <ReferenceHero />
+            </motion.section>
 
-          <div className="absolute inset-x-4 bottom-7 z-20 grid grid-cols-2 gap-2.5 md:hidden">
-            {isEcosystem &&
-              productNodes.map((node, index) => (
-                <MobileNode
-                  key={node.id}
-                  node={node}
-                  index={index}
-                  progress={animationProgress}
-                  target={targets.nodes[node.id]}
-                  nodeRef={(element) => {
-                    mobileNodeRefs.current[node.id] = element;
-                  }}
-                />
-              ))}
+            <div className="absolute inset-x-4 bottom-7 z-20 grid grid-cols-2 gap-2.5 md:hidden">
+              {isEcosystem &&
+                productNodes.map((node, index) => (
+                  <MobileNode
+                    key={node.id}
+                    node={node}
+                    index={index}
+                    progress={animationProgress}
+                    target={targets.nodes[node.id]}
+                    nodeRef={(element) => {
+                      mobileNodeRefs.current[node.id] = element;
+                    }}
+                  />
+                ))}
+            </div>
           </div>
         </div>
       </div>
-
-      </div>
-      {false && <SiteFooter />}
     </div>
   );
 }
 
 function ReferenceHero() {
-  const productNames = ["IcyPluto", "Drip", "Cloud Watcher", "ChanceRAG", "OnSkill"];
+  const productNames = [
+    "IcyPluto",
+    "Drip",
+    "Cloud Watcher",
+    "ChanceRAG",
+    "OnSkill",
+  ];
 
   return (
     <div className="relative flex h-full min-h-0 flex-col overflow-hidden bg-[#020305] text-white">
@@ -1160,17 +1051,23 @@ function ReferenceHero() {
         <div className="relative z-20 max-w-[43rem] pt-5 lg:pt-0">
           <h2 className="max-w-[42rem] text-[clamp(2.55rem,4.8vw,5.35rem)] font-medium leading-[0.98] tracking-[-0.065em] text-[#f6f7fb]">
             <span className="bg-gradient-to-r from-[#7ec5ff] via-[#2f80ed] to-[#0052ff] bg-clip-text text-transparent">
-              Own your data,<br />own your AI.
+              Own your data,
+              <br />
+              own your AI.
             </span>
           </h2>
           <p className="mt-7 max-w-[31rem] text-[clamp(0.95rem,1.25vw,1.2rem)] leading-[1.62] tracking-[-0.025em] text-[#c0c4cf]">
-            Rabbitt.AI transforms your enterprise data into reliable Generative AI solutions that drive measurable impact — securely and at scale.
+            Rabbitt Ai transforms your enterprise data into reliable Generative
+            AI solutions that drive measurable impact — securely and at scale.
           </p>
           <a
             href="#solutions"
             className="mt-8 inline-flex items-center gap-4 rounded-xl bg-[#f7f8fb] px-6 py-4 text-[0.96rem] font-medium text-[#080a0e] shadow-[0_8px_26px_rgba(255,255,255,0.12)] transition-transform duration-300 hover:-translate-y-0.5"
           >
-            Explore Solutions <span className="text-xl leading-none" aria-hidden="true">→</span>
+            Explore Solutions{" "}
+            <span className="text-xl leading-none" aria-hidden="true">
+              →
+            </span>
           </a>
         </div>
 
@@ -1180,11 +1077,16 @@ function ReferenceHero() {
       <div className="relative z-20 border-t border-white/[0.07] bg-[#010204]/78 px-6 py-5 backdrop-blur-sm sm:px-10 lg:px-16 xl:px-[5.25rem]">
         <div className="flex w-full flex-col gap-5 sm:flex-row sm:items-center">
           <p className="shrink-0 border-white/[0.2] text-[0.68rem] font-medium uppercase leading-[1.45] tracking-[0.16em] text-[#aeb4c1] sm:mr-8 sm:border-r sm:pr-8">
-            Explore our<br />products
+            Explore our
+            <br />
+            products
           </p>
           <div className="grid flex-1 grid-cols-3 items-center gap-x-7 gap-y-3 text-center sm:grid-cols-5 sm:gap-x-6 lg:gap-x-10">
             {productNames.map((name) => (
-              <span key={name} className="whitespace-nowrap text-[clamp(1rem,1.75vw,1.55rem)] font-medium tracking-[-0.06em] text-[#717785] last:tracking-[-0.08em]">
+              <span
+                key={name}
+                className="whitespace-nowrap text-[clamp(1rem,1.75vw,1.55rem)] font-medium tracking-[-0.06em] text-[#717785] last:tracking-[-0.08em]"
+              >
                 {name}
               </span>
             ))}
@@ -1198,17 +1100,37 @@ function ReferenceHero() {
 function ArchitecturalDoorway() {
   return (
     <div className="pointer-events-none relative order-first -mb-8 h-[34vh] min-h-[15rem] sm:h-[39vh] lg:order-none lg:mb-0 lg:h-[min(68vh,44rem)]">
-      <div className="absolute inset-[-10%_-8%_-8%_0] opacity-70" style={{ background: "radial-gradient(ellipse 42% 62% at 72% 61%, rgba(35, 122, 255, 0.27), transparent 73%)" }} />
+      <div
+        className="absolute inset-[-10%_-8%_-8%_0] opacity-70"
+        style={{
+          background:
+            "radial-gradient(ellipse 42% 62% at 72% 61%, rgba(35, 122, 255, 0.27), transparent 73%)",
+        }}
+      />
       <div className="absolute bottom-[8%] right-[16%] h-[73%] w-[33%] min-w-[10rem] bg-[linear-gradient(90deg,rgba(56,75,99,0.22),rgba(8,13,21,0.84)_17%,rgba(19,30,46,0.92)_82%,rgba(3,6,11,0.95))] shadow-[-18px_0_42px_rgba(98,157,255,0.11)]" />
       <div className="absolute bottom-[8%] right-[16%] h-[73%] w-[33%] min-w-[10rem] border-l border-white/[0.08] border-t border-white/[0.045]" />
       <div className="absolute bottom-[8%] right-[16%] h-[44%] w-[13%] min-w-[4rem] rounded-tl-[5rem] border-l border-t border-[#8ec5ff]/70 bg-[radial-gradient(ellipse_at_100%_100%,rgba(25,100,218,0.85),rgba(14,43,94,0.76)_54%,rgba(3,9,19,0.9)_76%)] shadow-[-10px_0_29px_rgba(50,137,255,0.6),inset_-3px_0_16px_rgba(151,205,255,0.4)]" />
       <div className="absolute bottom-[8%] right-[16%] h-[43.8%] w-[13.15%] min-w-[4rem] rounded-tl-[5rem] border-l border-t border-white/45" />
       <div className="absolute bottom-[7.6%] right-[14.2%] h-[2px] w-[13.7%] min-w-[4.25rem] bg-[#d8efff] blur-[0.3px] shadow-[0_0_12px_3px_rgba(83,160,255,0.85)]" />
-      <motion.svg className="absolute inset-0 h-full w-full overflow-visible" viewBox="0 0 720 500" preserveAspectRatio="none" aria-hidden="true">
+      <motion.svg
+        className="absolute inset-0 h-full w-full overflow-visible"
+        viewBox="0 0 720 500"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
         <defs>
-          <filter id="doorway-pulse-glow" x="-100%" y="-100%" width="300%" height="300%">
+          <filter
+            id="doorway-pulse-glow"
+            x="-100%"
+            y="-100%"
+            width="300%"
+            height="300%"
+          >
             <feGaussianBlur stdDeviation="4" result="blur" />
-            <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
           </filter>
         </defs>
         {/* No base stroke is rendered: this is a short travelling light trail only. */}
@@ -1223,7 +1145,12 @@ function ArchitecturalDoorway() {
           filter="url(#doorway-pulse-glow)"
           initial={{ strokeDashoffset: 1, opacity: 0 }}
           animate={{ strokeDashoffset: 0, opacity: [0, 1, 1, 0] }}
-          transition={{ duration: 7, repeat: Infinity, ease: "linear", times: [0, 0.08, 0.9, 1] }}
+          transition={{
+            duration: 7,
+            repeat: Infinity,
+            ease: "linear",
+            times: [0, 0.08, 0.9, 1],
+          }}
         />
         <motion.circle
           cx="570"
@@ -1232,105 +1159,16 @@ function ArchitecturalDoorway() {
           fill="#e6f6ff"
           filter="url(#doorway-pulse-glow)"
           animate={{ opacity: [0, 0, 1, 0], scale: [0.4, 0.4, 1.35, 1.75] }}
-          transition={{ duration: 7, repeat: Infinity, ease: "easeOut", times: [0, 0.72, 0.88, 1] }}
+          transition={{
+            duration: 7,
+            repeat: Infinity,
+            ease: "easeOut",
+            times: [0, 0.72, 0.88, 1],
+          }}
         />
       </motion.svg>
       <div className="absolute inset-x-[-10%] bottom-0 h-[40%] bg-[radial-gradient(ellipse_57%_31%_at_75%_100%,rgba(48,105,180,0.26),transparent_72%)]" />
     </div>
-  );
-}
-
-function SiteFooter() {
-  return (
-    <footer className="relative z-[130] border-t border-white/10 bg-[#02050e] text-slate-300">
-      <div className="mx-auto max-w-[1440px] px-6 py-10 sm:px-8 lg:px-12">
-        <div className="grid gap-10 border-b border-white/10 pb-9 lg:grid-cols-[0.9fr_0.8fr_2.35fr]">
-          <section>
-            <div className="flex items-center gap-3">
-              <Image src="/logo.svg" alt="Rabbitt AI" width={44} height={44} className="h-11 w-11 object-contain" />
-              <span className="text-xl font-bold tracking-tight text-white">Rabbitt AI</span>
-            </div>
-            <div className="mt-6 space-y-3 text-sm">
-              <div>
-                <p className="font-semibold text-white">Sales</p>
-                <a className="mt-1 inline-block text-slate-400 transition-colors hover:text-sky-300" href="mailto:sales@rabbitt.ai">sales@rabbitt.ai</a>
-              </div>
-              <div>
-                <p className="font-semibold text-white">Contact</p>
-                <a className="mt-1 inline-block text-slate-400 transition-colors hover:text-sky-300" href="tel:+919911059386">+91 99110 59386</a>
-              </div>
-              <div>
-                <p className="font-semibold text-white">Social</p>
-                <div className="mt-2 flex gap-3">
-                  {(['Instagram', 'X', 'LinkedIn'] as const).map((network) => (
-                    <SocialIcon key={network} network={network} />
-                  ))}
-                </div>
-              </div>
-            </div>
-          </section>
-          <section>
-            <h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-sky-300">Company</h2>
-            <ul className="mt-4 space-y-2 text-sm">
-              {['Home', 'About', 'Blogs', 'Case Studies', 'Contact Us'].map((item) => <li key={item}><a href={`#${item.toLowerCase().replaceAll(' ', '-')}`} className="text-slate-400 transition-colors hover:text-sky-300">{item}</a></li>)}
-            </ul>
-            <h2 className="mt-7 text-sm font-semibold uppercase tracking-[0.16em] text-sky-300">Services</h2>
-            <ul className="mt-4 space-y-2 text-sm">
-              {services.map((service) => <li key={service}><a href="#services" className="text-slate-400 transition-colors hover:text-sky-300">{service}</a></li>)}
-            </ul>
-          </section>
-          <section>
-            <h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-sky-300">Products</h2>
-            <div className="mt-4 grid grid-cols-2 gap-x-6 gap-y-7 sm:grid-cols-3 xl:grid-cols-5">
-              {productGroups.map((group) => (
-                <div key={group.title}>
-                  <h3 className="text-sm font-semibold text-white">{group.title}</h3>
-                  <ul className="mt-2 space-y-1.5 text-sm">
-                    {group.items.map((item) => <li key={item.name}><a href="#products" className="text-slate-400 transition-colors hover:text-sky-300">{item.name}</a></li>)}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          </section>
-        </div>
-        <div className="flex flex-col gap-4 pt-5 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
-          <p>© 2026 Rabbitt AI. All rights reserved.</p>
-          <div className="flex gap-5">
-            <a href="#privacy" className="transition-colors hover:text-sky-300">Privacy Policy</a>
-            <a href="#terms" className="transition-colors hover:text-sky-300">Terms of Use</a>
-          </div>
-        </div>
-      </div>
-    </footer>
-  );
-}
-
-function SocialIcon({ network }: { network: "Instagram" | "X" | "LinkedIn" }) {
-  return (
-    <a href={`#${network.toLowerCase()}`} aria-label={network} className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 text-slate-300 transition-colors hover:border-sky-300/50 hover:text-sky-200">
-      {network === "Instagram" && <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" /></svg>}
-      {network === "X" && <span className="text-sm font-bold">𝕏</span>}
-      {network === "LinkedIn" && <span className="text-sm font-bold">in</span>}
-    </a>
-  );
-}
-
-function NavbarChevron() {
-  return (
-    <svg
-      className="h-3.5 w-3.5 text-sky-300/80 transition-transform duration-200 group-hover:translate-y-0.5"
-      viewBox="0 0 16 16"
-      fill="none"
-      aria-hidden="true"
-    >
-      <path
-        d="m4 6 4 4 4-4"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
   );
 }
 
@@ -1514,4 +1352,3 @@ function NodeCard({
     </div>
   );
 }
-

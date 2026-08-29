@@ -1,9 +1,11 @@
 import LandingExperience from "@/components/LandingExperience";
+import SiteFooter from "@/components/SiteFooter";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[#030712]">
+    <main className="bg-[#020305]">
       <LandingExperience />
+      <SiteFooter />
     </main>
   );
 }

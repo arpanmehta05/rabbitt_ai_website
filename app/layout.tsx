@@ -13,8 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Rabbitt — Build at lightspeed",
-  description: "Next-generation platform for high-velocity software engineering.",
+  title: "Rabbitt Ai — Build at lightspeed",
+  description:
+    "Next-generation platform for high-velocity software engineering.",
   icons: {
     icon: "/logo.svg",
     shortcut: "/logo.svg",
