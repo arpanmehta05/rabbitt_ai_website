@@ -46,9 +46,8 @@ export default function LlmAdoptionJourney() {
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-sky-400/30 to-transparent" />
       <div className="relative mx-auto max-w-[1440px] px-6 sm:px-10 lg:px-16">
         <p className="text-sm font-medium uppercase tracking-[0.16em] text-sky-300">Generative AI platform</p>
-        <div className="mt-6 flex max-w-4xl flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+        <div className="mt-6 max-w-4xl">
           <h2 className="max-w-3xl text-4xl font-semibold leading-[1.06] tracking-[-0.045em] sm:text-5xl lg:text-6xl">Every stage of your AI adoption journey, built around you.</h2>
-          <p className="max-w-sm text-base leading-7 text-slate-400">A clear, enterprise-ready path from first problem to measurable AI outcomes.</p>
         </div>
 
         <div className="mt-12 flex gap-3 overflow-x-auto pb-3 [scrollbar-width:none]">
