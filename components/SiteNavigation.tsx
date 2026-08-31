@@ -21,7 +21,6 @@ const categories: Record<string, Product[]> = {
     { name: "OnSkill", description: "Workforce competency and skill management.", icon: "◆", logo: "/onskill.svg" },
   ],
   Technology: [
-    { name: "ChanceRAG", description: "Enterprise retrieval and knowledge intelligence.", icon: "⌘", logo: "/chance.svg" },
     { name: "Cloud Watcher", description: "Cloud cost, health, and operations intelligence.", icon: "◈", logo: "/cloudwatcher.svg" },
   ],
   "Independent Products": [
@@ -63,13 +62,135 @@ const resourceItems = [
   },
 ];
 
+const dataServices = [
+  {
+    title: "Data Annotation",
+    description: "Our LLMs in action",
+    href: "/contactus",
+    icon: (
+      <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 2 2 7l10 5 10-5-10-5Z" />
+        <path d="m2 17 10 5 10-5" />
+        <path d="m2 12 10 5 10-5" />
+      </svg>
+    ),
+  },
+];
+
+const dataSolutions = [
+  {
+    title: "CuratorsAI",
+    description: "AI powered voice agent creation platform",
+    href: "/contactus",
+    icon: (
+      <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+      </svg>
+    ),
+  },
+  {
+    title: "ChanceRAG",
+    description: "Our full fledged RAG Solution",
+    href: "/contactus",
+    icon: (
+      <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+        <rect width="18" height="18" x="3" y="3" rx="2" />
+        <path d="m9 10-2 2 2 2" />
+        <path d="m15 10 2 2-2 2" />
+      </svg>
+    ),
+  },
+  {
+    title: "NavicaAI",
+    description: "Explore careers based on your skills & interest",
+    href: "/contactus",
+    icon: (
+      <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+        <rect width="18" height="18" x="3" y="3" rx="2" />
+        <path d="m9 10-2 2 2 2" />
+        <path d="m15 10 2 2-2 2" />
+      </svg>
+    ),
+  },
+];
+
+const serviceItems = [
+  {
+    title: "Content Writing",
+    description: "High-impact, technically accurate AI and tech content.",
+    href: "/contactus",
+    icon: (
+      <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 20h9" />
+        <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+      </svg>
+    ),
+  },
+  {
+    title: "Content Strategy",
+    description: "Data-driven editorial planning and multi-channel AI distribution.",
+    href: "/contactus",
+    icon: (
+      <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="10" />
+        <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
+      </svg>
+    ),
+  },
+  {
+    title: "Video Editing & Generation",
+    description: "AI-powered generative video production and motion workflows.",
+    href: "/contactus",
+    icon: (
+      <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round">
+        <rect width="15" height="14" x="2" y="5" rx="2" />
+        <path d="m22 7-5 5 5 5V7z" />
+      </svg>
+    ),
+  },
+  {
+    title: "University Training Programs",
+    description: "Hands-on GenAI curriculum, workshops, and student enablement.",
+    href: "/contactus",
+    icon: (
+      <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round">
+        <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+        <path d="M6 12v5c3 3 9 3 12 0v-5" />
+      </svg>
+    ),
+  },
+  {
+    title: "Website Revamp Services",
+    description: "Modern, high-converting digital web experiences built for the AI era.",
+    href: "/contactus",
+    icon: (
+      <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round">
+        <rect width="18" height="18" x="3" y="3" rx="2" />
+        <path d="M3 9h18" />
+        <path d="M9 21V9" />
+      </svg>
+    ),
+  },
+  {
+    title: "Corporate Trainings",
+    description: "Custom enterprise upskilling for technical teams and leadership.",
+    href: "/contactus",
+    icon: (
+      <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round">
+        <rect width="20" height="14" x="2" y="7" rx="2" />
+        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+      </svg>
+    ),
+  },
+];
+
 interface SiteNavigationProps {
   opacity?: MotionValue<number> | number;
   brandTargetRef?: RefObject<HTMLDivElement | null>;
 }
 
 export default function SiteNavigation({ opacity = 1, brandTargetRef }: SiteNavigationProps = {}) {
-  const [openMenu, setOpenMenu] = useState<"products" | "resources" | null>(null);
+  const [openMenu, setOpenMenu] = useState<"products" | "services" | "data" | "resources" | null>(null);
   const [activeCategory, setActiveCategory] = useState("Marketing");
   const navigationRef = useRef<HTMLElement>(null);
   const products = categories[activeCategory];
@@ -95,29 +216,54 @@ export default function SiteNavigation({ opacity = 1, brandTargetRef }: SiteNavi
   return (
     <motion.header
       style={{ opacity }}
-      className="pointer-events-auto fixed inset-x-0 top-0 z-[100] border-b border-white/[0.08] bg-[#030507]/90 backdrop-blur-xl"
+      className="font-sans pointer-events-auto fixed inset-x-0 top-0 z-[100] border-b border-white/[0.08] bg-[#030507]/90 backdrop-blur-xl"
     >
       <nav ref={navigationRef} className="relative mx-auto flex h-16 max-w-[1600px] items-center px-8" aria-label="Main navigation">
         <Link href="/" className="flex items-center gap-3">
           <div ref={brandTargetRef} className="flex h-10 w-10 shrink-0 items-center justify-center">
             <Image src="/logo.svg" alt="Rabbitt" width={40} height={40} className="h-10 w-10 object-contain" />
           </div>
-          <span className="text-[1.5rem] font-bold tracking-[-0.02em] bg-gradient-to-r from-[#9AD5FF] via-[#4895FF] to-[#0061FF] bg-clip-text text-transparent">
+          <span className="font-sans text-[1.5rem] font-bold tracking-[-0.02em] bg-gradient-to-r from-[#9AD5FF] via-[#4895FF] to-[#0061FF] bg-clip-text text-transparent">
             Rabbitt
           </span>
         </Link>
 
         <div className="absolute left-1/2 flex -translate-x-1/2 items-center gap-7 text-[0.95rem] text-slate-100 xl:gap-8">
-          <a href="#llm" className="transition-colors hover:text-sky-300">LLM</a>
-          <a href="#data" className="transition-colors hover:text-sky-300">Data</a>
-          <button type="button" onClick={() => setOpenMenu((value) => value === "products" ? null : "products")} aria-expanded={openMenu === "products"} className={`flex items-center gap-2 transition-colors hover:text-sky-300 ${openMenu === "products" ? "text-sky-400" : ""}`}>
+          <button
+            type="button"
+            onClick={() => setOpenMenu((value) => value === "data" ? null : "data")}
+            aria-expanded={openMenu === "data"}
+            className={`flex items-center gap-2 transition-colors hover:text-sky-300 ${openMenu === "data" ? "text-sky-400" : ""}`}
+          >
+            Data <Chevron open={openMenu === "data"} />
+          </button>
+          <button
+            type="button"
+            onClick={() => setOpenMenu((value) => value === "products" ? null : "products")}
+            aria-expanded={openMenu === "products"}
+            className={`flex items-center gap-2 transition-colors hover:text-sky-300 ${openMenu === "products" ? "text-sky-400" : ""}`}
+          >
             Products <Chevron open={openMenu === "products"} />
           </button>
-          <a href="#services" className="flex items-center gap-2 transition-colors hover:text-sky-300">Services <Chevron /></a>
-          <button type="button" onClick={() => setOpenMenu((value) => value === "resources" ? null : "resources")} aria-expanded={openMenu === "resources"} className={`flex items-center gap-2 transition-colors hover:text-sky-300 ${openMenu === "resources" ? "text-sky-400" : ""}`}>
+          <button
+            type="button"
+            onClick={() => setOpenMenu((value) => value === "services" ? null : "services")}
+            aria-expanded={openMenu === "services"}
+            className={`flex items-center gap-2 transition-colors hover:text-sky-300 ${openMenu === "services" ? "text-sky-400" : ""}`}
+          >
+            Services <Chevron open={openMenu === "services"} />
+          </button>
+          <button
+            type="button"
+            onClick={() => setOpenMenu((value) => value === "resources" ? null : "resources")}
+            aria-expanded={openMenu === "resources"}
+            className={`flex items-center gap-2 transition-colors hover:text-sky-300 ${openMenu === "resources" ? "text-sky-400" : ""}`}
+          >
             Resources <Chevron open={openMenu === "resources"} />
           </button>
-          <a href="#ainama" className="transition-colors hover:text-sky-300">AINama</a>
+          <Link href="/ainama" className="transition-colors hover:text-sky-300">
+            AINama
+          </Link>
         </div>
 
         <div className="ml-auto flex items-center gap-6 text-[0.95rem]">
@@ -178,6 +324,128 @@ export default function SiteNavigation({ opacity = 1, brandTargetRef }: SiteNavi
                   </div>
                   <Link href="/products" onClick={() => setOpenMenu(null)} className="inline-flex items-center gap-2 pt-6 text-base text-sky-400 transition-colors hover:text-sky-200">Explore all products <span className="text-xl">→</span></Link>
                 </section>
+              </div>
+            </motion.div>
+          )}
+
+          {openMenu === "data" && (
+            <motion.div
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="absolute left-1/2 top-[calc(100%+1px)] w-[26rem] max-w-[calc(100vw-2rem)] -translate-x-[75%] rounded-2xl border border-white/[0.14] bg-[#060b13] p-3 shadow-[0_24px_60px_rgba(0,0,0,0.62)] backdrop-blur-2xl"
+            >
+              {/* Services section */}
+              <div className="px-3 pt-2 pb-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-sky-400">
+                Services
+              </div>
+              <div className="space-y-1">
+                {dataServices.map((item) => (
+                  <Link
+                    key={item.title}
+                    href={item.href}
+                    onClick={() => setOpenMenu(null)}
+                    className="group flex items-start gap-3.5 rounded-xl p-3 transition-colors hover:bg-white/[0.05]"
+                  >
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/[0.08] bg-[#111a2b] text-sky-400 transition-colors group-hover:border-sky-400/40 group-hover:bg-sky-500/10">
+                      {item.icon}
+                    </span>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-sm font-semibold text-white transition-colors group-hover:text-sky-300">
+                          {item.title}
+                        </span>
+                        <span className="text-xs text-slate-400 opacity-0 transition-all group-hover:translate-x-0.5 group-hover:opacity-100">
+                          →
+                        </span>
+                      </div>
+                      <p className="mt-1 text-xs leading-relaxed text-slate-400">
+                        {item.description}
+                      </p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+
+              {/* Solutions section */}
+              <div className="mt-3 px-3 pt-2 pb-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-sky-400">
+                Solutions
+              </div>
+              <div className="space-y-1">
+                {dataSolutions.map((item) => (
+                  <Link
+                    key={item.title}
+                    href={item.href}
+                    onClick={() => setOpenMenu(null)}
+                    className="group flex items-start gap-3.5 rounded-xl p-3 transition-colors hover:bg-white/[0.05]"
+                  >
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/[0.08] bg-[#111a2b] text-sky-400 transition-colors group-hover:border-sky-400/40 group-hover:bg-sky-500/10">
+                      {item.icon}
+                    </span>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-sm font-semibold text-white transition-colors group-hover:text-sky-300">
+                          {item.title}
+                        </span>
+                        <span className="text-xs text-slate-400 opacity-0 transition-all group-hover:translate-x-0.5 group-hover:opacity-100">
+                          →
+                        </span>
+                      </div>
+                      <p className="mt-1 text-xs leading-relaxed text-slate-400">
+                        {item.description}
+                      </p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </motion.div>
+          )}
+
+          {openMenu === "services" && (
+            <motion.div
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="absolute left-1/2 top-[calc(100%+1px)] w-[42rem] max-w-[calc(100vw-2rem)] -translate-x-[42%] rounded-2xl border border-white/[0.14] bg-[#060b13] p-3.5 shadow-[0_24px_60px_rgba(0,0,0,0.62)] backdrop-blur-2xl"
+            >
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                {serviceItems.map((item) => (
+                  <Link
+                    key={item.title}
+                    href={item.href}
+                    onClick={() => setOpenMenu(null)}
+                    className="group flex items-start gap-3.5 rounded-xl p-3.5 transition-colors hover:bg-white/[0.05]"
+                  >
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/[0.08] bg-[#111a2b] text-sky-400 transition-colors group-hover:border-sky-400/40 group-hover:bg-sky-500/10">
+                      {item.icon}
+                    </span>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-sm font-semibold text-white transition-colors group-hover:text-sky-300">
+                          {item.title}
+                        </span>
+                        <span className="text-xs text-slate-400 opacity-0 transition-all group-hover:translate-x-0.5 group-hover:opacity-100">
+                          →
+                        </span>
+                      </div>
+                      <p className="mt-1 text-xs leading-relaxed text-slate-400">
+                        {item.description}
+                      </p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+              <div className="mt-2.5 flex items-center justify-between border-t border-white/[0.08] px-3.5 pt-3 text-xs text-slate-400">
+                <span>Looking for bespoke AI advisory or engineering?</span>
+                <Link
+                  href="/contactus"
+                  onClick={() => setOpenMenu(null)}
+                  className="flex items-center gap-1.5 font-medium text-sky-400 transition-colors hover:text-sky-300"
+                >
+                  Book a consultation <span aria-hidden="true">→</span>
+                </Link>
               </div>
             </motion.div>
           )}
