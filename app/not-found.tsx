@@ -40,7 +40,7 @@ export default function NotFound() {
       <SiteNavigation />
 
       {/* Hero 404 Section */}
-      <section className="relative z-10 mx-auto flex w-full max-w-5xl flex-col items-center px-6 pt-28 pb-16 text-center sm:pt-36 lg:pt-40">
+      <section className="relative z-10 mx-auto flex w-full max-w-5xl flex-col items-center px-6 pt-20 pb-12 text-center sm:pt-24 sm:pb-14 lg:pt-24 lg:pb-16">
         {/* Ambient Multi-Layer Background Glows */}
         <div className="pointer-events-none absolute left-1/2 top-1/3 h-[420px] w-[650px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(37,99,235,0.22)_0%,rgba(14,165,233,0.12)_40%,transparent_75%)] blur-[95px]" />
         <div className="pointer-events-none absolute left-1/2 top-1/2 h-[300px] w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-500/10 blur-[80px]" />
@@ -55,12 +55,12 @@ export default function NotFound() {
             initial={{ opacity: 0, scale: 0.94 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="relative z-10 font-sans text-[9rem] font-black leading-none tracking-[-0.06em] text-white drop-shadow-[0_20px_50px_rgba(0,0,0,0.9)] sm:text-[14rem] md:text-[17rem] lg:text-[20rem]"
+            className="relative z-10 font-sans text-[7.5rem] font-black leading-none tracking-[-0.06em] text-white drop-shadow-[0_20px_50px_rgba(0,0,0,0.9)] sm:text-[11rem] md:text-[13rem] lg:text-[15rem]"
           >
             404
           </motion.h1>
 
-          {/* Rabbitt Logo: on top, top 20% overlaps bottom 20% of 404 */}
+          {/* Rabbitt Logo: on top, top portion overlaps bottom of 404 */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{
@@ -71,12 +71,12 @@ export default function NotFound() {
               opacity: { duration: 0.6, delay: 0.15 },
               y: { duration: 5, repeat: Infinity, ease: "easeInOut" },
             }}
-            className="relative z-20 -mt-[18%] sm:-mt-[16%] md:-mt-[14%] lg:-mt-[13%] flex items-center justify-center"
+            className="relative z-20 -mt-[20%] sm:-mt-[18%] md:-mt-[16%] lg:-mt-[15%] flex items-center justify-center"
           >
             {/* Glow underneath the logo */}
             <div className="pointer-events-none absolute -inset-10 rounded-full bg-sky-500/20 blur-3xl" />
 
-            <div className="relative h-48 w-48 sm:h-64 sm:w-64 md:h-80 md:w-80 lg:h-96 lg:w-96">
+            <div className="relative h-44 w-44 sm:h-56 sm:w-56 md:h-64 md:w-64 lg:h-72 lg:w-72">
               <Image
                 src="/logo.svg"
                 alt="Rabbitt AI"
@@ -93,7 +93,7 @@ export default function NotFound() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.25 }}
-          className="relative z-10 mt-6 max-w-xl sm:mt-8"
+          className="relative z-10 mt-4 max-w-xl sm:mt-6"
         >
           <h2 className="font-sans text-2xl font-bold tracking-[-0.03em] text-white sm:text-3xl lg:text-4xl">
             Lost in the Rabbitt hole?
@@ -103,7 +103,7 @@ export default function NotFound() {
           </p>
 
           {/* Action CTAs */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-4 sm:mt-8">
             <Link
               href="/"
               className="group inline-flex items-center gap-2.5 rounded-xl bg-white px-7 py-3.5 text-sm font-semibold text-[#020305] shadow-[0_0_30px_rgba(255,255,255,0.2)] transition-all hover:bg-slate-100 hover:scale-[1.02] active:scale-[0.98]"

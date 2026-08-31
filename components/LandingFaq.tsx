@@ -69,7 +69,7 @@ export default function LandingFaq() {
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-sky-400">
             FAQ
           </p>
-          <h2 className="mt-3 font-[family-name:var(--font-newsreader)] text-4xl font-normal leading-[1.12] tracking-[-0.03em] text-white sm:text-5xl lg:text-[3.5rem]">
+          <h2 className="mt-3 text-4xl font-semibold leading-[1.06] tracking-[-0.04em] text-white sm:text-5xl lg:text-6xl">
             Questions we get{" "}
             <span className="italic text-slate-400">all the time.</span>
           </h2>
