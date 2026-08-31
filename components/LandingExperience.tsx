@@ -778,10 +778,10 @@ export default function LandingExperience({
 
             <motion.section
               style={{ opacity: referenceHeroOpacity }}
-              className="absolute left-1/2 top-0 z-40 h-full w-screen -translate-x-1/2 bg-[#020305] pt-[4.5rem]"
+              className="absolute left-1/2 top-0 z-40 h-full w-screen -translate-x-1/2 bg-[#020406] pt-[4.5rem]"
               aria-label="Rabbitt AI enterprise data solutions"
             >
-              <ReferenceHero />
+              <ReferenceHero introComplete={transitionComplete || skipIntro} />
             </motion.section>
 
             <div className="absolute inset-x-4 bottom-7 z-20 grid grid-cols-2 gap-2.5 md:hidden">
@@ -806,7 +806,7 @@ export default function LandingExperience({
   );
 }
 
-function ReferenceHero() {
+function ReferenceHero({ introComplete }: { introComplete: boolean }) {
   const productNames = [
     "IcyPluto",
     "Drip",
@@ -816,9 +816,8 @@ function ReferenceHero() {
   ];
 
   return (
-    <div className="relative flex h-full min-h-0 flex-col overflow-hidden bg-[#020305] text-white">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_46%_72%_at_76%_54%,rgba(30,77,147,0.13),transparent_72%)]" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[30%] bg-[linear-gradient(180deg,transparent,rgba(5,12,23,0.92))]" />
+    <div className="relative flex h-full min-h-0 flex-col overflow-hidden bg-[#020406] text-white">
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[30%] bg-[linear-gradient(180deg,transparent,rgba(1,3,6,0.94))]" />
 
       <div className="relative z-10 grid w-full flex-1 grid-cols-1 items-center px-6 pb-7 pt-8 sm:px-10 lg:grid-cols-[0.92fr_1.08fr] lg:px-16 xl:px-[5.75rem]">
         <div className="relative z-20 max-w-[43rem] pt-5 lg:pt-0">
@@ -846,10 +845,10 @@ function ReferenceHero() {
           </a>
         </div>
 
-        <ArchitecturalDoorway />
+        <HeroVideoPlayer introComplete={introComplete} />
       </div>
 
-      <div className="relative z-20 border-t border-white/[0.07] bg-[#010204]/78 px-6 py-5 backdrop-blur-sm sm:px-10 lg:px-16 xl:px-[5.25rem]">
+      <div className="relative z-20 border-t border-white/[0.06] bg-[#010203]/80 px-6 py-5 backdrop-blur-sm sm:px-10 lg:px-16 xl:px-[5.25rem]">
         <div className="flex w-full flex-col gap-5 sm:flex-row sm:items-center">
           <p className="shrink-0 border-white/[0.2] text-[0.68rem] font-medium uppercase leading-[1.45] tracking-[0.16em] text-[#aeb4c1] sm:mr-8 sm:border-r sm:pr-8">
             Explore our
@@ -868,6 +867,52 @@ function ReferenceHero() {
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+function HeroVideoPlayer({ introComplete }: { introComplete: boolean }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const pausedRef = useRef(false);
+
+  // Start playing only after the intro animation finishes
+  useEffect(() => {
+    const el = videoRef.current;
+    if (!el || !introComplete) return;
+    pausedRef.current = false;
+    el.currentTime = 0;
+    el.muted = true;
+    el.play().catch(() => {
+      // Autoplay blocked — silently ignore
+    });
+  }, [introComplete]);
+
+  return (
+    <div className="pointer-events-none relative order-first -mb-8 h-[34vh] min-h-[15rem] overflow-hidden sm:h-[39vh] lg:order-none lg:mb-0 lg:h-[min(68vh,44rem)]">
+      <video
+        ref={videoRef}
+        src="/rabbitt_stairs.mp4"
+        muted
+        playsInline
+        preload="auto"
+        onTimeUpdate={() => {
+          const el = videoRef.current;
+          if (!el || pausedRef.current) return;
+          if (el.currentTime >= 5.9) {
+            el.currentTime = 5.9;
+            el.pause();
+            pausedRef.current = true;
+          }
+        }}
+        className="absolute inset-0 h-full w-full object-cover"
+        style={{ display: "block" }}
+        aria-hidden="true"
+      />
+      {/* Edge fades — #020406 matches the flat hero bg exactly, bars become invisible */}
+      <div className="absolute inset-y-0 left-0 w-[18%] bg-[linear-gradient(to_right,#020406,transparent)]" />
+      <div className="absolute inset-y-0 right-0 w-[10%] bg-[linear-gradient(to_left,#020406,transparent)]" />
+      <div className="absolute inset-x-0 top-0 h-[14%] bg-[linear-gradient(to_bottom,#020406,transparent)]" />
+      <div className="absolute inset-x-0 bottom-0 h-[10%] bg-[linear-gradient(to_top,#020406,transparent)]" />
     </div>
   );
 }
