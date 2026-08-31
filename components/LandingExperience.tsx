@@ -908,11 +908,11 @@ function HeroVideoPlayer({ introComplete }: { introComplete: boolean }) {
         style={{ display: "block" }}
         aria-hidden="true"
       />
-      {/* Edge fades — #020406 matches the flat hero bg exactly, bars become invisible */}
-      <div className="absolute inset-y-0 left-0 w-[18%] bg-[linear-gradient(to_right,#020406,transparent)]" />
-      <div className="absolute inset-y-0 right-0 w-[10%] bg-[linear-gradient(to_left,#020406,transparent)]" />
-      <div className="absolute inset-x-0 top-0 h-[14%] bg-[linear-gradient(to_bottom,#020406,transparent)]" />
-      <div className="absolute inset-x-0 bottom-0 h-[10%] bg-[linear-gradient(to_top,#020406,transparent)]" />
+      {/* Edge fades — sized to cover only the actual black bar pixels */}
+      <div className="absolute inset-y-0 left-0 w-[15%] bg-[linear-gradient(to_right,#020406_0%,#020406_20%,transparent_100%)]" />
+      <div className="absolute inset-y-0 right-0 w-[8%] bg-[linear-gradient(to_left,#020406_0%,#020406_20%,transparent_100%)]" />
+      <div className="absolute inset-x-0 top-0 h-[10%] bg-[linear-gradient(to_bottom,#020406_0%,#020406_20%,transparent_100%)]" />
+      <div className="absolute inset-x-0 bottom-0 h-[8%] bg-[linear-gradient(to_top,#020406_0%,transparent_100%)]" />
     </div>
   );
 }
