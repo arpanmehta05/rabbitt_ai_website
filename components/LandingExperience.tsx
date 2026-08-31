@@ -817,6 +817,16 @@ function ReferenceHero({ introComplete }: { introComplete: boolean }) {
 
   return (
     <div className="relative flex h-full min-h-0 flex-col overflow-hidden bg-[#020406] text-white">
+      {/* This shared field sits behind both columns.  The video uses screen
+          blending below, so its baked black edge pixels reveal this same field
+          instead of reading as separate left/right bars. */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse 58% 115% at 86% 56%, rgba(11, 45, 92, 0.88) 0%, rgba(5, 24, 53, 0.72) 31%, rgba(2, 10, 22, 0.42) 55%, rgba(2, 4, 6, 0) 78%)",
+        }}
+      />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[30%] bg-[linear-gradient(180deg,transparent,rgba(1,3,6,0.94))]" />
 
       <div className="relative z-10 grid w-full flex-1 grid-cols-1 items-center px-6 pb-7 pt-8 sm:px-10 lg:grid-cols-[0.92fr_1.08fr] lg:px-16 xl:px-[5.75rem]">
@@ -905,14 +915,21 @@ function HeroVideoPlayer({ introComplete }: { introComplete: boolean }) {
           }
         }}
         className="absolute inset-0 h-full w-full object-cover"
-        style={{ display: "block" }}
+        style={{
+          display: "block",
+          mixBlendMode: "screen",
+          // The source contains dark pillarbox pixels at either side. Blend
+          // them over the parent field across their full width, rather than
+          // exposing them as hard vertical seams.
+          maskImage:
+            "linear-gradient(to right, transparent 0%, black 24%, black 84%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 7%, black 93%, transparent 100%)",
+          WebkitMaskImage:
+            "linear-gradient(to right, transparent 0%, black 24%, black 84%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 7%, black 93%, transparent 100%)",
+          maskComposite: "intersect",
+          WebkitMaskComposite: "destination-in",
+        }}
         aria-hidden="true"
       />
-      {/* Edge fades — sized to cover only the actual black bar pixels */}
-      <div className="absolute inset-y-0 left-0 w-[15%] bg-[linear-gradient(to_right,#020406_0%,#020406_20%,transparent_100%)]" />
-      <div className="absolute inset-y-0 right-0 w-[8%] bg-[linear-gradient(to_left,#020406_0%,#020406_20%,transparent_100%)]" />
-      <div className="absolute inset-x-0 top-0 h-[10%] bg-[linear-gradient(to_bottom,#020406_0%,#020406_20%,transparent_100%)]" />
-      <div className="absolute inset-x-0 bottom-0 h-[8%] bg-[linear-gradient(to_top,#020406_0%,transparent_100%)]" />
     </div>
   );
 }
