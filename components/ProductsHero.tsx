@@ -61,7 +61,7 @@ export default function ProductsHero() {
 
           {/* Description Copy */}
           <p className="max-w-xl text-sm sm:text-base leading-relaxed text-slate-300">
-            Rabbitt Ai builds secure, reliable and scalable AI solutions that help enterprises unlock real impact.
+            Rabbitt AI builds secure, reliable and scalable AI solutions that help enterprises unlock real impact.
           </p>
         </motion.div>
       </div>

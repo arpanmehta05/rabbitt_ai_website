@@ -84,6 +84,39 @@ const productNodes: ProductNode[] = [
 // landing surface. Its implementation remains isolated below.
 const showLegacyIntro = true;
 
+// 24-hour TTL for the intro animation (in milliseconds)
+const INTRO_TTL_MS = 24 * 60 * 60 * 1000;
+const INTRO_STORAGE_KEY = "rabbitt_intro_timestamp";
+
+function shouldSkipIntro(): boolean {
+  if (typeof window === "undefined") return false;
+  try {
+    if (document.cookie.includes("rabbitt_intro_seen=true")) {
+      return true;
+    }
+    if (document.documentElement.classList.contains("skip-intro")) {
+      return true;
+    }
+    const raw = localStorage.getItem(INTRO_STORAGE_KEY);
+    if (!raw) return false;
+    const timestamp = parseInt(raw, 10);
+    if (isNaN(timestamp)) return false;
+    return Date.now() - timestamp < INTRO_TTL_MS;
+  } catch {
+    return false;
+  }
+}
+
+function markIntroSeen(): void {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.setItem(INTRO_STORAGE_KEY, Date.now().toString());
+    document.cookie =
+      "rabbitt_intro_seen=true; max-age=86400; path=/; SameSite=Lax";
+    document.documentElement.classList.add("skip-intro");
+  } catch {}
+}
+
 type Point = { x: number; y: number };
 type NodeTargets = Record<string, Point>;
 
@@ -99,8 +132,18 @@ function nodePath(node: ProductNode) {
   return `M ${start.x} ${start.y} C ${start.x + delta.x * 0.34} ${start.y + delta.y * 0.34}, ${target.x - delta.x * 0.2} ${target.y - delta.y * 0.2}, ${target.x} ${target.y}`;
 }
 
-export default function LandingExperience() {
+export default function LandingExperience({
+  initialSkip = false,
+}: {
+  initialSkip?: boolean;
+}) {
   const prefersReducedMotion = useReducedMotion();
+  // Only use the server-authoritative initialSkip prop for state initialization.
+  // shouldSkipIntro() must NOT be called during render – it causes hydration
+  // mismatches (reads document.cookie / classList which differ between server
+  // and client) and incorrectly skips the animation for first-time users.
+  // Client-side fallback happens inside useLayoutEffect below.
+  const [skipIntro, setSkipIntro] = useState(initialSkip);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<HTMLDivElement>(null);
   const hatOpeningRef = useRef<HTMLSpanElement>(null);
@@ -114,12 +157,10 @@ export default function LandingExperience() {
   }>({ nodes: {}, logo: { x: 0, y: 0 } });
   const [introPhase, setIntroPhase] = useState<
     "initializing" | "shockwave" | "ecosystem"
-  >(prefersReducedMotion ? "ecosystem" : "initializing");
-  const [transitionComplete, setTransitionComplete] = useState(
-    prefersReducedMotion ?? false,
-  );
-  const sequenceProgress = useMotionValue(prefersReducedMotion ? 1 : 0);
-  const ecosystemReveal = useMotionValue(prefersReducedMotion ? 1 : 0);
+  >(initialSkip ? "ecosystem" : "initializing");
+  const [transitionComplete, setTransitionComplete] = useState(initialSkip);
+  const sequenceProgress = useMotionValue(initialSkip ? 1 : 0);
+  const ecosystemReveal = useMotionValue(initialSkip ? 1 : 0);
   const animationProgress = useTransform(sequenceProgress, (value) =>
     prefersReducedMotion ? 1 : value,
   );
@@ -193,6 +234,16 @@ export default function LandingExperience() {
     [0, 0.65],
   );
 
+  useLayoutEffect(() => {
+    if (initialSkip || shouldSkipIntro()) {
+      setSkipIntro(true);
+      setIntroPhase("ecosystem");
+      setTransitionComplete(true);
+      sequenceProgress.set(1);
+      ecosystemReveal.set(1);
+    }
+  }, [initialSkip, sequenceProgress, ecosystemReveal]);
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       if ("scrollRestoration" in window.history) {
@@ -203,7 +254,7 @@ export default function LandingExperience() {
   }, []);
 
   useEffect(() => {
-    if (prefersReducedMotion || !showLegacyIntro) return;
+    if (skipIntro || prefersReducedMotion || !showLegacyIntro) return;
     const shockwaveTimer = window.setTimeout(
       () => setIntroPhase("shockwave"),
       550,
@@ -216,20 +267,20 @@ export default function LandingExperience() {
       window.clearTimeout(shockwaveTimer);
       window.clearTimeout(ecosystemTimer);
     };
-  }, [prefersReducedMotion]);
+  }, [skipIntro, prefersReducedMotion]);
 
   useEffect(() => {
-    if (prefersReducedMotion || !showLegacyIntro || introPhase !== "ecosystem")
+    if (skipIntro || prefersReducedMotion || !showLegacyIntro || introPhase !== "ecosystem")
       return;
     const controls = animate(ecosystemReveal, 1, {
       duration: 1.1,
       ease: "linear",
     });
     return () => controls.stop();
-  }, [introPhase, prefersReducedMotion, ecosystemReveal]);
+  }, [skipIntro, introPhase, prefersReducedMotion, ecosystemReveal]);
 
   useEffect(() => {
-    if (prefersReducedMotion || !showLegacyIntro || introPhase !== "ecosystem")
+    if (skipIntro || prefersReducedMotion || !showLegacyIntro || introPhase !== "ecosystem")
       return;
 
     let controls: ReturnType<typeof animate> | undefined;
@@ -237,7 +288,10 @@ export default function LandingExperience() {
       controls = animate(sequenceProgress, 1, {
         duration: 3.4,
         ease: [0.22, 1, 0.36, 1],
-        onComplete: () => setTransitionComplete(true),
+        onComplete: () => {
+          setTransitionComplete(true);
+          markIntroSeen();
+        },
       });
     }, 700);
 
@@ -245,10 +299,10 @@ export default function LandingExperience() {
       window.clearTimeout(startTransition);
       controls?.stop();
     };
-  }, [introPhase, prefersReducedMotion, sequenceProgress]);
+  }, [skipIntro, introPhase, prefersReducedMotion, sequenceProgress]);
 
   useEffect(() => {
-    if (prefersReducedMotion || transitionComplete) return;
+    if (skipIntro || prefersReducedMotion || transitionComplete) return;
 
     const previousBodyOverflow = document.body.style.overflow;
     const previousDocumentOverflow = document.documentElement.style.overflow;
@@ -337,9 +391,10 @@ export default function LandingExperience() {
     };
   }, [introPhase, logoTargetX, logoTargetY]);
 
-  const isInitializing = introPhase === "initializing";
+  const isInitializing = introPhase === "initializing" && !transitionComplete;
   const isShockwaveOrAfter =
-    introPhase === "shockwave" || introPhase === "ecosystem";
+    (introPhase === "shockwave" || introPhase === "ecosystem") &&
+    !transitionComplete;
   const isEcosystem = introPhase === "ecosystem";
 
   return (
@@ -350,7 +405,8 @@ export default function LandingExperience() {
       <div className="relative">
         <div
           ref={sceneRef}
-          className="relative z-20 h-svh overflow-hidden font-sans antialiased bg-[#F8FAFC]"
+          suppressHydrationWarning
+          className={`intro-scene relative z-20 h-svh overflow-hidden font-sans antialiased ${skipIntro || transitionComplete ? "bg-[#020305]" : "bg-[#F8FAFC]"}`}
         >
           <motion.div
             style={{ opacity: prefersReducedMotion ? 0 : lightBgOpacity }}
@@ -710,7 +766,7 @@ export default function LandingExperience() {
                 >
                   <Image
                     src="/logo.svg"
-                    alt="Rabbitt Ai"
+                    alt="Rabbitt AI"
                     width={208}
                     height={277}
                     priority
@@ -723,7 +779,7 @@ export default function LandingExperience() {
             <motion.section
               style={{ opacity: referenceHeroOpacity }}
               className="absolute left-1/2 top-0 z-40 h-full w-screen -translate-x-1/2 bg-[#020305] pt-[4.5rem]"
-              aria-label="Rabbitt Ai enterprise data solutions"
+              aria-label="Rabbitt AI enterprise data solutions"
             >
               <ReferenceHero />
             </motion.section>
@@ -772,7 +828,7 @@ function ReferenceHero() {
             own your AI.
           </h2>
           <p className="mt-7 max-w-[31rem] text-[clamp(0.95rem,1.25vw,1.2rem)] leading-[1.62] tracking-[-0.025em] text-[#c0c4cf]">
-            Rabbitt Ai transforms your enterprise data into reliable Generative
+            Rabbitt AI transforms your enterprise data into reliable Generative
             AI solutions that drive measurable impact — securely and at scale.
           </p>
           <a
