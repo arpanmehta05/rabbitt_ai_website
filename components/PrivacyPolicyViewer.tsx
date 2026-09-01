@@ -72,10 +72,10 @@ export default function PrivacyPolicyViewer({
         {/* ── Header ── */}
         <header className="border-b border-white/[0.07] pb-12 pt-36 sm:pt-44">
           <div className="max-w-3xl">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-sky-400">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-sky-400">
               Legal
             </p>
-            <h1 className="mt-5 font-[family-name:var(--font-newsreader)] text-5xl font-normal leading-[1.08] tracking-[-0.035em] sm:text-6xl lg:text-[4rem]">
+            <h1 className="mt-5 font-sans text-5xl font-bold leading-[1.08] tracking-[-0.045em] sm:text-6xl lg:text-[4rem]">
               Privacy Policy
             </h1>
             <p className="mt-5 text-base leading-relaxed text-slate-400 sm:text-lg">

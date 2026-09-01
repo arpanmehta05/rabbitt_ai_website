@@ -831,13 +831,13 @@ function ReferenceHero({ introComplete }: { introComplete: boolean }) {
 
       <div className="relative z-10 grid w-full flex-1 grid-cols-1 items-center px-6 pb-7 pt-8 sm:px-10 lg:grid-cols-[0.92fr_1.08fr] lg:px-16 xl:px-[5.75rem]">
         <div className="relative z-20 max-w-[43rem] pt-5 lg:pt-0">
-          <h2 className="max-w-[42rem] text-[clamp(2.55rem,4.8vw,5.35rem)] font-medium leading-[0.98] tracking-[-0.065em]">
-            <span className="bg-gradient-to-r from-white via-slate-100 to-slate-300 bg-clip-text text-transparent">
-              Own your data,
+          <h2 className="max-w-[42rem] text-[clamp(2.75rem,5.2vw,5.5rem)] font-bold leading-[1.04] tracking-[-0.04em]">
+            <span className="inline-block bg-gradient-to-r from-white from-0% via-white via-35% to-[#3B82F6] to-85% bg-clip-text text-transparent">
+              Own your AI,
             </span>
             <br />
-            <span className="bg-gradient-to-r from-[#4b8aff] via-sky-400 to-blue-300 bg-clip-text text-transparent">
-              own your AI.
+            <span className="inline-block bg-gradient-to-r from-white from-0% via-white via-35% to-[#3B82F6] to-85% bg-clip-text text-transparent">
+              Own your Data
             </span>
           </h2>
           <p className="mt-7 max-w-[31rem] text-[clamp(0.95rem,1.25vw,1.2rem)] leading-[1.62] tracking-[-0.025em] text-[#c0c4cf]">

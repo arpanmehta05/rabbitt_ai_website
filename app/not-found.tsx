@@ -129,7 +129,7 @@ export default function NotFound() {
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.12] to-transparent" />
 
         <div className="mx-auto max-w-5xl px-6 sm:px-10 lg:px-16">
-          <p className="mb-8 text-[10px] font-semibold uppercase tracking-[0.25em] text-slate-500">
+          <p className="mb-8 text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">
             Quick Navigation
           </p>
 

@@ -42,10 +42,10 @@ export default function LlmAdoptionJourney() {
   const activeStage = stages[activeIndex];
 
   return (
-    <section id="services" className="relative overflow-hidden border-t border-white/[0.08] bg-[#020305] py-24 text-white sm:py-32">
+    <section id="services" className="relative overflow-hidden border-t border-white/[0.08] bg-[#020305] py-12 text-white sm:py-16">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-sky-400/30 to-transparent" />
       <div className="relative mx-auto max-w-[1440px] px-6 sm:px-10 lg:px-16">
-        <p className="text-sm font-medium uppercase tracking-[0.16em] text-sky-300">Generative AI platform</p>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-sky-400">Generative AI platform</p>
         <div className="mt-6 max-w-4xl">
           <h2 className="max-w-3xl text-4xl font-semibold leading-[1.06] tracking-[-0.045em] sm:text-5xl lg:text-6xl">Every stage of your AI adoption journey, built around you.</h2>
         </div>
@@ -61,7 +61,7 @@ export default function LlmAdoptionJourney() {
         <div className="mt-14 grid items-center gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20">
           <AnimatePresence mode="wait">
             <motion.div key={activeStage.label} initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
-              <p className="text-sm font-medium uppercase tracking-[0.16em] text-sky-300">{activeStage.eyebrow}</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-sky-400">{activeStage.eyebrow}</p>
               <h3 className="mt-6 max-w-xl text-4xl font-semibold leading-[1.08] tracking-[-0.04em] sm:text-5xl">{activeStage.title}</h3>
               <p className="mt-7 max-w-lg text-lg leading-8 text-slate-300">{activeStage.description}</p>
             </motion.div>

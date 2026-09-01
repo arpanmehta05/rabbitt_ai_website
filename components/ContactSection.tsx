@@ -59,13 +59,13 @@ export default function ContactSection() {
             className="flex flex-col justify-between"
           >
             <div>
-              <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-slate-600">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-sky-400">
                 Contact
               </p>
-              <h1 className="mt-6 font-[family-name:var(--font-newsreader)] text-5xl font-normal leading-[1.06] tracking-[-0.035em] text-white sm:text-6xl lg:text-[4rem] xl:text-[4.5rem]">
+              <h1 className="mt-6 font-sans text-5xl font-bold leading-[1.06] tracking-[-0.045em] text-white sm:text-6xl lg:text-[4rem] xl:text-[4.5rem]">
                 Let&apos;s build<br />
                 intelligence that<br />
-                <span className="text-[#4b8aff]">delivers.</span>
+                <span className="text-[#3B82F6]">delivers.</span>
               </h1>
 
               <p className="mt-8 max-w-md text-base leading-relaxed text-slate-500 lg:text-lg">

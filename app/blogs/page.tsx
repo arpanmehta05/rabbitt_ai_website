@@ -25,10 +25,10 @@ export default async function BlogsPage() {
         {/* Header */}
         <header className="border-b border-white/[0.07] pb-12 pt-36 sm:pt-44">
           <div className="max-w-3xl">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-sky-400">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-sky-400">
               Insights
             </p>
-            <h1 className="mt-4 text-5xl font-semibold leading-[1.06] tracking-[-0.045em] sm:text-6xl lg:text-7xl">
+            <h1 className="mt-4 text-5xl font-bold leading-[1.06] tracking-[-0.045em] sm:text-6xl lg:text-7xl">
               Blogs
             </h1>
             <p className="mt-5 text-base leading-relaxed text-slate-400 sm:text-lg">

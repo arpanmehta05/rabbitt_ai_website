@@ -66,7 +66,7 @@ const dataServices = [
   {
     title: "Data Annotation",
     description: "Our LLMs in action",
-    href: "/contactus",
+    href: "/services/data-annotation",
     icon: (
       <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
         <path d="M12 2 2 7l10 5 10-5-10-5Z" />
@@ -300,7 +300,7 @@ export default function SiteNavigation({ opacity = 1, brandTargetRef }: SiteNavi
                   <div className="grid grid-cols-2 gap-x-16">
                     {products.map((product) => (
                       <Link key={product.name} href="/products" onClick={() => setOpenMenu(null)} className="group flex min-w-0 items-center gap-4 border-b border-white/[0.1] py-5">
-                        <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#111a2b] p-1 text-2xl text-sky-400">
+                        <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#111a2b] p-1 text-2xl text-white">
                           {product.logo ? (
                             <Image
                               src={product.logo}
@@ -348,7 +348,7 @@ export default function SiteNavigation({ opacity = 1, brandTargetRef }: SiteNavi
                     onClick={() => setOpenMenu(null)}
                     className="group flex items-start gap-3.5 rounded-xl p-3 transition-colors hover:bg-white/[0.05]"
                   >
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/[0.08] bg-[#111a2b] text-sky-400 transition-colors group-hover:border-sky-400/40 group-hover:bg-sky-500/10">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/[0.08] bg-[#111a2b] text-white transition-colors group-hover:border-sky-400/40 group-hover:bg-sky-500/10">
                       {item.icon}
                     </span>
                     <div className="flex-1 min-w-0">
@@ -380,7 +380,7 @@ export default function SiteNavigation({ opacity = 1, brandTargetRef }: SiteNavi
                     onClick={() => setOpenMenu(null)}
                     className="group flex items-start gap-3.5 rounded-xl p-3 transition-colors hover:bg-white/[0.05]"
                   >
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/[0.08] bg-[#111a2b] text-sky-400 transition-colors group-hover:border-sky-400/40 group-hover:bg-sky-500/10">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/[0.08] bg-[#111a2b] text-white transition-colors group-hover:border-sky-400/40 group-hover:bg-sky-500/10">
                       {item.icon}
                     </span>
                     <div className="flex-1 min-w-0">
@@ -418,7 +418,7 @@ export default function SiteNavigation({ opacity = 1, brandTargetRef }: SiteNavi
                     onClick={() => setOpenMenu(null)}
                     className="group flex items-start gap-3.5 rounded-xl p-3.5 transition-colors hover:bg-white/[0.05]"
                   >
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/[0.08] bg-[#111a2b] text-sky-400 transition-colors group-hover:border-sky-400/40 group-hover:bg-sky-500/10">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/[0.08] bg-[#111a2b] text-white transition-colors group-hover:border-sky-400/40 group-hover:bg-sky-500/10">
                       {item.icon}
                     </span>
                     <div className="flex-1 min-w-0">
@@ -466,7 +466,7 @@ export default function SiteNavigation({ opacity = 1, brandTargetRef }: SiteNavi
                     onClick={() => setOpenMenu(null)}
                     className="group flex items-start gap-3.5 rounded-xl p-3.5 transition-colors hover:bg-white/[0.05]"
                   >
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/[0.08] bg-[#111a2b] text-sky-400 transition-colors group-hover:border-sky-400/40 group-hover:bg-sky-500/10">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/[0.08] bg-[#111a2b] text-white transition-colors group-hover:border-sky-400/40 group-hover:bg-sky-500/10">
                       {item.icon}
                     </span>
                     <div className="flex-1 min-w-0">

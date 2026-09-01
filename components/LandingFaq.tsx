@@ -50,7 +50,7 @@ export default function LandingFaq() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section className="relative overflow-hidden bg-[#020305] px-6 py-20 sm:px-10 sm:py-28 lg:px-16">
+    <section className="relative overflow-hidden bg-[#020305] px-6 py-12 sm:px-10 sm:py-16 lg:px-16">
       {/* Ambient background glow */}
       <div className="pointer-events-none absolute left-1/2 top-0 h-[500px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(37,99,235,0.14)_0%,transparent_70%)] blur-3xl" />
 
@@ -66,7 +66,7 @@ export default function LandingFaq() {
           transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
           className="mb-14 max-w-2xl"
         >
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-sky-400">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-sky-400">
             FAQ
           </p>
           <h2 className="mt-3 text-4xl font-semibold leading-[1.06] tracking-[-0.04em] text-white sm:text-5xl lg:text-6xl">

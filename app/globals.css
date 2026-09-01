@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+::selection {
+  background: #ffffff;
+  color: #000000;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;

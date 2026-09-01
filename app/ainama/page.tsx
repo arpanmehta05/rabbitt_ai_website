@@ -96,27 +96,27 @@ export default function AiNamaPage() {
       <div className="pointer-events-none fixed inset-x-0 top-0 h-[480px] bg-[radial-gradient(ellipse_70%_80%_at_50%_0%,rgba(14,165,233,0.1),transparent_70%)]" />
 
       {/* Hero Section */}
-      <section className="relative mx-auto max-w-[1440px] px-6 pt-36 sm:px-10 sm:pt-44 lg:px-16">
-        <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-14">
-          <div className="lg:col-span-6">
+      <section className="relative mx-auto max-w-[1440px] px-6 pt-20 pb-12 sm:px-10 sm:pt-24 sm:pb-16 lg:px-16">
+        <div className="grid items-start gap-10 lg:grid-cols-12 lg:gap-12">
+          <div className="lg:col-span-7 pt-2 sm:pt-4">
             {/* Headline */}
-            <h1 className="text-4xl font-semibold leading-[1.08] tracking-[-0.045em] sm:text-5xl lg:text-[4rem]">
+            <h1 className="text-4xl font-bold leading-[1.08] tracking-[-0.04em] sm:text-5xl lg:text-[3.75rem]">
               AINama By{" "}
-              <span className="bg-gradient-to-r from-[#9AD5FF] via-[#4895FF] to-[#0061FF] bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-blue-400 via-[#3B82F6] to-blue-600 bg-clip-text text-transparent">
                 Rabbitt.AI
               </span>
             </h1>
 
             {/* Lead copy */}
-            <p className="mt-6 text-lg leading-relaxed text-slate-300 sm:text-xl">
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-slate-300 sm:text-lg">
               A comprehensive collection of 15 case studies, carefully curated from diverse sectors. The definitive field guide to real-world GenAI strategies and enterprise innovations from:
             </p>
 
             {/* Sector list */}
-            <ul className="mt-6 space-y-3">
+            <ul className="mt-5 space-y-2.5">
               {sectors.map((sector) => (
                 <li key={sector} className="flex items-center gap-3 text-sm text-slate-300 sm:text-base">
-                  <span className="text-lg font-light leading-none text-sky-400" aria-hidden="true">
+                  <span className="text-base font-light leading-none text-sky-400" aria-hidden="true">
                     ›
                   </span>
                   <span>{sector}</span>
@@ -124,35 +124,36 @@ export default function AiNamaPage() {
               ))}
             </ul>
 
-            {/* CTA Row */}
-            <div className="mt-10 flex flex-wrap items-center gap-4">
+            {/* CTA Row — modern pill style */}
+            <div className="mt-8 flex flex-wrap items-center gap-4">
               <Link
                 href="/contactus"
-                className="group inline-flex items-center justify-center gap-2.5 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 px-7 py-3.5 text-base font-semibold text-white shadow-[0_0_30px_rgba(14,165,233,0.3)] transition-all hover:from-sky-400 hover:to-blue-500 hover:shadow-[0_0_40px_rgba(14,165,233,0.5)]"
+                className="group inline-flex items-center gap-2.5 rounded-full bg-white px-7 py-3.5 text-[0.95rem] font-semibold text-[#020305] shadow-[0_0_0_1px_rgba(255,255,255,0.15),0_8px_32px_rgba(255,255,255,0.08)] transition-all duration-200 hover:bg-slate-100 hover:shadow-[0_0_0_1px_rgba(255,255,255,0.25),0_8px_40px_rgba(255,255,255,0.14)]"
               >
                 <span>Request Your Copy</span>
-                <span className="text-xl leading-none transition-transform duration-200 group-hover:translate-x-1">
+                <span className="transition-transform duration-200 group-hover:translate-x-0.5">
                   →
                 </span>
               </Link>
               <Link
                 href="/contactus"
-                className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/[0.05] px-7 py-3.5 text-base font-semibold text-white transition-all hover:bg-white/[0.1] hover:border-white/25"
+                className="group inline-flex items-center gap-2.5 rounded-full border border-white/[0.16] px-7 py-3.5 text-[0.95rem] font-semibold text-white transition-all duration-200 hover:border-white/30 hover:bg-white/[0.06]"
               >
                 Speak with Solutions Team
+                <span className="text-white/40 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-white/70">→</span>
               </Link>
             </div>
           </div>
 
-          {/* Book Image — large, prominent presentation */}
-          <div className="relative flex justify-center lg:col-span-6 lg:justify-end">
-            <div className="relative aspect-[3/4] w-full max-w-[480px] sm:max-w-[540px] lg:max-w-[580px] xl:max-w-[620px]">
+          {/* Book Image — fixed height, no tall gap */}
+          <div className="relative flex items-start justify-center lg:col-span-5 lg:justify-end">
+            <div className="relative h-[320px] w-full max-w-[280px] sm:h-[380px] sm:max-w-[320px] lg:h-[400px] lg:max-w-[340px]">
               <Image
                 src="/assets/ainama.png"
                 alt="AINama By Rabbitt.AI Book Cover"
                 fill
-                sizes="(max-width: 768px) 480px, (max-width: 1200px) 580px, 620px"
-                className="object-contain drop-shadow-[0_30px_70px_rgba(0,0,0,0.92)] transition-transform duration-500 hover:scale-[1.02]"
+                sizes="(max-width: 768px) 280px, (max-width: 1200px) 340px, 340px"
+                className="object-contain object-top drop-shadow-[0_30px_70px_rgba(0,0,0,0.92)] transition-transform duration-500 hover:scale-[1.02]"
                 priority
               />
             </div>
@@ -161,8 +162,8 @@ export default function AiNamaPage() {
       </section>
 
       {/* Why This Book Stats Section */}
-      <section className="relative mx-auto max-w-[1440px] px-6 py-24 sm:px-10 lg:px-16">
-        <div className="border-t border-white/[0.08] pt-16">
+      <section className="relative mx-auto max-w-[1440px] px-6 py-12 sm:px-10 lg:px-16">
+        <div className="border-t border-white/[0.08] pt-10">
           <div className="max-w-2xl">
             <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-sky-400">
               Quantifiable Impact
@@ -197,7 +198,7 @@ export default function AiNamaPage() {
       </section>
 
       {/* Who Is This Book For Section */}
-      <section className="relative mx-auto max-w-[1440px] px-6 py-16 sm:px-10 lg:px-16">
+      <section className="relative mx-auto max-w-[1440px] px-6 py-12 sm:px-10 lg:px-16">
         <div className="max-w-2xl">
           <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-sky-400">
             Target Audience
@@ -233,7 +234,7 @@ export default function AiNamaPage() {
       </section>
 
       {/* What Will You Gain Section */}
-      <section className="relative mx-auto max-w-[1440px] px-6 py-20 sm:px-10 lg:px-16">
+      <section className="relative mx-auto max-w-[1440px] px-6 py-12 sm:px-10 lg:px-16">
         <div className="overflow-hidden rounded-3xl border border-white/[0.1] bg-gradient-to-b from-[#081224] to-[#040811] p-8 sm:p-14">
           <div className="mx-auto max-w-3xl text-center">
             <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-sky-400">
@@ -269,8 +270,8 @@ export default function AiNamaPage() {
       </section>
 
       {/* About The Author Section */}
-      <section className="relative mx-auto max-w-[1440px] px-6 py-20 sm:px-10 lg:px-16">
-        <div className="border-t border-white/[0.08] pt-16">
+      <section className="relative mx-auto max-w-[1440px] px-6 py-12 sm:px-10 lg:px-16">
+        <div className="border-t border-white/[0.08] pt-10">
           <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
             {/* Author Portrait */}
             <div className="flex justify-center lg:col-span-5">

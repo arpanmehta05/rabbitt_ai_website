@@ -50,10 +50,10 @@ export default function ProductsHero() {
           className="max-w-4xl"
         >
           {/* Main Title */}
-          <h1 className="font-[family-name:var(--font-newsreader)] text-4xl font-normal leading-[1.08] tracking-[-0.03em] sm:text-6xl lg:text-[4.6rem] text-white">
+          <h1 className="font-sans text-4xl font-bold leading-[1.08] tracking-[-0.045em] sm:text-6xl lg:text-[4.6rem] text-white">
             We turn your data
             <br />
-            into AI that <span className="text-[#4b8aff]">delivers.</span>
+            into AI that <span className="text-[#3B82F6]">delivers.</span>
           </h1>
 
           {/* Accent Blue Rule */}
