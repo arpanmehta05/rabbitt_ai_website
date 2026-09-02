@@ -64,7 +64,7 @@ export default async function BlogDetailPage({ params }: Props) {
         {/* Meta */}
         <div className="mb-6 flex flex-wrap items-center gap-3">
           {blog.about && (
-            <span className="border border-white/15 bg-black px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-white shadow-sm">
+            <span className="rounded-full border border-white/15 bg-black px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-white shadow-sm">
               {blog.about.length > 20 ? blog.about.slice(0, 20).trimEnd() + "…" : blog.about}
             </span>
           )}

@@ -5,32 +5,49 @@ import Link from "next/link";
 import { AnimatePresence, motion, type MotionValue } from "framer-motion";
 import { useEffect, useRef, useState, type RefObject } from "react";
 
-type Product = { name: string; description: string; icon: string; logo?: string };
+type Product = { name: string; description: string; icon: string; logo?: string; href: string };
 
 const categories: Record<string, Product[]> = {
   Marketing: [
-    { name: "IcyPluto", description: "Unified platform for marketing automation and growth.", icon: "◇", logo: "/Icypluto.svg" },
-    { name: "IcyLingo", description: "AI-driven language content generation at scale.", icon: "◌" },
-    { name: "IcyLunar", description: "Social listening and competitive intelligence platform.", icon: "☾" },
-    { name: "IcyQuill", description: "AI content assistant for long-form writing and editing.", icon: "↗", logo: "/quill.svg" },
-    { name: "Fire Reach", description: "Outreach automation and lead engagement platform.", icon: "♨", logo: "/firereach.svg" },
-    { name: "Pluto Circle", description: "Community marketing and audience management.", icon: "○" },
+    { name: "IcyPluto", description: "Unified platform for marketing automation and growth.", icon: "◇", logo: "/Icypluto.svg", href: "https://new.icypluto.com/" },
+    { name: "IcyLingo", description: "AI-driven language content generation at scale.", icon: "◌", href: "https://new.icypluto.com/" },
+    { name: "IcyLunar", description: "Social listening and competitive intelligence platform.", icon: "☾", href: "https://new.icypluto.com/" },
+    { name: "IcyQuill", description: "AI content assistant for long-form writing and editing.", icon: "↗", logo: "/quill.svg", href: "https://quill.icypluto.com/" },
+    { name: "Fire Reach", description: "Outreach automation and lead engagement platform.", icon: "♨", logo: "/firereach.svg", href: "https://firereach.rabbitt.ai/" },
+    { name: "Pluto Circle", description: "Community marketing and audience management.", icon: "○", href: "https://master.d3tzbu7ir1twhi.amplifyapp.com/" },
   ],
   Learning: [
-    { name: "Drip", description: "Adaptive learning experiences for modern teams.", icon: "◒", logo: "/drip.svg" },
-    { name: "OnSkill", description: "Workforce competency and skill management.", icon: "◆", logo: "/onskill.svg" },
+    { name: "Rabbitt Learning", description: "Enterprise AI learning platform and organizational enablement.", icon: "⬡", logo: "/logo.svg", href: "https://learning.rabbitt.ai/" },
+    { name: "DRIP", description: "Adaptive learning experiences for modern teams.", icon: "◒", logo: "/drip.svg", href: "https://drip.rabbitt.ai/" },
+    { name: "LMS", description: "Intelligent learning management system for workforce training.", icon: "▤", href: "https://admin.learning.rabbitt.ai/" },
+    { name: "Code Bunny", description: "AI coding companion and interactive developer learning sandbox.", icon: "◈", href: "https://learning.rabbitt.ai/codebunny" },
+    { name: "AI Learning Platform Gamified", description: "Gamified learning journeys with challenges, quests, and rewards.", icon: "❖", logo: "/aiquest.svg", href: "https://www.aiquest.rabbitt.ai/" },
+    { name: "OnSkill", description: "Workforce competency and skill management.", icon: "◆", logo: "/onskill.svg", href: "https://onskill.org/" },
+    { name: "R Proctor", description: "Automated AI proctoring and assessment integrity system.", icon: "⦿", href: "/contactus?product=r-proctor" },
   ],
   Technology: [
-    { name: "Cloud Watcher", description: "Cloud cost, health, and operations intelligence.", icon: "◈", logo: "/cloudwatcher.svg" },
+    { name: "ChanceRAG", description: "Full-fledged enterprise RAG and intelligent knowledge retrieval.", icon: "◫", logo: "/chance.svg", href: "https://rabbitt.ai/chancerag/" },
+    { name: "HRMS", description: "Agentic AI human resource management and workforce intelligence.", icon: "▤", href: "/contactus?product=hrms" },
+    { name: "Canvas", description: "On-premise visual workflow automation and dynamic AI canvas.", icon: "▦", href: "/contactus?product=canvas" },
   ],
-  "Independent Products": [
-    { name: "Voice Rabbitt", description: "Conversational voice experiences for enterprise.", icon: "◉" },
-    { name: "PingU", description: "Intelligent notifications and incident coordination.", icon: "◌", logo: "/pingu.svg" },
+  "Ecosystem Products": [
+    { name: "Voice Rabbitt", description: "Conversational voice experiences for enterprise.", icon: "◉", href: "https://www.voice.rabbitt.ai/" },
+    { name: "Cloud Watcher", description: "Cloud cost, health, and operations intelligence.", icon: "◈", logo: "/cloudwatcher.svg", href: "https://cloudwatcher.rabbitt.ai/" },
+    { name: "Ping You", description: "Intelligent notifications and incident coordination.", icon: "◌", logo: "/pingu.svg", href: "https://www.pingme.rabbitt.ai/" },
   ],
   "Other Initiatives": [
-    { name: "AI World", description: "A global network advancing responsible AI.", icon: "✦" },
-    { name: "GMA Council", description: "Industry collaboration and thought leadership.", icon: "◎" },
+    { name: "GMA Council", description: "Industry collaboration and thought leadership for the AI era.", icon: "◎", href: "/contactus?product=gma-council" },
+    { name: "WES council", description: "Global council advancing sustainable empowerment and AI governance.", icon: "✦", href: "/contactus?product=wes-council" },
+    { name: "AI World", description: "A global network advancing responsible AI.", icon: "◌", href: "/contactus?product=ai-world" },
   ],
+};
+
+const categoryDescriptions: Record<string, string> = {
+  Marketing: "AI-powered tools to grow your brand and audience.",
+  Learning: "AI platforms and tools to accelerate learning and skill mastery.",
+  Technology: "Advanced RAG systems, workforce intelligence, and collaborative workspaces.",
+  "Ecosystem Products": "Core voice, observability, and communication platforms.",
+  "Other Initiatives": "Global communities, councils, and consortiums advancing responsible AI.",
 };
 
 const categoryNames = Object.keys(categories);
@@ -81,7 +98,7 @@ const dataSolutions = [
   {
     title: "CuratorsAI",
     description: "AI powered voice agent creation platform",
-    href: "/contactus",
+    href: "/curators-ai",
     icon: (
       <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
@@ -89,21 +106,9 @@ const dataSolutions = [
     ),
   },
   {
-    title: "ChanceRAG",
-    description: "Our full fledged RAG Solution",
-    href: "/contactus",
-    icon: (
-      <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
-        <rect width="18" height="18" x="3" y="3" rx="2" />
-        <path d="m9 10-2 2 2 2" />
-        <path d="m15 10 2 2-2 2" />
-      </svg>
-    ),
-  },
-  {
     title: "NavicaAI",
     description: "Explore careers based on your skills & interest",
-    href: "/contactus",
+    href: "/navica-ai",
     icon: (
       <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
         <rect width="18" height="18" x="3" y="3" rx="2" />
@@ -162,7 +167,7 @@ const serviceItems = [
   {
     title: "Website Revamp Services",
     description: "Modern, high-converting digital web experiences built for the AI era.",
-    href: "/contactus",
+    href: "https://icypluto.com/website-revamp-services",
     icon: (
       <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round">
         <rect width="18" height="18" x="3" y="3" rx="2" />
@@ -194,6 +199,14 @@ export default function SiteNavigation({ opacity = 1, brandTargetRef }: SiteNavi
   const [activeCategory, setActiveCategory] = useState("Marketing");
   const navigationRef = useRef<HTMLElement>(null);
   const products = categories[activeCategory];
+
+  const handleCategoryNavigate = (category: string) => {
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem("rabbitt-products-category", category);
+      window.dispatchEvent(new Event("rabbitt-products-category-change"));
+    }
+    setOpenMenu(null);
+  };
 
   useEffect(() => {
     const closeOnOutsideClick = (event: PointerEvent) => {
@@ -267,62 +280,84 @@ export default function SiteNavigation({ opacity = 1, brandTargetRef }: SiteNavi
         </div>
 
         <div className="ml-auto flex items-center gap-6 text-[0.95rem]">
-          <Link href="/contactus" className="inline-flex items-center gap-3 rounded-lg border border-sky-300/65 px-4 py-2 text-slate-50 transition-colors hover:border-sky-200 hover:text-sky-100">Book a Demo <span className="text-xl leading-none">→</span></Link>
+          <Link
+            href="/contactus"
+            className="group inline-flex items-center gap-2 rounded-full bg-white px-5 py-2 text-sm font-semibold text-[#020305] shadow-[0_0_0_1px_rgba(255,255,255,0.15),0_4px_16px_rgba(255,255,255,0.08)] transition-all duration-200 hover:bg-slate-100 hover:shadow-[0_0_0_1px_rgba(255,255,255,0.25),0_6px_24px_rgba(255,255,255,0.15)]"
+          >
+            Book a Demo <span className="text-base leading-none transition-transform duration-200 group-hover:translate-x-0.5">→</span>
+          </Link>
         </div>
 
         <AnimatePresence>
           {openMenu === "products" && (
             <motion.div
               initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute left-1/2 top-[calc(100%+1px)] w-[calc(100vw-6rem)] max-w-[76rem] -translate-x-1/2 rounded-b-[1.3rem] border border-white/[0.14] bg-[#060b13] shadow-[0_24px_60px_rgba(0,0,0,0.62)]"
+              className="no-scrollbar absolute left-1/2 top-[calc(100%+1px)] w-[calc(100vw-6rem)] max-w-[76rem] -translate-x-1/2 overflow-hidden rounded-b-[1.3rem] border border-white/[0.14] bg-[#060b13] shadow-[0_24px_60px_rgba(0,0,0,0.62)]"
             >
-              <div className="grid grid-cols-[19rem_minmax(0,1fr)] overflow-hidden rounded-[1.25rem]">
-                <aside className="flex flex-col border-r border-white/[0.12] p-6">
+              <div className="grid grid-cols-[18rem_minmax(0,1fr)] overflow-hidden rounded-[1.25rem]">
+                <aside className="flex flex-col border-r border-white/[0.12] p-5">
                   <div className="space-y-1">
                     {categoryNames.map((category) => (
-                      <button key={category} type="button" onClick={() => setActiveCategory(category)} className={`group flex w-full items-center justify-between rounded-xl px-4 py-3.5 text-left text-[1rem] transition-colors ${activeCategory === category ? "bg-[#0e1b30] text-sky-400" : "text-slate-100 hover:bg-white/[0.04] hover:text-sky-200"}`}>
+                      <button key={category} type="button" onClick={() => setActiveCategory(category)} className={`group flex w-full items-center justify-between rounded-xl px-3.5 py-3 text-left text-[0.95rem] transition-colors ${activeCategory === category ? "bg-[#0e1b30] text-sky-400" : "text-slate-100 hover:bg-white/[0.04] hover:text-sky-200"}`}>
                         <span>{category}</span><span className="text-2xl font-light text-slate-400 transition-transform group-hover:translate-x-1">›</span>
                       </button>
                     ))}
                   </div>
-                  <div className="mt-6 rounded-xl border border-white/[0.12] px-6 py-6 text-center">
+                  <div className="mt-5 rounded-xl border border-white/[0.12] px-5 py-5 text-center">
                     <p className="text-base text-slate-200">Not sure where to start?</p>
                     <p className="mt-2 text-sm leading-6 text-slate-400">We&apos;ll help you find the right solution.</p>
-                    <Link href="/contactus" onClick={() => setOpenMenu(null)} className="mt-5 inline-flex items-center gap-2 text-base text-sky-400 transition-colors hover:text-sky-200">Talk to Rabbitt AI <span className="text-xl">→</span></Link>
+                    <Link href="/contactus" onClick={() => setOpenMenu(null)} className="mt-4 inline-flex items-center gap-2 text-base text-sky-400 transition-colors hover:text-sky-200">Talk to Rabbitt AI <span className="text-xl">→</span></Link>
                   </div>
                 </aside>
 
-                <section className="flex min-w-0 flex-col p-7">
-                  <div className="border-b border-white/[0.12] pb-5">
-                    <h2 className="text-[1.6rem] font-semibold tracking-[-0.04em] text-white">{activeCategory}</h2>
-                    <p className="mt-2 text-base text-slate-400">AI-powered tools to grow your brand and audience.</p>
+                <section className="flex min-w-0 flex-col px-7 py-5">
+                  <div className="border-b border-white/[0.12] pb-4">
+                    <h2 className="text-[1.5rem] font-semibold tracking-[-0.04em] text-white">{activeCategory}</h2>
+                    <p className="mt-1.5 text-sm text-slate-400">{categoryDescriptions[activeCategory] || "AI-powered tools to grow your brand and audience."}</p>
                   </div>
-                  <div className="grid grid-cols-2 gap-x-16">
-                    {products.map((product) => (
-                      <Link key={product.name} href="/products" onClick={() => setOpenMenu(null)} className="group flex min-w-0 items-center gap-4 border-b border-white/[0.1] py-5">
-                        <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#111a2b] p-1 text-2xl text-white">
-                          {product.logo ? (
-                            <Image
-                              src={product.logo}
-                              alt=""
-                              width={44}
-                              height={44}
-                              className={`object-contain ${
-                                product.name === "PingU" || product.name === "Drip"
-                                   ? "h-7 w-10"
-                                   : "h-9 w-9"
-                              }`}
-                            />
-                          ) : (
-                            product.icon
-                          )}
-                        </span>
-                        <span className="min-w-0 flex-1"><span className="block text-lg font-semibold text-white">{product.name}</span><span className="mt-1 block text-sm leading-6 text-slate-400">{product.description}</span></span>
-                        <span className="text-2xl font-light text-slate-400 opacity-0 transition-all group-hover:translate-x-1 group-hover:opacity-100">→</span>
-                      </Link>
-                    ))}
+                  <div className="grid grid-cols-2 gap-x-12">
+                    {products.map((product) => {
+                      const isExternal = product.href.startsWith("http");
+                      return (
+                        <Link
+                          key={product.name}
+                          href={product.href}
+                          target={isExternal ? "_blank" : undefined}
+                          rel={isExternal ? "noopener noreferrer" : undefined}
+                          onClick={() => setOpenMenu(null)}
+                          className="group flex min-w-0 items-center gap-3.5 border-b border-white/[0.08] py-3"
+                        >
+                          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#111a2b] p-1 text-xl text-white">
+                            {product.logo ? (
+                              <Image
+                                src={product.logo}
+                                alt=""
+                                width={40}
+                                height={40}
+                                className={`object-contain ${
+                                  product.name === "PingU" || product.name === "Ping You" || product.name === "DRIP"
+                                     ? "h-6 w-9"
+                                     : product.name === "Rabbitt Learning"
+                                       ? "h-9 w-9 scale-110"
+                                       : "h-8 w-8"
+                                }`}
+                              />
+                            ) : (
+                              product.icon
+                            )}
+                          </span>
+                          <span className="min-w-0 flex-1">
+                            <span className="block text-base font-semibold text-white">{product.name}</span>
+                            <span className="mt-0.5 block text-xs leading-5 text-slate-400">{product.description}</span>
+                          </span>
+                          <span className="text-xl font-light text-slate-400 opacity-0 transition-all group-hover:translate-x-1 group-hover:opacity-100">
+                            →
+                          </span>
+                        </Link>
+                      );
+                    })}
                   </div>
-                  <Link href="/products" onClick={() => setOpenMenu(null)} className="inline-flex items-center gap-2 pt-6 text-base text-sky-400 transition-colors hover:text-sky-200">Explore all products <span className="text-xl">→</span></Link>
+                  <Link href="/products" onClick={() => handleCategoryNavigate(activeCategory)} className="inline-flex items-center gap-2 pt-4 text-sm text-sky-400 transition-colors hover:text-sky-200">Explore all products <span className="text-lg">→</span></Link>
                 </section>
               </div>
             </motion.div>
@@ -415,6 +450,8 @@ export default function SiteNavigation({ opacity = 1, brandTargetRef }: SiteNavi
                   <Link
                     key={item.title}
                     href={item.href}
+                    target={item.href.startsWith("http") ? "_blank" : undefined}
+                    rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
                     onClick={() => setOpenMenu(null)}
                     className="group flex items-start gap-3.5 rounded-xl p-3.5 transition-colors hover:bg-white/[0.05]"
                   >

@@ -59,7 +59,7 @@ const productNodes: ProductNode[] = [
   },
   {
     id: "drip",
-    name: "Drip",
+    name: "DRIP",
     src: "/drip.svg",
     pos: { desktop: { x: 43, y: -6 }, tablet: { x: 44, y: -8 } },
     curveControl: { cx1: 18, cy1: -9, cx2: 32, cy2: -6 },
@@ -809,7 +809,7 @@ export default function LandingExperience({
 function ReferenceHero({ introComplete }: { introComplete: boolean }) {
   const productNames = [
     "IcyPluto",
-    "Drip",
+    "DRIP",
     "Cloud Watcher",
     "ChanceRAG",
     "OnSkill",
@@ -846,10 +846,10 @@ function ReferenceHero({ introComplete }: { introComplete: boolean }) {
           </p>
           <a
             href="#solutions"
-            className="mt-8 inline-flex items-center gap-4 rounded-xl bg-[#f7f8fb] px-6 py-4 text-[0.96rem] font-medium text-[#080a0e] shadow-[0_8px_26px_rgba(255,255,255,0.12)] transition-transform duration-300 hover:-translate-y-0.5"
+            className="group mt-8 inline-flex items-center gap-3.5 rounded-full bg-white px-7 py-3.5 text-[0.95rem] font-semibold text-[#020305] shadow-[0_0_0_1px_rgba(255,255,255,0.15),0_8px_32px_rgba(255,255,255,0.08)] transition-all duration-200 hover:bg-slate-100 hover:shadow-[0_0_0_1px_rgba(255,255,255,0.25),0_8px_40px_rgba(255,255,255,0.14)]"
           >
-            Explore Solutions{" "}
-            <span className="text-xl leading-none" aria-hidden="true">
+            <span>Explore Solutions</span>
+            <span className="text-lg leading-none transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true">
               →
             </span>
           </a>

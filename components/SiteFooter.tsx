@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
@@ -5,7 +7,7 @@ import type { ReactNode } from "react";
 const footerColumns = [
   {
     title: "Products",
-    links: ["Marketing", "Learning", "Technology", "Independent Products", "Other Initiatives"],
+    links: ["Marketing", "Learning", "Technology", "Ecosystem Products", "Other Initiatives"],
     cta: "View all products",
   },
   {
@@ -24,7 +26,25 @@ const footerColumns = [
   },
 ];
 
+const PRODUCT_CATEGORIES = new Set([
+  "Marketing",
+  "Learning",
+  "Technology",
+  "Ecosystem Products",
+  "Other Initiatives",
+]);
+
 export default function SiteFooter() {
+  const handleProductCategoryClick = (category: string) => {
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem("rabbitt-products-category", category);
+      window.dispatchEvent(new Event("rabbitt-products-category-change"));
+      if (window.location.pathname === "/products") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    }
+  };
+
   return (
     <footer className="relative overflow-hidden border-t border-white/[0.08] bg-[#02060d] text-white">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_55%_65%_at_12%_38%,rgba(13,73,150,0.13),transparent_70%)]" />
@@ -51,14 +71,20 @@ export default function SiteFooter() {
               <h2 className="text-[0.93rem] font-medium uppercase tracking-[0.1em] text-white">{column.title}</h2>
               <ul className="mt-9 space-y-5">
                 {column.links.map((link) => {
+                  const isProductCategory = column.title === "Products" && PRODUCT_CATEGORIES.has(link);
                   const href =
+                    isProductCategory ? "/products" :
                     link === "Contact Us" ? "/contactus" :
                     link === "Blog" ? "/blogs" :
                     link === "Case Studies" ? "/casestudies" :
                     "#";
                   return (
                     <li key={link}>
-                      <Link href={href} className="group flex items-center gap-4 text-[1rem] leading-snug text-white transition-colors hover:text-white/80">
+                      <Link
+                        href={href}
+                        onClick={isProductCategory ? () => handleProductCategoryClick(link) : undefined}
+                        className="group flex items-center gap-4 text-[1rem] leading-snug text-white transition-colors hover:text-white/80"
+                      >
                         <span aria-hidden="true" className="text-2xl font-light leading-none text-white transition-transform group-hover:translate-x-1">›</span>
                         <span>{link}</span>
                       </Link>
@@ -69,6 +95,11 @@ export default function SiteFooter() {
               {column.cta && (
                 <Link
                   href={column.cta === "View all products" ? "/products" : "#"}
+                  onClick={
+                    column.cta === "View all products"
+                      ? () => handleProductCategoryClick("Marketing")
+                      : undefined
+                  }
                   className="mt-auto inline-flex shrink-0 items-center gap-3 whitespace-nowrap pt-9 text-[1rem] text-white transition-colors hover:text-white/80"
                 >
                   {column.cta} <span aria-hidden="true" className="text-2xl leading-none">→</span>

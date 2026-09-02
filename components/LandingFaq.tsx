@@ -32,7 +32,7 @@ const faqs: FaqItem[] = [
   {
     question: "Which products are part of the Rabbitt AI ecosystem?",
     answer:
-      "Our ecosystem includes CloudWatcher (AI cloud infrastructure observability), AI Quest (enterprise knowledge retrieval), IcyPluto (analytics intelligence), IcyQuill (AI-assisted content generation), OnSkill (L&D intelligence), Drip (marketing automation), PingU (communications intelligence), and Chance Rag (retrieval-augmented generation). You can adopt products individually or as an integrated suite.",
+      "Our ecosystem includes CloudWatcher (AI cloud infrastructure observability), AI Quest (enterprise knowledge retrieval), IcyPluto (analytics intelligence), IcyQuill (AI-assisted content generation), OnSkill (L&D intelligence), DRIP (marketing automation), PingU (communications intelligence), and Chance Rag (retrieval-augmented generation). You can adopt products individually or as an integrated suite.",
   },
   {
     question: "What does the engagement model look like — project, retainer, or SaaS?",
@@ -161,12 +161,12 @@ export default function LandingFaq() {
           </p>
           <a
             href="/contactus"
-            className="group inline-flex items-center gap-2 rounded-xl border border-white/15 bg-white/[0.05] px-6 py-3 text-sm font-medium text-white transition-all hover:border-sky-400/40 hover:bg-white/[0.09]"
+            className="group inline-flex items-center gap-2.5 rounded-full border border-white/[0.16] bg-white/[0.05] px-6 py-3 text-sm font-semibold text-white transition-all duration-200 hover:border-white/30 hover:bg-white/[0.09]"
           >
             Talk to us
             <span
               aria-hidden="true"
-              className="transition-transform group-hover:translate-x-1 text-sky-400"
+              className="text-sky-400 transition-transform duration-200 group-hover:translate-x-0.5"
             >
               →
             </span>

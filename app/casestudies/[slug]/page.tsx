@@ -63,11 +63,11 @@ export default async function CaseStudyDetailPage({ params }: Props) {
 
         {/* Meta */}
         <div className="mb-6 flex flex-wrap items-center gap-3">
-          <span className="border border-white/[0.1] bg-white/[0.06] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-300">
+          <span className="rounded-full border border-white/[0.1] bg-white/[0.06] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-300">
             Case Study
           </span>
           {study.about && (
-            <span className="border border-white/15 bg-black px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-white shadow-sm">
+            <span className="rounded-full border border-white/15 bg-black px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-white shadow-sm">
               {study.about.length > 20 ? study.about.slice(0, 20).trimEnd() + "…" : study.about}
             </span>
           )}

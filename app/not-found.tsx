@@ -106,16 +106,16 @@ export default function NotFound() {
           <div className="mt-6 flex flex-wrap items-center justify-center gap-4 sm:mt-8">
             <Link
               href="/"
-              className="group inline-flex items-center gap-2.5 rounded-xl bg-white px-7 py-3.5 text-sm font-semibold text-[#020305] shadow-[0_0_30px_rgba(255,255,255,0.2)] transition-all hover:bg-slate-100 hover:scale-[1.02] active:scale-[0.98]"
+              className="group inline-flex items-center gap-2.5 rounded-full bg-white px-7 py-3.5 text-sm font-semibold text-[#020305] shadow-[0_0_30px_rgba(255,255,255,0.2)] transition-all duration-200 hover:bg-slate-100 hover:scale-[1.02] active:scale-[0.98]"
             >
               <span>Back to Home</span>
-              <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">
+              <span aria-hidden="true" className="transition-transform duration-200 group-hover:translate-x-1">
                 →
               </span>
             </Link>
             <Link
               href="/products"
-              className="inline-flex items-center gap-2 rounded-xl border border-white/15 bg-white/[0.05] px-6 py-3.5 text-sm font-medium text-slate-200 backdrop-blur-sm transition-all hover:border-sky-400/50 hover:bg-white/[0.09] hover:text-white"
+              className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.05] px-6 py-3.5 text-sm font-medium text-slate-200 backdrop-blur-sm transition-all duration-200 hover:border-sky-400/50 hover:bg-white/[0.09] hover:text-white"
             >
               Explore Products
             </Link>

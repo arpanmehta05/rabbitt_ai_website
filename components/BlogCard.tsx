@@ -50,7 +50,7 @@ export default function BlogCard({
         {/* Category tag — max 20 chars, square, black background with white text */}
         {about && (
           <span
-            className="absolute left-4 top-4 z-10 max-w-[calc(100%-2rem)] truncate border border-white/15 bg-black px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-white shadow-md"
+            className="absolute left-4 top-4 z-10 max-w-[calc(100%-2rem)] truncate rounded-full border border-white/15 bg-black/80 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-white backdrop-blur-sm shadow-md"
             title={about}
           >
             {truncateCategory(about)}

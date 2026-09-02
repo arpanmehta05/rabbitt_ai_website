@@ -37,7 +37,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           }}
         />
       </head>
-      <body className="min-h-full flex flex-col" suppressHydrationWarning>
+      <body className={`${geistSans.className} font-sans min-h-full flex flex-col`} suppressHydrationWarning>
         {children}
       </body>
     </html>

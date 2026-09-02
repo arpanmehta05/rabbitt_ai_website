@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import SiteNavigation from "@/components/SiteNavigation";
 import ProductsHero from "@/components/ProductsHero";
+import ProductsShowcase from "@/components/ProductsShowcase";
 import ContactCta from "@/components/ContactCta";
 import SiteFooter from "@/components/SiteFooter";
 
@@ -18,6 +19,9 @@ export default function ProductsPage() {
 
       {/* Hero section matching provided visual */}
       <ProductsHero />
+
+      {/* Product catalogue and scroll-driven showcase */}
+      <ProductsShowcase />
 
       {/* White CTA Card before footer */}
       <ContactCta />

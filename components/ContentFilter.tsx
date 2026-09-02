@@ -46,7 +46,7 @@ export default function ContentFilter({
             type="button"
             onClick={() => setActive(cat)}
             title={cat}
-            className={`border px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] transition-all ${
+            className={`rounded-full border px-5 py-2 text-xs font-semibold uppercase tracking-[0.14em] transition-all ${
               active === cat
                 ? "border-sky-400 bg-sky-500/15 text-sky-300"
                 : "border-white/[0.1] bg-white/[0.03] text-slate-400 hover:border-white/20 hover:text-slate-200"
