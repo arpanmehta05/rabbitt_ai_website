@@ -104,7 +104,7 @@ export default function ClientMarquee() {
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/[0.1] to-transparent" />
 
       <div className="relative z-10 mb-6 px-6 text-center sm:px-10 lg:px-16">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-400">
+        <p className="text-sm font-semibold uppercase tracking-[0.22em] text-slate-300 sm:text-base">
           Trusted by industry leaders
         </p>
       </div>

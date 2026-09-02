@@ -39,7 +39,7 @@ const PRODUCT_CATALOG: ProductCatalog = {
     { name: "R Proctor", description: "Automated AI proctoring system ensuring integrity and security for online assessments.", href: "/contactus?product=r-proctor", mark: "RP" },
   ],
   Technology: [
-    { name: "ChanceRAG", description: "Full-fledged enterprise RAG solution for deep document reasoning, precision, and contextual accuracy.", href: "https://rabbitt.ai/chancerag/", logo: "/chance.svg", mark: "CR" },
+    { name: "ChanceRAG", description: "Full-fledged enterprise RAG solution for deep document reasoning, precision, and contextual accuracy.", href: "/chancerag", logo: "/chance.svg", mark: "CR" },
     { name: "HRMS", description: "Agentic AI-driven human resource management, automated employee workflows, and talent operations.", href: "/contactus?product=hrms", mark: "HR" },
     { name: "Canvas", description: "On-premise visual workflow automation and canvas for enterprise orchestration and execution.", href: "/contactus?product=canvas", mark: "CV" },
   ],

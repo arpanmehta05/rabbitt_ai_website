@@ -20,12 +20,21 @@ const stats = [
     value: 100,
     suffix: "+",
     label: "Enterprise Clients",
-    description: "Organisations trusting Rabbitt AI in their critical workflows",
+    description:
+      "Organisations trusting Rabbitt AI in their critical workflows",
+  },
+  {
+    value: 8,
+    suffix: "+",
+    label: "Product Platforms",
+    description:
+      "Connected products across intelligence, learning, content, and operations",
   },
 ];
 
 function formatNumber(n: number): string {
-  if (n >= 1_000_000) return (n / 1_000_000).toFixed(n % 1_000_000 === 0 ? 0 : 1) + "M";
+  if (n >= 1_000_000)
+    return (n / 1_000_000).toFixed(n % 1_000_000 === 0 ? 0 : 1) + "M";
   if (n >= 1_000) return (n / 1_000).toFixed(n % 1_000 === 0 ? 0 : 1) + "K";
   return n.toString();
 }
@@ -71,14 +80,26 @@ export default function LandingStats() {
   return (
     <section
       ref={ref}
-      className="relative bg-[#020305] px-6 sm:px-10 lg:px-16"
+      className="relative overflow-hidden bg-[#020305] px-6 py-20 sm:px-10 sm:py-24 lg:px-16 lg:py-28"
     >
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_52%_74%_at_50%_50%,rgba(14,116,144,0.1),transparent_72%)]" />
       {/* Full-width hairline separators */}
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.1] to-transparent" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/[0.1] to-transparent" />
 
       <div className="mx-auto max-w-[1440px]">
-        <div className="grid grid-cols-1 divide-y divide-white/[0.07] sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+        <div className="relative mb-12 flex flex-col gap-4 sm:mb-16 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <h2 className="text-3xl font-semibold tracking-[-0.05em] text-white sm:text-4xl">
+              Impact you can measure.
+            </h2>
+          </div>
+          <p className="max-w-md text-sm leading-6 text-slate-400 sm:text-base">
+            From carefully prepared data to live enterprise AI systems, every
+            engagement is designed to move meaningful work forward.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 divide-y divide-white/[0.07] sm:grid-cols-2 sm:divide-x sm:divide-y-0 xl:grid-cols-4">
           {stats.map((stat, i) => (
             <motion.div
               key={stat.label}
@@ -89,21 +110,21 @@ export default function LandingStats() {
                 delay: i * 0.1,
                 ease: [0.16, 1, 0.3, 1],
               }}
-              className="flex flex-col justify-center py-12 px-0 sm:px-12 first:pl-0 last:pr-0"
+              className="relative flex min-h-64 flex-col justify-center py-10 first:pt-0 sm:min-h-72 sm:px-10 sm:py-8 sm:first:pl-0 xl:py-3 xl:first:pl-0 xl:last:pr-0"
             >
               {/* Number */}
-              <p className="tabular-nums text-5xl font-black tracking-[-0.04em] text-white sm:text-6xl lg:text-7xl">
+              <p className="tabular-nums text-6xl font-semibold tracking-[-0.04em] text-white drop-shadow-[0_10px_30px_rgba(255,255,255,0.08)] sm:text-7xl lg:text-8xl">
                 <CountUp end={stat.value} active={isInView} duration={2} />
-                <span className="text-sky-400">{stat.suffix}</span>
+                <span className="ml-1 text-sky-400 sm:ml-2">{stat.suffix}</span>
               </p>
 
               {/* Label */}
-              <p className="mt-3 text-sm font-semibold text-slate-200 sm:text-base">
+              <p className="mt-5 text-sm font-semibold text-slate-100 sm:text-base">
                 {stat.label}
               </p>
 
               {/* Description */}
-              <p className="mt-1.5 max-w-[22ch] text-xs leading-relaxed text-slate-500 sm:text-sm">
+              <p className="mt-2 max-w-[24ch] text-sm leading-relaxed text-slate-400">
                 {stat.description}
               </p>
             </motion.div>

@@ -2,7 +2,6 @@
 
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import SiteNavigation from "@/components/SiteNavigation";
 import {
   AnimatePresence,
@@ -201,7 +200,11 @@ export default function LandingExperience({
       return easedT * (ty as number);
     },
   );
-  const logoScale = useTransform(animationProgress, [0.43, 0.84], [1, 0.208333]);
+  const logoScale = useTransform(
+    animationProgress,
+    [0.43, 0.84],
+    [1, 0.208333],
+  );
   const launchHatOpacity = useTransform(animationProgress, [0.76, 0.9], [1, 0]);
   const navOpacity = useTransform(animationProgress, [0.76, 0.9], [0, 1]);
   const referenceHeroOpacity = useTransform(
@@ -271,7 +274,12 @@ export default function LandingExperience({
   }, [skipIntro, prefersReducedMotion]);
 
   useEffect(() => {
-    if (skipIntro || prefersReducedMotion || !showLegacyIntro || introPhase !== "ecosystem")
+    if (
+      skipIntro ||
+      prefersReducedMotion ||
+      !showLegacyIntro ||
+      introPhase !== "ecosystem"
+    )
       return;
     const controls = animate(ecosystemReveal, 1, {
       duration: 1.1,
@@ -281,7 +289,12 @@ export default function LandingExperience({
   }, [skipIntro, introPhase, prefersReducedMotion, ecosystemReveal]);
 
   useEffect(() => {
-    if (skipIntro || prefersReducedMotion || !showLegacyIntro || introPhase !== "ecosystem")
+    if (
+      skipIntro ||
+      prefersReducedMotion ||
+      !showLegacyIntro ||
+      introPhase !== "ecosystem"
+    )
       return;
 
     let controls: ReturnType<typeof animate> | undefined;
@@ -808,14 +821,6 @@ export default function LandingExperience({
 }
 
 function ReferenceHero({ introComplete }: { introComplete: boolean }) {
-  const heroProducts = [
-    { name: "IcyPluto", href: "https://new.icypluto.com/" },
-    { name: "DRIP", href: "https://drip.rabbitt.ai/" },
-    { name: "Cloud Watcher", href: "https://cloudwatcher.rabbitt.ai/" },
-    { name: "ChanceRAG", href: "https://rabbitt.ai/chancerag/" },
-    { name: "OnSkill", href: "https://onskill.org/" },
-  ];
-
   return (
     <div className="relative flex h-full min-h-0 flex-col overflow-hidden bg-[#020406] text-white">
       {/* This shared field sits behind both columns.  The video uses screen
@@ -850,42 +855,16 @@ function ReferenceHero({ introComplete }: { introComplete: boolean }) {
             className="group mt-8 inline-flex items-center gap-3.5 rounded-full bg-white px-7 py-3.5 text-[0.95rem] font-semibold text-[#020305] shadow-[0_0_0_1px_rgba(255,255,255,0.15),0_8px_32px_rgba(255,255,255,0.08)] transition-all duration-200 hover:bg-slate-100 hover:shadow-[0_0_0_1px_rgba(255,255,255,0.25),0_8px_40px_rgba(255,255,255,0.14)]"
           >
             <span>Explore Solutions</span>
-            <span className="text-lg leading-none transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true">
+            <span
+              className="text-lg leading-none transition-transform duration-200 group-hover:translate-x-0.5"
+              aria-hidden="true"
+            >
               →
             </span>
           </a>
         </div>
 
         <HeroVideoPlayer introComplete={introComplete} />
-      </div>
-
-      <div className="relative z-20 border-t border-white/[0.06] bg-[#010203]/80 px-6 py-5 backdrop-blur-sm sm:px-10 lg:px-16 xl:px-[5.25rem]">
-        <div className="flex w-full flex-col gap-5 sm:flex-row sm:items-center">
-          <Link
-            href="/products"
-            className="shrink-0 border-white/[0.2] text-[0.68rem] font-medium uppercase leading-[1.45] tracking-[0.16em] text-[#aeb4c1] transition-colors duration-200 hover:text-white sm:mr-8 sm:border-r sm:pr-8"
-          >
-            Explore our
-            <br />
-            products
-          </Link>
-          <div className="grid flex-1 grid-cols-3 items-center gap-x-7 gap-y-3 text-center sm:grid-cols-5 sm:gap-x-6 lg:gap-x-10">
-            {heroProducts.map((product) => {
-              const isExternal = product.href.startsWith("http");
-              return (
-                <Link
-                  key={product.name}
-                  href={product.href}
-                  target={isExternal ? "_blank" : undefined}
-                  rel={isExternal ? "noopener noreferrer" : undefined}
-                  className="whitespace-nowrap text-[clamp(1rem,1.75vw,1.55rem)] font-medium tracking-[-0.06em] text-[#717785] transition-colors duration-200 hover:text-white last:tracking-[-0.08em]"
-                >
-                  {product.name}
-                </Link>
-              );
-            })}
-          </div>
-        </div>
       </div>
     </div>
   );
