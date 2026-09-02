@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import LandingExperience from "@/components/LandingExperience";
 import LandingStats from "@/components/LandingStats";
 import LlmAdoptionJourney from "@/components/LlmAdoptionJourney";
+import ClientMarquee from "@/components/ClientMarquee";
 import LandingFaq from "@/components/LandingFaq";
 import ContactCta from "@/components/ContactCta";
 import SiteFooter from "@/components/SiteFooter";
@@ -13,8 +14,9 @@ export default async function Home() {
   return (
     <main className="bg-[#020305]">
       <LandingExperience initialSkip={initialSkip} />
-      <LandingStats />
+      <ClientMarquee />
       <LlmAdoptionJourney />
+      <LandingStats />
       <LandingFaq />
       <ContactCta />
       <SiteFooter />

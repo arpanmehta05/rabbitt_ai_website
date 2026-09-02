@@ -7,7 +7,7 @@ import type { ReactNode } from "react";
 const footerColumns = [
   {
     title: "Products",
-    links: ["Marketing", "Learning", "Technology", "Ecosystem Products", "Other Initiatives"],
+    links: ["Marketing", "Learning", "Technology", "Ecosystem Products"],
     cta: "View all products",
   },
   {
@@ -31,7 +31,6 @@ const PRODUCT_CATEGORIES = new Set([
   "Learning",
   "Technology",
   "Ecosystem Products",
-  "Other Initiatives",
 ]);
 
 export default function SiteFooter() {
@@ -74,6 +73,7 @@ export default function SiteFooter() {
                   const isProductCategory = column.title === "Products" && PRODUCT_CATEGORIES.has(link);
                   const href =
                     isProductCategory ? "/products" :
+                    link === "Content Writing" ? "/services/content-writing" :
                     link === "Contact Us" ? "/contactus" :
                     link === "Blog" ? "/blogs" :
                     link === "Case Studies" ? "/casestudies" :

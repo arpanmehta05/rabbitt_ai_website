@@ -48,11 +48,6 @@ const PRODUCT_CATALOG: ProductCatalog = {
     { name: "Cloud Watcher", description: "Cloud cost, health, and operations intelligence for confident teams.", href: "https://cloudwatcher.rabbitt.ai/", logo: "/cloudwatcher.svg", mark: "CW" },
     { name: "Ping You", description: "Intelligent notifications and incident coordination when the signal matters.", href: "https://www.pingme.rabbitt.ai/", logo: "/pingu.svg", mark: "PY" },
   ],
-  "Other Initiatives": [
-    { name: "GMA Council", description: "Industry collaboration and thought leadership for the AI era.", href: "/contactus?product=gma-council", mark: "GC" },
-    { name: "WES council", description: "Global council advancing sustainable empowerment, ethics, and world economic standards in AI.", href: "/contactus?product=wes-council", mark: "WC" },
-    { name: "AI World", description: "A global network helping organisations advance responsible AI.", href: "/contactus?product=ai-world", mark: "AW" },
-  ],
 };
 
 const CATEGORY_STORAGE_KEY = "rabbitt-products-category";

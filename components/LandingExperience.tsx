@@ -2,6 +2,7 @@
 
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import SiteNavigation from "@/components/SiteNavigation";
 import {
   AnimatePresence,
@@ -807,12 +808,12 @@ export default function LandingExperience({
 }
 
 function ReferenceHero({ introComplete }: { introComplete: boolean }) {
-  const productNames = [
-    "IcyPluto",
-    "DRIP",
-    "Cloud Watcher",
-    "ChanceRAG",
-    "OnSkill",
+  const heroProducts = [
+    { name: "IcyPluto", href: "https://new.icypluto.com/" },
+    { name: "DRIP", href: "https://drip.rabbitt.ai/" },
+    { name: "Cloud Watcher", href: "https://cloudwatcher.rabbitt.ai/" },
+    { name: "ChanceRAG", href: "https://rabbitt.ai/chancerag/" },
+    { name: "OnSkill", href: "https://onskill.org/" },
   ];
 
   return (
@@ -860,20 +861,29 @@ function ReferenceHero({ introComplete }: { introComplete: boolean }) {
 
       <div className="relative z-20 border-t border-white/[0.06] bg-[#010203]/80 px-6 py-5 backdrop-blur-sm sm:px-10 lg:px-16 xl:px-[5.25rem]">
         <div className="flex w-full flex-col gap-5 sm:flex-row sm:items-center">
-          <p className="shrink-0 border-white/[0.2] text-[0.68rem] font-medium uppercase leading-[1.45] tracking-[0.16em] text-[#aeb4c1] sm:mr-8 sm:border-r sm:pr-8">
+          <Link
+            href="/products"
+            className="shrink-0 border-white/[0.2] text-[0.68rem] font-medium uppercase leading-[1.45] tracking-[0.16em] text-[#aeb4c1] transition-colors duration-200 hover:text-white sm:mr-8 sm:border-r sm:pr-8"
+          >
             Explore our
             <br />
             products
-          </p>
+          </Link>
           <div className="grid flex-1 grid-cols-3 items-center gap-x-7 gap-y-3 text-center sm:grid-cols-5 sm:gap-x-6 lg:gap-x-10">
-            {productNames.map((name) => (
-              <span
-                key={name}
-                className="whitespace-nowrap text-[clamp(1rem,1.75vw,1.55rem)] font-medium tracking-[-0.06em] text-[#717785] last:tracking-[-0.08em]"
-              >
-                {name}
-              </span>
-            ))}
+            {heroProducts.map((product) => {
+              const isExternal = product.href.startsWith("http");
+              return (
+                <Link
+                  key={product.name}
+                  href={product.href}
+                  target={isExternal ? "_blank" : undefined}
+                  rel={isExternal ? "noopener noreferrer" : undefined}
+                  className="whitespace-nowrap text-[clamp(1rem,1.75vw,1.55rem)] font-medium tracking-[-0.06em] text-[#717785] transition-colors duration-200 hover:text-white last:tracking-[-0.08em]"
+                >
+                  {product.name}
+                </Link>
+              );
+            })}
           </div>
         </div>
       </div>

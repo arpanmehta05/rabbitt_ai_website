@@ -35,11 +35,6 @@ const categories: Record<string, Product[]> = {
     { name: "Cloud Watcher", description: "Cloud cost, health, and operations intelligence.", icon: "◈", logo: "/cloudwatcher.svg", href: "https://cloudwatcher.rabbitt.ai/" },
     { name: "Ping You", description: "Intelligent notifications and incident coordination.", icon: "◌", logo: "/pingu.svg", href: "https://www.pingme.rabbitt.ai/" },
   ],
-  "Other Initiatives": [
-    { name: "GMA Council", description: "Industry collaboration and thought leadership for the AI era.", icon: "◎", href: "/contactus?product=gma-council" },
-    { name: "WES council", description: "Global council advancing sustainable empowerment and AI governance.", icon: "✦", href: "/contactus?product=wes-council" },
-    { name: "AI World", description: "A global network advancing responsible AI.", icon: "◌", href: "/contactus?product=ai-world" },
-  ],
 };
 
 const categoryDescriptions: Record<string, string> = {
@@ -47,7 +42,6 @@ const categoryDescriptions: Record<string, string> = {
   Learning: "AI platforms and tools to accelerate learning and skill mastery.",
   Technology: "Advanced RAG systems, workforce intelligence, and collaborative workspaces.",
   "Ecosystem Products": "Core voice, observability, and communication platforms.",
-  "Other Initiatives": "Global communities, councils, and consortiums advancing responsible AI.",
 };
 
 const categoryNames = Object.keys(categories);
@@ -122,8 +116,8 @@ const dataSolutions = [
 const serviceItems = [
   {
     title: "Content Writing",
-    description: "High-impact, technically accurate AI and tech content.",
-    href: "/contactus",
+    description: "High-volume website copy, programmatic SEO, and exam banks.",
+    href: "/services/content-writing",
     icon: (
       <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round">
         <path d="M12 20h9" />
@@ -295,7 +289,7 @@ export default function SiteNavigation({ opacity = 1, brandTargetRef }: SiteNavi
               className="no-scrollbar absolute left-1/2 top-[calc(100%+1px)] w-[calc(100vw-6rem)] max-w-[76rem] -translate-x-1/2 overflow-hidden rounded-b-[1.3rem] border border-white/[0.14] bg-[#060b13] shadow-[0_24px_60px_rgba(0,0,0,0.62)]"
             >
               <div className="grid grid-cols-[18rem_minmax(0,1fr)] overflow-hidden rounded-[1.25rem]">
-                <aside className="flex flex-col border-r border-white/[0.12] p-5">
+                <aside className="flex flex-col justify-between border-r border-white/[0.12] p-5">
                   <div className="space-y-1">
                     {categoryNames.map((category) => (
                       <button key={category} type="button" onClick={() => setActiveCategory(category)} className={`group flex w-full items-center justify-between rounded-xl px-3.5 py-3 text-left text-[0.95rem] transition-colors ${activeCategory === category ? "bg-[#0e1b30] text-sky-400" : "text-slate-100 hover:bg-white/[0.04] hover:text-sky-200"}`}>
@@ -310,54 +304,74 @@ export default function SiteNavigation({ opacity = 1, brandTargetRef }: SiteNavi
                   </div>
                 </aside>
 
-                <section className="flex min-w-0 flex-col px-7 py-5">
-                  <div className="border-b border-white/[0.12] pb-4">
-                    <h2 className="text-[1.5rem] font-semibold tracking-[-0.04em] text-white">{activeCategory}</h2>
-                    <p className="mt-1.5 text-sm text-slate-400">{categoryDescriptions[activeCategory] || "AI-powered tools to grow your brand and audience."}</p>
-                  </div>
-                  <div className="grid grid-cols-2 gap-x-12">
-                    {products.map((product) => {
-                      const isExternal = product.href.startsWith("http");
-                      return (
-                        <Link
-                          key={product.name}
-                          href={product.href}
-                          target={isExternal ? "_blank" : undefined}
-                          rel={isExternal ? "noopener noreferrer" : undefined}
-                          onClick={() => setOpenMenu(null)}
-                          className="group flex min-w-0 items-center gap-3.5 border-b border-white/[0.08] py-3"
-                        >
-                          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#111a2b] p-1 text-xl text-white">
-                            {product.logo ? (
-                              <Image
-                                src={product.logo}
-                                alt=""
-                                width={40}
-                                height={40}
-                                className={`object-contain ${
-                                  product.name === "PingU" || product.name === "Ping You" || product.name === "DRIP"
-                                     ? "h-6 w-9"
-                                     : product.name === "Rabbitt Learning"
-                                       ? "h-9 w-9 scale-110"
-                                       : "h-8 w-8"
-                                }`}
-                              />
-                            ) : (
-                              product.icon
-                            )}
-                          </span>
-                          <span className="min-w-0 flex-1">
-                            <span className="block text-base font-semibold text-white">{product.name}</span>
-                            <span className="mt-0.5 block text-xs leading-5 text-slate-400">{product.description}</span>
-                          </span>
-                          <span className="text-xl font-light text-slate-400 opacity-0 transition-all group-hover:translate-x-1 group-hover:opacity-100">
-                            →
-                          </span>
-                        </Link>
-                      );
-                    })}
-                  </div>
-                  <Link href="/products" onClick={() => handleCategoryNavigate(activeCategory)} className="inline-flex items-center gap-2 pt-4 text-sm text-sky-400 transition-colors hover:text-sky-200">Explore all products <span className="text-lg">→</span></Link>
+                <section className="grid grid-cols-1 grid-rows-1 min-w-0 px-7 py-5">
+                  {categoryNames.map((cat) => {
+                    const isSelected = activeCategory === cat;
+                    const catProducts = categories[cat] || [];
+                    return (
+                      <div
+                        key={cat}
+                        className={`col-start-1 row-start-1 flex min-w-0 flex-col justify-between transition-opacity duration-150 ${
+                          isSelected ? "opacity-100 z-10" : "pointer-events-none opacity-0 invisible"
+                        }`}
+                      >
+                        <div className="flex-1">
+                          <div className="border-b border-white/[0.12] pb-4">
+                            <h2 className="text-[1.5rem] font-semibold tracking-[-0.04em] text-white">{cat}</h2>
+                            <p className="mt-1.5 text-sm text-slate-400">{categoryDescriptions[cat] || "AI-powered tools to grow your brand and audience."}</p>
+                          </div>
+                          <div className="grid grid-cols-2 gap-x-12">
+                            {catProducts.map((product) => {
+                              const isExternal = product.href.startsWith("http");
+                              return (
+                                <Link
+                                  key={product.name}
+                                  href={product.href}
+                                  target={isExternal ? "_blank" : undefined}
+                                  rel={isExternal ? "noopener noreferrer" : undefined}
+                                  onClick={() => setOpenMenu(null)}
+                                  tabIndex={isSelected ? 0 : -1}
+                                  className="group flex min-w-0 items-center gap-3.5 border-b border-white/[0.08] py-3"
+                                >
+                                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#111a2b] p-1 text-xl text-white">
+                                    {product.logo ? (
+                                      <Image
+                                        src={product.logo}
+                                        alt=""
+                                        width={40}
+                                        height={40}
+                                        className={`object-contain ${
+                                          product.name === "PingU" || product.name === "Ping You" || product.name === "DRIP"
+                                             ? "h-6 w-9"
+                                             : product.name === "Rabbitt Learning"
+                                               ? "h-9 w-9 scale-110"
+                                               : "h-8 w-8"
+                                        }`}
+                                      />
+                                    ) : (
+                                      product.icon
+                                    )}
+                                  </span>
+                                  <span className="min-w-0 flex-1">
+                                    <span className="block text-base font-semibold text-white">{product.name}</span>
+                                    <span className="mt-0.5 block text-xs leading-5 text-slate-400">{product.description}</span>
+                                  </span>
+                                  <span className="text-xl font-light text-slate-400 opacity-0 transition-all group-hover:translate-x-1 group-hover:opacity-100">
+                                    →
+                                  </span>
+                                </Link>
+                              );
+                            })}
+                          </div>
+                        </div>
+                        <div className="pt-4">
+                          <Link href="/products" onClick={() => handleCategoryNavigate(cat)} tabIndex={isSelected ? 0 : -1} className="inline-flex items-center gap-2 text-sm text-sky-400 transition-colors hover:text-sky-200">
+                            Explore all products <span className="text-lg">→</span>
+                          </Link>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </section>
               </div>
             </motion.div>
