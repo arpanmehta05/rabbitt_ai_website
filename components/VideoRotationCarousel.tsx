@@ -1,36 +1,30 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { Volume2, VolumeX } from "lucide-react";
 
 const videos = [
   {
     id: 1,
     src: "/video/1.mp4",
-    title: "Commercial Brand Film",
-    subtitle: "01 / Master Cinema Cut",
   },
   {
     id: 2,
     src: "/video/2.mp4",
-    title: "3D Product Animation",
-    subtitle: "02 / CGI & Motion Graphics",
   },
   {
     id: 3,
     src: "/video/3.mp4",
-    title: "Social & High-Retention Reel",
-    subtitle: "03 / Growth & Performance Clips",
   },
   {
     id: 4,
     src: "/video/4.mp4",
-    title: "Corporate & Interview Showcase",
-    subtitle: "04 / Full Master Production",
   },
 ];
 
 export default function VideoRotationCarousel() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isMuted, setIsMuted] = useState(true);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
   // Function to advance to next video
@@ -42,20 +36,36 @@ export default function VideoRotationCarousel() {
     setActiveIndex((prev) => (prev - 1 + videos.length) % videos.length);
   };
 
-  // Ensure all videos play continuously even when tilted on the sides
+  // Sync mute state and playback
   useEffect(() => {
     videoRefs.current.forEach((video, index) => {
       if (video) {
-        if (index === activeIndex) {
-          // If active video is switched, ensure it plays from beginning or continues
-          video.play().catch(() => {});
-        } else {
-          // Side rotated videos also keep playing smoothly
-          video.play().catch(() => {});
-        }
+        video.muted = index === activeIndex ? isMuted : true;
+        video.play().catch(() => {});
       }
     });
-  }, [activeIndex]);
+  }, [activeIndex, isMuted]);
+
+  // Handle video time updates: treat 2.mp4 as 1 second shorter than original in code
+  const handleTimeUpdate = (index: number) => {
+    const video = videoRefs.current[index];
+    if (!video) return;
+
+    const item = videos[index];
+    const isTargetVideo = item.src.includes("2.mp4");
+
+    if (isTargetVideo && video.duration && video.duration > 1) {
+      const effectiveDuration = video.duration - 1;
+      if (video.currentTime >= effectiveDuration) {
+        if (index === activeIndex) {
+          video.currentTime = 0;
+          handleNext();
+        } else {
+          video.currentTime = 0;
+        }
+      }
+    }
+  };
 
   return (
     <section className="relative mx-auto max-w-[1440px] px-6 py-16 sm:px-10 sm:py-24 lg:px-16 overflow-hidden">
@@ -72,6 +82,7 @@ export default function VideoRotationCarousel() {
           {videos.map((item, index) => {
             // Calculate relative offset from activeIndex
             const offset = (index - activeIndex + videos.length) % videos.length;
+            const isTargetVideo = item.src.includes("2.mp4");
 
             let transformStyles = "";
             let opacityStyles = "";
@@ -128,9 +139,10 @@ export default function VideoRotationCarousel() {
                     }}
                     src={item.src}
                     playsInline
-                    muted
+                    muted={offset === 0 ? isMuted : true}
                     autoPlay
-                    loop={offset !== 0} // Non-active side videos loop smoothly, active video triggers onEnded
+                    loop={offset !== 0 && !isTargetVideo} // 2.mp4 loop handled in handleTimeUpdate to respect -1s cut
+                    onTimeUpdate={() => handleTimeUpdate(index)}
                     onEnded={() => {
                       if (offset === 0) {
                         handleNext();
@@ -139,26 +151,35 @@ export default function VideoRotationCarousel() {
                     className="h-full w-full object-cover"
                   />
 
-                  {/* Fallback gradient / styling if video file is loading/pending */}
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
+                  {/* Fallback gradient / styling */}
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
 
-                  {/* Video Label Overlay */}
-                  <div className="pointer-events-none absolute bottom-4 left-4 right-4 flex items-center justify-between">
-                    <div>
-                      <p className="font-mono text-[10px] font-semibold uppercase tracking-wider text-sky-400">
-                        {item.subtitle}
-                      </p>
-                      <h4 className="mt-0.5 text-sm sm:text-base font-semibold text-white truncate drop-shadow-md">
-                        {item.title}
-                      </h4>
+                  {/* Mute / Unmute Button for Active Video */}
+                  {offset === 0 && (
+                    <div className="absolute bottom-4 right-4 z-20">
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setIsMuted((prev) => !prev);
+                        }}
+                        aria-label={isMuted ? "Unmute video" : "Mute video"}
+                        className="flex items-center gap-1.5 rounded-full border border-white/20 bg-black/60 px-3 py-1.5 text-xs font-medium text-white backdrop-blur-md transition-all hover:bg-black/80 hover:border-white/40 cursor-pointer shadow-lg"
+                      >
+                        {isMuted ? (
+                          <>
+                            <VolumeX className="h-4 w-4 text-slate-300" />
+                            <span>Unmute</span>
+                          </>
+                        ) : (
+                          <>
+                            <Volume2 className="h-4 w-4 text-sky-400" />
+                            <span>Mute</span>
+                          </>
+                        )}
+                      </button>
                     </div>
-                    {offset === 0 && (
-                      <span className="flex items-center gap-1.5 rounded-full bg-blue-600/40 border border-blue-400/40 px-3 py-1 font-mono text-[10px] font-semibold text-blue-200">
-                        <span className="h-1.5 w-1.5 rounded-full bg-blue-400 animate-pulse" />
-                        PLAYING
-                      </span>
-                    )}
-                  </div>
+                  )}
                 </div>
               </div>
             );
