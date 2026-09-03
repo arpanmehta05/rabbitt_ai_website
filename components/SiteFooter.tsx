@@ -29,8 +29,6 @@ const footerColumns = [
       "Case Studies",
       "Whitepapers",
       "Webinars",
-      "Documentation",
-      "Help Center",
     ],
   },
   {
@@ -38,8 +36,6 @@ const footerColumns = [
     links: [
       "About Rabbitt AI",
       "Careers",
-      "Leadership",
-      "Partners",
       "Newsroom",
       "Contact Us",
     ],
@@ -128,11 +124,13 @@ export default function SiteFooter() {
                             ? "/services/data-annotation"
                           : link === "Contact Us"
                             ? "/contactus"
-                            : link === "Blog"
-                              ? "/blogs"
-                              : link === "Case Studies"
-                                ? "/casestudies"
-                                : "#";
+                            : link === "About Rabbitt AI"
+                              ? "/about"
+                              : link === "Blog"
+                                ? "/blogs"
+                                : link === "Case Studies"
+                                  ? "/casestudies"
+                                  : "#";
                   return (
                     <li key={link}>
                       <Link

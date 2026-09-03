@@ -186,34 +186,36 @@ export default function VideoRotationCarousel() {
 
                   {/* Fallback gradient / styling */}
                   <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
-
-                  {/* Mute / Unmute Button for Active Video (White, Blue, Black themed) */}
-                  {offset === 0 && (
-                    <div className="absolute bottom-4 right-4 z-50 pointer-events-auto">
-                      <button
-                        type="button"
-                        onClick={toggleMute}
-                        aria-label={isMuted ? "Unmute video" : "Mute video"}
-                        className="flex items-center gap-2 rounded-full border border-blue-500/50 bg-black/90 px-3.5 py-1.5 text-xs font-semibold text-white backdrop-blur-md transition-all duration-200 hover:bg-black hover:border-blue-400 hover:shadow-[0_0_18px_rgba(59,130,246,0.35)] cursor-pointer shadow-[0_4px_16px_rgba(0,0,0,0.8)] active:scale-95 select-none"
-                      >
-                        {isMuted ? (
-                          <>
-                            <VolumeX className="h-4 w-4 text-blue-400" />
-                            <span className="text-white">Unmute</span>
-                          </>
-                        ) : (
-                          <>
-                            <Volume2 className="h-4 w-4 text-blue-400 animate-pulse" />
-                            <span className="text-white">Mute</span>
-                          </>
-                        )}
-                      </button>
-                    </div>
-                  )}
                 </div>
               </div>
             );
           })}
+
+          {/* ── ACTIVE VIDEO FLOATING CONTROLS (Rendered above all 3D cards to guarantee direct click reception) ── */}
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center z-50">
+            <div className="relative w-[82%] sm:w-[68%] md:w-[62%] lg:w-[56%] max-w-[760px] aspect-video">
+              <div className="absolute bottom-4 right-4 pointer-events-auto">
+                <button
+                  type="button"
+                  onClick={toggleMute}
+                  aria-label={isMuted ? "Unmute video" : "Mute video"}
+                  className="flex items-center gap-2 rounded-full border border-blue-500/50 bg-black/90 px-3.5 py-1.5 text-xs font-semibold text-white backdrop-blur-md transition-all duration-200 hover:bg-black hover:border-blue-400 cursor-pointer shadow-[0_4px_16px_rgba(0,0,0,0.8)] active:scale-95 select-none"
+                >
+                  {isMuted ? (
+                    <>
+                      <VolumeX className="h-4 w-4 text-blue-400" />
+                      <span className="text-white">Unmute</span>
+                    </>
+                  ) : (
+                    <>
+                      <Volume2 className="h-4 w-4 text-blue-400 animate-pulse" />
+                      <span className="text-white">Mute</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* ── CONTROLS & INDICATORS ─────────────────────────────────── */}

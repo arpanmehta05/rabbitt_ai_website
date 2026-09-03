@@ -12,17 +12,36 @@ export default function ContactSection() {
   });
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [focused, setFocused] = useState<string | null>(null);
 
   const set = (k: string, v: string) => setFields((p) => ({ ...p, [k]: v }));
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
+    setErrorMessage(null);
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(fields),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to send message. Please try again.");
+      }
+
       setSent(true);
-    }, 800);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "An unexpected error occurred.";
+      setErrorMessage(msg);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const inputs: {
@@ -123,6 +142,7 @@ export default function ContactSection() {
                     <button
                       onClick={() => {
                         setSent(false);
+                        setErrorMessage(null);
                         setFields({ name: "", email: "", company: "", message: "" });
                       }}
                       className="mt-8 text-sm text-slate-500 underline underline-offset-4 transition-colors hover:text-white"
@@ -190,6 +210,13 @@ export default function ContactSection() {
                         </div>
                       );
                     })}
+
+                    {errorMessage && (
+                      <div className="mt-6 rounded-lg border border-rose-500/30 bg-rose-950/20 px-4 py-3 text-xs text-rose-300">
+                        <p className="font-semibold text-rose-200">Unable to send message</p>
+                        <p className="mt-1 text-rose-300/80">{errorMessage}</p>
+                      </div>
+                    )}
 
                     <div className="pt-10">
                       <button
