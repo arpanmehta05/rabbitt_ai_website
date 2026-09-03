@@ -187,24 +187,24 @@ export default function VideoRotationCarousel() {
                   {/* Fallback gradient / styling */}
                   <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
 
-                  {/* Mute / Unmute Button for Active Video */}
+                  {/* Mute / Unmute Button for Active Video (White, Blue, Black themed) */}
                   {offset === 0 && (
                     <div className="absolute bottom-4 right-4 z-50 pointer-events-auto">
                       <button
                         type="button"
                         onClick={toggleMute}
                         aria-label={isMuted ? "Unmute video" : "Mute video"}
-                        className="flex items-center gap-2 rounded-full border border-white/25 bg-black/80 px-3.5 py-1.5 text-xs font-semibold text-white backdrop-blur-md transition-all hover:bg-black hover:border-white/50 cursor-pointer shadow-[0_4px_14px_rgba(0,0,0,0.7)] active:scale-95 select-none"
+                        className="flex items-center gap-2 rounded-full border border-blue-500/50 bg-black/90 px-3.5 py-1.5 text-xs font-semibold text-white backdrop-blur-md transition-all duration-200 hover:bg-black hover:border-blue-400 hover:shadow-[0_0_18px_rgba(59,130,246,0.35)] cursor-pointer shadow-[0_4px_16px_rgba(0,0,0,0.8)] active:scale-95 select-none"
                       >
                         {isMuted ? (
                           <>
-                            <VolumeX className="h-4 w-4 text-rose-400" />
-                            <span>Unmute</span>
+                            <VolumeX className="h-4 w-4 text-blue-400" />
+                            <span className="text-white">Unmute</span>
                           </>
                         ) : (
                           <>
-                            <Volume2 className="h-4 w-4 text-sky-400 animate-pulse" />
-                            <span>Mute</span>
+                            <Volume2 className="h-4 w-4 text-blue-400 animate-pulse" />
+                            <span className="text-white">Mute</span>
                           </>
                         )}
                       </button>
@@ -218,7 +218,7 @@ export default function VideoRotationCarousel() {
 
         {/* ── CONTROLS & INDICATORS ─────────────────────────────────── */}
         <div className="mt-8 flex flex-col items-center gap-5 sm:flex-row sm:justify-between w-full max-w-[760px] border-t border-white/[0.08] pt-6">
-          {/* Prev / Next Action Arrows & Mute/Unmute Action */}
+          {/* Prev / Next Action Arrows */}
           <div className="flex items-center gap-3">
             <button
               onClick={handlePrev}
@@ -235,24 +235,6 @@ export default function VideoRotationCarousel() {
               className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/[0.04] text-white transition-all hover:bg-white/[0.12] hover:border-white/30 cursor-pointer"
             >
               →
-            </button>
-            <button
-              onClick={toggleMute}
-              type="button"
-              aria-label={isMuted ? "Unmute video" : "Mute video"}
-              className="flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-3.5 py-2 text-xs font-medium text-white transition-all hover:bg-white/[0.12] hover:border-white/30 cursor-pointer ml-1"
-            >
-              {isMuted ? (
-                <>
-                  <VolumeX className="h-4 w-4 text-rose-400" />
-                  <span>Unmute</span>
-                </>
-              ) : (
-                <>
-                  <Volume2 className="h-4 w-4 text-sky-400 animate-pulse" />
-                  <span>Mute</span>
-                </>
-              )}
             </button>
           </div>
 
