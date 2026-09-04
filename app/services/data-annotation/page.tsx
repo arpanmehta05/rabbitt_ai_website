@@ -135,7 +135,10 @@ export default function DataAnnotationPage() {
       <SiteNavigation />
 
       {/* Ambient top glow */}
-      <div className="pointer-events-none fixed inset-x-0 top-0 h-[500px] bg-[radial-gradient(ellipse_70%_80%_at_50%_0%,rgba(14,165,233,0.09),transparent_70%)]" />
+      <div className="pointer-events-none fixed inset-0 overflow-hidden">
+        <div className="absolute left-1/2 -top-[240px] h-[600px] w-[1100px] -translate-x-1/2 rounded-full bg-sky-500/[0.07] blur-[150px]" />
+        <div className="absolute left-1/2 -top-[100px] h-[350px] w-[650px] -translate-x-1/2 rounded-full bg-blue-600/[0.05] blur-[110px]" />
+      </div>
 
       {/* ── HERO ────────────────────────────────────────────────────── */}
       <section className="relative mx-auto max-w-[1440px] px-6 pt-28 pb-14 sm:px-10 sm:pt-32 sm:pb-16 lg:px-16">
@@ -268,7 +271,7 @@ export default function DataAnnotationPage() {
       {/* ── WHY RABBITTAI ────────────────────────────────────────────── */}
       <section className="relative mx-auto max-w-[1440px] px-6 py-14 sm:px-10 sm:py-16 lg:px-16">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
-        <div className="pointer-events-none absolute left-1/2 top-1/2 h-[400px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(37,99,235,0.12)_0%,transparent_70%)] blur-3xl" />
+        <div className="pointer-events-none absolute left-1/2 top-1/2 h-[450px] w-[750px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-600/[0.07] blur-[130px]" />
 
         <div className="relative">
           <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-sky-400">

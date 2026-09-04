@@ -19,7 +19,10 @@ export default function ContentWritingPage() {
       <SiteNavigation />
 
       {/* Ambient top glow */}
-      <div className="pointer-events-none fixed inset-x-0 top-0 h-[500px] bg-[radial-gradient(ellipse_70%_80%_at_50%_0%,rgba(14,165,233,0.09),transparent_70%)]" />
+      <div className="pointer-events-none fixed inset-0 overflow-hidden">
+        <div className="absolute left-1/2 -top-[240px] h-[600px] w-[1100px] -translate-x-1/2 rounded-full bg-sky-500/[0.07] blur-[150px]" />
+        <div className="absolute left-1/2 -top-[100px] h-[350px] w-[650px] -translate-x-1/2 rounded-full bg-blue-600/[0.05] blur-[110px]" />
+      </div>
 
       {/* ── HERO SECTION ────────────────────────────────────────────── */}
       <section className="relative mx-auto max-w-[1440px] px-6 pt-20 pb-10 sm:px-10 sm:pt-24 sm:pb-12 lg:px-16">

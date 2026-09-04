@@ -93,7 +93,10 @@ export default function AiNamaPage() {
       <SiteNavigation />
 
       {/* Top Ambient Glow */}
-      <div className="pointer-events-none fixed inset-x-0 top-0 h-[480px] bg-[radial-gradient(ellipse_70%_80%_at_50%_0%,rgba(14,165,233,0.1),transparent_70%)]" />
+      <div className="pointer-events-none fixed inset-0 overflow-hidden">
+        <div className="absolute left-1/2 -top-[240px] h-[600px] w-[1100px] -translate-x-1/2 rounded-full bg-sky-500/[0.07] blur-[150px]" />
+        <div className="absolute left-1/2 -top-[100px] h-[350px] w-[650px] -translate-x-1/2 rounded-full bg-blue-600/[0.05] blur-[110px]" />
+      </div>
 
       {/* Hero Section */}
       <section className="relative mx-auto max-w-[1440px] px-6 pt-20 pb-12 sm:px-10 sm:pt-24 sm:pb-16 lg:px-16">
@@ -147,12 +150,12 @@ export default function AiNamaPage() {
 
           {/* Book Image — fixed height, no tall gap */}
           <div className="relative flex items-start justify-center lg:col-span-5 lg:justify-end">
-            <div className="relative h-[320px] w-full max-w-[280px] sm:h-[380px] sm:max-w-[320px] lg:h-[400px] lg:max-w-[340px]">
+            <div className="relative h-[460px] w-full max-w-[400px] sm:h-[560px] sm:max-w-[480px] lg:h-[640px] lg:max-w-[540px]">
               <Image
                 src="/assets/ainama.png"
                 alt="AINama By Rabbitt.AI Book Cover"
                 fill
-                sizes="(max-width: 768px) 280px, (max-width: 1200px) 340px, 340px"
+                sizes="(max-width: 768px) 400px, (max-width: 1200px) 480px, 540px"
                 className="object-contain object-top drop-shadow-[0_30px_70px_rgba(0,0,0,0.92)] transition-transform duration-500 hover:scale-[1.02]"
                 priority
               />

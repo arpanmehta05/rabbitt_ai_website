@@ -10,10 +10,14 @@ export default function ContactCta() {
       {/* Top hairline divider */}
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.12] to-transparent" />
 
-      {/* Background glow */}
-      <div className="pointer-events-none absolute left-1/4 top-1/2 h-[420px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(37,99,235,0.08)_0%,transparent_70%)] blur-3xl" />
+      {/* Ultra-smooth ambient backlight glow using Gaussian blurred light emitters (no banding or petal edges) */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute left-[10%] top-1/2 h-[550px] w-[750px] -translate-y-1/2 rounded-full bg-sky-500/[0.06] blur-[140px]" />
+        <div className="absolute right-[5%] top-1/2 h-[500px] w-[650px] -translate-y-1/2 rounded-full bg-blue-600/[0.06] blur-[140px]" />
+        <div className="absolute left-1/2 top-1/2 h-[380px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-500/[0.04] blur-[120px]" />
+      </div>
 
-      {/* Dot-grid */}
+      {/* Subtle Dot-grid */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.025]"
         style={{
@@ -21,9 +25,6 @@ export default function ContactCta() {
           backgroundSize: "28px 28px",
         }}
       />
-
-      {/* Bottom fade */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-b from-transparent to-[#020305]" />
 
       <div className="relative z-10 mx-auto max-w-7xl">
         <div className="flex flex-col items-center gap-10 lg:grid lg:grid-cols-2 lg:items-center lg:gap-0">
@@ -84,14 +85,15 @@ export default function ContactCta() {
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
           >
-            {/* Soft glow behind logo */}
-            <div className="pointer-events-none absolute h-[240px] w-[240px] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(37,99,235,0.12)_0%,transparent_70%)] blur-3xl" />
+            {/* Buttery smooth circular soft glows behind logo without petal/lobe distortions */}
+            <div className="pointer-events-none absolute h-[320px] w-[320px] rounded-full bg-sky-500/[0.08] blur-[110px]" />
+            <div className="pointer-events-none absolute h-[180px] w-[180px] rounded-full bg-blue-500/[0.10] blur-[70px]" />
             <Image
               src="/logo.svg"
               alt="Rabbitt AI"
               width={220}
               height={220}
-              className="relative object-contain drop-shadow-[0_0_24px_rgba(37,99,235,0.35)]"
+              className="relative object-contain"
             />
           </motion.div>
         </div>

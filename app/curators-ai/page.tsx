@@ -127,7 +127,10 @@ export default function CuratorsAiPage() {
       <SiteNavigation />
 
       {/* Ambient top glow */}
-      <div className="pointer-events-none fixed inset-x-0 top-0 h-[500px] bg-[radial-gradient(ellipse_70%_80%_at_50%_0%,rgba(14,165,233,0.09),transparent_70%)]" />
+      <div className="pointer-events-none fixed inset-0 overflow-hidden">
+        <div className="absolute left-1/2 -top-[240px] h-[600px] w-[1100px] -translate-x-1/2 rounded-full bg-sky-500/[0.07] blur-[150px]" />
+        <div className="absolute left-1/2 -top-[100px] h-[350px] w-[650px] -translate-x-1/2 rounded-full bg-blue-600/[0.05] blur-[110px]" />
+      </div>
 
       {/* ── HERO ────────────────────────────────────────────────────── */}
       <section className="relative mx-auto max-w-[1440px] px-6 pt-28 pb-14 sm:px-10 sm:pt-32 sm:pb-16 lg:px-16">
@@ -173,7 +176,7 @@ export default function CuratorsAiPage() {
 
           {/* Right: hero dashboard image */}
           <div className="relative lg:col-span-7">
-            <div className="pointer-events-none absolute -inset-4 rounded-3xl bg-[radial-gradient(ellipse_at_center,rgba(14,165,233,0.2)_0%,rgba(37,99,235,0.15)_50%,transparent_70%)] blur-3xl" />
+            <div className="pointer-events-none absolute -inset-10 rounded-full bg-sky-500/[0.10] blur-[100px]" />
             <div className="relative w-full overflow-hidden rounded-2xl border border-white/[0.14] bg-[#070e1b] shadow-[0_24px_70px_rgba(0,0,0,0.85)]">
               <Image
                 src="/assets/curators-hero.jpg"
