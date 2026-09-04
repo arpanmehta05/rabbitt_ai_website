@@ -130,7 +130,9 @@ export default function SiteFooter() {
                                 ? "/blogs"
                                 : link === "Case Studies"
                                   ? "/casestudies"
-                                  : "#";
+                                  : link === "Webinars"
+                                    ? "/webinars"
+                                    : "#";
                   return (
                     <li key={link}>
                       <Link

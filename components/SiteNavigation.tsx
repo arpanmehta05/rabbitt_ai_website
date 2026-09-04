@@ -209,6 +209,26 @@ const resourceItems = [
       </svg>
     ),
   },
+  {
+    title: "Webinars",
+    description:
+      "Live masterclasses, architecture blueprints, and technical sessions.",
+    href: "/webinars",
+    icon: (
+      <svg
+        className="h-5 w-5"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={1.75}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="m15 10 4.553-2.276A1 1 0 0 1 21 8.618v6.764a1 1 0 0 1-1.447.894L15 14v-4Z" />
+        <rect width="14" height="12" x="1" y="6" rx="2" />
+      </svg>
+    ),
+  },
 ];
 
 const dataServices = [

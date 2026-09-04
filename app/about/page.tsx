@@ -56,10 +56,14 @@ export default function AboutPage() {
 
       <section className="relative isolate border-b border-white/[0.09]">
         <div className="pointer-events-none absolute inset-0 -z-10 bg-[#02050b]" />
-        <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-          <div className="absolute left-1/2 -top-[220px] h-[600px] w-[1000px] -translate-x-1/2 rounded-full bg-sky-500/[0.08] blur-[150px]" />
-          <div className="absolute left-1/2 -top-[100px] h-[380px] w-[650px] -translate-x-1/2 rounded-full bg-blue-600/[0.06] blur-[110px]" />
-        </div>
+        <div
+          className="pointer-events-none absolute inset-x-0 top-0 h-[600px] -z-10"
+          style={{
+            background: "linear-gradient(180deg, rgba(14, 165, 233, 0.09) 0%, rgba(37, 99, 235, 0.03) 55%, transparent 100%)",
+            maskImage: "linear-gradient(90deg, transparent 0%, black 20%, black 80%, transparent 100%)",
+            WebkitMaskImage: "linear-gradient(90deg, transparent 0%, black 20%, black 80%, transparent 100%)",
+          }}
+        />
         <div className="pointer-events-none absolute inset-0 -z-10 opacity-[0.18] [background-image:linear-gradient(rgba(148,163,184,0.12)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.12)_1px,transparent_1px)] [background-size:64px_64px] [mask-image:linear-gradient(to_bottom,black,transparent_78%)]" />
 
         <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-6 pb-14 pt-20 sm:px-10 sm:pb-16 sm:pt-24 lg:grid-cols-2 lg:gap-10 lg:px-16">

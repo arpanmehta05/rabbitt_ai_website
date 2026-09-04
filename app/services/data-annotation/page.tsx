@@ -134,11 +134,15 @@ export default function DataAnnotationPage() {
     <main className="min-h-screen bg-[#020305] font-sans antialiased text-white">
       <SiteNavigation />
 
-      {/* Ambient top glow */}
-      <div className="pointer-events-none fixed inset-0 overflow-hidden">
-        <div className="absolute left-1/2 -top-[240px] h-[600px] w-[1100px] -translate-x-1/2 rounded-full bg-sky-500/[0.07] blur-[150px]" />
-        <div className="absolute left-1/2 -top-[100px] h-[350px] w-[650px] -translate-x-1/2 rounded-full bg-blue-600/[0.05] blur-[110px]" />
-      </div>
+      {/* Ambient smooth top glow - orthogonal linear wash with zero circular flower banding */}
+      <div
+        className="pointer-events-none fixed inset-x-0 top-0 h-[550px]"
+        style={{
+          background: "linear-gradient(180deg, rgba(14, 165, 233, 0.08) 0%, rgba(37, 99, 235, 0.03) 55%, transparent 100%)",
+          maskImage: "linear-gradient(90deg, transparent 0%, black 20%, black 80%, transparent 100%)",
+          WebkitMaskImage: "linear-gradient(90deg, transparent 0%, black 20%, black 80%, transparent 100%)",
+        }}
+      />
 
       {/* ── HERO ────────────────────────────────────────────────────── */}
       <section className="relative mx-auto max-w-[1440px] px-6 pt-28 pb-14 sm:px-10 sm:pt-32 sm:pb-16 lg:px-16">
@@ -271,7 +275,14 @@ export default function DataAnnotationPage() {
       {/* ── WHY RABBITTAI ────────────────────────────────────────────── */}
       <section className="relative mx-auto max-w-[1440px] px-6 py-14 sm:px-10 sm:py-16 lg:px-16">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
-        <div className="pointer-events-none absolute left-1/2 top-1/2 h-[450px] w-[750px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-600/[0.07] blur-[130px]" />
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background: "linear-gradient(180deg, rgba(37, 99, 235, 0.06) 0%, rgba(14, 165, 233, 0.02) 60%, transparent 100%)",
+            maskImage: "linear-gradient(90deg, transparent 0%, black 15%, black 85%, transparent 100%)",
+            WebkitMaskImage: "linear-gradient(90deg, transparent 0%, black 15%, black 85%, transparent 100%)",
+          }}
+        />
 
         <div className="relative">
           <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-sky-400">

@@ -4,7 +4,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { marked } from "marked";
 import DOMPurify from "isomorphic-dompurify";
-import { fetchBlog, formatDate } from "@/lib/cms";
+import { fetchBlog, formatDate, resolveContentImages } from "@/lib/cms";
 import SiteNavigation from "@/components/SiteNavigation";
 import SiteFooter from "@/components/SiteFooter";
 
@@ -40,7 +40,7 @@ export default async function BlogDetailPage({ params }: Props) {
     notFound();
   }
 
-  const rawHtml = await marked(blog.content ?? "", { breaks: true });
+  const rawHtml = await marked(resolveContentImages(blog.content ?? ""), { breaks: true });
   const safeHtml = DOMPurify.sanitize(rawHtml);
 
   return (
@@ -104,13 +104,14 @@ export default async function BlogDetailPage({ params }: Props) {
 
         {/* Hero image */}
         {blog.image && (
-          <div className="relative mt-10 aspect-[16/9] w-full overflow-hidden border border-white/[0.08]">
+          <div className="relative mt-10 w-full overflow-hidden border border-white/[0.08] bg-[#060d1a]">
             <Image
               src={blog.image}
               alt={blog.title}
-              fill
+              width={1200}
+              height={800}
               sizes="(max-width: 860px) 100vw, 860px"
-              className="object-cover"
+              className="h-auto w-full object-contain"
               priority
             />
           </div>

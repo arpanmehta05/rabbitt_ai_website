@@ -51,11 +51,15 @@ export default function LandingFaq() {
 
   return (
     <section className="relative overflow-hidden bg-[#020305] px-6 py-12 sm:px-10 sm:py-16 lg:px-16">
-      {/* Ambient smooth background glow */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute left-1/2 -top-[200px] h-[500px] w-[900px] -translate-x-1/2 rounded-full bg-sky-500/[0.06] blur-[140px]" />
-        <div className="absolute left-1/2 -top-[100px] h-[300px] w-[600px] -translate-x-1/2 rounded-full bg-blue-600/[0.05] blur-[100px]" />
-      </div>
+      {/* Ambient smooth background glow - orthogonal linear wash with zero circular flower banding */}
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 h-[500px]"
+        style={{
+          background: "linear-gradient(180deg, rgba(14, 165, 233, 0.08) 0%, rgba(37, 99, 235, 0.03) 50%, transparent 100%)",
+          maskImage: "linear-gradient(90deg, transparent 0%, black 20%, black 80%, transparent 100%)",
+          WebkitMaskImage: "linear-gradient(90deg, transparent 0%, black 20%, black 80%, transparent 100%)",
+        }}
+      />
 
       {/* Subtle top-border separator */}
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.1] to-transparent" />

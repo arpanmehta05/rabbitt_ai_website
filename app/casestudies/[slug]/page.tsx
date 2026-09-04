@@ -4,7 +4,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { marked } from "marked";
 import DOMPurify from "isomorphic-dompurify";
-import { fetchCaseStudy, formatDate } from "@/lib/cms";
+import { fetchCaseStudy, formatDate, resolveContentImages } from "@/lib/cms";
 import SiteNavigation from "@/components/SiteNavigation";
 import SiteFooter from "@/components/SiteFooter";
 
@@ -40,7 +40,7 @@ export default async function CaseStudyDetailPage({ params }: Props) {
     notFound();
   }
 
-  const rawHtml = await marked(study.content ?? "", { breaks: true });
+  const rawHtml = await marked(resolveContentImages(study.content ?? ""), { breaks: true });
   const safeHtml = DOMPurify.sanitize(rawHtml);
 
   return (
@@ -107,13 +107,14 @@ export default async function CaseStudyDetailPage({ params }: Props) {
 
         {/* Hero image */}
         {study.image && (
-          <div className="relative mt-10 aspect-[16/9] w-full overflow-hidden border border-white/[0.08]">
+          <div className="relative mt-10 w-full overflow-hidden border border-white/[0.08] bg-[#060d1a]">
             <Image
               src={study.image}
               alt={study.title}
-              fill
+              width={1200}
+              height={800}
               sizes="(max-width: 860px) 100vw, 860px"
-              className="object-cover"
+              className="h-auto w-full object-contain"
               priority
             />
           </div>

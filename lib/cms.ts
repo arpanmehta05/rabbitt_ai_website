@@ -71,3 +71,11 @@ export function formatDate(iso: string): string {
     day: "numeric",
   });
 }
+
+export function resolveContentImages(content: string): string {
+  if (!content) return "";
+  return content
+    .replace(/(!\[.*?\]\()(\/(?:blogimages|assets)\/)/g, "$1https://rabbitt.ai$2")
+    .replace(/(<img[^>]+src=["'])(\/(?:blogimages|assets)\/)/g, "$1https://rabbitt.ai$2")
+    .replace(/\/blogimages\/llm-blog-2\.jpeg/g, "/blogimages/llm-blog-2.png");
+}

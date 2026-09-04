@@ -92,11 +92,15 @@ export default function AiNamaPage() {
     <main className="min-h-screen bg-[#020305] font-sans antialiased text-white">
       <SiteNavigation />
 
-      {/* Top Ambient Glow */}
-      <div className="pointer-events-none fixed inset-0 overflow-hidden">
-        <div className="absolute left-1/2 -top-[240px] h-[600px] w-[1100px] -translate-x-1/2 rounded-full bg-sky-500/[0.07] blur-[150px]" />
-        <div className="absolute left-1/2 -top-[100px] h-[350px] w-[650px] -translate-x-1/2 rounded-full bg-blue-600/[0.05] blur-[110px]" />
-      </div>
+      {/* Top Ambient Smooth Glow - orthogonal linear wash with zero circular flower banding */}
+      <div
+        className="pointer-events-none fixed inset-x-0 top-0 h-[550px]"
+        style={{
+          background: "linear-gradient(180deg, rgba(14, 165, 233, 0.08) 0%, rgba(37, 99, 235, 0.03) 55%, transparent 100%)",
+          maskImage: "linear-gradient(90deg, transparent 0%, black 20%, black 80%, transparent 100%)",
+          WebkitMaskImage: "linear-gradient(90deg, transparent 0%, black 20%, black 80%, transparent 100%)",
+        }}
+      />
 
       {/* Hero Section */}
       <section className="relative mx-auto max-w-[1440px] px-6 pt-20 pb-12 sm:px-10 sm:pt-24 sm:pb-16 lg:px-16">
