@@ -10,36 +10,7 @@ export const metadata = {
     "The ultimate end-to-end framework for building LLM-based voice-driven conversational applications with sub-250ms latency, multi-lingual support, and enterprise CRM integrations.",
 };
 
-const applications = [
-  {
-    category: "Outbound Sales",
-    title: "Autonomous Lead Qualification & Calendar Booking",
-    description:
-      "Conduct natural, fluid qualification conversations, handle customer objections, check availability, and directly book qualified demos into Salesforce, HubSpot, or Google Calendar.",
-    specs: ["Salesforce & HubSpot", "Objection Handling", "Calendar Booking", "Dynamic Cadence"],
-  },
-  {
-    category: "Customer Experience",
-    title: "Zero-Wait Inbound Support & Intelligent Triage",
-    description:
-      "Resolve high-volume customer inquiries instantly with complete conversational memory, real-time database lookups, order tracking, and seamless warm handoffs to human specialists.",
-    specs: ["Zendesk & Freshdesk", "Contextual Memory", "Warm Human Transfer", "Instant Resolution"],
-  },
-  {
-    category: "Talent & Recruiting",
-    title: "Candidate Pre-Screening & Structured Interviews",
-    description:
-      "Accelerate hiring cycles by conducting interactive voice screens, evaluating skill competencies against job rubrics, and auto-populating structured interview scorecards into your ATS.",
-    specs: ["Greenhouse & Lever ATS", "Competency Scoring", "Structured Rubrics", "Unbiased Screening"],
-  },
-  {
-    category: "Call Intelligence",
-    title: "Real-Time Rep Guidance & Post-Call Voice Surveys",
-    description:
-      "Listen in on live calls to feed reps contextual objection counters in real-time, or automatically execute post-interaction voice surveys with comprehensive sentiment and NPS tagging.",
-    specs: ["Live Teleprompter", "CSAT & NPS Tagging", "Whisper Transcription", "Executive Dashboards"],
-  },
-];
+
 
 const pipelineStages = [
   {
@@ -245,53 +216,6 @@ export default function CuratorsAiPage() {
         </div>
       </section>
 
-      {/* ── VERSATILE APPLICATIONS ──────────────────────────────────── */}
-      <section className="relative mx-auto max-w-[1440px] px-6 py-14 sm:px-10 sm:py-16 lg:px-16">
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
-
-        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-sky-400">
-          Versatile Applications
-        </p>
-        <h2 className="mt-3 max-w-2xl text-2xl font-bold tracking-[-0.03em] text-white sm:text-3xl">
-          Tailor your AI agent across critical business functions
-        </h2>
-        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-400 sm:text-base">
-          From high-velocity outbound lead generation to compassionate 24/7 customer support and autonomous candidate interviews.
-        </p>
-
-        <div className="mt-10 grid gap-6 md:grid-cols-2">
-          {applications.map((app) => (
-            <div
-              key={app.title}
-              className="flex flex-col justify-between overflow-hidden rounded-2xl border border-white/[0.08] bg-[#060c18] p-7 sm:p-8"
-            >
-              <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-sky-400">
-                  {app.category}
-                </p>
-
-                <h3 className="mt-3 text-xl font-bold tracking-tight text-white">
-                  {app.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-slate-400">
-                  {app.description}
-                </p>
-              </div>
-
-              <div className="mt-6 flex flex-wrap gap-1.5 border-t border-white/[0.06] pt-4">
-                {app.specs.map((spec) => (
-                  <span
-                    key={spec}
-                    className="rounded-md border border-white/[0.08] bg-white/[0.02] px-2.5 py-1 text-[11px] font-medium text-slate-400"
-                  >
-                    {spec}
-                  </span>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
 
       {/* ── TECHNICAL ARCHITECTURE: CONNECTED VOICE PIPELINE ─────────── */}
       <section className="relative mx-auto max-w-[1440px] px-6 py-14 sm:px-10 sm:py-16 lg:px-16">

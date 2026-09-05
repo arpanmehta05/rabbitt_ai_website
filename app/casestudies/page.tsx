@@ -2,12 +2,13 @@ import type { Metadata } from "next";
 import { fetchCaseStudies } from "@/lib/cms";
 import SiteNavigation from "@/components/SiteNavigation";
 import SiteFooter from "@/components/SiteFooter";
-import ContentFilter from "@/components/ContentFilter";
+import ContactCta from "@/components/ContactCta";
+import CaseStudiesDirectory from "@/components/CaseStudiesDirectory";
 
 export const metadata: Metadata = {
   title: "Case Studies — Rabbitt AI",
   description:
-    "Real enterprise AI transformations — how Rabbitt AI helps organizations go from data to deployed solutions.",
+    "Explore how leading engineering and enterprise teams partner with Rabbitt AI to automate operations, fine-tune models, and deploy reliable AI solutions at scale.",
 };
 
 export default async function CaseStudiesPage() {
@@ -18,36 +19,32 @@ export default async function CaseStudiesPage() {
     <main className="min-h-screen bg-[#020305] text-white">
       <SiteNavigation />
 
-      {/* Ambient glow */}
-      <div className="pointer-events-none fixed inset-x-0 top-0 h-[280px] bg-[radial-gradient(ellipse_70%_100%_at_50%_0%,rgba(14,165,233,0.06),transparent_70%)]" />
-
-      <div className="relative mx-auto max-w-[1440px] px-6 sm:px-10 lg:px-16">
-        {/* Header */}
-        <header className="border-b border-white/[0.07] pb-12 pt-36 sm:pt-44">
-          <div className="max-w-3xl">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-sky-400">
-              Case Studies
-            </p>
-            <h1 className="mt-4 text-5xl font-bold leading-[1.06] tracking-[-0.045em] sm:text-6xl lg:text-7xl">
-              Real results,{" "}
-              <span className="text-slate-400">real scale.</span>
-            </h1>
-            <p className="mt-5 text-base leading-relaxed text-slate-400 sm:text-lg">
-              A look at how enterprises are using Rabbitt AI to accelerate annotation operations, ship production models, and solve hard data problems.
+      <div className="mx-auto max-w-[1360px] px-6 sm:px-10 lg:px-16 pt-32 sm:pt-40 pb-24">
+        {/* Editorial Header */}
+        <header className="border-b border-white/[0.08] pb-12">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+            <div className="max-w-2xl">
+              <p className="text-xs font-mono uppercase tracking-[0.22em] text-sky-400">
+                Production Case Studies
+              </p>
+              <h1 className="mt-4 text-4xl font-bold tracking-[-0.04em] text-white sm:text-5xl lg:text-6xl leading-[1.08]">
+                Real results.{" "}
+                <span className="text-slate-400 font-light">Production scale.</span>
+              </h1>
+            </div>
+            <p className="max-w-md text-sm sm:text-base text-slate-400 font-normal leading-relaxed">
+              Explore how enterprises partner with Rabbitt AI to eliminate hallucinations, label complex data, and deploy high-accuracy AI systems.
             </p>
           </div>
         </header>
 
-        {/* Filter + Grid */}
-        <section className="py-16">
-          <ContentFilter
-            items={studies}
-            categories={categories}
-            hrefPrefix="/casestudies"
-          />
+        {/* Directory Section */}
+        <section className="pt-10">
+          <CaseStudiesDirectory studies={studies} categories={categories} />
         </section>
       </div>
 
+      <ContactCta />
       <SiteFooter />
     </main>
   );

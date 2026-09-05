@@ -30,28 +30,68 @@ const stats = [
 const audiences = [
   {
     role: "CXOs & Enterprise Leaders",
-    desc: "Cut through vendor hype. Understand realistic timelines, ROI modeling, and team upskilling required to deploy production GenAI safely.",
     tag: "Strategic",
+    tagline: "ROI modeling, realistic timelines & enterprise safety.",
+    icon: (
+      <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75}>
+        <circle cx="12" cy="12" r="10" />
+        <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
+      </svg>
+    ),
   },
   {
     role: "Founders & Builders",
-    desc: "Learn hard-won architectural patterns, fine-tuning lessons, and infrastructure choices from startups shipping at the cutting edge.",
     tag: "Execution",
+    tagline: "Production blueprints, fine-tuning & infrastructure economics.",
+    icon: (
+      <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75}>
+        <polyline points="16 18 22 12 16 6" />
+        <polyline points="8 6 2 12 8 18" />
+        <line x1="14" y1="4" x2="10" y2="20" />
+      </svg>
+    ),
   },
   {
     role: "Policy Makers & Regulators",
-    desc: "Insights into data sovereignty, compliance standards, and sovereign AI strategies from international advisory engagements.",
     tag: "Governance",
+    tagline: "Data sovereignty, sovereign AI & regulatory standards.",
+    icon: (
+      <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75}>
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+        <path d="m9 12 2 2 4-4" />
+      </svg>
+    ),
   },
   {
     role: "AI Engineers & Enthusiasts",
-    desc: "Detailed technical breakdowns of RAG pipelines, data curation methodologies, and evaluation loops implemented at enterprise scale.",
     tag: "Technical",
+    tagline: "Hybrid RAG pipelines, automated evals & agent architectures.",
+    icon: (
+      <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75}>
+        <rect x="4" y="4" width="16" height="16" rx="2" />
+        <rect x="9" y="9" width="6" height="6" />
+        <line x1="9" y1="1" x2="9" y2="4" />
+        <line x1="15" y1="1" x2="15" y2="4" />
+        <line x1="9" y1="20" x2="9" y2="23" />
+        <line x1="15" y1="20" x2="15" y2="23" />
+        <line x1="20" y1="9" x2="23" y2="9" />
+        <line x1="20" y1="14" x2="23" y2="14" />
+        <line x1="1" y1="9" x2="4" y2="9" />
+        <line x1="1" y1="14" x2="4" y2="14" />
+      </svg>
+    ),
   },
   {
     role: "For The World",
-    desc: "A universal guide democratizing AI knowledge for anyone curious about how intelligent systems are reshaping human industry.",
     tag: "Global",
+    tagline: "Democratizing how intelligent systems reshape industry.",
+    icon: (
+      <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75}>
+        <circle cx="12" cy="12" r="10" />
+        <line x1="2" y1="12" x2="22" y2="12" />
+        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+      </svg>
+    ),
   },
 ];
 
@@ -103,8 +143,8 @@ export default function AiNamaPage() {
       />
 
       {/* Hero Section */}
-      <section className="relative mx-auto max-w-[1440px] px-6 pt-20 pb-12 sm:px-10 sm:pt-24 sm:pb-16 lg:px-16">
-        <div className="grid items-start gap-10 lg:grid-cols-12 lg:gap-12">
+      <section className="relative mx-auto max-w-[1440px] px-6 pt-16 pb-8 sm:px-10 sm:pt-20 sm:pb-10 lg:px-16 lg:pb-12">
+        <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-7 pt-2 sm:pt-4">
             {/* Headline */}
             <h1 className="text-4xl font-bold leading-[1.08] tracking-[-0.04em] sm:text-5xl lg:text-[3.75rem]">
@@ -152,15 +192,16 @@ export default function AiNamaPage() {
             </div>
           </div>
 
-          {/* Book Image — fixed height, no tall gap */}
-          <div className="relative flex items-start justify-center lg:col-span-5 lg:justify-end">
-            <div className="relative h-[460px] w-full max-w-[400px] sm:h-[560px] sm:max-w-[480px] lg:h-[640px] lg:max-w-[540px]">
+          {/* Book Image */}
+          <div className="relative flex items-center justify-center lg:col-span-5 lg:justify-end">
+            <div className="relative w-full max-w-[360px] sm:max-w-[420px] lg:max-w-[480px]">
               <Image
                 src="/assets/ainama.png"
                 alt="AINama By Rabbitt.AI Book Cover"
-                fill
-                sizes="(max-width: 768px) 400px, (max-width: 1200px) 480px, 540px"
-                className="object-contain object-top drop-shadow-[0_30px_70px_rgba(0,0,0,0.92)] transition-transform duration-500 hover:scale-[1.02]"
+                width={1500}
+                height={1383}
+                sizes="(max-width: 768px) 360px, (max-width: 1200px) 420px, 480px"
+                className="h-auto w-full object-contain drop-shadow-[0_24px_60px_rgba(0,0,0,0.88)] transition-transform duration-500 hover:scale-[1.02]"
                 priority
               />
             </div>
@@ -169,74 +210,109 @@ export default function AiNamaPage() {
       </section>
 
       {/* Why This Book Stats Section */}
-      <section className="relative mx-auto max-w-[1440px] px-6 py-12 sm:px-10 lg:px-16">
-        <div className="border-t border-white/[0.08] pt-10">
-          <div className="max-w-2xl">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-sky-400">
-              Quantifiable Impact
-            </p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-[-0.035em] sm:text-4xl">
-              Why This Book?
-            </h2>
-            <p className="mt-3 text-base text-slate-400">
-              Real data from the trenches. No generic prompts, no hand-waving theories — just vetted engineering reality.
+      <section className="relative mx-auto max-w-[1440px] px-6 pb-16 sm:px-10 lg:px-16">
+        <div className="border-t border-white/[0.08] pt-12 sm:pt-16">
+          {/* Section Header — Balanced editorial two-column layout */}
+          <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-sky-400">
+                Quantifiable Impact
+              </p>
+              <h2 className="mt-3 text-3xl font-bold tracking-[-0.04em] text-white sm:text-4xl lg:text-5xl">
+                Why this book?
+              </h2>
+            </div>
+            <p className="max-w-xl text-base leading-relaxed text-slate-400">
+              Real data from the trenches. No generic prompts, no hand-waving theories — just vetted engineering reality distilled from production deployments.
             </p>
           </div>
 
-          <div className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5 lg:gap-6">
-            {stats.map((stat) => (
-              <div
-                key={stat.label}
-                className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-[#060d1a] p-6 transition-all hover:border-sky-500/30 hover:bg-[#091224]"
-              >
-                <div className="text-4xl font-bold tracking-tight text-white lg:text-5xl">
-                  {stat.value}
+          {/* Unified Metrics Bar — Clean, authoritative editorial layout without boxy cards */}
+          <div className="mt-12 sm:mt-16 border-y border-white/[0.08] py-10 lg:py-12">
+            <div className="grid grid-cols-2 gap-y-10 gap-x-8 sm:grid-cols-3 lg:grid-cols-5 lg:gap-0 lg:divide-x lg:divide-white/[0.08]">
+              {stats.map((stat, idx) => (
+                <div
+                  key={stat.label}
+                  className={`group flex flex-col lg:px-8 first:lg:pl-0 last:lg:pr-0 ${
+                    idx === stats.length - 1 ? "col-span-2 sm:col-span-1" : ""
+                  }`}
+                >
+                  <div className="h-[96px] sm:h-[110px] lg:h-[120px] flex flex-col justify-between">
+                    <span className="font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-slate-500 transition-colors group-hover:text-slate-300">
+                      0{idx + 1}
+                    </span>
+                    <div className="font-sans text-5xl font-bold tracking-[-0.05em] text-white sm:text-6xl lg:text-7xl leading-none">
+                      {stat.value}
+                    </div>
+                  </div>
+
+                  <div className="mt-6 border-t border-white/[0.08] pt-4">
+                    <h3 className="text-sm font-semibold tracking-tight text-white sm:text-base">
+                      {stat.label}
+                    </h3>
+                    <p className="mt-1.5 text-xs leading-relaxed text-slate-400 sm:text-[0.82rem]">
+                      {stat.desc}
+                    </p>
+                  </div>
                 </div>
-                <div className="mt-2 text-sm font-semibold text-sky-300">
-                  {stat.label}
-                </div>
-                <p className="mt-2 text-xs leading-relaxed text-slate-400">
-                  {stat.desc}
-                </p>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Who Is This Book For Section */}
-      <section className="relative mx-auto max-w-[1440px] px-6 py-12 sm:px-10 lg:px-16">
-        <div className="max-w-2xl">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-sky-400">
-            Target Audience
-          </p>
-          <h2 className="mt-3 text-3xl font-semibold tracking-[-0.035em] sm:text-4xl">
-            Who Is This Book For?
-          </h2>
-          <p className="mt-3 text-base text-slate-400">
-            Engineered for practitioners, architects, and decision makers charged with delivering business results from GenAI.
-          </p>
-        </div>
+      {/* Who Is This Book For Section — Minimalist Architectural Split Layout */}
+      <section className="relative mx-auto max-w-[1440px] px-6 py-16 sm:px-10 sm:py-20 lg:px-16 border-t border-white/[0.08]">
+        <div className="grid items-start gap-10 lg:grid-cols-12 lg:gap-14">
+          {/* Left Column: Heading & Context */}
+          <div className="lg:col-span-5 lg:sticky lg:top-28">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-sky-400">
+              Target Audience
+            </p>
+            <h2 className="mt-3 text-3xl font-bold tracking-[-0.04em] text-white sm:text-4xl lg:text-5xl">
+              Who is this book for?
+            </h2>
+            <p className="mt-4 text-base leading-relaxed text-slate-400">
+              Tailored chapters written for five distinct perspectives driving the modern AI economy.
+            </p>
 
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {audiences.map((item) => (
-            <div
-              key={item.role}
-              className="group flex flex-col justify-between rounded-2xl border border-white/[0.08] bg-[#060b13] p-7 transition-all hover:border-white/[0.18] hover:bg-[#09101d]"
-            >
-              <div>
-                <span className="inline-block rounded-full bg-white/[0.06] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-300">
-                  {item.tag}
-                </span>
-                <h3 className="mt-4 text-xl font-semibold text-white transition-colors group-hover:text-sky-300">
-                  {item.role}
-                </h3>
-                <p className="mt-3 text-sm leading-relaxed text-slate-400">
-                  {item.desc}
-                </p>
-              </div>
+            <div className="mt-6 text-xs font-mono uppercase tracking-wider text-slate-400">
+              5 Focused Reading Tracks
             </div>
-          ))}
+          </div>
+
+          {/* Right Column: 5 Minimal, Sleek Roster Rows */}
+          <div className="lg:col-span-7 divide-y divide-white/[0.08] rounded-2xl border border-white/[0.08] bg-[#050813]/70 overflow-hidden">
+            {audiences.map((item) => (
+              <div
+                key={item.role}
+                className="group flex items-center justify-between gap-4 p-5 sm:px-7 transition-colors duration-200 hover:bg-white/[0.03]"
+              >
+                <div className="flex items-center gap-4 min-w-0">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/[0.1] bg-white/[0.02] text-sky-400 transition-colors group-hover:border-sky-400/40 group-hover:bg-sky-500/10">
+                    {item.icon}
+                  </div>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2.5">
+                      <h3 className="text-base sm:text-lg font-semibold tracking-tight text-white transition-colors group-hover:text-sky-300">
+                        {item.role}
+                      </h3>
+                      <span className="hidden sm:inline-block font-mono text-[10px] uppercase tracking-wider text-slate-400 border border-white/[0.08] bg-white/[0.02] px-2 py-0.5 rounded">
+                        {item.tag}
+                      </span>
+                    </div>
+                    <p className="mt-1 text-xs sm:text-sm text-slate-400">
+                      {item.tagline}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="shrink-0 text-slate-400 transition-all duration-200 group-hover:translate-x-1 group-hover:text-white">
+                  →
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

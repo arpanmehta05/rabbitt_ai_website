@@ -58,32 +58,7 @@ const process = [
   },
 ];
 
-const enterpriseTracks = [
-  {
-    track: "01",
-    role: "Technical Teams & Architects",
-    focus: "Production LLM Engineering & Agentic Pipelines",
-    format: "Hands-on Code Labs & Architecture Reviews",
-  },
-  {
-    track: "02",
-    role: "Product Managers & Tech Leads",
-    focus: "AI Feasibility, UX Patterns & Roadmap Design",
-    format: "Solution Discovery & Prototype Sprints",
-  },
-  {
-    track: "03",
-    role: "Executive Leadership & C-Suite",
-    focus: "Enterprise Strategy, Governance & ROI Delivery",
-    format: "Strategic Masterclasses & Policy Playbooks",
-  },
-  {
-    track: "04",
-    role: "Business & Operations Teams",
-    focus: "Workflow Automation & Generative Productivity",
-    format: "Interactive Tool Labs & Prompt Workflows",
-  },
-];
+
 
 export default function CorporateTrainingStudio() {
   return (
@@ -132,90 +107,6 @@ export default function CorporateTrainingStudio() {
         </div>
       </section>
 
-      {/* ── ENTERPRISE TRACKS & LAB SHOWCASE ────────────────────────── */}
-      <section className="relative mx-auto max-w-[1440px] px-6 py-16 sm:px-10 sm:py-20 lg:px-16">
-        <div className="overflow-hidden rounded-2xl border border-white/[0.12] bg-[#070b14] p-6 sm:p-10">
-          <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-12">
-            <div className="lg:col-span-5">
-              <h3 className="text-2xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-                Secure sandboxes & role-specific learning paths.
-              </h3>
-              <p className="mt-4 text-sm leading-relaxed text-slate-400 sm:text-base">
-                Whether training senior cloud architects or non-technical business operators, our training occurs in zero-data-leakage enterprise sandboxes equipped with your internal guidelines.
-              </p>
-
-              <div className="mt-6 space-y-3">
-                <div className="flex items-center gap-3 text-sm text-slate-300">
-                  <span className="h-1.5 w-1.5 rounded-full bg-blue-400" />
-                  <span>SOC2-compliant, zero-data-retention training environments</span>
-                </div>
-                <div className="flex items-center gap-3 text-sm text-slate-300">
-                  <span className="h-1.5 w-1.5 rounded-full bg-blue-400" />
-                  <span>Custom use-case sprints built around your internal codebase</span>
-                </div>
-                <div className="flex items-center gap-3 text-sm text-slate-300">
-                  <span className="h-1.5 w-1.5 rounded-full bg-blue-400" />
-                  <span>Ongoing advisory, architectural review & post-training QA</span>
-                </div>
-              </div>
-
-              <div className="mt-8">
-                <Link
-                  href="/contactus"
-                  className="group inline-flex items-center gap-2 rounded-full bg-white px-6 py-3.5 text-[0.92rem] font-semibold text-[#020305] shadow-[0_0_0_1px_rgba(255,255,255,0.15),0_8px_32px_rgba(255,255,255,0.08)] transition-all duration-200 hover:bg-slate-100"
-                >
-                  Schedule Corporate Training Consultation
-                  <span className="transition-transform duration-200 group-hover:translate-x-0.5">
-                    →
-                  </span>
-                </Link>
-              </div>
-            </div>
-
-            <div className="rounded-xl border border-white/[0.12] bg-[#030611] p-5 sm:p-6 lg:col-span-7">
-              <div className="flex items-center justify-between border-b border-white/[0.08] pb-4 mb-4">
-                <div>
-                  <span className="font-mono text-[10px] font-semibold uppercase text-sky-400">
-                    Enterprise Capability Matrix
-                  </span>
-                  <h4 className="text-base font-semibold text-white">
-                    Multi-Tier Organizational AI Enablement
-                  </h4>
-                </div>
-                <span className="rounded bg-blue-600/30 px-2.5 py-1 text-blue-200 font-mono text-[11px] border border-blue-500/40">
-                  Custom Cohorts
-                </span>
-              </div>
-
-              <div className="space-y-3">
-                {enterpriseTracks.map((tr) => (
-                  <div
-                    key={tr.track}
-                    className="rounded-lg border border-white/[0.06] bg-white/[0.02] p-3.5 transition-colors hover:bg-white/[0.04]"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2.5">
-                        <span className="font-mono text-xs font-semibold text-sky-400">
-                          {tr.track}
-                        </span>
-                        <h5 className="text-sm font-medium text-white">
-                          {tr.role}
-                        </h5>
-                      </div>
-                      <span className="font-mono text-[11px] text-slate-400 shrink-0">
-                        {tr.format}
-                      </span>
-                    </div>
-                    <p className="mt-1 text-xs text-slate-400 pl-6">
-                      {tr.focus}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* ── OUR STRATEGIC METHOD ────────────────────────────────────── */}
       <section className="relative mx-auto max-w-[1440px] px-6 py-20 sm:px-10 sm:py-24 lg:px-16 lg:py-28">

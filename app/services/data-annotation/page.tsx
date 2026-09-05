@@ -57,27 +57,6 @@ const modalities = [
   },
 ];
 
-const differentiators = [
-  {
-    stat: "140+",
-    label: "NLP Businesses Served",
-    description:
-      "Selected by more than 140 NLP-first businesses for mission-critical annotation pipelines.",
-  },
-  {
-    stat: "500M+",
-    label: "Data Points Annotated",
-    description:
-      "Permanent international AI Data Experts delivering consistent quality across text, image, audio and video.",
-  },
-  {
-    stat: "99.2%",
-    label: "Annotation Accuracy",
-    description:
-      "Our experts maintain a 99.2% accuracy SLA on every project with multi-tier QA review.",
-  },
-];
-
 const processSteps = [
   {
     step: "01",
@@ -272,48 +251,6 @@ export default function DataAnnotationPage() {
         </div>
       </section>
 
-      {/* ── WHY RABBITTAI ────────────────────────────────────────────── */}
-      <section className="relative mx-auto max-w-[1440px] px-6 py-14 sm:px-10 sm:py-16 lg:px-16">
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
-        <div
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background: "linear-gradient(180deg, rgba(37, 99, 235, 0.06) 0%, rgba(14, 165, 233, 0.02) 60%, transparent 100%)",
-            maskImage: "linear-gradient(90deg, transparent 0%, black 15%, black 85%, transparent 100%)",
-            WebkitMaskImage: "linear-gradient(90deg, transparent 0%, black 15%, black 85%, transparent 100%)",
-          }}
-        />
-
-        <div className="relative">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-sky-400">
-            Why Rabbitt AI
-          </p>
-          <h2 className="mt-3 max-w-2xl text-2xl font-bold tracking-[-0.03em] text-white sm:text-3xl">
-            Reliable AI data experts — from kickoff to delivery
-          </h2>
-
-          <div className="mt-10 grid gap-4 sm:grid-cols-3">
-            {differentiators.map((d) => (
-              <div
-                key={d.stat}
-                className="rounded-2xl border border-white/[0.08] bg-[#060c18] p-7 transition-colors hover:border-white/[0.14]"
-              >
-                <p className="text-4xl font-bold leading-none tracking-[-0.05em]">
-                  <span className="bg-gradient-to-r from-blue-400 to-sky-400 bg-clip-text text-transparent">
-                    {d.stat}
-                  </span>
-                </p>
-                <p className="mt-3 text-base font-semibold text-white">
-                  {d.label}
-                </p>
-                <p className="mt-2 text-sm leading-relaxed text-slate-400">
-                  {d.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* ── PROCESS ──────────────────────────────────────────────────── */}
       <section

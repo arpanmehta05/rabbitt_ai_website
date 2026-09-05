@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
-import { Search, Calendar, Play, CheckCircle2, X, ArrowRight } from "lucide-react";
+import Image from "next/image";
+import { Play, CheckCircle2, X, ArrowRight } from "lucide-react";
 
 export interface Webinar {
   id: string;
@@ -11,24 +12,31 @@ export interface Webinar {
   date: string;
   duration: string;
   description: string;
-  takeaways: string[];
+  image: string;
 }
 
 const WEBINARS_DATA: Webinar[] = [
   {
-    id: "production-rag-scale",
-    title: "Architecting Production RAG: Hybrid Indexing, Guardrails & Deterministic Tooling",
+    id: "multi-agent-orchestration-production",
+    title: "Multi-Agent Workflows in Production: State, Memory & Human Gates",
+    category: "Agentic Systems",
+    status: "upcoming",
+    date: "Wednesday, Nov 12, 2025 • 1:00 PM EDT",
+    duration: "55 min",
+    description:
+      "Designing stateful multi-agent choreographies with persistent episodic memory, fault-tolerant retries, and deterministic human approval gates.",
+    image: "/assets/curators-hero.jpg",
+  },
+  {
+    id: "automating-llm-evals",
+    title: "Continuous LLM Evaluations: Beyond Synthetic Benchmarks in CI/CD",
     category: "Enterprise RAG",
     status: "upcoming",
-    date: "Thursday, Oct 24, 2025 • 11:00 AM EDT / 8:00 AM PDT",
-    duration: "60 mins • Live interactive Q&A",
+    date: "Thursday, Nov 27, 2025 • 11:00 AM EDT",
+    duration: "50 min",
     description:
-      "A technical walkthrough of production-grade retrieval augmented generation architectures. Explore how our engineering team combines sparse lexical search with dense vector representations, keeps cross-encoder re-ranking under 40ms SLA, and enforces deterministic JSON schema validation for multi-agent workflows.",
-    takeaways: [
-      "Sub-50ms hybrid search pipelines combining BM25 and hierarchical vector indexing",
-      "Semantic caching and hallucination mitigation with automated evals",
-      "Deterministic tool-calling patterns with structured JSON schema outputs",
-    ],
+      "Production CI/CD evaluation pipelines tracking regression, semantic accuracy, and edge-case hallucination across continuous model releases.",
+    image: "/assets/chance-rag-hero.png",
   },
   {
     id: "fine-tuning-llama-production",
@@ -36,29 +44,10 @@ const WEBINARS_DATA: Webinar[] = [
     category: "Inference & Fine-Tuning",
     status: "on-demand",
     date: "On-Demand Session",
-    duration: "52 mins",
+    duration: "52 min",
     description:
-      "Parameter-efficient fine-tuning (LoRA/QLoRA) strategies, custom tokenizer alignment, and domain evaluation benchmarks for regulated industries requiring strict SLA and compliance.",
-    takeaways: [
-      "LoRA rank selection and target module ablation on 70B parameter models",
-      "Synthetic domain alignment data generation and quality filtering",
-      "Benchmarking domain retention vs. general reasoning capability",
-    ],
-  },
-  {
-    id: "multi-agent-orchestration-production",
-    title: "Multi-Agent Workflows in Production: State, Memory & Human Gates",
-    category: "Agentic Systems",
-    status: "upcoming",
-    date: "Wednesday, Nov 12, 2025 • 1:00 PM EDT / 10:00 AM PDT",
-    duration: "55 mins • Live Q&A",
-    description:
-      "Designing stateful multi-agent choreographies with persistent episodic memory, fault-tolerant retries, tool execution sandboxes, and seamless human approval gates.",
-    takeaways: [
-      "State machine orchestration patterns vs. free-form autonomous loops",
-      "Short-term working memory vs. long-term vector-backed episodic retrieval",
-      "Implementing deterministic human-in-the-loop escalation paths",
-    ],
+      "Parameter-efficient fine-tuning (LoRA/QLoRA) strategies, custom tokenizer alignment, and domain evaluation benchmarks for regulated industries.",
+    image: "/assets/annotation-vision.jpg",
   },
   {
     id: "data-annotation-at-scale",
@@ -66,14 +55,10 @@ const WEBINARS_DATA: Webinar[] = [
     category: "Data Annotation",
     status: "on-demand",
     date: "On-Demand Session",
-    duration: "48 mins",
+    duration: "48 min",
     description:
-      "Scaling human-in-the-loop annotation workflows to 10M+ tokens and frames weekly while maintaining consensus accuracy above 99.4% through multi-tier verification.",
-    takeaways: [
-      "Automating preliminary model pre-labeling with active uncertainty sampling",
-      "Inter-annotator agreement scoring algorithms (Cohen's Kappa & Krippendorff's Alpha)",
-      "Building custom taxonomy schemas for complex domain-specific annotation",
-    ],
+      "Scaling human-in-the-loop annotation workflows to 10M+ tokens weekly while maintaining consensus accuracy above 99.4% through multi-tier verification.",
+    image: "/assets/data-annotation-hero.jpg",
   },
   {
     id: "zero-trust-llm-security",
@@ -81,29 +66,10 @@ const WEBINARS_DATA: Webinar[] = [
     category: "Security & Compliance",
     status: "on-demand",
     date: "On-Demand Session",
-    duration: "58 mins",
+    duration: "58 min",
     description:
-      "Architectural patterns for private cloud LLM inference, tenant boundary isolation, real-time prompt injection filtering, and automated PII redaction under SOC2 and HIPAA.",
-    takeaways: [
-      "Zero-retention VPC deployment patterns across AWS, Azure, and GCP",
-      "Real-time token-level redaction and anonymization proxies",
-      "Defense-in-depth against prompt injection and model extraction attacks",
-    ],
-  },
-  {
-    id: "automating-llm-evals",
-    title: "Continuous LLM Evaluations: Beyond Synthetic Benchmarks in CI/CD",
-    category: "Enterprise RAG",
-    status: "upcoming",
-    date: "Thursday, Nov 27, 2025 • 11:00 AM EDT / 8:00 AM PDT",
-    duration: "50 mins • Live Q&A",
-    description:
-      "Moving past static public benchmarks to build production CI/CD evaluation pipelines that track regression, semantic accuracy, and edge-case hallucination across releases.",
-    takeaways: [
-      "Designing golden test sets from anonymized production failure logs",
-      "LLM-as-a-judge calibration with human expert correlation",
-      "Automating regression gates in GitHub Actions before model deployments",
-    ],
+      "Architectural patterns for private cloud LLM inference, tenant boundary isolation, real-time prompt injection filtering, and automated PII redaction.",
+    image: "/assets/annotation-medical.jpg",
   },
   {
     id: "inference-latency-optimization",
@@ -111,68 +77,42 @@ const WEBINARS_DATA: Webinar[] = [
     category: "Inference & Fine-Tuning",
     status: "on-demand",
     date: "On-Demand Session",
-    duration: "64 mins",
+    duration: "64 min",
     description:
-      "Engineering techniques for cutting time-to-first-token by 60% and scaling multi-GPU vLLM and TensorRT-LLM clusters cost-effectively for high-concurrency workloads.",
-    takeaways: [
-      "Configuring draft models for speculative decoding on 70B+ architectures",
-      "PagedAttention memory management and KV-cache optimization",
-      "Dynamic batching and multi-node tensor parallel scaling",
-    ],
+      "Engineering techniques for cutting time-to-first-token by 60% and scaling multi-GPU vLLM and TensorRT-LLM clusters cost-effectively.",
+    image: "/assets/annotation-lidar.jpg",
   },
 ];
 
 const CATEGORIES = [
   "All",
-  "Enterprise RAG",
   "Agentic Systems",
-  "Data Annotation",
+  "Enterprise RAG",
   "Inference & Fine-Tuning",
+  "Data Annotation",
   "Security & Compliance",
 ] as const;
 
 export default function WebinarsDirectory() {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [selectedStatus, setSelectedStatus] = useState<"all" | "upcoming" | "on-demand">("all");
-  const [searchQuery, setSearchQuery] = useState("");
   const [activeModalWebinar, setActiveModalWebinar] = useState<Webinar | null>(null);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [emailInput, setEmailInput] = useState("");
   const [nameInput, setNameInput] = useState("");
 
-  const featuredWebinar = WEBINARS_DATA[0];
-
   const filteredWebinars = useMemo(() => {
-    const isDefaultView =
-      selectedCategory === "All" &&
-      selectedStatus === "all" &&
-      !searchQuery.trim();
-    const sourceData = isDefaultView ? WEBINARS_DATA.slice(1) : WEBINARS_DATA;
-
-    return sourceData.filter((item) => {
-      // Status filter
+    return WEBINARS_DATA.filter((item) => {
       if (selectedStatus !== "all" && item.status !== selectedStatus) {
         return false;
       }
-      // Category filter
       if (selectedCategory !== "All" && item.category !== selectedCategory) {
         return false;
       }
-      // Search query
-      if (searchQuery.trim()) {
-        const q = searchQuery.toLowerCase();
-        const matchesTitle = item.title.toLowerCase().includes(q);
-        const matchesDesc = item.description.toLowerCase().includes(q);
-        const matchesCategory = item.category.toLowerCase().includes(q);
-        if (!matchesTitle && !matchesDesc && !matchesCategory) {
-          return false;
-        }
-      }
       return true;
     });
-  }, [selectedCategory, selectedStatus, searchQuery]);
+  }, [selectedCategory, selectedStatus]);
 
-  // Handle escape key to close modal
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape" && activeModalWebinar) {
@@ -198,250 +138,227 @@ export default function WebinarsDirectory() {
     }
   };
 
+  const featuredSession = selectedCategory === "All" && selectedStatus === "all" ? WEBINARS_DATA[0] : null;
+  const gridSessions = featuredSession ? filteredWebinars.slice(1) : filteredWebinars;
+
   return (
-    <div>
-      {/* Featured Webinar Showcase - Clean, no badges, no fake profile avatars */}
-      <section className="mb-16">
-        <div className="relative overflow-hidden rounded-2xl border border-white/[0.1] bg-[#060e1d]/70 p-8 sm:p-10 lg:p-12 shadow-[0_24px_60px_rgba(0,0,0,0.5)]">
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.15] to-transparent" />
+    <div className="space-y-12">
+      {/* Category Navigation Bar (Clean Underline Tabs, No Badges/Pills) */}
+      <div className="flex flex-col gap-4 border-b border-white/[0.08] pb-1 sm:flex-row sm:items-center sm:justify-between">
+        <nav
+          className="flex items-center gap-7 overflow-x-auto no-scrollbar"
+          aria-label="Filter masterclasses by topic"
+        >
+          {CATEGORIES.map((cat) => {
+            const isSelected = selectedCategory === cat;
+            return (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => setSelectedCategory(cat)}
+                className={`relative pb-3 text-sm font-medium transition-colors whitespace-nowrap cursor-pointer ${
+                  isSelected
+                    ? "text-white"
+                    : "text-slate-400 hover:text-slate-200"
+                }`}
+              >
+                {cat}
+                {isSelected && (
+                  <span className="absolute inset-x-0 bottom-0 h-[2px] bg-white" />
+                )}
+              </button>
+            );
+          })}
+        </nav>
 
-          <div className="grid gap-8 lg:grid-cols-[1.3fr_0.7fr] lg:gap-12">
-            <div>
-              <h2 className="text-2xl font-bold leading-snug tracking-[-0.03em] text-white sm:text-3xl lg:text-4xl">
-                {featuredWebinar.title}
-              </h2>
+        {/* Minimal Status Toggle (All / Live / On-Demand) */}
+        <div className="flex items-center gap-1 pb-2 sm:pb-3 shrink-0">
+          {(["all", "upcoming", "on-demand"] as const).map((status) => {
+            const label = status === "all" ? "All" : status === "upcoming" ? "Live" : "On-Demand";
+            const isSelected = selectedStatus === status;
+            return (
+              <button
+                key={status}
+                type="button"
+                onClick={() => setSelectedStatus(status)}
+                className={`px-3 py-1.5 text-xs font-mono uppercase tracking-wider rounded-md transition-colors cursor-pointer ${
+                  isSelected
+                    ? "bg-white/[0.08] text-white font-semibold"
+                    : "text-slate-400 hover:text-slate-200 hover:bg-white/[0.03]"
+                }`}
+              >
+                {label}
+              </button>
+            );
+          })}
+        </div>
+      </div>
 
-              <p className="mt-4 text-base leading-relaxed text-slate-300 sm:text-lg">
-                {featuredWebinar.description}
-              </p>
+      {/* Featured Masterclass Spotlight (Flagship 2-Column Showcase) */}
+      {featuredSession && (
+        <div className="group overflow-hidden rounded-2xl border border-white/[0.1] bg-[#04060d] p-6 sm:p-8 lg:p-10 transition-all duration-300 hover:border-white/[0.2]">
+          <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
+            {/* Visual 16:9 Artwork with subtle play indicator */}
+            <div className="relative aspect-[16/9] w-full overflow-hidden rounded-xl bg-[#020306] border border-white/[0.08] lg:col-span-7">
+              <Image
+                src={featuredSession.image}
+                alt={featuredSession.title}
+                fill
+                sizes="(max-width: 1024px) 100vw, 58vw"
+                className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
-              {/* Key Takeaways */}
-              <div className="mt-6 space-y-2.5">
-                {featuredWebinar.takeaways.map((takeaway, idx) => (
-                  <div key={idx} className="flex items-start gap-2.5 text-sm text-slate-300">
-                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-sky-400" />
-                    <span>{takeaway}</span>
-                  </div>
-                ))}
+              {/* Status pill on image */}
+              <div className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-md bg-emerald-500/90 px-3 py-1 text-xs font-bold uppercase tracking-wider text-black backdrop-blur-md">
+                <span className="h-1.5 w-1.5 rounded-full bg-black animate-pulse" />
+                Featured Live Session
               </div>
 
-              {/* Action Button */}
-              <div className="mt-8 flex flex-wrap items-center gap-4">
+              {/* Duration timestamp */}
+              <div className="absolute bottom-4 right-4 rounded-md bg-black/80 px-2.5 py-1 text-xs font-mono text-white border border-white/10 backdrop-blur-sm">
+                {featuredSession.duration}
+              </div>
+            </div>
+
+            {/* Narrative Column */}
+            <div className="flex flex-col justify-center lg:col-span-5">
+              <div className="text-xs font-mono uppercase tracking-wider text-sky-400 font-semibold">
+                {featuredSession.category}
+              </div>
+
+              <h2 className="mt-3 text-2xl sm:text-3xl font-semibold tracking-tight text-white leading-[1.2] group-hover:text-slate-200 transition-colors">
+                {featuredSession.title}
+              </h2>
+
+              <p className="mt-4 text-sm sm:text-base leading-relaxed text-slate-400 line-clamp-3">
+                {featuredSession.description}
+              </p>
+
+              <div className="mt-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-t border-white/[0.08] pt-6">
+                <div className="text-xs font-mono text-slate-400">
+                  {featuredSession.date}
+                </div>
+
                 <button
                   type="button"
-                  onClick={() => openRegistrationModal(featuredWebinar)}
-                  className="inline-flex items-center gap-2.5 rounded-full bg-white px-7 py-3 text-sm font-semibold text-[#020305] shadow-[0_0_24px_rgba(255,255,255,0.18)] transition-all hover:bg-slate-100"
+                  onClick={() => openRegistrationModal(featuredSession)}
+                  className="inline-flex items-center justify-center gap-2 rounded-lg bg-white px-5 py-2.5 text-xs font-semibold text-[#020305] hover:bg-slate-100 transition-colors cursor-pointer"
                 >
-                  <Calendar className="h-4 w-4 text-[#020305]" />
-                  <span>Reserve Live Seat Free</span>
-                  <ArrowRight className="h-4 w-4" />
+                  <span>Register Free</span>
+                  <ArrowRight className="h-3.5 w-3.5" />
                 </button>
               </div>
             </div>
+          </div>
+        </div>
+      )}
 
-            {/* Session Details */}
-            <div className="flex flex-col justify-between rounded-xl border border-white/[0.08] bg-[#030712]/80 p-6 sm:p-8 backdrop-blur-sm">
-              <div className="space-y-6">
-                <div>
-                  <span className="text-xs font-medium uppercase tracking-[0.14em] text-slate-400">
-                    Schedule
-                  </span>
-                  <p className="mt-1.5 text-base font-semibold text-white">
-                    {featuredWebinar.date}
-                  </p>
-                </div>
-
-                <div className="border-t border-white/[0.08] pt-5">
-                  <span className="text-xs font-medium uppercase tracking-[0.14em] text-slate-400">
-                    Duration & Format
-                  </span>
-                  <p className="mt-1.5 text-sm text-slate-200">
-                    {featuredWebinar.duration}
-                  </p>
-                  <p className="mt-1 text-xs text-slate-400">
-                    Interactive engineering session with architecture walkthrough and live Q&A.
-                  </p>
-                </div>
-
-                <div className="border-t border-white/[0.08] pt-5">
-                  <span className="text-xs font-medium uppercase tracking-[0.14em] text-slate-400">
-                    Track
-                  </span>
-                  <p className="mt-1.5 text-sm font-medium text-sky-300">
-                    {featuredWebinar.category}
-                  </p>
-                </div>
-              </div>
-
-              <div className="mt-6 rounded-lg border border-white/[0.06] bg-black/40 p-3.5 text-xs text-slate-400">
-                Includes access to architecture blueprints, reference code, and session replay recording.
-              </div>
+      {/* Video Catalogue Grid (3 Columns) */}
+      {filteredWebinars.length === 0 ? (
+        <div className="py-20 text-center">
+          <p className="text-base text-slate-400">No sessions match your selected filters.</p>
+          <button
+            type="button"
+            onClick={() => {
+              setSelectedCategory("All");
+              setSelectedStatus("all");
+            }}
+            className="mt-4 text-xs font-semibold text-white underline underline-offset-4 hover:text-slate-300"
+          >
+            Reset filters
+          </button>
+        </div>
+      ) : (
+        <div className="space-y-8">
+          {featuredSession && gridSessions.length > 0 && (
+            <div className="flex items-center justify-between border-b border-white/[0.06] pb-4">
+              <span className="text-xs font-mono uppercase tracking-wider text-slate-400">
+                All Masterclasses
+              </span>
+              <span className="text-xs font-mono text-slate-400">
+                {gridSessions.length} {gridSessions.length === 1 ? "Session" : "Sessions"}
+              </span>
             </div>
-          </div>
-        </div>
-      </section>
+          )}
 
-      {/* Filter and Search Bar */}
-      <section className="mb-10">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-          {/* Status Tabs */}
-          <div className="flex items-center rounded-xl border border-white/[0.08] bg-white/[0.02] p-1">
-            <button
-              type="button"
-              onClick={() => setSelectedStatus("all")}
-              className={`rounded-lg px-4 py-2 text-xs font-semibold tracking-wide transition-all ${
-                selectedStatus === "all"
-                  ? "bg-white text-[#020305] shadow-sm"
-                  : "text-slate-400 hover:text-white"
-              }`}
-            >
-              All Sessions
-            </button>
-            <button
-              type="button"
-              onClick={() => setSelectedStatus("upcoming")}
-              className={`rounded-lg px-4 py-2 text-xs font-semibold tracking-wide transition-all ${
-                selectedStatus === "upcoming"
-                  ? "bg-white text-[#020305] shadow-sm"
-                  : "text-slate-400 hover:text-white"
-              }`}
-            >
-              Upcoming Live
-            </button>
-            <button
-              type="button"
-              onClick={() => setSelectedStatus("on-demand")}
-              className={`rounded-lg px-4 py-2 text-xs font-semibold tracking-wide transition-all ${
-                selectedStatus === "on-demand"
-                  ? "bg-white text-[#020305] shadow-sm"
-                  : "text-slate-400 hover:text-white"
-              }`}
-            >
-              On-Demand
-            </button>
-          </div>
-
-          {/* Search Input */}
-          <div className="relative w-full lg:max-w-md">
-            <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
-            <input
-              type="text"
-              placeholder="Search webinars or topics..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full rounded-xl border border-white/[0.1] bg-white/[0.03] py-2.5 pl-10 pr-4 text-sm text-white placeholder-slate-500 transition-colors focus:border-sky-400 focus:bg-white/[0.05] focus:outline-none"
-            />
-            {searchQuery && (
-              <button
-                type="button"
-                onClick={() => setSearchQuery("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
-              >
-                <X className="h-4 w-4" />
-              </button>
-            )}
-          </div>
-        </div>
-
-        {/* Category Pills */}
-        <div className="mt-5 flex flex-wrap gap-2">
-          {CATEGORIES.map((cat) => (
-            <button
-              key={cat}
-              type="button"
-              onClick={() => setSelectedCategory(cat)}
-              className={`rounded-full border px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] transition-all ${
-                selectedCategory === cat
-                  ? "border-sky-400 bg-sky-500/15 text-sky-300"
-                  : "border-white/[0.1] bg-white/[0.03] text-slate-400 hover:border-white/20 hover:text-slate-200"
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-      </section>
-
-      {/* Webinars Grid - Clean cards without fake profile avatars or names */}
-      <section className="mb-20">
-        {filteredWebinars.length === 0 ? (
-          <div className="rounded-2xl border border-white/[0.08] bg-white/[0.02] py-20 text-center">
-            <p className="text-base text-slate-400">
-              No sessions match your current filter or search criteria.
-            </p>
-            <button
-              type="button"
-              onClick={() => {
-                setSelectedCategory("All");
-                setSelectedStatus("all");
-                setSearchQuery("");
-              }}
-              className="mt-4 text-xs font-semibold text-sky-400 hover:text-sky-300 underline"
-            >
-              Reset all filters
-            </button>
-          </div>
-        ) : (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {filteredWebinars.map((webinar) => {
+            {gridSessions.map((webinar) => {
               const isUpcoming = webinar.status === "upcoming";
+
               return (
                 <div
                   key={webinar.id}
-                  className="group flex flex-col justify-between overflow-hidden rounded-2xl border border-white/[0.08] bg-[#060d1a] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-white/[0.18] hover:shadow-[0_16px_48px_rgba(0,0,0,0.5)]"
+                  className="group flex flex-col justify-between overflow-hidden rounded-xl border border-white/[0.08] bg-[#04060d] transition-all duration-300 hover:-translate-y-1 hover:border-white/[0.2] hover:bg-[#060914] hover:shadow-[0_20px_40px_rgba(0,0,0,0.6)]"
                 >
                   <div>
-                    {/* Top Row: Category and Timing */}
-                    <div className="flex items-center justify-between gap-2 text-xs text-slate-400">
-                      <span className="font-medium text-slate-300">
-                        {webinar.category}
-                      </span>
-                      <span>
-                        {isUpcoming ? webinar.date.split("•")[0]?.trim() : webinar.duration}
-                      </span>
+                    {/* Visual 16:9 Artwork Thumbnail */}
+                    <div className="relative aspect-[16/9] w-full overflow-hidden bg-[#020306] border-b border-white/[0.06]">
+                      <Image
+                        src={webinar.image}
+                        alt={webinar.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#04060d] via-black/20 to-transparent" />
+
+                      {/* Status Tag */}
+                      {isUpcoming ? (
+                        <div className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-md bg-emerald-500/90 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-black backdrop-blur-md">
+                          <span className="h-1.5 w-1.5 rounded-full bg-black animate-pulse" />
+                          Live
+                        </div>
+                      ) : (
+                        <div className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-md bg-black/70 px-2.5 py-1 text-[10px] font-medium text-white backdrop-blur-md border border-white/10">
+                          <Play className="h-2.5 w-2.5 fill-current" />
+                          On-Demand
+                        </div>
+                      )}
+
+                      {/* Duration timestamp */}
+                      <div className="absolute bottom-2.5 right-2.5 rounded bg-black/80 px-2 py-0.5 text-[11px] font-mono text-slate-300 border border-white/10 backdrop-blur-sm">
+                        {webinar.duration}
+                      </div>
                     </div>
 
-                    {/* Title */}
-                    <h3 className="mt-4 text-lg font-semibold leading-snug tracking-[-0.02em] text-white transition-colors group-hover:text-sky-200">
-                      {webinar.title}
-                    </h3>
+                    {/* Card Body */}
+                    <div className="p-5 sm:p-6">
+                      <div className="text-[11px] font-mono uppercase tracking-wider text-sky-400 font-medium">
+                        {webinar.category}
+                      </div>
 
-                    {/* Description */}
-                    <p className="mt-2.5 line-clamp-3 text-sm leading-relaxed text-slate-400">
-                      {webinar.description}
-                    </p>
+                      <h3 className="mt-2.5 text-base sm:text-lg font-semibold tracking-tight text-white leading-snug group-hover:text-sky-300 transition-colors line-clamp-2">
+                        {webinar.title}
+                      </h3>
+
+                      <p className="mt-2.5 text-sm text-slate-400 leading-relaxed line-clamp-2">
+                        {webinar.description}
+                      </p>
+                    </div>
                   </div>
 
                   {/* Card Action Footer */}
-                  <div className="mt-6 pt-4 border-t border-white/[0.06] flex items-center justify-between">
-                    <span className="text-xs text-slate-400">
-                      {isUpcoming ? "Live Session" : "On-Demand"}
+                  <div className="p-5 sm:p-6 pt-0 border-t border-white/[0.04] mt-4 flex items-center justify-between text-xs">
+                    <span className="text-slate-400 font-mono">
+                      {isUpcoming ? webinar.date.split("•")[0]?.trim() : "Instant Replay"}
                     </span>
 
                     <button
                       type="button"
                       onClick={() => openRegistrationModal(webinar)}
-                      className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.05] px-4 py-1.5 text-xs font-semibold text-white transition-all hover:border-white/30 hover:bg-white/10 hover:text-sky-200"
+                      className="inline-flex items-center gap-1.5 font-semibold text-white group-hover:text-sky-300 transition-colors cursor-pointer"
                     >
-                      {isUpcoming ? (
-                        <>
-                          <span>Register</span>
-                          <ArrowRight className="h-3 w-3" />
-                        </>
-                      ) : (
-                        <>
-                          <Play className="h-3 w-3 fill-current" />
-                          <span>Watch</span>
-                        </>
-                      )}
+                      <span>{isUpcoming ? "Register" : "Watch"}</span>
+                      <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
                     </button>
                   </div>
                 </div>
               );
             })}
           </div>
-        )}
-      </section>
+        </div>
+      )}
 
       {/* Registration / Watch Modal */}
       {activeModalWebinar && (
@@ -452,10 +369,9 @@ export default function WebinarsDirectory() {
           onClick={() => setActiveModalWebinar(null)}
         >
           <div
-            className="relative w-full max-w-lg overflow-hidden rounded-2xl border border-white/[0.15] bg-[#060b14] p-6 sm:p-8 shadow-[0_24px_64px_rgba(0,0,0,0.8)]"
+            className="relative w-full max-w-lg overflow-hidden rounded-2xl border border-white/[0.15] bg-[#050814] p-6 sm:p-8 shadow-[0_24px_64px_rgba(0,0,0,0.8)]"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Close button */}
             <button
               type="button"
               onClick={() => setActiveModalWebinar(null)}
@@ -470,15 +386,15 @@ export default function WebinarsDirectory() {
                   <CheckCircle2 className="h-7 w-7" />
                 </div>
                 <h4 className="mt-4 text-xl font-bold text-white">
-                  {activeModalWebinar.status === "upcoming" ? "You're Registered!" : "Access Granted!"}
+                  {activeModalWebinar.status === "upcoming" ? "You're Registered!" : "Access Unlocked!"}
                 </h4>
                 <p className="mt-2 text-sm leading-relaxed text-slate-300">
                   {activeModalWebinar.status === "upcoming"
-                    ? `Calendar invitation and session access details have been sent to ${emailInput}.`
-                    : `Instant replay access is unlocked for ${emailInput}.`}
+                    ? `Session calendar invite and live stream link have been sent to ${emailInput}.`
+                    : `Instant masterclass replay access is ready for ${emailInput}.`}
                 </p>
 
-                <div className="mt-6 rounded-xl border border-white/[0.08] bg-[#0a1222] p-4 text-left text-xs text-slate-400">
+                <div className="mt-6 rounded-xl border border-white/[0.08] bg-[#02040a] p-4 text-left text-xs text-slate-400">
                   <p className="font-semibold text-white">{activeModalWebinar.title}</p>
                   <p className="mt-1">{activeModalWebinar.date} • {activeModalWebinar.duration}</p>
                 </div>
@@ -487,7 +403,7 @@ export default function WebinarsDirectory() {
                   <button
                     type="button"
                     onClick={() => setActiveModalWebinar(null)}
-                    className="w-full rounded-full bg-white py-2.5 text-sm font-semibold text-[#020305] hover:bg-slate-100"
+                    className="w-full rounded-lg bg-white py-2.5 text-sm font-semibold text-[#020305] hover:bg-slate-100 cursor-pointer"
                   >
                     Done
                   </button>
@@ -495,7 +411,7 @@ export default function WebinarsDirectory() {
               </div>
             ) : (
               <div>
-                <span className="text-xs font-semibold uppercase tracking-[0.14em] text-sky-400">
+                <span className="text-xs font-mono uppercase tracking-[0.16em] text-sky-400">
                   {activeModalWebinar.category}
                 </span>
 
@@ -507,7 +423,7 @@ export default function WebinarsDirectory() {
                   {activeModalWebinar.title}
                 </p>
 
-                <div className="mt-3 flex items-center gap-3 text-xs text-slate-400">
+                <div className="mt-3 flex items-center gap-3 text-xs font-mono text-slate-400">
                   <span>{activeModalWebinar.date}</span>
                   <span>•</span>
                   <span>{activeModalWebinar.duration}</span>
@@ -515,7 +431,7 @@ export default function WebinarsDirectory() {
 
                 <form onSubmit={handleSubmit} className="mt-6 space-y-4">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-300">
+                    <label className="block text-xs font-medium text-slate-300">
                       Full Name <span className="text-sky-400">*</span>
                     </label>
                     <input
@@ -524,12 +440,12 @@ export default function WebinarsDirectory() {
                       value={nameInput}
                       onChange={(e) => setNameInput(e.target.value)}
                       placeholder="e.g. Alex Morgan"
-                      className="mt-1.5 w-full rounded-xl border border-white/[0.12] bg-white/[0.03] px-3.5 py-2.5 text-sm text-white placeholder-slate-500 transition-colors focus:border-sky-400 focus:bg-white/[0.06] focus:outline-none"
+                      className="mt-1.5 w-full rounded-lg border border-white/[0.12] bg-white/[0.03] px-3.5 py-2.5 text-sm text-white placeholder-slate-500 transition-colors focus:border-sky-400 focus:bg-white/[0.06] focus:outline-none"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold text-slate-300">
+                    <label className="block text-xs font-medium text-slate-300">
                       Work Email <span className="text-sky-400">*</span>
                     </label>
                     <input
@@ -538,13 +454,13 @@ export default function WebinarsDirectory() {
                       value={emailInput}
                       onChange={(e) => setEmailInput(e.target.value)}
                       placeholder="alex@company.com"
-                      className="mt-1.5 w-full rounded-xl border border-white/[0.12] bg-white/[0.03] px-3.5 py-2.5 text-sm text-white placeholder-slate-500 transition-colors focus:border-sky-400 focus:bg-white/[0.06] focus:outline-none"
+                      className="mt-1.5 w-full rounded-lg border border-white/[0.12] bg-white/[0.03] px-3.5 py-2.5 text-sm text-white placeholder-slate-500 transition-colors focus:border-sky-400 focus:bg-white/[0.06] focus:outline-none"
                     />
                   </div>
 
                   <button
                     type="submit"
-                    className="mt-2 w-full rounded-full bg-white py-3 text-sm font-semibold text-[#020305] shadow-[0_0_20px_rgba(255,255,255,0.15)] transition-all hover:bg-slate-100"
+                    className="mt-2 w-full rounded-lg bg-white py-3 text-sm font-semibold text-[#020305] shadow-sm transition-all hover:bg-slate-100 cursor-pointer"
                   >
                     {activeModalWebinar.status === "upcoming" ? "Confirm Free Registration" : "Unlock Instant Replay"}
                   </button>

@@ -58,32 +58,7 @@ const process = [
   },
 ];
 
-const curriculumModules = [
-  {
-    module: "01",
-    title: "Foundations of LLMs & Attention Mechanisms",
-    duration: "Week 1 - 2",
-    topics: "Transformer architecture, tokenization, embeddings & pre-training intuition",
-  },
-  {
-    module: "02",
-    title: "Production RAG & Vector Database Systems",
-    duration: "Week 3 - 4",
-    topics: "Chunking strategies, semantic retrieval, hybrid search & reranking models",
-  },
-  {
-    module: "03",
-    title: "Agentic Workflows & Tool-Augmented AI",
-    duration: "Week 5 - 6",
-    topics: "Multi-agent coordination, function calling, memory persistence & web search integration",
-  },
-  {
-    module: "04",
-    title: "Fine-Tuning, Guardrails & Production Deployment",
-    duration: "Week 7 - 8",
-    topics: "LoRA/QLoRA parameter-efficient tuning, hallucination guardrails & API deployment",
-  },
-];
+
 
 export default function UniversityTrainingStudio() {
   return (
@@ -132,90 +107,6 @@ export default function UniversityTrainingStudio() {
         </div>
       </section>
 
-      {/* ── CURRICULUM ARCHITECTURE & LAB SHOWCASE ───────────────────── */}
-      <section className="relative mx-auto max-w-[1440px] px-6 py-16 sm:px-10 sm:py-20 lg:px-16">
-        <div className="overflow-hidden rounded-2xl border border-white/[0.12] bg-[#070b14] p-6 sm:p-10">
-          <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-12">
-            <div className="lg:col-span-5">
-              <h3 className="text-2xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-                Production-grade sandboxes & accredited syllabi.
-              </h3>
-              <p className="mt-4 text-sm leading-relaxed text-slate-400 sm:text-base">
-                Every student receives pre-configured cloud environments, enterprise API credits, and hands-on lab manuals designed by practicing AI researchers and industry practitioners.
-              </p>
-
-              <div className="mt-6 space-y-3">
-                <div className="flex items-center gap-3 text-sm text-slate-300">
-                  <span className="h-1.5 w-1.5 rounded-full bg-blue-400" />
-                  <span>Zero setup: cloud Jupyter labs with GPU acceleration</span>
-                </div>
-                <div className="flex items-center gap-3 text-sm text-slate-300">
-                  <span className="h-1.5 w-1.5 rounded-full bg-blue-400" />
-                  <span>Real enterprise dataset repositories and benchmark suites</span>
-                </div>
-                <div className="flex items-center gap-3 text-sm text-slate-300">
-                  <span className="h-1.5 w-1.5 rounded-full bg-blue-400" />
-                  <span>Modular integration into existing semester credit systems</span>
-                </div>
-              </div>
-
-              <div className="mt-8">
-                <Link
-                  href="/contactus"
-                  className="group inline-flex items-center gap-2 rounded-full bg-white px-6 py-3.5 text-[0.92rem] font-semibold text-[#020305] shadow-[0_0_0_1px_rgba(255,255,255,0.15),0_8px_32px_rgba(255,255,255,0.08)] transition-all duration-200 hover:bg-slate-100"
-                >
-                  Request University Syllabus
-                  <span className="transition-transform duration-200 group-hover:translate-x-0.5">
-                    →
-                  </span>
-                </Link>
-              </div>
-            </div>
-
-            <div className="rounded-xl border border-white/[0.12] bg-[#030611] p-5 sm:p-6 lg:col-span-7">
-              <div className="flex items-center justify-between border-b border-white/[0.08] pb-4 mb-4">
-                <div>
-                  <span className="font-mono text-[10px] font-semibold uppercase text-sky-400">
-                    Core Academic Track
-                  </span>
-                  <h4 className="text-base font-semibold text-white">
-                    Generative AI & LLM Systems Engineering
-                  </h4>
-                </div>
-                <span className="rounded bg-blue-600/30 px-2.5 py-1 text-blue-200 font-mono text-[11px] border border-blue-500/40">
-                  8-Week Program
-                </span>
-              </div>
-
-              <div className="space-y-3">
-                {curriculumModules.map((mod) => (
-                  <div
-                    key={mod.module}
-                    className="rounded-lg border border-white/[0.06] bg-white/[0.02] p-3.5 transition-colors hover:bg-white/[0.04]"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2.5">
-                        <span className="font-mono text-xs font-semibold text-sky-400">
-                          {mod.module}
-                        </span>
-                        <h5 className="text-sm font-medium text-white">
-                          {mod.title}
-                        </h5>
-                      </div>
-                      <span className="font-mono text-[11px] text-slate-400 shrink-0">
-                        {mod.duration}
-                      </span>
-                    </div>
-                    <p className="mt-1 text-xs text-slate-400 pl-6">
-                      {mod.topics}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* ── OUR METHODOLOGY ─────────────────────────────────────────── */}
       <section className="relative mx-auto max-w-[1440px] px-6 py-20 sm:px-10 sm:py-24 lg:px-16 lg:py-28">

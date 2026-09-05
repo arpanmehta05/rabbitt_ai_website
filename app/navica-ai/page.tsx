@@ -11,68 +11,7 @@ export const metadata: Metadata = {
     "Discover your dream AI career with Navica AI. Upload your resume, explore tailored career paths, take compatibility assessments, and follow guided career roadmaps.",
 };
 
-const careerPaths = [
-  {
-    role: "AI Solutions Architect",
-    category: "Architecture & Systems",
-    salary: "$185k to $240k",
-    timeline: "6 Months",
-    description:
-      "Design and deploy enterprise generative AI architectures, orchestrating foundation models, vector databases, and multi-agent production graphs.",
-    skills: ["Enterprise LLMs", "Multi-Agent Graphs", "vLLM / TensorRT", "RAG Systems"],
-    deliverable: "Production Architecture Blueprint",
-  },
-  {
-    role: "ML Infrastructure Engineer",
-    category: "Systems & Ops",
-    salary: "$175k to $225k",
-    timeline: "5 Months",
-    description:
-      "Scale high-performance distributed training clusters, optimize GPU memory utilization, and automate deployment pipelines using Ray, Slurm, and Kubernetes.",
-    skills: ["Ray / Slurm", "CUDA Optimization", "Kubernetes", "GPU Clustering"],
-    deliverable: "Scalable Cluster Deployment Plan",
-  },
-  {
-    role: "AI Research Scientist",
-    category: "Research & Modeling",
-    salary: "$190k to $260k",
-    timeline: "8 Months",
-    description:
-      "Pioneer next-generation foundation model architectures, novel fine-tuning methodologies, model compression, and reinforcement learning with human feedback.",
-    skills: ["RLHF & DPO", "Model Quantization", "Mechanistic Interpretability", "PyTorch"],
-    deliverable: "Benchmark Evaluation & Weights",
-  },
-  {
-    role: "AI Ethics & Governance Consultant",
-    category: "Policy & Safety",
-    salary: "$140k to $190k",
-    timeline: "4 Months",
-    description:
-      "Establish responsible AI auditing frameworks, ensure regulatory compliance with global standards, and conduct algorithmic bias mitigation audits.",
-    skills: ["EU AI Act Compliance", "Algorithmic Fairness", "Safety Guardrails", "Red Teaming"],
-    deliverable: "Enterprise Governance Audit Matrix",
-  },
-  {
-    role: "AI Product Manager",
-    category: "Product & Strategy",
-    salary: "$165k to $210k",
-    timeline: "4 Months",
-    description:
-      "Bridge cutting-edge AI capabilities with user needs. Define evaluation rubrics, scope model integrations, and lead cross-functional development sprints.",
-    skills: ["Model Evals", "AI UX Design", "Technical PRDs", "KPI Attribution"],
-    deliverable: "Complete AI Product Specification",
-  },
-  {
-    role: "Data & Retrieval Specialist",
-    category: "Data Engineering",
-    salary: "$150k to $195k",
-    timeline: "5 Months",
-    description:
-      "Build high-throughput multimodal ingestion pipelines, configure hybrid sparse/dense vector search, and curate domain-specific training corpora.",
-    skills: ["Vector Databases", "Hybrid Search", "Unstructured ETL", "Knowledge Graphs"],
-    deliverable: "Production RAG Data Pipeline",
-  },
-];
+
 
 const howItWorksSteps = [
   {
@@ -277,64 +216,6 @@ export default function NavicaAiPage() {
         </div>
       </section>
 
-      {/* ── EXPLORE CAREER OPTIONS (6 ROLES GRID) ────────────────────── */}
-      <section className="relative mx-auto max-w-[1440px] px-6 py-14 sm:px-10 sm:py-16 lg:px-16">
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
-
-        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-sky-400">
-          Tailored Career Options
-        </p>
-        <h2 className="mt-3 max-w-2xl text-2xl font-bold tracking-[-0.03em] text-white sm:text-3xl">
-          Six high-growth career tracks built for the AI economy
-        </h2>
-        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-400 sm:text-base">
-          Each pathway provides verified compensation data, time commitments, core skill competencies, and a tangible deliverable blueprint.
-        </p>
-
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {careerPaths.map((cp) => (
-            <div
-              key={cp.role}
-              className="relative flex flex-col justify-between overflow-hidden rounded-2xl border border-white/[0.08] border-t-2 border-t-white bg-[#060c18] p-7 sm:p-8"
-            >
-              <div>
-                <div className="flex items-center justify-between gap-3">
-                  <span className="font-sans text-xs font-semibold uppercase tracking-wider text-sky-400">
-                    {cp.category}
-                  </span>
-                  <span className="font-sans text-xs font-medium text-slate-300">
-                    {cp.salary}
-                  </span>
-                </div>
-
-                <h3 className="mt-3 text-xl font-bold tracking-tight text-white">
-                  {cp.role}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-slate-400">
-                  {cp.description}
-                </p>
-
-                <div className="mt-5 flex flex-wrap gap-1.5 border-t border-white/[0.06] pt-4">
-                  {cp.skills.map((skill) => (
-                    <span
-                      key={skill}
-                      className="rounded-md border border-white/[0.08] bg-white/[0.02] px-2.5 py-1 text-[11px] font-medium text-slate-300"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div className="mt-6 border-t border-white/[0.06] pt-4">
-                <span className="text-[11px] font-medium tracking-wide text-slate-400">
-                  Deliverable: {cp.deliverable}
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
 
       {/* ── HOW IT WORKS: 5-STAGE PROGRESSIVE WALKTHROUGH ─────────────── */}
       <section

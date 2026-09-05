@@ -185,9 +185,6 @@ export default function SiteFooter() {
             >
               Privacy Policy
             </a>
-            <a href="#" className="transition-colors hover:text-white/80">
-              Terms of Service
-            </a>
           </div>
           <SocialLinks />
         </div>
@@ -199,8 +196,16 @@ export default function SiteFooter() {
 function SocialLinks({ className = "" }: { className?: string }) {
   return (
     <div className={`flex gap-3 ${className}`} aria-label="Social media">
-      <SocialLink label="LinkedIn">in</SocialLink>
-      <SocialLink label="Instagram">
+      <SocialLink
+        href="https://www.linkedin.com/company/rabbitt-ai/posts/?feedView=all"
+        label="LinkedIn"
+      >
+        in
+      </SocialLink>
+      <SocialLink
+        href="https://www.instagram.com/rabbitt.ai/"
+        label="Instagram"
+      >
         <svg
           viewBox="0 0 24 24"
           fill="none"
@@ -225,15 +230,19 @@ function SocialLinks({ className = "" }: { className?: string }) {
 }
 
 function SocialLink({
+  href,
   label,
   children,
 }: {
+  href: string;
   label: string;
   children: ReactNode;
 }) {
   return (
     <a
-      href="#"
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
       aria-label={label}
       className="flex h-12 w-12 items-center justify-center rounded-full border border-white/[0.2] text-lg text-white transition-colors hover:border-white hover:text-white"
     >

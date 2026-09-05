@@ -12,46 +12,29 @@ export const metadata: Metadata = {
 
 export default function WebinarsPage() {
   return (
-    <main className="min-h-screen bg-[#020305] text-white selection:bg-sky-500/30">
+    <main className="min-h-screen bg-[#020305] text-white">
       <SiteNavigation />
 
-      {/* Main hero wrapper with absolute anchored backlight - never cuts off on scroll */}
-      <div className="relative isolate overflow-hidden">
-        <div
-          className="pointer-events-none absolute inset-x-0 top-0 h-[650px] -z-10"
-          style={{
-            background:
-              "linear-gradient(180deg, rgba(14, 165, 233, 0.08) 0%, rgba(37, 99, 235, 0.03) 55%, transparent 100%)",
-            maskImage:
-              "linear-gradient(90deg, transparent 0%, black 20%, black 80%, transparent 100%)",
-            WebkitMaskImage:
-              "linear-gradient(90deg, transparent 0%, black 20%, black 80%, transparent 100%)",
-          }}
-        />
+      <div className="mx-auto max-w-[1400px] px-6 sm:px-10 lg:px-16 pt-32 sm:pt-40 pb-24">
+        {/* Editorial Header */}
+        <header className="border-b border-white/[0.08] pb-12">
+          <div className="max-w-3xl">
+            <h1 className="text-4xl font-semibold tracking-[-0.03em] text-white sm:text-5xl lg:text-6xl">
+              Technical Masterclasses
+            </h1>
+            <p className="mt-4 text-base sm:text-lg text-slate-400 font-normal leading-relaxed">
+              Engineering deep dives, architecture blueprints, and production case studies with Rabbitt AI research scientists.
+            </p>
+          </div>
+        </header>
 
-        <div className="relative mx-auto max-w-[1440px] px-6 sm:px-10 lg:px-16">
-          {/* Clean Hero Header - No double/eyebrow headings */}
-          <header className="border-b border-white/[0.08] pb-12 pt-36 sm:pt-44">
-            <div className="max-w-3xl">
-              <h1 className="text-4xl font-bold leading-[1.08] tracking-[-0.04em] text-white sm:text-5xl lg:text-6xl">
-                Webinars & Technical Masterclasses
-              </h1>
-              <p className="mt-5 text-base leading-relaxed text-slate-300 sm:text-lg">
-                Live engineering deep dives, architecture blueprints, and production case studies with Rabbitt AI research scientists and enterprise systems engineers.
-              </p>
-            </div>
-          </header>
-
-          {/* Directory & Interactive Showcase */}
-          <section className="py-14 sm:py-16">
-            <WebinarsDirectory />
-          </section>
-        </div>
+        {/* Masterclasses Directory */}
+        <section className="pt-10">
+          <WebinarsDirectory />
+        </section>
       </div>
 
-      {/* Common CTA Component */}
       <ContactCta />
-
       <SiteFooter />
     </main>
   );
