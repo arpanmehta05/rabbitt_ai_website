@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 
 export default function ContactCta() {
   return (
-    <section className="relative overflow-hidden bg-[#020305] px-6 py-20 sm:px-10 sm:py-24 lg:px-16 border-t border-white/[0.08]">
+    <section className="landing-section relative overflow-hidden bg-[#edf5ff] px-6 py-20 sm:px-10 sm:py-24 lg:px-16 border-t border-slate-200">
       {/* Ultra-smooth orthogonal light wash - zero circular curvature, zero flower petals */}
       <div
         className="pointer-events-none absolute inset-0"
@@ -43,7 +43,7 @@ export default function ContactCta() {
             viewport={{ once: true, margin: "-40px" }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           >
-            <h2 className="font-sans text-3xl font-bold leading-[1.1] tracking-[-0.04em] text-white sm:text-5xl lg:text-[3.25rem]">
+            <h2 className="font-sans text-3xl font-bold leading-[1.1] tracking-[-0.04em] text-slate-950 sm:text-5xl lg:text-[3.25rem]">
               Ready to build AI that{" "}
               <span className="bg-gradient-to-r from-blue-400 via-[#3B82F6] to-blue-600 bg-clip-text text-transparent">
                 delivers
@@ -52,7 +52,7 @@ export default function ContactCta() {
               for your enterprise?
             </h2>
 
-            <p className="mt-4 text-base leading-relaxed text-slate-400 sm:text-lg">
+            <p className="mt-4 text-base leading-relaxed text-slate-600 sm:text-lg">
               Partner with Rabbitt AI to engineer secure, production-grade intelligence.
               From custom model adaptation to enterprise retrieval, we help you launch in weeks.
             </p>
@@ -60,7 +60,7 @@ export default function ContactCta() {
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <Link
                 href="/contactus"
-                className="group inline-flex items-center gap-2.5 rounded-full bg-white px-7 py-3.5 text-[0.95rem] font-semibold text-[#020305] shadow-[0_0_0_1px_rgba(255,255,255,0.15),0_8px_32px_rgba(255,255,255,0.08)] transition-all duration-200 hover:bg-slate-100"
+                className="group inline-flex items-center gap-2.5 rounded-full bg-[#092f6b] px-7 py-3.5 text-[0.95rem] font-semibold text-white shadow-[0_12px_26px_rgba(9,47,107,0.18)] transition-all duration-200 hover:bg-[#0d3d86]"
               >
                 Contact Us
                 <span className="transition-transform duration-200 group-hover:translate-x-0.5">
@@ -69,10 +69,10 @@ export default function ContactCta() {
               </Link>
               <Link
                 href="/products"
-                className="group inline-flex items-center gap-2.5 rounded-full border border-white/[0.16] px-7 py-3.5 text-[0.95rem] font-semibold text-white transition-all duration-200 hover:border-white/30 hover:bg-white/[0.06]"
+                className="group inline-flex items-center gap-2.5 rounded-full border border-[#092f6b] bg-transparent px-7 py-3.5 text-[0.95rem] font-semibold text-[#092f6b] transition-all duration-200 hover:bg-white/70"
               >
                 Explore Products
-                <span className="text-white/40 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-white/70">
+                <span className="text-[#1769aa] transition-transform duration-200 group-hover:translate-x-0.5">
                   →
                 </span>
               </Link>

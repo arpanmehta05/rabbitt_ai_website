@@ -134,8 +134,10 @@ function nodePath(node: ProductNode) {
 
 export default function LandingExperience({
   initialSkip = false,
+  theme = "light",
 }: {
   initialSkip?: boolean;
+  theme?: "light" | "dark";
 }) {
   const prefersReducedMotion = useReducedMotion();
   // Only use the server-authoritative initialSkip prop for state initialization.
@@ -414,13 +416,13 @@ export default function LandingExperience({
   return (
     <div
       ref={scrollAreaRef}
-      className="bg-[#020305] selection:bg-blue-600 selection:text-white"
+      className="bg-[#f8fbff] selection:bg-blue-600 selection:text-white"
     >
       <div className="relative">
         <div
           ref={sceneRef}
           suppressHydrationWarning
-          className={`intro-scene relative z-20 h-svh overflow-hidden font-sans antialiased ${skipIntro || transitionComplete ? "bg-[#020305]" : "bg-[#F8FAFC]"}`}
+          className="intro-scene relative z-20 h-svh overflow-hidden bg-[#f8fbff] font-sans antialiased"
         >
           <motion.div
             style={{ opacity: prefersReducedMotion ? 0 : lightBgOpacity }}
@@ -431,9 +433,9 @@ export default function LandingExperience({
           </motion.div>
           <motion.div
             style={{ opacity: prefersReducedMotion ? 1 : darkBgOpacity }}
-            className="pointer-events-none absolute inset-0 z-0 overflow-hidden bg-[#020305]"
+            className="pointer-events-none absolute inset-0 z-0 overflow-hidden bg-[#f8fbff]"
           >
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_85%_70%_at_50%_46%,#071022_0%,#030711_52%,#020305_100%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_85%_70%_at_50%_46%,#dbeafe_0%,#eff6ff_52%,#f8fbff_100%)]" />
 
             <motion.div
               style={{ scale: prefersReducedMotion ? 1 : darkCoreScale }}
@@ -792,10 +794,13 @@ export default function LandingExperience({
 
             <motion.section
               style={{ opacity: referenceHeroOpacity }}
-              className="absolute left-1/2 top-0 z-40 h-full w-screen -translate-x-1/2 bg-[#020406] pt-[4.5rem]"
+              className="absolute left-1/2 top-0 z-40 h-full w-screen -translate-x-1/2 bg-[#f8fbff] pt-[4.5rem]"
               aria-label="Rabbitt AI enterprise data solutions"
             >
-              <ReferenceHero introComplete={transitionComplete || skipIntro} />
+              <ReferenceHero
+                introComplete={transitionComplete || skipIntro}
+                theme={theme}
+              />
             </motion.section>
 
             <div className="absolute inset-x-4 bottom-7 z-20 grid grid-cols-2 gap-2.5 md:hidden">
@@ -820,9 +825,18 @@ export default function LandingExperience({
   );
 }
 
-function ReferenceHero({ introComplete }: { introComplete: boolean }) {
+function ReferenceHero({
+  introComplete,
+  theme,
+}: {
+  introComplete: boolean;
+  theme: "light" | "dark";
+}) {
+  const isLight = theme === "light";
   return (
-    <div className="relative flex h-full min-h-0 flex-col overflow-hidden bg-[#020406] text-white">
+    <div
+      className={`hero-surface relative flex h-full min-h-0 flex-col overflow-hidden ${isLight ? "bg-[#f8fbff] text-slate-950" : "bg-[#020406] text-white"}`}
+    >
       {/* This shared field sits behind both columns.  The video uses screen
           blending below, so its baked black edge pixels reveal this same field
           instead of reading as separate left/right bars. */}
@@ -830,29 +844,31 @@ function ReferenceHero({ introComplete }: { introComplete: boolean }) {
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse 58% 115% at 86% 56%, rgba(11, 45, 92, 0.88) 0%, rgba(5, 24, 53, 0.72) 31%, rgba(2, 10, 22, 0.42) 55%, rgba(2, 4, 6, 0) 78%)",
+            isLight
+              ? "radial-gradient(ellipse 68% 112% at 88% 54%, #dbeafe 0%, #e8f1ff 39%, rgba(248,251,255,0) 72%)"
+              : "radial-gradient(ellipse 58% 115% at 86% 56%, rgba(11, 45, 92, 0.88) 0%, rgba(5, 24, 53, 0.72) 31%, rgba(2, 10, 22, 0.42) 55%, rgba(2, 4, 6, 0) 78%)",
         }}
       />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[30%] bg-[linear-gradient(180deg,transparent,rgba(1,3,6,0.94))]" />
+      <div className={`pointer-events-none absolute inset-x-0 bottom-0 h-[30%] ${isLight ? "bg-[linear-gradient(180deg,transparent,rgba(248,251,255,0.96))]" : "bg-[linear-gradient(180deg,transparent,rgba(1,3,6,0.94))]"}`} />
 
       <div className="relative z-10 grid w-full flex-1 grid-cols-1 items-center px-6 pb-7 pt-8 sm:px-10 lg:grid-cols-[0.92fr_1.08fr] lg:px-16 xl:px-[5.75rem]">
         <div className="relative z-20 max-w-[43rem] pt-5 lg:pt-0">
           <h2 className="max-w-[42rem] text-[clamp(2.75rem,5.2vw,5.5rem)] font-bold leading-[1.04] tracking-[-0.04em]">
-            <span className="inline-block bg-gradient-to-r from-white from-0% via-white via-35% to-[#3B82F6] to-85% bg-clip-text text-transparent">
+            <span className={`inline-block bg-gradient-to-r ${isLight ? "from-slate-950 via-slate-800 to-[#2563EB]" : "from-white via-white to-[#3B82F6]"} from-0% via-35% to-85% bg-clip-text text-transparent`}>
               Own your AI,
             </span>
             <br />
-            <span className="inline-block bg-gradient-to-r from-white from-0% via-white via-35% to-[#3B82F6] to-85% bg-clip-text text-transparent">
+            <span className={`inline-block bg-gradient-to-r ${isLight ? "from-slate-950 via-slate-800 to-[#2563EB]" : "from-white via-white to-[#3B82F6]"} from-0% via-35% to-85% bg-clip-text text-transparent`}>
               Own your Data
             </span>
           </h2>
-          <p className="mt-7 max-w-[31rem] text-[clamp(0.95rem,1.25vw,1.2rem)] leading-[1.62] tracking-[-0.025em] text-[#c0c4cf]">
+          <p className={`mt-7 max-w-[31rem] text-[clamp(0.95rem,1.25vw,1.2rem)] leading-[1.62] tracking-[-0.025em] ${isLight ? "text-slate-600" : "text-[#c0c4cf]"}`}>
             Rabbitt AI transforms your enterprise data into reliable Generative
             AI solutions that drive measurable impact — securely and at scale.
           </p>
           <a
             href="#solutions"
-            className="group mt-8 inline-flex items-center gap-3.5 rounded-full bg-white px-7 py-3.5 text-[0.95rem] font-semibold text-[#020305] shadow-[0_0_0_1px_rgba(255,255,255,0.15),0_8px_32px_rgba(255,255,255,0.08)] transition-all duration-200 hover:bg-slate-100 hover:shadow-[0_0_0_1px_rgba(255,255,255,0.25),0_8px_40px_rgba(255,255,255,0.14)]"
+            className={`group mt-8 inline-flex items-center gap-3.5 rounded-full px-7 py-3.5 text-[0.95rem] font-semibold transition-all duration-200 ${isLight ? "bg-[#092f6b] text-white shadow-[0_12px_26px_rgba(9,47,107,0.20)] hover:bg-[#0d3d86]" : "bg-white text-[#020305] shadow-[0_0_0_1px_rgba(255,255,255,0.15),0_8px_32px_rgba(255,255,255,0.08)] hover:bg-slate-100"}`}
           >
             <span>Explore Solutions</span>
             <span
@@ -887,7 +903,11 @@ function HeroVideoPlayer({ introComplete }: { introComplete: boolean }) {
   }, [introComplete]);
 
   return (
-    <div className="pointer-events-none relative order-first -mb-8 h-[34vh] min-h-[15rem] overflow-hidden sm:h-[39vh] lg:order-none lg:mb-0 lg:h-[min(68vh,44rem)]">
+    <div className="pointer-events-none relative order-first -mb-8 h-[34vh] min-h-[15rem] sm:h-[39vh] lg:order-none lg:mb-0 lg:h-[min(68vh,44rem)]">
+      {/* A dark-blue film stage gives the baked black pixels a compatible home.
+          It is intentionally crisp: the page gradient leads into this stage,
+          rather than blurring the video into a grey rectangle. */}
+      <div className="absolute inset-x-0 inset-y-[4%] overflow-hidden rounded-[2rem] bg-[radial-gradient(ellipse_86%_90%_at_78%_48%,#0d376e_0%,#071b3a_42%,#020711_100%)] shadow-[0_28px_50px_rgba(15,47,95,0.18)] ring-1 ring-white/45 sm:rounded-[2.5rem]" />
       <video
         ref={videoRef}
         src="/rabbitt_stairs.mp4"
@@ -903,17 +923,17 @@ function HeroVideoPlayer({ introComplete }: { introComplete: boolean }) {
             pausedRef.current = true;
           }
         }}
-        className="absolute inset-0 h-full w-full object-cover"
+        className="absolute inset-x-0 inset-y-[4%] h-[92%] w-full rounded-[2rem] object-cover sm:rounded-[2.5rem]"
         style={{
           display: "block",
           mixBlendMode: "screen",
-          // The source contains dark pillarbox pixels at either side. Blend
-          // them over the parent field across their full width, rather than
-          // exposing them as hard vertical seams.
+          // The source contains dark pillarbox pixels. The stage behind it is
+          // intentionally in the same blue-black family, so screen blending
+          // preserves the rabbit while the source edges stay invisible.
           maskImage:
-            "linear-gradient(to right, transparent 0%, black 24%, black 84%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 7%, black 93%, transparent 100%)",
+            "linear-gradient(to right, transparent 0%, black 7%, black 93%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 3%, black 97%, transparent 100%)",
           WebkitMaskImage:
-            "linear-gradient(to right, transparent 0%, black 24%, black 84%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 7%, black 93%, transparent 100%)",
+            "linear-gradient(to right, transparent 0%, black 7%, black 93%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 3%, black 97%, transparent 100%)",
           maskComposite: "intersect",
           WebkitMaskComposite: "destination-in",
         }}

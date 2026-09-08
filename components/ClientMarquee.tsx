@@ -80,8 +80,8 @@ function Tape({
 
   return (
     <div className="relative flex overflow-hidden">
-      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-28 bg-gradient-to-r from-[#020305] to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-28 bg-gradient-to-l from-[#020305] to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-28 bg-gradient-to-r from-[#f8fbff] to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-28 bg-gradient-to-l from-[#f8fbff] to-transparent" />
       <div
         className="flex items-center py-2"
         style={{
@@ -99,7 +99,7 @@ function Tape({
 
 export default function ClientMarquee() {
   return (
-    <section className="relative overflow-hidden bg-[#020305] py-10 sm:py-14">
+    <section className="landing-section relative overflow-hidden bg-[#f8fbff] py-10 sm:py-14">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.1] to-transparent" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/[0.1] to-transparent" />
 

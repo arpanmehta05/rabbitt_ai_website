@@ -43,17 +43,17 @@ export default function LlmAdoptionJourney() {
   const activeStage = stages[activeIndex];
 
   return (
-    <section id="services" className="relative overflow-hidden border-t border-white/[0.08] bg-[#020305] py-12 text-white sm:py-16">
+    <section id="services" className="landing-section relative overflow-hidden border-t border-slate-200 bg-[#eef5ff] py-16 text-slate-950 sm:py-20">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-sky-400/30 to-transparent" />
       <div className="relative mx-auto max-w-[1440px] px-6 sm:px-10 lg:px-16">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-sky-400">Generative AI platform</p>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#1769aa]">Generative AI platform</p>
         <div className="mt-6 max-w-4xl">
           <h2 className="max-w-3xl text-4xl font-semibold leading-[1.06] tracking-[-0.045em] sm:text-5xl lg:text-6xl">Every stage of your AI adoption journey, built around you.</h2>
         </div>
 
         <div className="mt-12 flex gap-3 overflow-x-auto pb-3 [scrollbar-width:none]">
           {stages.map((stage, index) => (
-            <button key={stage.label} type="button" onClick={() => setActiveIndex(index)} className={`shrink-0 rounded-full border px-5 py-3 text-sm font-medium transition-all sm:px-6 ${activeIndex === index ? "border-white bg-white text-[#020305]" : "border-white/[0.13] bg-white/[0.04] text-slate-300 hover:border-sky-400/50 hover:text-white"}`}>
+            <button key={stage.label} type="button" onClick={() => setActiveIndex(index)} className={`shrink-0 rounded-full border px-5 py-3 text-sm font-medium transition-all sm:px-6 ${activeIndex === index ? "border-[#092f6b] bg-[#092f6b] text-white shadow-[0_8px_18px_rgba(9,47,107,0.16)]" : "border-slate-200 bg-white text-slate-600 hover:border-[#1769aa] hover:text-[#092f6b]"}`}>
               <span className="mr-2 text-slate-500">0{index + 1}</span>{stage.label}
             </button>
           ))}
@@ -62,9 +62,9 @@ export default function LlmAdoptionJourney() {
         <div className="mt-14 grid items-center gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20">
           <AnimatePresence mode="wait">
             <motion.div key={activeStage.label} initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-sky-400">{activeStage.eyebrow}</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#1769aa]">{activeStage.eyebrow}</p>
               <h3 className="mt-6 max-w-xl text-4xl font-semibold leading-[1.08] tracking-[-0.04em] sm:text-5xl">{activeStage.title}</h3>
-              <p className="mt-7 max-w-lg text-lg leading-8 text-slate-300">{activeStage.description}</p>
+              <p className="mt-7 max-w-lg text-lg leading-8 text-slate-600">{activeStage.description}</p>
             </motion.div>
           </AnimatePresence>
 
@@ -77,7 +77,7 @@ export default function LlmAdoptionJourney() {
 
 function JourneyVisual({ activeIndex }: { activeIndex: number }) {
   return (
-    <motion.div layout className="relative min-h-[22rem] overflow-hidden rounded-2xl border border-white/[0.1] bg-[#060c18] p-6 sm:min-h-[28rem] sm:p-10">
+    <motion.div layout className="relative min-h-[22rem] overflow-hidden rounded-[1.5rem] border border-[#c7d9ef] bg-[#071d42] p-6 shadow-[0_24px_56px_rgba(15,47,95,0.16)] sm:min-h-[28rem] sm:p-10">
       <AnimatePresence mode="wait">
         <motion.div key={activeIndex} initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 1.025 }} transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }} className="absolute inset-0">
           {activeIndex === 0 && <DiscoveryVisual />}

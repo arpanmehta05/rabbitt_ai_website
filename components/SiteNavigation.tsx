@@ -463,7 +463,7 @@ export default function SiteNavigation({
   return (
     <motion.header
       style={{ opacity }}
-      className="font-sans pointer-events-auto fixed inset-x-0 top-0 z-[100] border-b border-white/[0.08] bg-[#030507]/90 backdrop-blur-xl"
+      className="landing-navigation font-sans pointer-events-auto fixed inset-x-0 top-0 z-[100] border-b border-white/[0.08] bg-[#030507]/90 backdrop-blur-xl"
     >
       <nav
         ref={navigationRef}

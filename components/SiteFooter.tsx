@@ -61,7 +61,7 @@ export default function SiteFooter() {
   };
 
   return (
-    <footer className="relative overflow-hidden border-t border-white/[0.08] bg-[#02060d] text-white">
+    <footer className="landing-section relative overflow-hidden border-t border-[#0d356e] bg-[#061a3a] text-white">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_55%_65%_at_12%_38%,rgba(13,73,150,0.13),transparent_70%)]" />
       <div className="relative w-full px-6 pt-14 pb-7 sm:px-10 lg:px-14 lg:pt-16 lg:pb-8 xl:px-20">
         <div className="grid gap-12 lg:grid-cols-[1.16fr_repeat(4,minmax(0,1fr))] lg:gap-0">

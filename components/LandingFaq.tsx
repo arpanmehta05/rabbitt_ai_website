@@ -50,7 +50,7 @@ export default function LandingFaq() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section className="relative overflow-hidden bg-[#020305] px-6 py-12 sm:px-10 sm:py-16 lg:px-16">
+    <section className="landing-section relative overflow-hidden bg-[#f7faff] px-6 py-16 sm:px-10 sm:py-20 lg:px-16">
       {/* Ambient smooth background glow - orthogonal linear wash with zero circular flower banding */}
       <div
         className="pointer-events-none absolute inset-x-0 top-0 h-[500px]"
@@ -76,17 +76,17 @@ export default function LandingFaq() {
           <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-sky-400">
             FAQ
           </p>
-          <h2 className="mt-3 text-4xl font-semibold leading-[1.06] tracking-[-0.04em] text-white sm:text-5xl lg:text-6xl">
+          <h2 className="mt-3 text-4xl font-semibold leading-[1.06] tracking-[-0.04em] text-slate-950 sm:text-5xl lg:text-6xl">
             Questions we get{" "}
-            <span className="italic text-slate-400">all the time.</span>
+            <span className="italic text-[#1769aa]">all the time.</span>
           </h2>
-          <p className="mt-5 text-base leading-relaxed text-slate-400 sm:text-lg">
+          <p className="mt-5 text-base leading-relaxed text-slate-600 sm:text-lg">
             If yours isn&apos;t here, drop us a line — we respond within 2 hours.
           </p>
         </motion.div>
 
         {/* FAQ Accordion */}
-        <div className="flex flex-col divide-y divide-white/[0.07]">
+        <div className="flex flex-col rounded-[1.25rem] border border-slate-200 bg-white px-6 shadow-[0_18px_44px_rgba(15,47,95,0.06)] divide-y divide-slate-200 sm:px-9">
           {faqs.map((faq, index) => {
             const isOpen = openIndex === index;
 
@@ -105,11 +105,11 @@ export default function LandingFaq() {
                 <button
                   onClick={() => setOpenIndex(isOpen ? null : index)}
                   aria-expanded={isOpen}
-                  className="group flex w-full items-start justify-between gap-6 py-6 text-left transition-colors hover:text-white focus:outline-none"
+                  className="group flex w-full items-start justify-between gap-6 py-6 text-left transition-colors hover:text-[#092f6b] focus:outline-none"
                 >
                   <span
                     className={`text-base font-medium leading-snug transition-colors sm:text-lg ${
-                      isOpen ? "text-white" : "text-slate-200 group-hover:text-white"
+                      isOpen ? "text-[#092f6b]" : "text-slate-800 group-hover:text-[#092f6b]"
                     }`}
                   >
                     {faq.question}
@@ -120,7 +120,7 @@ export default function LandingFaq() {
                     className={`relative mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border transition-all duration-300 ${
                       isOpen
                         ? "border-sky-400/60 bg-sky-500/15 text-sky-400"
-                        : "border-white/20 bg-white/[0.05] text-slate-400 group-hover:border-white/40 group-hover:text-white"
+                        : "border-slate-200 bg-white text-slate-500 group-hover:border-[#1769aa] group-hover:text-[#092f6b]"
                     }`}
                     aria-hidden="true"
                   >
@@ -144,7 +144,7 @@ export default function LandingFaq() {
                       transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
                       className="overflow-hidden"
                     >
-                      <p className="pb-7 pr-10 text-sm leading-relaxed text-slate-400 sm:text-base sm:leading-relaxed">
+                      <p className="pb-7 pr-10 text-sm leading-relaxed text-slate-600 sm:text-base sm:leading-relaxed">
                         {faq.answer}
                       </p>
                     </motion.div>
@@ -161,14 +161,14 @@ export default function LandingFaq() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.55, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-14 flex flex-col items-start gap-3 border-t border-white/[0.07] pt-10 sm:flex-row sm:items-center sm:justify-between"
+          className="mt-14 flex flex-col items-start gap-3 border-t border-slate-200 pt-10 sm:flex-row sm:items-center sm:justify-between"
         >
-          <p className="text-sm text-slate-400 sm:text-base">
+          <p className="text-sm text-slate-600 sm:text-base">
             Still have questions? Our team replies fast.
           </p>
           <a
             href="/contactus"
-            className="group inline-flex items-center gap-2.5 rounded-full border border-white/[0.16] bg-white/[0.05] px-6 py-3 text-sm font-semibold text-white transition-all duration-200 hover:border-white/30 hover:bg-white/[0.09]"
+            className="group inline-flex items-center gap-2.5 rounded-full border border-[#092f6b] bg-white px-6 py-3 text-sm font-semibold text-[#092f6b] transition-all duration-200 hover:bg-[#092f6b] hover:text-white"
           >
             Talk to us
             <span

@@ -11,10 +11,12 @@ import SiteFooter from "@/components/SiteFooter";
 export default async function Home() {
   const cookieStore = await cookies();
   const initialSkip = cookieStore.has("rabbitt_intro_seen");
+  // Keep the theme decision in one place until we agree on the switch UI.
+  const landingTheme = "light" as const;
 
   return (
-    <main className="bg-[#020305]">
-      <LandingExperience initialSkip={initialSkip} />
+    <main className={`landing-${landingTheme} bg-[#f8fbff]`}>
+      <LandingExperience initialSkip={initialSkip} theme={landingTheme} />
       <ClientMarquee />
       <LandingProducts />
       <LlmAdoptionJourney />

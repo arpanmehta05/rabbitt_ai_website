@@ -40,8 +40,35 @@ select {
 }
 
 html.skip-intro .intro-scene {
-  background-color: #020305;
+  background-color: #f8fbff;
 }
+
+/* Landing-only light experiment.  Dark styling remains the default for every
+   other route; these scoped rules also keep the existing component visuals
+   readable while we decide on a future user-facing theme control. */
+.landing-light .landing-navigation {
+  border-color: rgb(203 213 225 / 0.85);
+  background: rgb(255 255 255 / 0.88);
+  box-shadow: 0 1px 16px rgb(15 23 42 / 0.05);
+}
+.landing-light .landing-navigation [class~="text-slate-100"] { color: #0f172a; }
+.landing-light .landing-navigation [class~="bg-[#060b13]"],
+.landing-light .landing-navigation [class~="bg-[#111a2b]"] { background-color: #fff; }
+.landing-light .landing-navigation [class~="text-white"] { color: #0f172a; }
+.landing-light .landing-navigation [class~="text-slate-200"] { color: #1e293b; }
+.landing-light .landing-navigation [class~="text-slate-400"] { color: #64748b; }
+.landing-light .landing-navigation [class~="border-white/[0.08]"],
+.landing-light .landing-navigation [class~="border-white/[0.14]"] { border-color: rgb(203 213 225 / 0.9); }
+.landing-light .landing-navigation a[class~="bg-white"] {
+  background: #092f6b;
+  color: #fff;
+  box-shadow: 0 8px 20px rgb(9 47 107 / 0.14);
+}
+
+/* The alternate theme has no public control yet, but its dark surface remains
+   available by changing the page-level class to landing-dark. */
+.landing-dark .landing-section { background-color: #020305; }
+.landing-dark .landing-section [class~="text-slate-950"] { color: #fff; }
 
 /* ── Hide scrollbar utilities ────────────────────────────────────────────── */
 .no-scrollbar::-webkit-scrollbar {
