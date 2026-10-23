@@ -1,27 +1,21 @@
-import { cookies } from "next/headers";
-import LandingExperience from "@/components/LandingExperience";
-import LandingStats from "@/components/LandingStats";
-import LlmAdoptionJourney from "@/components/LlmAdoptionJourney";
-import ClientMarquee from "@/components/ClientMarquee";
-import LandingProducts from "@/components/LandingProducts";
-import LandingFaq from "@/components/LandingFaq";
-import ContactCta from "@/components/ContactCta";
-import SiteFooter from "@/components/SiteFooter";
+import Navbar from "@/components/home/Navbar";
+import Hero from "@/components/home/Hero";
+import Companies from "@/components/home/Companies";
+import Footer from "@/components/home/Footer";
 
-export default async function Home() {
-  const cookieStore = await cookies();
-  const initialSkip = cookieStore.has("rabbitt_intro_seen");
+export const metadata = {
+  title: "Rabbitt AI — Own Your Data. Own Your AI.",
+  description:
+    "Next-generation enterprise sovereign AI. Orchestrate autonomous agents and fine-tune private foundation models.",
+};
 
+export default function Home() {
   return (
-    <main className="bg-[#020305]">
-      <LandingExperience initialSkip={initialSkip} />
-      <ClientMarquee />
-      <LandingProducts />
-      <LlmAdoptionJourney />
-      <LandingStats />
-      <LandingFaq />
-      <ContactCta />
-      <SiteFooter />
+    <main className="min-h-screen bg-white text-zinc-900 dark:bg-[#0a1228] selection:bg-blue-600 selection:text-white">
+      <Navbar />
+      <Hero />
+      <Companies />
+      <Footer />
     </main>
   );
 }

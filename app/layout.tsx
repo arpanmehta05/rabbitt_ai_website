@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Inter, Inter_Tight } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -11,6 +11,18 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const hanken = Inter({
+  variable: "--font-hanken",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const bricolage = Inter_Tight({
+  variable: "--font-display",
+  subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -122,7 +134,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${hanken.variable} ${bricolage.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <head>
@@ -133,8 +145,15 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             __html: `(function(){try{var k='rabbitt_intro_timestamp';var t=localStorage.getItem(k);var c=document.cookie.indexOf('rabbitt_intro_seen=true')!==-1;if(c||(t&&(Date.now()-parseInt(t,10))<86400000)){document.documentElement.classList.add('skip-intro');}}catch(e){}})();`,
           }}
         />
+        <Script
+          id="rabbitt-theme"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{if(localStorage.getItem('rabbitt_theme')==='dark'){document.documentElement.classList.add('dark');}}catch(e){}})();`,
+          }}
+        />
       </head>
-      <body className={`${geistSans.className} font-sans min-h-full flex flex-col`} suppressHydrationWarning>
+      <body className="font-sans min-h-full flex flex-col" suppressHydrationWarning>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

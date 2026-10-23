@@ -1,27 +1,32 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 ::selection {
-  background: #ffffff;
-  color: #000000;
+  background: #0061FF;
+  color: #ffffff;
 }
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
-  --font-sans: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --foreground: #090d16;
+  --font-sans: var(--font-hanken), "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-serif: var(--font-display), "Inter Tight", var(--font-hanken), sans-serif;
 }
 
 @theme inline {
+  --color-brand: #0061ff;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-sans);
   --font-mono: var(--font-geist-sans);
+  --font-serif: var(--font-serif);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #ffffff;
+    --foreground: #090d16;
   }
 }
 
@@ -29,7 +34,7 @@ html,
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: var(--font-sans);
 }
 
 input,
@@ -44,6 +49,55 @@ html.skip-intro .intro-scene {
 }
 
 /* ── Hide scrollbar utilities ────────────────────────────────────────────── */
+.font-serif-display {
+  font-family: var(--font-serif);
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes marquee-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(calc(-100% / 3)); }
+}
+
+@keyframes marquee-right {
+  0% { transform: translateX(calc(-100% / 3)); }
+  100% { transform: translateX(0); }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+.animate-marquee-left {
+  animation: marquee-left 40s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-right {
+  animation: marquee-right 36s linear infinite;
+  will-change: transform;
+}
+
+@keyframes ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-ticker {
+  animation: ticker 40s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee:hover,
+.animate-marquee-right:hover,
+.animate-ticker:hover {
+  animation-play-state: paused;
+}
+
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
