@@ -295,7 +295,8 @@ export default function Navbar() {
         </div>
 
         {open && (
-          <div className="max-h-[calc(100svh-68px)] overflow-y-auto border-t border-black/[0.08] px-6 pb-6 pt-2 dark:border-white/10 lg:hidden">
+          // data-lenis-prevent: this panel scrolls natively, not with the page's smooth scroll
+          <div data-lenis-prevent className="max-h-[calc(100svh-68px)] overflow-y-auto border-t border-black/[0.08] px-6 pb-6 pt-2 dark:border-white/10 lg:hidden">
             <nav className="flex flex-col" aria-label="Mobile">
               {navGroups.map((g) =>
                 g.href ? (
