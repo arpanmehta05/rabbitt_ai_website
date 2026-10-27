@@ -77,14 +77,15 @@ export default function Footer() {
     <footer className="relative overflow-hidden border-t border-black/[0.06] bg-white text-[#05060a] dark:border-white/10 dark:bg-[#0a1228] dark:text-white">
       {/* ambient glows, same palette as the hero */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
-        <div className="absolute -left-[8%] top-[-10%] hidden h-[420px] w-[620px] rounded-[50%] bg-[#0061ff]/20 blur-[120px] dark:block" />
+        {/* kept clear of the top edge: a glow cut off by the footer's border reads as a hard band */}
+        <div className="absolute -left-[12%] top-[14%] hidden h-[360px] w-[560px] rounded-[50%] bg-[#0061ff]/15 blur-[120px] dark:block" />
         <div className="absolute -right-[6%] bottom-[10%] h-[360px] w-[520px] rounded-[50%] bg-[#ff2d95]/10 blur-[120px]" />
       </div>
 
       <div className="relative w-full px-6 sm:px-10 lg:px-14 xl:px-20">
         {/* link grid */}
-        <div className="grid gap-12 py-16 sm:grid-cols-2 lg:grid-cols-[1.3fr_repeat(4,minmax(0,1fr))] lg:gap-10">
-          <div className="sm:col-span-2 lg:col-span-1">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 py-12 sm:gap-x-10 lg:grid-cols-[1.3fr_repeat(4,minmax(0,1fr))] lg:gap-10 lg:py-16">
+          <div className="col-span-2 lg:col-span-1">
             <Link href="/" className="inline-flex items-center gap-3" aria-label="Rabbitt AI home">
               <Image src="/logo.svg" alt="" width={44} height={44} className="h-11 w-11" />
               <span
@@ -124,7 +125,7 @@ export default function Footer() {
               <h3 className="text-[13px] font-medium uppercase tracking-[0.12em] text-black/40 dark:text-white/40">
                 {column.title}
               </h3>
-              <ul className="mt-6 space-y-3.5">
+              <ul className="mt-5 space-y-3 lg:mt-6 lg:space-y-3.5">
                 {column.links.map((link) => (
                   <li key={link.label}>
                     <FooterAnchor link={link} className={linkClass} />
@@ -135,7 +136,7 @@ export default function Footer() {
                 <Link
                   href={column.cta.href}
                   onClick={() => selectProductCategory(column.cta!.category!)}
-                  className="group mt-7 inline-flex items-center gap-1.5 text-[15px] font-medium text-[#0061ff] transition-colors hover:text-[#4d9bff] dark:text-[#4d8dff]"
+                  className="group mt-6 inline-flex items-center gap-1.5 text-[15px] font-medium text-[#0061ff] transition-colors hover:text-[#4d9bff] dark:text-[#4d8dff]"
                 >
                   {column.cta.label}
                   <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />

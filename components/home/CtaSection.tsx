@@ -5,7 +5,7 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 // and one clear action. No box, no ornament.
 export default function CtaSection() {
   return (
-    <section className="pb-24 pt-6 lg:pb-36 lg:pt-10">
+    <section className="pb-16 pt-2 sm:pb-24 lg:pb-36 lg:pt-10">
       <h2
         className="max-w-2xl text-[clamp(2.1rem,3.8vw,3.7rem)] leading-[1.1] tracking-[-0.035em] text-[#05060a] dark:text-white"
         style={{ fontFamily: "var(--font-display)" }}
