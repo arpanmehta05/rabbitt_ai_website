@@ -12,7 +12,6 @@ const planeBox = "absolute left-1/2 top-[78%] h-[1100px] w-[max(1700px,150vw)] -
 const STATEMENT =
   "Most AI vendors ask you to send them your data. Rabbitt builds private models and agents that run inside your own cloud, so everything you train stays yours.";
 const WORDS = STATEMENT.split(" ");
-const FIRST_SENTENCE_END = WORDS.findIndex((w) => w.endsWith("data."));
 const REVEAL_START = 0.34;
 const REVEAL_SPAN = 0.46;
 const WORD_WINDOW = 0.09;
@@ -24,20 +23,13 @@ function Word({ word, index, p }: { word: string; index: number; p: MotionValue<
   const opacity = useTransform(p, [0, start, end, 1], [0.16, 0.16, 1, 1]);
   const blur = useTransform(p, [0, start, end, 1], [8, 8, 0, 0]);
   const filter = useTransform(blur, (b) => `blur(${b}px)`);
-  // the first sentence is the problem, set light and quiet; the second is the answer, set bold
-  const firstSentence = index <= FIRST_SENTENCE_END;
-  const name = word.startsWith("Rabbitt");
-  const glow = word.startsWith("cloud") || word.startsWith("yours");
-  const tone = glow
-    ? "bg-gradient-to-r from-[#0061ff] to-[#ff2d95] bg-clip-text font-semibold text-transparent dark:from-[#4d9bff] dark:to-[#ff6fb5]"
-    : name
-      ? "font-semibold text-[#0061ff] dark:text-[#4d9bff]"
-      : firstSentence
-        ? "font-light text-[#05060a]/55 dark:text-white/60"
-        : "font-semibold text-[#05060a] dark:text-white";
+  const accent = word.startsWith("Rabbitt") || word.startsWith("cloud");
 
   return (
-    <motion.span className={`inline-block ${tone}`} style={{ opacity, filter }}>
+    <motion.span
+      className={`inline-block ${accent ? "text-[#0061ff] dark:text-[#4d9bff]" : ""}`}
+      style={{ opacity, filter }}
+    >
       {word}
     </motion.span>
   );
@@ -263,13 +255,8 @@ export default function Hero() {
             className="pointer-events-none absolute inset-0 flex items-center justify-center px-6"
             style={{ opacity: statementOpacity }}
           >
-            {/* a soft halo behind the words, so they stay crisp over the network */}
-            <div
-              aria-hidden
-              className="absolute inset-0 bg-[radial-gradient(ellipse_54%_40%_at_50%_50%,rgba(255,255,255,0.9),transparent_74%)] dark:bg-[radial-gradient(ellipse_54%_40%_at_50%_50%,rgba(8,14,34,0.72),transparent_74%)]"
-            />
             <p
-              className="relative mx-auto max-w-[1000px] text-balance text-center text-[clamp(2.1rem,4.5vw,4.3rem)] leading-[1.1] tracking-[-0.04em]"
+              className="mx-auto max-w-[860px] text-balance text-center text-[clamp(1.9rem,3.7vw,3.3rem)] font-medium leading-[1.16] tracking-[-0.035em] text-[#05060a] dark:text-white"
               style={{ fontFamily: "var(--font-display)" }}
             >
               <span className="sr-only">{STATEMENT}</span>

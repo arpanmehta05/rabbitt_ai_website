@@ -22,10 +22,8 @@ export default function SplitStage({ children }: { children: ReactNode }) {
 
   return (
     <div className="relative">
-      {/* light mode: pick the hero's aurora back up; dark mode: a soft blue glow */}
+      {/* dark mode: a soft blue glow behind the globe */}
       <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -top-[200px] right-[-8%] h-[560px] w-[720px] rounded-[50%] bg-[#ff2d95]/20 blur-[130px] dark:hidden" />
-        <div className="absolute -top-[260px] left-[22%] h-[420px] w-[640px] rounded-[50%] bg-[#4d9bff]/25 blur-[120px] dark:hidden" />
         <div className="absolute right-[-10%] top-[12%] hidden h-[520px] w-[620px] rounded-[50%] bg-[#0061ff]/15 blur-[140px] dark:block" />
       </div>
 
@@ -33,7 +31,7 @@ export default function SplitStage({ children }: { children: ReactNode }) {
         <div className="min-w-0 px-6 sm:px-10 lg:pl-14 lg:pr-10 xl:pl-20">{children}</div>
 
         <div className="hidden lg:block">
-          <div className="sticky top-[88px] h-[calc(100svh-88px)] pr-6 xl:pr-12">
+          <div className="sticky top-[68px] h-[calc(100svh-68px)] pr-6 xl:pr-12">
             {wide && <Globe />}
           </div>
         </div>

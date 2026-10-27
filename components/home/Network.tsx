@@ -21,7 +21,7 @@ import {
 } from "lucide-react";
 
 // A network of data sources that grows across the scene as the page is scrolled and keeps living
-// once it is there: every node drifts, nearer nodes shift a little more than distant ones as you
+// once it is there: every node floats widely, nearer nodes shift more than distant ones as you
 // scroll, and small pulses of light travel along the lines. The layout is generated once from a
 // fixed seed so server and client always agree.
 
@@ -61,7 +61,7 @@ function buildGraph() {
       const x = -0.04 + ((col + 0.15 + rand() * 0.7) / COLS) * 1.08;
       const y = -0.02 + ((row + 0.15 + rand() * 0.7) / ROWS) * 1.06;
       // keep the middle clear for the statement
-      if (Math.abs(x - 0.5) < 0.27 && Math.abs(y - 0.5) < 0.2) continue;
+      if (Math.abs(x - 0.5) < 0.3 && Math.abs(y - 0.5) < 0.23) continue;
       pts.push({ x, y });
     }
   }
@@ -109,10 +109,10 @@ const GRAPH = buildGraph();
 
 // every node floats on its own slow loop; these are fixed per node, not random per render
 const DRIFT = GRAPH.nodes.map((_, i) => ({
-  ax: 8 + ((i * 5) % 7) * 2.2, // amplitude in px
-  ay: 8 + ((i * 3) % 6) * 2.4,
-  sx: 0.16 + ((i * 7) % 9) * 0.022, // speed in rad/s
-  sy: 0.14 + ((i * 11) % 8) * 0.024,
+  ax: 26 + ((i * 5) % 7) * 7, // amplitude in px
+  ay: 24 + ((i * 3) % 6) * 8,
+  sx: 0.34 + ((i * 7) % 9) * 0.07, // speed in rad/s
+  sy: 0.3 + ((i * 11) % 8) * 0.07,
   px: i * 1.7,
   py: i * 2.3 + 1,
   depth: 0.55 + ((i * 13) % 10) * 0.1, // 0.55 distant to 1.45 near
@@ -225,7 +225,7 @@ const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 const smooth = (t: number) => t * t * (3 - 2 * t);
 
 // the lines and chips fade out toward the middle so they never fight with the statement
-const readabilityMask = "radial-gradient(ellipse 46% 34% at 50% 50%, rgba(0,0,0,0.1) 0%, #000 84%)";
+const readabilityMask = "radial-gradient(ellipse 50% 38% at 50% 50%, rgba(0,0,0,0.06) 0%, #000 86%)";
 
 export default function Network({ p }: { p: MotionValue<number> }) {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -260,12 +260,18 @@ export default function Network({ p }: { p: MotionValue<number> }) {
       const t = now / 1000;
       const progress = p.get();
       // nearer nodes move a little more than distant ones as the scene scrolls
-      const parallax = (progress - 0.6) * 220;
+      const parallax = (progress - 0.6) * 420;
 
       GRAPH.nodes.forEach((n, i) => {
         const d = DRIFT[i];
-        xs[i] = n.x * width + Math.sin(t * d.sx + d.px) * d.ax;
-        ys[i] = n.y * height + Math.cos(t * d.sy + d.py) * d.ay + parallax * (d.depth - 1);
+        // two overlapping waves per axis, so the path wanders instead of tracing a plain ellipse
+        xs[i] =
+          n.x * width + Math.sin(t * d.sx + d.px) * d.ax + Math.sin(t * d.sx * 2.3 + d.py) * d.ax * 0.3;
+        ys[i] =
+          n.y * height +
+          Math.cos(t * d.sy + d.py) * d.ay +
+          Math.cos(t * d.sy * 1.9 + d.px) * d.ay * 0.3 +
+          parallax * (d.depth - 1);
         const core = coreRefs.current[i];
         if (core) {
           core.setAttribute("cx", String(xs[i]));
