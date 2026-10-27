@@ -1,6 +1,8 @@
 import Navbar from "@/components/home/Navbar";
 import Hero from "@/components/home/Hero";
+import SplitStage from "@/components/home/SplitStage";
 import Companies from "@/components/home/Companies";
+import CtaSection from "@/components/home/CtaSection";
 import Footer from "@/components/home/Footer";
 
 export const metadata = {
@@ -14,7 +16,11 @@ export default function Home() {
     <main className="min-h-screen bg-white text-zinc-900 dark:bg-[#0a1228] selection:bg-blue-600 selection:text-white">
       <Navbar />
       <Hero />
-      <Companies />
+      {/* left column scrolls, right column holds the globe; add further sections between these */}
+      <SplitStage>
+        <Companies />
+        <CtaSection />
+      </SplitStage>
       <Footer />
     </main>
   );

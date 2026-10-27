@@ -38,7 +38,7 @@ const companies: Company[] = [
 // wordmark logos have a dark-mode variant in /brands/dark (generated, always a png)
 const darkSrc = (src: string) => `/brands/dark/${src.split("/").pop()!.replace(/\.[^.]+$/, "")}.png`;
 
-const edgeMask ="linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent)";
+const edgeMask = "linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent)";
 
 // the marquee keyframes scroll by a third of the track, so the list is repeated three times
 const track = [...companies, ...companies, ...companies];
@@ -56,38 +56,31 @@ export default function Companies() {
         };
 
   return (
-    <section className="relative overflow-hidden">
-      {/* light mode: pick the hero's aurora back up so the two sections read as one */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 dark:hidden">
-        <div className="absolute -top-[200px] right-[-8%] h-[560px] w-[720px] rounded-[50%] bg-[#ff2d95]/20 blur-[130px]" />
-        <div className="absolute -top-[260px] left-[28%] h-[420px] w-[640px] rounded-[50%] bg-[#4d9bff]/25 blur-[120px]" />
-      </div>
-      {/* dark mode: a soft blue glow behind the logos */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 hidden dark:block">
-        <div className="absolute left-1/2 top-[30%] h-[460px] w-[900px] -translate-x-1/2 rounded-[50%] bg-[#0061ff]/15 blur-[140px]" />
-      </div>
-
-      <div className="relative w-full px-6 pt-24 sm:px-10 lg:px-14 lg:pt-32 xl:px-20">
-        <motion.div {...reveal()} className="mx-auto max-w-5xl text-center">
-          <h2
-            className="text-[clamp(2.2rem,5vw,4rem)] font-medium leading-[1.04] tracking-[-0.045em] text-[#05060a] dark:text-white"
-            style={{ fontFamily: "var(--font-display)" }}
-          >
-            Companies we&apos;ve{" "}
-            <span className="bg-gradient-to-r from-[#0061ff] to-[#4d9bff] bg-clip-text text-transparent dark:from-[#3d7bff] dark:to-[#b4cdff]">
-              worked with.
-            </span>
-          </h2>
-          <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-black/60 dark:text-white/60">
-            From fintech and mobility to health and education, teams across industries trust
-            Rabbitt with their data and their AI.
-          </p>
-        </motion.div>
+    <section className="relative">
+      <div className="pt-20 lg:pt-28">
+        <motion.h2
+          {...reveal()}
+          className="max-w-2xl text-[clamp(2rem,3.6vw,3.6rem)] leading-[1.1] tracking-[-0.035em] text-[#05060a] dark:text-white"
+          style={{ fontFamily: "var(--font-display)" }}
+        >
+          <span className="font-semibold">Companies we&apos;ve worked with,</span>{" "}
+          <span className="font-light">across fintech, mobility, health and education.</span>
+        </motion.h2>
       </div>
 
-      {/* a hairline-framed logo band: no tiles, full-colour marks, fading out at both edges */}
-      <motion.div {...reveal(0.1)} className="relative mt-16 pb-24 lg:pb-32">
-        <div className="border-y border-black/[0.08] py-10 dark:border-white/10">
+      {/* a band on a dot grid, framed by thin lines; it bleeds to the left edge of the screen and
+          stops at the globe column */}
+      <motion.div
+        {...reveal(0.1)}
+        className="relative -ml-6 mt-14 pb-20 sm:-ml-10 lg:-ml-14 lg:mt-16 lg:pb-28 xl:-ml-20"
+      >
+        <div
+          className="border-y border-black/[0.12] py-12 [--dot:rgba(5,6,10,0.1)] dark:border-white/15 dark:[--dot:rgba(255,255,255,0.09)] lg:py-14"
+          style={{
+            backgroundImage: "radial-gradient(var(--dot) 1px, transparent 1px)",
+            backgroundSize: "14px 14px",
+          }}
+        >
           <div
             className="overflow-hidden motion-reduce:overflow-x-auto"
             style={{ maskImage: edgeMask, WebkitMaskImage: edgeMask }}
@@ -97,18 +90,18 @@ export default function Companies() {
                 <li
                   key={`${c.name}-${i}`}
                   aria-hidden={i >= companies.length}
-                  className="flex shrink-0 items-center px-8 sm:px-12"
+                  className="flex shrink-0 items-center px-9 sm:px-14"
                 >
                   {c.kind === "icon" ? (
-                    <span className="flex items-center gap-3.5">
+                    <span className="flex items-center gap-4">
                       <Image
                         src={c.src}
                         alt={i < companies.length ? c.name : ""}
-                        width={56}
-                        height={56}
-                        className="h-10 w-10 rounded-xl object-contain dark:ring-1 dark:ring-white/15 sm:h-11 sm:w-11"
+                        width={64}
+                        height={64}
+                        className="h-11 w-11 rounded-xl object-contain dark:ring-1 dark:ring-white/15 sm:h-12 sm:w-12"
                       />
-                      <span className="whitespace-nowrap text-lg font-medium tracking-[-0.02em] text-[#05060a]/75 dark:text-white/80 sm:text-xl">
+                      <span className="whitespace-nowrap text-xl font-medium tracking-[-0.02em] text-[#05060a]/80 dark:text-white/85 sm:text-2xl">
                         {c.name}
                       </span>
                     </span>
@@ -118,17 +111,17 @@ export default function Companies() {
                       <Image
                         src={c.src}
                         alt={i < companies.length ? c.name : ""}
-                        width={180}
-                        height={56}
-                        className="h-9 w-auto max-w-[11rem] object-contain dark:hidden sm:h-10"
+                        width={200}
+                        height={64}
+                        className="h-10 w-auto max-w-[12rem] object-contain dark:hidden sm:h-11"
                       />
                       <Image
                         src={darkSrc(c.src)}
                         alt=""
                         aria-hidden
-                        width={180}
-                        height={56}
-                        className="hidden h-9 w-auto max-w-[11rem] object-contain dark:block sm:h-10"
+                        width={200}
+                        height={64}
+                        className="hidden h-10 w-auto max-w-[12rem] object-contain dark:block sm:h-11"
                       />
                     </>
                   )}

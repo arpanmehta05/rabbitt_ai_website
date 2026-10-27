@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { ArrowUpRight } from "lucide-react";
-import CtaSection from "./CtaSection";
 
 type FooterLink = { label: string; href: string; category?: string };
 
@@ -81,8 +80,6 @@ export default function Footer() {
         <div className="absolute -left-[8%] top-[-10%] hidden h-[420px] w-[620px] rounded-[50%] bg-[#0061ff]/20 blur-[120px] dark:block" />
         <div className="absolute -right-[6%] bottom-[10%] h-[360px] w-[520px] rounded-[50%] bg-[#ff2d95]/10 blur-[120px]" />
       </div>
-
-      <CtaSection />
 
       <div className="relative w-full px-6 sm:px-10 lg:px-14 xl:px-20">
         {/* link grid */}
