@@ -3,7 +3,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion, type MotionValue } from "framer-motion";
-import { useEffect, useRef, useState, type RefObject } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+  type RefObject,
+} from "react";
 
 type Product = {
   name: string;
@@ -37,14 +43,14 @@ const categories: Record<string, Product[]> = {
     {
       name: "IcyQuill",
       description: "AI content assistant for long-form writing and editing.",
-      icon: "↗",
+      icon: "↗︎",
       logo: "/quill.svg",
       href: "https://quill.icypluto.com/",
     },
     {
       name: "Fire Reach",
       description: "Outreach automation and lead engagement platform.",
-      icon: "♨",
+      icon: "♨︎",
       logo: "/firereach.svg",
       href: "https://firereach.rabbitt.ai/",
     },
@@ -430,8 +436,31 @@ export default function SiteNavigation({
     "products" | "services" | "data" | "resources" | null
   >(null);
   const [activeCategory, setActiveCategory] = useState("Marketing");
+  // phones and tablets get a menu button instead of the desktop bar
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileSection, setMobileSection] = useState<string | null>(null);
   const navigationRef = useRef<HTMLElement>(null);
   const products = categories[activeCategory];
+
+  const closeMobile = () => {
+    setMobileOpen(false);
+    setMobileSection(null);
+  };
+
+  // keep the page still behind the open menu
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const closeOnResize = () => {
+      if (window.innerWidth >= 1024) closeMobile();
+    };
+    window.addEventListener("resize", closeOnResize);
+    return () => {
+      document.body.style.overflow = previous;
+      window.removeEventListener("resize", closeOnResize);
+    };
+  }, [mobileOpen]);
 
   const handleCategoryNavigate = (category: string) => {
     if (typeof window !== "undefined") {
@@ -467,10 +496,10 @@ export default function SiteNavigation({
     >
       <nav
         ref={navigationRef}
-        className="relative mx-auto flex h-16 max-w-[1600px] items-center px-8"
+        className="relative mx-auto flex h-16 max-w-[1600px] items-center px-4 sm:px-6 lg:px-8"
         aria-label="Main navigation"
       >
-        <Link href="/" className="flex items-center gap-3">
+        <Link href="/" className="flex items-center gap-2.5 sm:gap-3" onClick={closeMobile}>
           <div
             ref={brandTargetRef}
             className="flex h-10 w-10 shrink-0 items-center justify-center"
@@ -483,12 +512,12 @@ export default function SiteNavigation({
               className="h-10 w-10 object-contain"
             />
           </div>
-          <span className="font-sans text-[1.5rem] font-bold tracking-[-0.02em] bg-gradient-to-r from-[#9AD5FF] via-[#4895FF] to-[#0061FF] bg-clip-text text-transparent">
+          <span className="font-sans text-[1.2rem] font-bold tracking-[-0.02em] min-[360px]:text-[1.35rem] sm:text-[1.5rem] bg-gradient-to-r from-[#9AD5FF] via-[#4895FF] to-[#0061FF] bg-clip-text text-transparent">
             Rabbitt
           </span>
         </Link>
 
-        <div className="absolute left-1/2 flex -translate-x-1/2 items-center gap-7 text-[0.95rem] text-slate-100 xl:gap-8">
+        <div className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-7 text-[0.95rem] text-slate-100 lg:flex xl:gap-8">
           <button
             type="button"
             onClick={() =>
@@ -536,17 +565,158 @@ export default function SiteNavigation({
           </Link>
         </div>
 
-        <div className="ml-auto flex items-center gap-6 text-[0.95rem]">
+        <div className="ml-auto flex items-center gap-2 text-[0.95rem] sm:gap-4 lg:gap-6">
           <Link
             href="/contactus"
-            className="group inline-flex items-center gap-2 rounded-full bg-white px-5 py-2 text-sm font-semibold text-[#020305] shadow-[0_0_0_1px_rgba(255,255,255,0.15),0_4px_16px_rgba(255,255,255,0.08)] transition-all duration-200 hover:bg-slate-100 hover:shadow-[0_0_0_1px_rgba(255,255,255,0.25),0_6px_24px_rgba(255,255,255,0.15)]"
+            onClick={closeMobile}
+            className="group inline-flex items-center gap-1.5 whitespace-nowrap rounded-full bg-white px-3.5 py-2 text-[13px] font-semibold text-[#020305] sm:gap-2 sm:px-5 sm:text-sm shadow-[0_0_0_1px_rgba(255,255,255,0.15),0_4px_16px_rgba(255,255,255,0.08)] transition-all duration-200 hover:bg-slate-100 hover:shadow-[0_0_0_1px_rgba(255,255,255,0.25),0_6px_24px_rgba(255,255,255,0.15)]"
           >
             Book a Demo{" "}
-            <span className="text-base leading-none transition-transform duration-200 group-hover:translate-x-0.5">
-              →
+            <span className="hidden text-base leading-none transition-transform duration-200 group-hover:translate-x-0.5 min-[360px]:inline">
+              →&#xFE0E;
             </span>
           </Link>
+
+          <button
+            type="button"
+            onClick={() => {
+              setOpenMenu(null);
+              setMobileOpen((value) => !value);
+            }}
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileOpen}
+            className="-mr-1.5 inline-flex h-10 w-10 items-center justify-center rounded-lg text-slate-100 transition-colors hover:bg-white/[0.06] lg:hidden"
+          >
+            <svg
+              className="h-6 w-6"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={1.8}
+              strokeLinecap="round"
+              aria-hidden="true"
+            >
+              {mobileOpen ? (
+                <path d="M6 6l12 12M18 6 6 18" />
+              ) : (
+                <path d="M4 7h16M4 12h16M4 17h16" />
+              )}
+            </svg>
+          </button>
         </div>
+
+        {mobileOpen && (
+          <div className="no-scrollbar absolute inset-x-0 top-full h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain border-t border-white/[0.08] bg-[#060b13] px-4 pb-8 pt-2 shadow-[0_24px_60px_rgba(0,0,0,0.6)] sm:px-6 lg:hidden">
+            {(
+              [
+                { id: "products", label: "Products" },
+                { id: "data", label: "Data" },
+                { id: "services", label: "Services" },
+                { id: "resources", label: "Resources" },
+              ] as const
+            ).map((section) => {
+              const expanded = mobileSection === section.id;
+              return (
+                <div key={section.id} className="border-b border-white/[0.08]">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setMobileSection((value) =>
+                        value === section.id ? null : section.id,
+                      )
+                    }
+                    aria-expanded={expanded}
+                    className="flex w-full items-center justify-between py-4 text-left text-lg text-slate-100"
+                  >
+                    {section.label}
+                    <Chevron open={expanded} />
+                  </button>
+                  {expanded && (
+                    <div className="pb-4">
+                      {section.id === "products" &&
+                        categoryNames.map((category) => (
+                          <div key={category} className="mb-3">
+                            <p className="px-1 pb-1 pt-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-sky-400">
+                              {category}
+                            </p>
+                            {categories[category].map((product) => (
+                              <MobileLink
+                                key={`${category}-${product.name}`}
+                                href={product.href}
+                                title={product.name}
+                                description={product.description}
+                                logo={product.logo}
+                                onNavigate={closeMobile}
+                              />
+                            ))}
+                          </div>
+                        ))}
+                      {section.id === "data" && (
+                        <>
+                          <p className="px-1 pb-1 pt-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-sky-400">
+                            Services
+                          </p>
+                          {dataServices.map((item) => (
+                            <MobileLink
+                              key={item.title}
+                              href={item.href}
+                              title={item.title}
+                              description={item.description}
+                              icon={item.icon}
+                              onNavigate={closeMobile}
+                            />
+                          ))}
+                          <p className="px-1 pb-1 pt-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-sky-400">
+                            Solutions
+                          </p>
+                          {dataSolutions.map((item) => (
+                            <MobileLink
+                              key={item.title}
+                              href={item.href}
+                              title={item.title}
+                              description={item.description}
+                              icon={item.icon}
+                              onNavigate={closeMobile}
+                            />
+                          ))}
+                        </>
+                      )}
+                      {section.id === "services" &&
+                        serviceItems.map((item) => (
+                          <MobileLink
+                            key={item.title}
+                            href={item.href}
+                            title={item.title}
+                            description={item.description}
+                            icon={item.icon}
+                            onNavigate={closeMobile}
+                          />
+                        ))}
+                      {section.id === "resources" &&
+                        resourceItems.map((item) => (
+                          <MobileLink
+                            key={item.title}
+                            href={item.href}
+                            title={item.title}
+                            description={item.description}
+                            icon={item.icon}
+                            onNavigate={closeMobile}
+                          />
+                        ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+            <Link
+              href="/ainama"
+              onClick={closeMobile}
+              className="block border-b border-white/[0.08] py-4 text-lg text-slate-100"
+            >
+              AINama
+            </Link>
+          </div>
+        )}
 
         <AnimatePresence>
           {openMenu === "products" && (
@@ -857,6 +1027,60 @@ export default function SiteNavigation({
         </AnimatePresence>
       </nav>
     </motion.header>
+  );
+}
+
+// one entry in the phone menu: a small mark, the name, and what it is
+function MobileLink({
+  href,
+  title,
+  description,
+  icon,
+  logo,
+  onNavigate,
+}: {
+  href: string;
+  title: string;
+  description: string;
+  icon?: ReactNode;
+  logo?: string;
+  onNavigate: () => void;
+}) {
+  const external = href.startsWith("http");
+  return (
+    <Link
+      href={href}
+      target={external ? "_blank" : undefined}
+      rel={external ? "noopener noreferrer" : undefined}
+      onClick={onNavigate}
+      className="flex items-start gap-3.5 rounded-xl px-1 py-3 active:bg-white/[0.05]"
+    >
+      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/[0.08] bg-[#111a2b] text-white">
+        {logo ? (
+          <Image
+            src={logo}
+            alt=""
+            width={28}
+            height={28}
+            className="h-6 w-6 object-contain"
+          />
+        ) : icon ? (
+          icon
+        ) : (
+          <span className="text-sm font-semibold text-sky-300">
+            {title.charAt(0)}
+          </span>
+        )}
+      </span>
+      <span className="min-w-0 flex-1">
+        <span className="block text-[15px] font-semibold text-white">
+          {title}
+        </span>
+        <span className="mt-0.5 block text-[13px] leading-5 text-slate-400">
+          {description}
+        </span>
+      </span>
+    </Link>
   );
 }
 

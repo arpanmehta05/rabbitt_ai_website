@@ -64,8 +64,8 @@ export default function SiteFooter() {
     <footer className="relative overflow-hidden border-t border-white/[0.08] bg-[#02060d] text-white">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_55%_65%_at_12%_38%,rgba(13,73,150,0.13),transparent_70%)]" />
       <div className="relative w-full px-6 pt-14 pb-7 sm:px-10 lg:px-14 lg:pt-16 lg:pb-8 xl:px-20">
-        <div className="grid gap-12 lg:grid-cols-[1.16fr_repeat(4,minmax(0,1fr))] lg:gap-0">
-          <section className="border-white/[0.13] lg:border-r lg:pr-10">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-11 sm:grid-cols-4 sm:gap-x-8 lg:grid-cols-[1.16fr_repeat(4,minmax(0,1fr))] lg:gap-0">
+          <section className="col-span-2 border-white/[0.13] sm:col-span-4 lg:col-span-1 lg:border-r lg:pr-10">
             <div className="flex items-center gap-3">
               <Image
                 src="/logo.svg"
@@ -99,10 +99,10 @@ export default function SiteFooter() {
               key={column.title}
               className="flex h-full flex-col border-white/[0.13] lg:border-r lg:px-7 xl:px-10 last:border-r-0 last:pr-0"
             >
-              <h2 className="text-[0.93rem] font-medium uppercase tracking-[0.1em] text-white">
+              <h2 className="text-[0.85rem] font-medium uppercase tracking-[0.1em] text-white lg:text-[0.93rem]">
                 {column.title}
               </h2>
-              <ul className="mt-9 space-y-5">
+              <ul className="mt-6 space-y-4 lg:mt-9 lg:space-y-5">
                 {column.links.map((link) => {
                   const isProductCategory =
                     column.title === "Products" && PRODUCT_CATEGORIES.has(link);
@@ -142,7 +142,7 @@ export default function SiteFooter() {
                             ? () => handleProductCategoryClick(link)
                             : undefined
                         }
-                        className="group flex items-center gap-4 text-[1rem] leading-snug text-white transition-colors hover:text-white/80"
+                        className="group flex items-start gap-2.5 text-[0.95rem] leading-snug text-white transition-colors hover:text-white/80 lg:items-center lg:gap-4 lg:text-[1rem]"
                       >
                         <span
                           aria-hidden="true"

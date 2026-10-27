@@ -118,15 +118,27 @@ export default function LandingProducts() {
                 <h3 className="mt-3 text-3xl font-semibold tracking-[-0.05em] text-white">
                   {product.name}
                 </h3>
-                <p className="mt-4 max-w-sm text-sm leading-6 text-slate-400 transition-colors duration-300 group-hover:text-slate-300">
+                <p className="mt-4 max-w-sm pr-12 text-sm leading-6 text-slate-400 transition-colors duration-300 group-hover:text-slate-300">
                   {product.description}
                 </p>
               </div>
               <span
-                className="absolute bottom-7 right-7 flex h-9 w-9 items-center justify-center rounded-full border border-white/[0.14] text-base text-slate-300 transition-all duration-300 group-hover:border-sky-200/50 group-hover:bg-sky-200 group-hover:text-[#020305] group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                className="absolute bottom-6 right-6 flex h-9 w-9 items-center justify-center rounded-full border border-white/[0.14] text-slate-300 transition-all duration-300 group-hover:border-sky-200/50 group-hover:bg-sky-200 group-hover:text-[#020305] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 sm:bottom-7 sm:right-7"
                 aria-label={`Explore ${product.name}`}
               >
-                ↗
+                {/* drawn, not typed: iOS shows the ↗ character as an emoji */}
+                <svg
+                  className="h-4 w-4"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M7 17 17 7M8 7h9v9" />
+                </svg>
               </span>
             </Link>
           ))}

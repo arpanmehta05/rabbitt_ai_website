@@ -51,9 +51,9 @@ export default function LlmAdoptionJourney() {
           <h2 className="max-w-3xl text-4xl font-semibold leading-[1.06] tracking-[-0.045em] sm:text-5xl lg:text-6xl">Every stage of your AI adoption journey, built around you.</h2>
         </div>
 
-        <div className="mt-12 flex gap-3 overflow-x-auto pb-3 [scrollbar-width:none]">
+        <div className="mt-10 flex flex-wrap gap-2.5 sm:mt-12 sm:gap-3">
           {stages.map((stage, index) => (
-            <button key={stage.label} type="button" onClick={() => setActiveIndex(index)} className={`shrink-0 rounded-full border px-5 py-3 text-sm font-medium transition-all sm:px-6 ${activeIndex === index ? "border-white bg-white text-[#020305]" : "border-white/[0.13] bg-white/[0.04] text-slate-300 hover:border-sky-400/50 hover:text-white"}`}>
+            <button key={stage.label} type="button" onClick={() => setActiveIndex(index)} className={`rounded-full border px-4 py-2.5 text-left text-sm font-medium transition-all sm:px-6 sm:py-3 ${activeIndex === index ? "border-white bg-white text-[#020305]" : "border-white/[0.13] bg-white/[0.04] text-slate-300 hover:border-sky-400/50 hover:text-white"}`}>
               <span className="mr-2 text-slate-500">0{index + 1}</span>{stage.label}
             </button>
           ))}
@@ -77,9 +77,12 @@ export default function LlmAdoptionJourney() {
 
 function JourneyVisual({ activeIndex }: { activeIndex: number }) {
   return (
-    <motion.div layout className="relative min-h-[22rem] overflow-hidden rounded-2xl border border-white/[0.1] bg-[#060c18] p-6 sm:min-h-[28rem] sm:p-10">
+    // Below lg the visual sits in the flow, so its container grows with the content instead of
+    // clipping it; from lg it fills a fixed-height frame.
+    // (no `layout` animation: it stretched the card and its text whenever the height changed)
+    <div className="relative overflow-hidden rounded-2xl border border-white/[0.1] bg-[#060c18] lg:min-h-[28rem]">
       <AnimatePresence mode="wait">
-        <motion.div key={activeIndex} initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 1.025 }} transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }} className="absolute inset-0">
+        <motion.div key={activeIndex} initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 1.025 }} transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }} className="relative flex min-h-[22rem] flex-col sm:min-h-[28rem] lg:absolute lg:inset-0 lg:min-h-0 [&>*]:grow">
           {activeIndex === 0 && <DiscoveryVisual />}
           {activeIndex === 1 && <DataVisual />}
           {activeIndex === 2 && <ModelVisual />}
@@ -87,7 +90,7 @@ function JourneyVisual({ activeIndex }: { activeIndex: number }) {
           {activeIndex === 4 && <EvaluationVisual />}
         </motion.div>
       </AnimatePresence>
-    </motion.div>
+    </div>
   );
 }
 
@@ -285,7 +288,7 @@ function ModelVisual() {
       {/* Unified Enterprise Console */}
       <div className="w-full max-w-2xl rounded-xl border border-white/[0.1] bg-white/[0.03] shadow-2xl backdrop-blur-sm overflow-hidden">
         {/* Console Header */}
-        <div className="flex items-center justify-between border-b border-white/[0.08] bg-white/[0.02] px-4 py-2.5">
+        <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 border-b border-white/[0.08] bg-white/[0.02] px-4 py-2.5">
           <div className="flex items-center gap-2">
             <span className="h-2 w-2 rounded-full bg-white/20" />
             <span className="h-2 w-2 rounded-full bg-white/20" />
@@ -338,7 +341,7 @@ function ModelVisual() {
           </div>
 
           {/* Integrated Capability Strip */}
-          <div className="mt-4 grid grid-cols-3 gap-2 border-t border-white/[0.08] pt-3 text-[11px]">
+          <div className="mt-4 grid grid-cols-1 gap-2.5 border-t border-white/[0.08] pt-3 text-[11px] sm:grid-cols-3 sm:gap-2">
             <div>
               <p className="font-mono text-[10px] uppercase text-sky-400">Domain Adaptation</p>
               <p className="mt-0.5 text-slate-300">LoRA & DPO Tuning</p>
@@ -364,7 +367,7 @@ function ApplicationVisual() {
       {/* Unified Copilot Window */}
       <div className="w-full max-w-xl rounded-xl border border-white/[0.1] bg-white/[0.03] shadow-2xl backdrop-blur-sm overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-white/[0.08] bg-white/[0.02] px-4 py-2.5">
+        <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 border-b border-white/[0.08] bg-white/[0.02] px-4 py-2.5">
           <div className="flex items-center gap-2">
             <span className="h-2 w-2 rounded-full bg-white/20" />
             <span className="h-2 w-2 rounded-full bg-white/20" />
@@ -413,9 +416,9 @@ function ApplicationVisual() {
           </div>
 
           {/* Bottom Chat Prompt Input Bar */}
-          <div className="mt-2 flex items-center justify-between rounded-lg border border-white/[0.08] bg-black/30 px-3 py-2 text-xs text-slate-400">
-            <span className="truncate">Ask Rabbitt Copilot about enterprise data...</span>
-            <span className="font-mono text-[10px] text-sky-400">↵ Send</span>
+          <div className="mt-2 flex items-center justify-between gap-3 rounded-lg border border-white/[0.08] bg-black/30 px-3 py-2 text-xs text-slate-400">
+            <span className="min-w-0 truncate">Ask Rabbitt Copilot about enterprise data...</span>
+            <span className="shrink-0 whitespace-nowrap font-mono text-[10px] text-sky-400">↵&#xFE0E; Send</span>
           </div>
         </div>
       </div>
