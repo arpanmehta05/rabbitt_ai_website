@@ -20,9 +20,10 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-// A network of data sources that grows across the scene as the page is scrolled, and keeps
-// drifting gently once it is there. The layout is generated once from a fixed seed so server
-// and client always agree.
+// A network of data sources that grows across the scene as the page is scrolled and keeps living
+// once it is there: every node drifts, nearer nodes shift a little more than distant ones as you
+// scroll, and small pulses of light travel along the lines. The layout is generated once from a
+// fixed seed so server and client always agree.
 
 const ICONS: LucideIcon[] = [
   Database, FileText, Mail, Cloud, GitBranch, MessageSquare, Lock,
@@ -34,8 +35,10 @@ const ROWS = 7;
 const START = 0.3; // first node appears
 const SPAN = 0.54; // the last node appears START + SPAN into the scroll
 const DRAW = 0.05; // how much scroll an edge or node takes to finish appearing
+const PULSES = 9;
 
-type Node = { x: number; y: number; at: number; icon?: LucideIcon; tone: "blue" | "pink" | "plain" };
+type Tone = "blue" | "pink" | "plain";
+type Node = { x: number; y: number; at: number; icon?: LucideIcon; tone: Tone };
 type Edge = { a: number; b: number; at: number };
 
 function mulberry32(seed: number) {
@@ -78,7 +81,7 @@ function buildGraph() {
       .slice(0, ICONS.length),
   );
   let iconIndex = 0;
-  const tones: Node["tone"][] = ["blue", "pink", "plain", "plain", "blue"];
+  const tones: Tone[] = ["blue", "pink", "plain", "plain", "blue"];
 
   const nodes: Node[] = pts.map((p, i) => ({
     ...p,
@@ -112,6 +115,7 @@ const DRIFT = GRAPH.nodes.map((_, i) => ({
   sy: 0.14 + ((i * 11) % 8) * 0.024,
   px: i * 1.7,
   py: i * 2.3 + 1,
+  depth: 0.55 + ((i * 13) % 10) * 0.1, // 0.55 distant to 1.45 near
 }));
 
 function appear(at: number) {
@@ -139,45 +143,51 @@ function EdgeLine({
       y1={`${a.y * 100}%`}
       x2={`${b.x * 100}%`}
       y2={`${b.y * 100}%`}
-      strokeWidth={1}
-      className="stroke-[#0061ff]/30 dark:stroke-white/20"
+      strokeWidth={1.1}
+      stroke="url(#rn-edge)"
+      className="[stroke-opacity:0.5] dark:[stroke-opacity:0.38]"
       style={{ pathLength: draw, opacity }}
     />
   );
 }
 
-const toneDot: Record<Node["tone"], string> = {
+const toneCore: Record<Tone, string> = {
   blue: "fill-[#0061ff] dark:fill-[#4d9bff]",
   pink: "fill-[#ff2d95]",
-  plain: "fill-black/35 dark:fill-white/45",
+  plain: "fill-[#05060a]/45 dark:fill-white/60",
+};
+const toneHalo: Record<Tone, string> = {
+  blue: "fill-[#0061ff]/[0.16] dark:fill-[#4d9bff]/25",
+  pink: "fill-[#ff2d95]/[0.18] dark:fill-[#ff2d95]/25",
+  plain: "fill-[#05060a]/[0.06] dark:fill-white/10",
 };
 
 function Dot({
   node,
   p,
-  setRef,
+  setCore,
+  setHalo,
 }: {
   node: Node;
   p: MotionValue<number>;
-  setRef: (el: SVGCircleElement | null) => void;
+  setCore: (el: SVGCircleElement | null) => void;
+  setHalo: (el: SVGCircleElement | null) => void;
 }) {
   const opacity = useTransform(p, appear(node.at), [0, 0, 1, 1]);
+  const cx = `${node.x * 100}%`;
+  const cy = `${node.y * 100}%`;
   return (
-    <motion.circle
-      ref={setRef}
-      cx={`${node.x * 100}%`}
-      cy={`${node.y * 100}%`}
-      r={3}
-      className={toneDot[node.tone]}
-      style={{ opacity }}
-    />
+    <motion.g style={{ opacity }}>
+      <circle ref={setHalo} cx={cx} cy={cy} r={10} className={toneHalo[node.tone]} />
+      <circle ref={setCore} cx={cx} cy={cy} r={3.2} className={toneCore[node.tone]} />
+    </motion.g>
   );
 }
 
-const toneChip: Record<Node["tone"], string> = {
-  blue: "text-[#0061ff] dark:text-[#4d9bff]",
-  pink: "text-[#ff2d95]",
-  plain: "text-[#0061ff] dark:text-[#4d9bff]",
+const toneChip: Record<Tone, string> = {
+  blue: "text-[#0061ff] shadow-[0_12px_30px_-10px_rgba(0,97,255,0.55)] dark:text-[#4d9bff]",
+  pink: "text-[#ff2d95] shadow-[0_12px_30px_-10px_rgba(255,45,149,0.5)]",
+  plain: "text-[#0061ff] shadow-[0_12px_30px_-12px_rgba(0,60,200,0.4)] dark:text-[#4d9bff]",
 };
 
 // the outer div carries the drift, the inner motion.div carries the scroll-driven pop-in
@@ -201,22 +211,33 @@ function IconNode({
       style={{ left: `${node.x * 100}%`, top: `${node.y * 100}%` }}
     >
       <motion.div style={{ opacity, scale }}>
-        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white shadow-[0_8px_24px_-10px_rgba(0,60,200,0.5)] ring-1 ring-black/[0.07] dark:bg-[#121b3a] dark:shadow-[0_8px_24px_-10px_rgba(0,0,0,0.7)] dark:ring-white/15">
-          <Icon className={`h-[18px] w-[18px] ${toneChip[node.tone]}`} strokeWidth={1.8} />
+        <div
+          className={`flex h-11 w-11 items-center justify-center rounded-2xl bg-white ring-1 ring-black/[0.06] dark:bg-[#10193a] dark:ring-white/15 ${toneChip[node.tone]}`}
+        >
+          <Icon className="h-5 w-5" strokeWidth={1.7} />
         </div>
       </motion.div>
     </div>
   );
 }
 
+const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+const smooth = (t: number) => t * t * (3 - 2 * t);
+
+// the lines and chips fade out toward the middle so they never fight with the statement
+const readabilityMask = "radial-gradient(ellipse 46% 34% at 50% 50%, rgba(0,0,0,0.1) 0%, #000 84%)";
+
 export default function Network({ p }: { p: MotionValue<number> }) {
   const rootRef = useRef<HTMLDivElement>(null);
   const lineRefs = useRef<(SVGLineElement | null)[]>([]);
-  const dotRefs = useRef<(SVGCircleElement | null)[]>([]);
+  const coreRefs = useRef<(SVGCircleElement | null)[]>([]);
+  const haloRefs = useRef<(SVGCircleElement | null)[]>([]);
   const iconRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const pulseCoreRefs = useRef<(SVGCircleElement | null)[]>([]);
+  const pulseHaloRefs = useRef<(SVGCircleElement | null)[]>([]);
 
-  // float: move every node on its own slow loop and let its lines follow, straight on the DOM
-  // so the animation never triggers a React render. It only runs while the scene is on screen.
+  // float and pulse, straight on the DOM so it never triggers a React render. It only runs while
+  // the scene is on screen.
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
@@ -231,25 +252,39 @@ export default function Network({ p }: { p: MotionValue<number> }) {
 
     const xs = new Array<number>(GRAPH.nodes.length);
     const ys = new Array<number>(GRAPH.nodes.length);
+    const pulses = Array.from({ length: PULSES }, () => ({ edge: -1, start: 0, dur: 2 }));
     let frame = 0;
 
     const tick = (now: number) => {
+      frame = requestAnimationFrame(tick);
       const t = now / 1000;
+      const progress = p.get();
+      // nearer nodes move a little more than distant ones as the scene scrolls
+      const parallax = (progress - 0.6) * 220;
+
       GRAPH.nodes.forEach((n, i) => {
         const d = DRIFT[i];
         xs[i] = n.x * width + Math.sin(t * d.sx + d.px) * d.ax;
-        ys[i] = n.y * height + Math.cos(t * d.sy + d.py) * d.ay;
-        const dot = dotRefs.current[i];
-        if (dot) {
-          dot.setAttribute("cx", String(xs[i]));
-          dot.setAttribute("cy", String(ys[i]));
+        ys[i] = n.y * height + Math.cos(t * d.sy + d.py) * d.ay + parallax * (d.depth - 1);
+        const core = coreRefs.current[i];
+        if (core) {
+          core.setAttribute("cx", String(xs[i]));
+          core.setAttribute("cy", String(ys[i]));
+        }
+        const halo = haloRefs.current[i];
+        if (halo) {
+          halo.setAttribute("cx", String(xs[i]));
+          halo.setAttribute("cy", String(ys[i]));
         }
         const icon = iconRefs.current[i];
         if (icon) {
           icon.style.transform = `translate3d(${xs[i] - n.x * width}px, ${ys[i] - n.y * height}px, 0)`;
         }
       });
+
+      const drawn: number[] = [];
       GRAPH.edges.forEach((e, i) => {
+        if (e.at + DRAW * 0.6 <= progress) drawn.push(i);
         const line = lineRefs.current[i];
         if (!line) return;
         line.setAttribute("x1", String(xs[e.a]));
@@ -257,7 +292,37 @@ export default function Network({ p }: { p: MotionValue<number> }) {
         line.setAttribute("x2", String(xs[e.b]));
         line.setAttribute("y2", String(ys[e.b]));
       });
-      frame = requestAnimationFrame(tick);
+
+      // light pulses travelling along lines that have already grown in
+      pulses.forEach((pl, k) => {
+        const core = pulseCoreRefs.current[k];
+        const halo = pulseHaloRefs.current[k];
+        if (!core || !halo) return;
+        let u = pl.edge < 0 ? 2 : (now - pl.start) / (pl.dur * 1000);
+        if (u >= 1) {
+          if (drawn.length === 0) {
+            core.setAttribute("opacity", "0");
+            halo.setAttribute("opacity", "0");
+            pl.edge = -1;
+            return;
+          }
+          pl.edge = drawn[Math.floor(Math.random() * drawn.length)];
+          pl.start = now - Math.random() * 600;
+          pl.dur = 1.8 + Math.random() * 1.8;
+          u = (now - pl.start) / (pl.dur * 1000);
+        }
+        const e = GRAPH.edges[pl.edge];
+        const along = smooth(Math.min(Math.max(u, 0), 1));
+        const x = lerp(xs[e.a], xs[e.b], along);
+        const y = lerp(ys[e.a], ys[e.b], along);
+        const alpha = Math.sin(Math.PI * Math.min(Math.max(u, 0), 1));
+        core.setAttribute("cx", String(x));
+        core.setAttribute("cy", String(y));
+        core.setAttribute("opacity", String(alpha));
+        halo.setAttribute("cx", String(x));
+        halo.setAttribute("cy", String(y));
+        halo.setAttribute("opacity", String(alpha * 0.85));
+      });
     };
 
     const visibility = new IntersectionObserver(([entry]) => {
@@ -271,11 +336,25 @@ export default function Network({ p }: { p: MotionValue<number> }) {
       visibility.disconnect();
       resize.disconnect();
     };
-  }, []);
+  }, [p]);
 
   return (
-    <div ref={rootRef} aria-hidden className="pointer-events-none absolute inset-0">
+    <div
+      ref={rootRef}
+      aria-hidden
+      className="pointer-events-none absolute inset-0"
+      style={{ maskImage: readabilityMask, WebkitMaskImage: readabilityMask }}
+    >
       <svg className="absolute inset-0 h-full w-full">
+        <defs>
+          {/* the lines run from blue on the left to pink on the right, like the aurora behind them */}
+          <linearGradient id="rn-edge" gradientUnits="userSpaceOnUse" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0" stopColor="#2f7bff" />
+            <stop offset="0.55" stopColor="#7d8cff" />
+            <stop offset="1" stopColor="#ff4aa8" />
+          </linearGradient>
+        </defs>
+
         {GRAPH.edges.map((e, i) => (
           <EdgeLine
             key={i}
@@ -286,19 +365,48 @@ export default function Network({ p }: { p: MotionValue<number> }) {
             }}
           />
         ))}
+
         {GRAPH.nodes.map((n, i) =>
           n.icon ? null : (
             <Dot
               key={i}
               node={n}
               p={p}
-              setRef={(el) => {
-                dotRefs.current[i] = el;
+              setCore={(el) => {
+                coreRefs.current[i] = el;
+              }}
+              setHalo={(el) => {
+                haloRefs.current[i] = el;
               }}
             />
           ),
         )}
+
+        {Array.from({ length: PULSES }, (_, k) => {
+          const pink = k % 3 === 2;
+          return (
+            <g key={`pulse-${k}`}>
+              <circle
+                ref={(el) => {
+                  pulseHaloRefs.current[k] = el;
+                }}
+                r={9}
+                opacity={0}
+                className={pink ? "fill-[#ff2d95]/25" : "fill-[#0061ff]/25 dark:fill-[#4d9bff]/35"}
+              />
+              <circle
+                ref={(el) => {
+                  pulseCoreRefs.current[k] = el;
+                }}
+                r={2.6}
+                opacity={0}
+                className={pink ? "fill-[#ff2d95]" : "fill-[#0061ff] dark:fill-white"}
+              />
+            </g>
+          );
+        })}
       </svg>
+
       {GRAPH.nodes.map((n, i) =>
         n.icon ? (
           <IconNode
