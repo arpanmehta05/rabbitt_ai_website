@@ -2,43 +2,20 @@
 
 import { useEffect, useRef } from "react";
 import { motion, useTransform, type MotionValue } from "framer-motion";
-import {
-  Cloud,
-  Code2,
-  Database,
-  FileText,
-  Folder,
-  GitBranch,
-  Lock,
-  Mail,
-  MessageSquare,
-  Server,
-  Shield,
-  Table2,
-  Users,
-  Workflow,
-  type LucideIcon,
-} from "lucide-react";
-
 // A network of data sources that grows across the scene as the page is scrolled and keeps living
-// once it is there: every node floats widely, nearer nodes shift more than distant ones as you
-// scroll, and small pulses of light travel along the lines. The layout is generated once from a
-// fixed seed so server and client always agree.
-
-const ICONS: LucideIcon[] = [
-  Database, FileText, Mail, Cloud, GitBranch, MessageSquare, Lock,
-  Server, Folder, Users, Table2, Code2, Shield, Workflow,
-];
+// once it is there: every node floats on its own slow loop, and small pulses of light travel along
+// the lines. Nothing shifts with the scroll (no parallax). Nodes and lines only: no icons and no
+// text. The layout is generated once from a fixed seed so server and client always agree.
 
 const COLS = 14;
 const ROWS = 7;
-const START = 0.3; // first node appears
-const SPAN = 0.54; // the last node appears START + SPAN into the scroll
+const START = 0.3; // first node appears, as the statement does
+const SPAN = 0.5; // the last node appears START + SPAN into the scroll
 const DRAW = 0.05; // how much scroll an edge or node takes to finish appearing
 const PULSES = 9;
 
-type Tone = "blue" | "pink" | "plain";
-type Node = { x: number; y: number; at: number; icon?: LucideIcon; tone: Tone };
+type Tone = "blue" | "sky" | "plain";
+type Node = { x: number; y: number; at: number; tone: Tone };
 type Edge = { a: number; b: number; at: number };
 
 function mulberry32(seed: number) {
@@ -71,22 +48,11 @@ function buildGraph() {
   const rank = new Array<number>(pts.length);
   order.forEach((idx, r) => (rank[idx] = r));
 
-  // icon chips go on nodes that are fully on screen and clear of the navbar
-  const iconSlots = new Set(
-    order
-      .filter((idx, r) => {
-        const { x, y } = pts[idx];
-        return r % 3 === 1 && x > 0.04 && x < 0.96 && y > 0.14 && y < 0.94;
-      })
-      .slice(0, ICONS.length),
-  );
-  let iconIndex = 0;
-  const tones: Tone[] = ["blue", "pink", "plain", "plain", "blue"];
+  const tones: Tone[] = ["blue", "sky", "plain", "plain", "blue"];
 
   const nodes: Node[] = pts.map((p, i) => ({
     ...p,
     at: START + (rank[i] / pts.length) * SPAN,
-    icon: iconSlots.has(i) ? ICONS[iconIndex++] : undefined,
     tone: tones[Math.floor(rand() * tones.length)],
   }));
 
@@ -115,7 +81,6 @@ const DRIFT = GRAPH.nodes.map((_, i) => ({
   sy: 0.3 + ((i * 11) % 8) * 0.07,
   px: i * 1.7,
   py: i * 2.3 + 1,
-  depth: 0.55 + ((i * 13) % 10) * 0.1, // 0.55 distant to 1.45 near
 }));
 
 function appear(at: number) {
@@ -145,21 +110,21 @@ function EdgeLine({
       y2={`${b.y * 100}%`}
       strokeWidth={1.1}
       stroke="url(#rn-edge)"
-      className="[stroke-opacity:0.5] dark:[stroke-opacity:0.38]"
+      className="[stroke-opacity:0.5]"
       style={{ pathLength: draw, opacity }}
     />
   );
 }
 
 const toneCore: Record<Tone, string> = {
-  blue: "fill-[#0061ff] dark:fill-[#4d9bff]",
-  pink: "fill-[#ff2d95]",
-  plain: "fill-[#05060a]/45 dark:fill-white/60",
+  blue: "fill-brand-text",
+  sky: "fill-[#bcd8ff]",
+  plain: "fill-white/60",
 };
 const toneHalo: Record<Tone, string> = {
-  blue: "fill-[#0061ff]/[0.16] dark:fill-[#4d9bff]/25",
-  pink: "fill-[#ff2d95]/[0.18] dark:fill-[#ff2d95]/25",
-  plain: "fill-[#05060a]/[0.06] dark:fill-white/10",
+  blue: "fill-brand-text/25",
+  sky: "fill-[#bcd8ff]/22",
+  plain: "fill-white/10",
 };
 
 function Dot({
@@ -178,46 +143,9 @@ function Dot({
   const cy = `${node.y * 100}%`;
   return (
     <motion.g style={{ opacity }}>
-      <circle ref={setHalo} cx={cx} cy={cy} r={10} className={toneHalo[node.tone]} />
+      <circle ref={setHalo} cx={cx} cy={cy} r={12} className={toneHalo[node.tone]} />
       <circle ref={setCore} cx={cx} cy={cy} r={3.2} className={toneCore[node.tone]} />
     </motion.g>
-  );
-}
-
-const toneChip: Record<Tone, string> = {
-  blue: "text-[#0061ff] shadow-[0_12px_30px_-10px_rgba(0,97,255,0.55)] dark:text-[#4d9bff]",
-  pink: "text-[#ff2d95] shadow-[0_12px_30px_-10px_rgba(255,45,149,0.5)]",
-  plain: "text-[#0061ff] shadow-[0_12px_30px_-12px_rgba(0,60,200,0.4)] dark:text-[#4d9bff]",
-};
-
-// the outer div carries the drift, the inner motion.div carries the scroll-driven pop-in
-function IconNode({
-  node,
-  p,
-  setRef,
-}: {
-  node: Node;
-  p: MotionValue<number>;
-  setRef: (el: HTMLDivElement | null) => void;
-}) {
-  const stops = appear(node.at);
-  const opacity = useTransform(p, stops, [0, 0, 1, 1]);
-  const scale = useTransform(p, stops, [0.6, 0.6, 1, 1]);
-  const Icon = node.icon!;
-  return (
-    <div
-      ref={setRef}
-      className="absolute -translate-x-1/2 -translate-y-1/2"
-      style={{ left: `${node.x * 100}%`, top: `${node.y * 100}%` }}
-    >
-      <motion.div style={{ opacity, scale }}>
-        <div
-          className={`flex h-11 w-11 items-center justify-center rounded-2xl bg-white ring-1 ring-black/[0.06] dark:bg-[#10193a] dark:ring-white/15 ${toneChip[node.tone]}`}
-        >
-          <Icon className="h-5 w-5" strokeWidth={1.7} />
-        </div>
-      </motion.div>
-    </div>
   );
 }
 
@@ -232,7 +160,6 @@ export default function Network({ p }: { p: MotionValue<number> }) {
   const lineRefs = useRef<(SVGLineElement | null)[]>([]);
   const coreRefs = useRef<(SVGCircleElement | null)[]>([]);
   const haloRefs = useRef<(SVGCircleElement | null)[]>([]);
-  const iconRefs = useRef<(HTMLDivElement | null)[]>([]);
   const pulseCoreRefs = useRef<(SVGCircleElement | null)[]>([]);
   const pulseHaloRefs = useRef<(SVGCircleElement | null)[]>([]);
 
@@ -259,8 +186,6 @@ export default function Network({ p }: { p: MotionValue<number> }) {
       frame = requestAnimationFrame(tick);
       const t = now / 1000;
       const progress = p.get();
-      // nearer nodes move a little more than distant ones as the scene scrolls
-      const parallax = (progress - 0.6) * 420;
 
       GRAPH.nodes.forEach((n, i) => {
         const d = DRIFT[i];
@@ -270,8 +195,7 @@ export default function Network({ p }: { p: MotionValue<number> }) {
         ys[i] =
           n.y * height +
           Math.cos(t * d.sy + d.py) * d.ay +
-          Math.cos(t * d.sy * 1.9 + d.px) * d.ay * 0.3 +
-          parallax * (d.depth - 1);
+          Math.cos(t * d.sy * 1.9 + d.px) * d.ay * 0.3;
         const core = coreRefs.current[i];
         if (core) {
           core.setAttribute("cx", String(xs[i]));
@@ -281,10 +205,6 @@ export default function Network({ p }: { p: MotionValue<number> }) {
         if (halo) {
           halo.setAttribute("cx", String(xs[i]));
           halo.setAttribute("cy", String(ys[i]));
-        }
-        const icon = iconRefs.current[i];
-        if (icon) {
-          icon.style.transform = `translate3d(${xs[i] - n.x * width}px, ${ys[i] - n.y * height}px, 0)`;
         }
       });
 
@@ -353,11 +273,11 @@ export default function Network({ p }: { p: MotionValue<number> }) {
     >
       <svg className="absolute inset-0 h-full w-full">
         <defs>
-          {/* the lines run from blue on the left to pink on the right, like the aurora behind them */}
+          {/* the lines run from blue to a pale sky blue, on the dark page */}
           <linearGradient id="rn-edge" gradientUnits="userSpaceOnUse" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0" stopColor="#2f7bff" />
-            <stop offset="0.55" stopColor="#7d8cff" />
-            <stop offset="1" stopColor="#ff4aa8" />
+            <stop offset="0.55" stopColor="#6fa8ff" />
+            <stop offset="1" stopColor="#c4dcff" />
           </linearGradient>
         </defs>
 
@@ -372,33 +292,31 @@ export default function Network({ p }: { p: MotionValue<number> }) {
           />
         ))}
 
-        {GRAPH.nodes.map((n, i) =>
-          n.icon ? null : (
-            <Dot
-              key={i}
-              node={n}
-              p={p}
-              setCore={(el) => {
-                coreRefs.current[i] = el;
-              }}
-              setHalo={(el) => {
-                haloRefs.current[i] = el;
-              }}
-            />
-          ),
-        )}
+        {GRAPH.nodes.map((n, i) => (
+          <Dot
+            key={i}
+            node={n}
+            p={p}
+            setCore={(el) => {
+              coreRefs.current[i] = el;
+            }}
+            setHalo={(el) => {
+              haloRefs.current[i] = el;
+            }}
+          />
+        ))}
 
         {Array.from({ length: PULSES }, (_, k) => {
-          const pink = k % 3 === 2;
+          const sky = k % 3 === 2;
           return (
             <g key={`pulse-${k}`}>
               <circle
                 ref={(el) => {
                   pulseHaloRefs.current[k] = el;
                 }}
-                r={9}
+                r={12}
                 opacity={0}
-                className={pink ? "fill-[#ff2d95]/25" : "fill-[#0061ff]/25 dark:fill-[#4d9bff]/35"}
+                className={sky ? "fill-[#bcd8ff]/30" : "fill-brand-text/38"}
               />
               <circle
                 ref={(el) => {
@@ -406,25 +324,12 @@ export default function Network({ p }: { p: MotionValue<number> }) {
                 }}
                 r={2.6}
                 opacity={0}
-                className={pink ? "fill-[#ff2d95]" : "fill-[#0061ff] dark:fill-white"}
+                className={sky ? "fill-[#bcd8ff]" : "fill-white"}
               />
             </g>
           );
         })}
       </svg>
-
-      {GRAPH.nodes.map((n, i) =>
-        n.icon ? (
-          <IconNode
-            key={i}
-            node={n}
-            p={p}
-            setRef={(el) => {
-              iconRefs.current[i] = el;
-            }}
-          />
-        ) : null,
-      )}
     </div>
   );
 }

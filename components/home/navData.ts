@@ -30,6 +30,7 @@ export const navGroups: NavGroup[] = [
     },
     sections: [
       {
+        title: "Our products",
         items: products.map((p) => ({
           label: p.name,
           detail: p.detail,
@@ -79,6 +80,7 @@ export const navGroups: NavGroup[] = [
     },
     sections: [
       {
+        title: "Custom services",
         items: [
           {
             label: "Content Writing",
@@ -119,6 +121,7 @@ export const navGroups: NavGroup[] = [
     lead: { title: "Learn how we build." },
     sections: [
       {
+        title: "Learn",
         items: [
           {
             label: "Blogs",

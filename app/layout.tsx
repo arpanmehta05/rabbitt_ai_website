@@ -1,27 +1,12 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { Geist, Geist_Mono, Inter, Inter_Tight } from "next/font/google";
+import { Inter } from "next/font/google";
 import SmoothScroll from "@/components/SmoothScroll";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-const hanken = Inter({
-  variable: "--font-hanken",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const bricolage = Inter_Tight({
-  variable: "--font-display",
+// The one font family for the whole site (see design.md §6).
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
   display: "swap",
 });
@@ -64,14 +49,7 @@ export const metadata: Metadata = {
     siteName: "Rabbitt AI",
     locale: "en_US",
     type: "website",
-    images: [
-      {
-        url: "/logo.svg",
-        width: 1200,
-        height: 630,
-        alt: "Rabbitt AI — Own Your Data. Own Your AI.",
-      },
-    ],
+    // the share image is app/opengraph-image.tsx, which Next adds on its own
   },
   twitter: {
     card: "summary_large_image",
@@ -79,7 +57,6 @@ export const metadata: Metadata = {
     description:
       "Next-generation enterprise generative AI solutions. Build, fine-tune, and deploy sovereign LLMs on private enterprise data.",
     creator: "@rabbitt_ai",
-    images: ["/logo.svg"],
   },
   robots: {
     index: true,
@@ -135,7 +112,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${hanken.variable} ${bricolage.variable} h-full antialiased`}
+      className={`${inter.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <head>
@@ -144,13 +121,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: `(function(){try{var k='rabbitt_intro_timestamp';var t=localStorage.getItem(k);var c=document.cookie.indexOf('rabbitt_intro_seen=true')!==-1;if(c||(t&&(Date.now()-parseInt(t,10))<86400000)){document.documentElement.classList.add('skip-intro');}}catch(e){}})();`,
-          }}
-        />
-        <Script
-          id="rabbitt-theme"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `(function(){try{if(localStorage.getItem('rabbitt_theme')==='dark'){document.documentElement.classList.add('dark');}}catch(e){}})();`,
           }}
         />
       </head>

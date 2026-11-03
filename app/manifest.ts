@@ -8,8 +8,8 @@ export default function manifest(): MetadataRoute.Manifest {
       "Next-generation platform for enterprise generative AI and sovereign custom LLMs.",
     start_url: "/",
     display: "standalone",
-    background_color: "#020305",
-    theme_color: "#020305",
+    background_color: "#060d26",
+    theme_color: "#060d26",
     icons: [
       {
         src: "/logo.svg",

@@ -10,16 +10,37 @@
 :root {
   --background: #ffffff;
   --foreground: #090d16;
-  --font-sans: var(--font-hanken), "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-serif: var(--font-display), "Inter Tight", var(--font-hanken), sans-serif;
+  /* One family: Inter. Every older font variable points at it, so no page can pick a second one. */
+  --font-sans: var(--font-inter), "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: var(--font-sans);
+  --font-serif: var(--font-sans);
+  --font-serif-display: var(--font-sans);
+  --font-geist-sans: var(--font-sans);
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  --font-geist-mono: var(--font-mono);
+
+  /* colour tokens (design.md §5), defined once. In classes: bg-page, bg-raised, bg-surface,
+     bg-brand, hover:bg-brand-hover, text-brand-text. */
+  --bg: #060d26; /* deep blue, a dark take on the brand blue */
+  --bg-raised: #0a1640;
+  --surface: #0e1d52;
+  --line: rgba(255, 255, 255, 0.1);
+  --brand: #0061ff;
+  --brand-hover: #1a47d6;
+  --brand-text: #4d9bff;
 }
 
 @theme inline {
+  --color-page: var(--bg);
+  --color-raised: var(--bg-raised);
+  --color-surface: var(--surface);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-text: var(--brand-text);
   --color-brand: #0061ff;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sans);
-  --font-mono: var(--font-geist-sans);
+  --font-mono: var(--font-mono);
   --font-serif: var(--font-serif);
 }
 
@@ -44,8 +65,331 @@ select {
   font-family: inherit;
 }
 
+/* Page layout (design.md §7): content uses the whole width of the screen, with a side gutter of 20px
+   on a phone, 32px on a tablet, 48px on a desktop and 64px on a wide screen. .rb-section is the vertical rhythm of a section:
+   48px, 64px and 96px above and below. */
+.rb-container {
+  --gutter: 20px;
+  margin-inline: auto;
+  width: 100%;
+  padding-inline: var(--gutter);
+}
+@media (min-width: 640px) {
+  .rb-container {
+    --gutter: 32px;
+  }
+}
+@media (min-width: 1024px) {
+  .rb-container {
+    --gutter: 48px;
+  }
+}
+@media (min-width: 1280px) {
+  .rb-container {
+    --gutter: 64px;
+  }
+}
+.rb-section {
+  padding-block: 48px;
+}
+@media (min-width: 768px) {
+  .rb-section {
+    padding-block: 64px;
+  }
+}
+@media (min-width: 1024px) {
+  .rb-section {
+    padding-block: 96px;
+  }
+}
+
+/* one visible keyboard focus ring everywhere: 2px in the light brand blue, 2px away (design.md §8) */
+:focus-visible {
+  outline: 2px solid var(--brand-text);
+  outline-offset: 2px;
+}
+
+/* Rising into place. .rb-rise plays when the page loads (set --d for a delay); .rb-reveal plays as
+   the element scrolls into view, where the browser supports it. Neither hides anything before it
+   runs, so the content is always in the page, and neither runs for reduced motion. */
+@keyframes rb-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.rb-rise {
+  animation: rb-rise 500ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--d, 0ms);
+}
+@supports (animation-timeline: view()) {
+  .rb-reveal {
+    animation: rb-rise linear both;
+    animation-timeline: view();
+    animation-range: entry 5% entry 40%;
+  }
+}
+/* a slow turn around the middle of the hero picture; --t is how long one turn takes */
+@keyframes rb-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.rb-spin {
+  transform-origin: 300px 300px;
+  animation: rb-spin var(--t, 60s) linear infinite;
+}
+.rb-glow {
+  filter: drop-shadow(0 0 6px rgba(77, 155, 255, 0.95));
+}
+@keyframes rb-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+.rb-float {
+  animation: rb-float 7s ease-in-out infinite;
+}
+@keyframes rb-twinkle {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.rb-twinkle {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: rb-twinkle var(--t, 4s) ease-in-out var(--d, 0s) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .rb-rise,
+  .rb-reveal,
+  .rb-spin,
+  .rb-float,
+  .rb-twinkle {
+    animation: none;
+  }
+}
+
+@keyframes rb-sweep {
+  from {
+    transform: translateX(-40%);
+  }
+  to {
+    transform: translateX(260%);
+  }
+}
+.rb-sweep {
+  animation: rb-sweep 7s ease-in-out infinite;
+}
+@keyframes rb-flow {
+  0% {
+    offset-distance: 0%;
+    opacity: 0;
+  }
+  12%,
+  88% {
+    opacity: 1;
+  }
+  100% {
+    offset-distance: 100%;
+    opacity: 0;
+  }
+}
+.rb-flow {
+  offset-rotate: 0deg;
+  animation: rb-flow var(--t, 5s) linear var(--d, 0s) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .rb-sweep,
+  .rb-flow {
+    animation: none;
+  }
+}
+
 html.skip-intro .intro-scene {
-  background-color: #020305;
+  background-color: #060d26;
+}
+
+/* ── Intro (components/home/Intro.tsx) ───────────────────────────────────── */
+.rb-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: #f8faff;
+  color: #05060a;
+  animation: rb-lift 850ms cubic-bezier(0.76, 0, 0.18, 1) 2.45s forwards;
+}
+.rb-intro--out {
+  animation: rb-lift 550ms cubic-bezier(0.76, 0, 0.18, 1) 0s forwards;
+}
+html.skip-intro .rb-intro {
+  display: none;
+}
+@keyframes rb-lift {
+  from { transform: translateY(0); visibility: visible; }
+  99% { visibility: visible; }
+  to { transform: translateY(-100%); visibility: hidden; }
+}
+
+.rb-intro__grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0, 97, 255, 0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 97, 255, 0.09) 1px, transparent 1px);
+  background-size: 80px 80px;
+  -webkit-mask-image: radial-gradient(ellipse 55% 50% at 50% 50%, #000, transparent);
+  mask-image: radial-gradient(ellipse 55% 50% at 50% 50%, #000, transparent);
+  opacity: 0;
+  animation: rb-fade 900ms ease-out 0s forwards;
+}
+.rb-intro__glow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 640px;
+  height: 640px;
+  max-width: 120vw;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(0, 97, 255, 0.13), transparent);
+  opacity: 0;
+  animation: rb-fade 1200ms ease-out 0.1s forwards;
+}
+.rb-intro__stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: rb-fade-out 300ms ease-in 2.2s forwards;
+}
+.rb-intro__mark {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 188px;
+  height: 188px;
+}
+.rb-intro__ring {
+  position: absolute;
+  inset: 0;
+  transform: rotate(-90deg);
+}
+.rb-intro__track {
+  fill: none;
+  stroke: rgba(0, 97, 255, 0.14);
+  stroke-width: 1.5;
+}
+.rb-intro__arc {
+  fill: none;
+  stroke: #0061ff;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: rb-draw 1500ms cubic-bezier(0.65, 0, 0.25, 1) 0.25s forwards;
+}
+.rb-intro__logo {
+  width: 84px;
+  height: 84px;
+  opacity: 0;
+  transform: scale(0.86);
+  animation: rb-pop 800ms cubic-bezier(0.2, 0.8, 0.2, 1) 0.2s forwards;
+}
+.rb-intro__name,
+.rb-intro__line {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: rb-rise 700ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+.rb-intro__name {
+  margin-top: 28px;
+  font-size: 1.75rem;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  color: #0061ff;
+  animation-delay: 0.95s;
+}
+.rb-intro__line {
+  margin-top: 12px;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+  color: rgba(5, 6, 10, 0.55);
+  animation-delay: 1.3s;
+}
+.rb-intro__bar {
+  margin-top: 36px;
+  width: 168px;
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(0, 97, 255, 0.14);
+  overflow: hidden;
+}
+.rb-intro__bar span {
+  display: block;
+  height: 100%;
+  width: 100%;
+  background: #0061ff;
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: rb-fill 2000ms cubic-bezier(0.45, 0, 0.2, 1) 0.3s forwards;
+}
+.rb-intro__skip {
+  position: absolute;
+  right: 24px;
+  bottom: 24px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgba(5, 6, 10, 0.55);
+  opacity: 0;
+  animation: rb-fade 400ms ease-out 0.8s forwards;
+  transition: color 150ms;
+}
+.rb-intro__skip:hover {
+  color: #0061ff;
+}
+.rb-intro__skip:focus-visible {
+  outline: 2px solid #4d9bff;
+  outline-offset: 2px;
+}
+.rb-intro__edge {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #0061ff, transparent);
+}
+@keyframes rb-fade { to { opacity: 1; } }
+@keyframes rb-fade-out { to { opacity: 0; } }
+@keyframes rb-draw { to { stroke-dashoffset: 0; } }
+@keyframes rb-pop { to { opacity: 1; transform: scale(1); } }
+@keyframes rb-rise { to { opacity: 1; transform: translateY(0); } }
+@keyframes rb-fill { to { transform: scaleX(1); } }
+@media (prefers-reduced-motion: reduce) {
+  .rb-intro {
+    display: none;
+  }
 }
 
 /* ── Hide scrollbar utilities ────────────────────────────────────────────── */
@@ -228,3 +572,8 @@ html.skip-intro .intro-scene {
   color: #94a3b8;
 }
 .blog-prose tr:hover td { background: rgba(255,255,255,0.02); }
+
+/* the glow around the hero picture's core */
+.rb-orb {
+  filter: drop-shadow(0 0 38px rgba(0, 97, 255, 0.75));
+}

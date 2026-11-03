@@ -1,20 +1,19 @@
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 
-// The closing block, in the left column of the stage: a two-weight headline, one line of copy
-// and one clear action. No box, no ornament.
+// The closing block, in the left column of the stage: one headline, one line of copy, one primary
+// button and one text link (design.md §8, CTA block). No box, no ornament. A Server Component.
 export default function CtaSection() {
   return (
-    <section className="pb-16 pt-2 sm:pb-24 lg:pb-36 lg:pt-10">
+    <section aria-labelledby="cta-title" className="py-12 md:py-16 lg:py-24">
       <h2
-        className="max-w-2xl text-[clamp(2.1rem,3.8vw,3.7rem)] leading-[1.1] tracking-[-0.035em] text-[#05060a] dark:text-white"
-        style={{ fontFamily: "var(--font-display)" }}
+        id="cta-title"
+        className="max-w-2xl text-[clamp(1.875rem,3.4vw,3rem)] font-semibold leading-[1.1] tracking-[-0.025em] text-white"
       >
-        <span className="font-semibold">Put your data to work,</span>{" "}
-        <span className="font-light">without ever giving it up.</span>
+        Put your data to work, without ever giving it up.
       </h2>
 
-      <p className="mt-6 max-w-lg text-lg leading-relaxed text-black/65 dark:text-white/65 sm:text-xl">
+      <p className="mt-6 max-w-[34rem] text-base leading-[1.6] text-white/70 sm:text-lg">
         Bring one use case. We will run it on your data inside your own cloud, and show you what it
         does for your team.
       </p>
@@ -22,17 +21,15 @@ export default function CtaSection() {
       <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-5">
         <Link
           href="/contactus"
-          className="group inline-flex items-center gap-5 rounded-full bg-[#0061ff] py-2 pl-8 pr-2 text-[17px] font-medium text-white shadow-[0_16px_36px_-16px_rgba(0,97,255,0.85)] transition-colors duration-300 hover:bg-[#1a47d6]"
+          className="group inline-flex h-12 items-center gap-2 rounded-lg bg-brand px-7 text-[15px] font-medium text-white transition-colors hover:bg-brand-hover"
         >
           Book a demo
-          <span className="grid h-11 w-11 place-items-center rounded-full bg-white text-[#0061ff] transition-transform duration-300 group-hover:-rotate-45">
-            <ArrowRight className="h-5 w-5" />
-          </span>
+          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
         </Link>
 
         <Link
           href="/products"
-          className="group inline-flex items-center gap-1.5 border-b border-black/25 pb-1 text-[17px] font-medium text-[#05060a] transition-colors hover:border-[#0061ff] hover:text-[#0061ff] dark:border-white/30 dark:text-white dark:hover:border-[#4d9bff] dark:hover:text-[#4d9bff]"
+          className="group inline-flex items-center gap-1.5 py-3 text-[15px] font-medium text-brand-text underline-offset-4 transition-colors hover:underline"
         >
           Explore products
           <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />

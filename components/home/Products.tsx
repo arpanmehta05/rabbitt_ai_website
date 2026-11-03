@@ -2,165 +2,116 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { type MouseEvent } from "react";
-import { motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
-import { products, type Product } from "./productsData";
+import { useRef, type ReactNode } from "react";
+import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from "framer-motion";
+import { ArrowRight, Layers } from "lucide-react";
 
-const isExternal = (href: string) => href.startsWith("http");
+// The products as a grid of plain dark cards, after the one on adobe.com. At rest a card is flat:
+// a small icon at the top, a name and one line at the bottom. Under the pointer a picture fades in
+// behind the text. The three columns start at different heights and settle into a row as the grid
+// scrolls into view.
 
-function Mark({ product }: { product: Product }) {
-  const size = "h-auto max-h-14 w-auto max-w-[8.5rem] object-contain object-left sm:max-h-[4.5rem] sm:max-w-[10.5rem]";
-  const fade = "opacity-90 transition duration-500 group-hover:opacity-100";
-  if (product.logo) {
-    return (
-      <span className="flex origin-left items-center" style={{ transform: `scale(${product.logoScale ?? 1})` }}>
-        <Image
-          src={product.logoLight ?? product.logo}
-          alt=""
-          width={240}
-          height={96}
-          className={`${size} ${fade} ${product.logoLight ? "dark:hidden" : ""}`}
-        />
-        {product.logoLight && (
-          <Image src={product.logo} alt="" width={240} height={96} className={`${size} ${fade} hidden dark:block`} />
-        )}
-      </span>
-    );
-  }
-  return (
-    <span
-      className="grid h-14 w-14 place-items-center rounded-2xl text-2xl font-semibold"
-      style={{ background: `${product.accent}1f`, color: product.accent }}
-    >
-      {product.name.charAt(0)}
-    </span>
-  );
-}
+type Item = {
+  name: string;
+  detail: string;
+  href: string;
+  icon: ReactNode;
+  // on hover the card turns this colour and shows the product's logo large
+  accent?: string;
+  logoSrc?: string;
+  dark?: boolean;
+};
 
-// the row's colour pools under the pointer, like a light moving across a page
-function follow(e: MouseEvent<HTMLElement>) {
-  const box = e.currentTarget.getBoundingClientRect();
-  e.currentTarget.style.setProperty("--mx", `${e.clientX - box.left}px`);
-  e.currentTarget.style.setProperty("--my", `${e.clientY - box.top}px`);
-}
+const tile = "grid h-11 w-11 place-items-center rounded-[10px] bg-white p-1.5";
+const logo = (src: string) => <Image src={src} alt="" width={36} height={36} className="max-h-full max-w-full object-contain" />;
 
-function Row({ product, index, reduce }: { product: Product; index: number; reduce: boolean | null }) {
-  const className = "group relative block px-1 py-8 sm:py-10 lg:px-4";
+const items: Item[] = [
+  { name: "IcyPluto", detail: "Unified platform for marketing automation and growth.", href: "https://new.icypluto.com/", icon: <span className={tile}>{logo("/Icypluto.svg")}</span>, accent: "#6d4aff", logoSrc: "/Icypluto.svg" },
+  { name: "DRIP", detail: "Adaptive learning experiences for modern teams.", href: "https://drip.rabbitt.ai/", icon: <span className={tile}>{logo("/drip.svg")}</span>, accent: "#0061ff", logoSrc: "/drip.svg" },
+  { name: "RAW", detail: "Optimise your AI agents for accuracy and cost.", href: "https://raw.rabbitt.ai/", icon: <span className={tile}>{logo("/logo.svg")}</span>, accent: "#1a47d6", logoSrc: "/logo.svg" },
+  { name: "OnSkill", detail: "Workforce competency and skill management.", href: "https://onskill.org/", icon: <span className={`${tile} !bg-[#0a1636]`}>{logo("/onskill.svg")}</span>, accent: "#0a1636", logoSrc: "/onskill.svg", dark: true },
+  { name: "Cloud Watcher", detail: "Cloud cost, health and operations intelligence.", href: "https://cloudwatcher.rabbitt.ai/", icon: <span className={tile}>{logo("/cloudwatcher.svg")}</span>, accent: "#0b6fe0", logoSrc: "/cloudwatcher.svg" },
+  { name: "Ping U", detail: "Intelligent notifications and incident coordination when the signal matters.", href: "https://www.pingme.rabbitt.ai/", icon: <span className={tile}>{logo("/pingu-light.svg")}</span>, accent: "#e8408f", logoSrc: "/pingu-light.svg" },
+  { name: "ChanceRAG", detail: "Retrieval you can trust, grounded in your own documents.", href: "/chancerag", icon: <span className={tile}>{logo("/chance.svg")}</span>, accent: "#0061ff", logoSrc: "/chance.svg" },
+  { name: "Services", detail: "Content, video, training and data annotation from the Rabbitt team.", href: "/services/content-strategy", icon: <span className={`${tile} !bg-[#0061ff] text-white`}><Layers className="h-5 w-5" /></span>, accent: "#0061ff" },
+  { name: "All products", detail: "See everything Rabbitt AI builds.", href: "/products", icon: <ArrowRight className="h-6 w-6 text-white" /> },
+];
+
+// each column starts this many pixels lower and rises to its place
+const LIFT = [0, 56, 112];
+
+function Card({ item, col, progress }: { item: Item; col: number; progress: MotionValue<number> }) {
+  const y = useTransform(progress, [0, 1], [LIFT[col], 0]);
+  const external = item.href.startsWith("http");
+  const cls = "group relative flex h-full min-h-[320px] flex-col justify-between overflow-hidden rounded-[20px] bg-[#161616] p-7 outline-none focus-visible:ring-2 focus-visible:ring-[#4d9bff] md:min-h-[360px]";
+
   const body = (
     <>
-      <span
-        aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-focus-visible:opacity-100"
-        style={{
-          background: `radial-gradient(520px circle at var(--mx, 30%) var(--my, 50%), ${product.accent}1c, transparent 70%)`,
-        }}
-      />
-
-      <span className="relative grid items-center gap-x-8 gap-y-4 sm:grid-cols-[11rem_minmax(0,1fr)_minmax(0,1fr)] lg:grid-cols-[12rem_minmax(0,1.2fr)_minmax(0,1fr)_1.75rem]">
-
-        <span className="flex h-[4.5rem] items-center">
-          <Mark product={product} />
-        </span>
-
+      {item.accent && (
+        <>
+          <div aria-hidden className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-focus-visible:opacity-100" style={{ background: item.accent }} />
+        </>
+      )}
+      {item.accent ? (
+        // the icon is a tile in the corner; on hover it bounces out to the middle of the card and grows into the big logo
         <span
-          className="text-[clamp(2.2rem,4vw,4rem)] font-light leading-none tracking-[-0.045em] text-[#05060a] dark:text-white"
-          style={{ fontFamily: "var(--font-display)" }}
+          className={`absolute left-7 top-7 z-10 grid h-11 w-11 place-items-center rounded-[10px] p-1.5 transition-all duration-[800ms] ease-[cubic-bezier(0.34,1.7,0.64,1)] group-hover:left-1/2 group-hover:top-[40%] group-hover:h-[132px] group-hover:w-[132px] group-hover:-translate-x-1/2 group-hover:-translate-y-1/2 group-hover:rounded-[30px] group-hover:p-6 group-focus-visible:left-1/2 group-focus-visible:top-[40%] group-focus-visible:h-[132px] group-focus-visible:w-[132px] group-focus-visible:-translate-x-1/2 group-focus-visible:-translate-y-1/2 ${item.dark ? "bg-[#05060a]" : "bg-white"}`}
         >
-          {product.name}
+          {item.logoSrc ? <Image src={item.logoSrc} alt="" width={96} height={96} className="max-h-full max-w-full object-contain" /> : <Layers className="h-5 w-5 text-[#0061ff] transition-all duration-[800ms] group-hover:h-14 group-hover:w-14" />}
         </span>
-
-        <span className="max-w-sm text-[15px] leading-snug text-black/55 dark:text-white/55 sm:text-base">
-          {product.detail}
-        </span>
-
-        <ArrowUpRight
-          className="hidden h-6 w-6 -translate-x-2 translate-y-2 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:translate-y-0 group-hover:opacity-100 lg:block"
-          style={{ color: product.accent }}
-        />
-      </span>
-
-      {/* the row's own colour, drawn along its underline on hover */}
-      <span
-        aria-hidden
-        className="absolute inset-x-0 bottom-0 h-px origin-left scale-x-0 transition-transform duration-700 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100"
-        style={{ background: product.accent }}
-      />
+      ) : (
+        <div className="relative z-10">{item.icon}</div>
+      )}
+      <div className="h-11" aria-hidden />
+      <div className="relative z-10">
+        <h3 className="text-[2rem] font-normal leading-none tracking-[-0.015em] text-white" style={{ fontFamily: "var(--font-serif-display), 'Times New Roman', serif" }}>
+          {item.name}
+        </h3>
+        <p className="mt-3 max-w-[34ch] text-[15px] leading-snug text-white/60 transition-colors duration-500 group-hover:text-white">{item.detail}</p>
+      </div>
     </>
   );
 
   return (
-    <motion.li
-      onMouseMove={follow}
-      className="border-b border-black/[0.1] dark:border-white/[0.12]"
-      {...(reduce
-        ? {}
-        : {
-            initial: { opacity: 0, y: 22 },
-            whileInView: { opacity: 1, y: 0 },
-            viewport: { once: true, margin: "-40px" },
-            transition: { duration: 0.65, delay: 0.04 * (index % 3), ease: [0.16, 1, 0.3, 1] as const },
-          })}
-    >
-      {isExternal(product.href) ? (
-        <a href={product.href} target="_blank" rel="noopener noreferrer" className={className}>
+    <motion.div style={{ y }} className="h-full">
+      {external ? (
+        <a href={item.href} target="_blank" rel="noopener noreferrer" className={cls}>
           {body}
         </a>
       ) : (
-        <Link href={product.href} className={className}>
+        <Link href={item.href} className={cls}>
           {body}
         </Link>
       )}
-    </motion.li>
+    </motion.div>
   );
 }
 
-// The products as a full-width index: big names on hairlines, with each row lighting up in its
-// product's own colour when you point at it.
 export default function Products() {
   const reduce = useReducedMotion();
+  const grid = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: grid, offset: ["start end", "start 35%"] });
+  const still = useTransform(scrollYProgress, () => 1);
+  const progress = reduce ? still : scrollYProgress;
 
   return (
-    <section className="relative">
-      {/* light mode: pick the hero's aurora back up; dark mode: a soft blue glow */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -top-[200px] right-[-8%] h-[560px] w-[720px] rounded-[50%] bg-[#ff2d95]/20 blur-[130px] dark:hidden" />
-        <div className="absolute -top-[260px] left-[22%] h-[420px] w-[640px] rounded-[50%] bg-[#4d9bff]/25 blur-[120px] dark:hidden" />
-        <div className="absolute left-[10%] top-[6%] hidden h-[460px] w-[760px] rounded-[50%] bg-[#0061ff]/15 blur-[140px] dark:block" />
-      </div>
-
-      <div className="relative mx-auto max-w-[1400px] px-6 pb-20 pt-20 sm:px-10 lg:px-14 lg:pb-28 lg:pt-28 xl:px-20">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <motion.h2
-            {...(reduce
-              ? {}
-              : {
-                  initial: { opacity: 0, y: 24 },
-                  whileInView: { opacity: 1, y: 0 },
-                  viewport: { once: true, margin: "-60px" },
-                  transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] as const },
-                })}
-            className="max-w-3xl text-[clamp(2rem,3.6vw,3.6rem)] leading-[1.1] tracking-[-0.035em] text-[#05060a] dark:text-white"
-            style={{ fontFamily: "var(--font-display)" }}
-          >
-            <span className="font-semibold">Everything we build,</span>{" "}
-            <span className="font-light">on your own terms.</span>
-          </motion.h2>
-
-          <Link
-            href="/products"
-            className="group inline-flex items-center gap-2 text-[17px] font-medium text-[#05060a] transition-colors hover:text-[#0061ff] dark:text-white dark:hover:text-[#4d9bff]"
-          >
-            View all products
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </Link>
+    <section id="products" aria-labelledby="products-title" className="bg-black px-5 py-24 text-white sm:px-8 md:py-32">
+      <div className="mx-auto max-w-[1180px]">
+        <div className="mb-12 flex flex-col gap-4 md:mb-16 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[#4d9bff]">Products</p>
+            <h2 id="products-title" className="mt-4 max-w-[20ch] text-[clamp(2.4rem,5.4vw,4.4rem)] font-normal leading-[1] tracking-[-0.02em]" style={{ fontFamily: "var(--font-serif-display), 'Times New Roman', serif" }}>
+              Built to run <span className="italic text-[#4d9bff]">in your cloud</span>
+            </h2>
+          </div>
+          <p className="max-w-[40ch] text-[16px] leading-relaxed text-white/55">Every Rabbitt product is private by design. Pick one up, or put them together.</p>
         </div>
 
-        <ul className="mt-12 border-t border-black/[0.1] dark:border-white/[0.12] lg:mt-16">
-          {products.map((product, i) => (
-            <Row key={product.name} product={product} index={i} reduce={reduce} />
+        <div ref={grid} className="grid gap-4 pb-28 sm:grid-cols-2 lg:grid-cols-3 lg:pb-0">
+          {items.map((item, i) => (
+            <Card key={item.name} item={item} col={i % 3} progress={progress} />
           ))}
-        </ul>
+        </div>
       </div>
     </section>
   );
