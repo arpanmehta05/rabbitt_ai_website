@@ -35,12 +35,6 @@ export default function Backbone() {
       className="relative overflow-hidden bg-page"
       style={{ color: FG }}
     >
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{ background: "radial-gradient(ellipse 65% 34% at 50% 56%, rgba(0,97,255,0.2), transparent 70%)" }}
-      />
-
       <div className="relative">
         <div className="rb-container py-12 text-center md:py-16 lg:py-24">
           <h2

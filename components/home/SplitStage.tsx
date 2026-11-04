@@ -24,15 +24,10 @@ export default function SplitStage({ children }: { children: ReactNode }) {
 
   return (
     <div className="relative">
-      {/* a soft glow of the brand blue behind the globe */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute right-[-10%] top-[12%] hidden h-[520px] w-[620px] rounded-[50%] bg-brand/30 blur-[140px] lg:block" />
-      </div>
+      <div className="rb-container relative grid lg:grid-cols-[minmax(0,1.12fr)_minmax(0,0.88fr)] lg:items-center">
+        <div className="min-w-0 lg:pr-10">{children}</div>
 
-      <div className="relative mx-auto grid lg:grid-cols-[minmax(0,1.12fr)_minmax(0,0.88fr)] lg:items-center">
-        <div className="min-w-0 px-5 sm:px-8 lg:pl-12 lg:pr-10">{children}</div>
-
-        <div className="hidden justify-center pr-12 lg:flex">
+        <div className="hidden justify-center lg:flex">
           <div className="aspect-square w-full max-w-[min(420px,60svh)]">{wide && <Globe />}</div>
         </div>
       </div>

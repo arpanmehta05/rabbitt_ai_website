@@ -26,7 +26,7 @@ export default function Backdrop({ glow = "right" }: { glow?: "right" | "bottom"
         ) : (
           <div className="absolute -bottom-[30%] left-1/2 h-[520px] w-[1100px] -translate-x-1/2 rounded-[50%] bg-brand/30 blur-[160px]" />
         )}
-        <div className="absolute -left-[10%] bottom-[-20%] h-[420px] w-[640px] rounded-[50%] bg-[#0a2fa3]/30 blur-[140px]" />
+        <div className="absolute -left-[10%] bottom-[-20%] h-[420px] w-[640px] rounded-[50%] bg-[#0a2fa3]/20 blur-[140px]" />
       </div>
     </div>
   );

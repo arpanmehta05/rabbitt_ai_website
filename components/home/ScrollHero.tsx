@@ -51,7 +51,6 @@ export default function ScrollHero() {
   const networkOpacity = useTransform(p, [0, 0.28, 0.38, 1], [0, 0, 1, 1]);
 
   // soft glows of the brand blue that settle into the page background
-  const glowOpacity = useTransform(p, [0, 0.25, 0.4, 1], [0, 0, 1, 1]);
 
   return (
     <section ref={ref} className={`relative ${reduce ? "h-svh" : "h-[230svh]"}`}>
@@ -68,19 +67,6 @@ export default function ScrollHero() {
             WebkitMaskImage: "radial-gradient(ellipse 60% 55% at 50% 40%, #000, transparent)",
           }}
         />
-
-        {/* glows of the brand blue: one lifting the middle behind the text, one in each corner */}
-        {!reduce && (
-          <motion.div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 overflow-hidden"
-            style={{ opacity: glowOpacity }}
-          >
-            <div className="absolute left-1/2 top-1/2 h-[520px] w-[880px] max-w-[110vw] -translate-x-1/2 -translate-y-1/2 rounded-[50%] bg-brand/[0.14] blur-[130px]" />
-            <div className="absolute -left-[10%] -top-[15%] h-[560px] w-[720px] rounded-[50%] bg-brand/20 blur-[130px]" />
-            <div className="absolute -bottom-[20%] right-[-8%] h-[520px] w-[680px] rounded-[50%] bg-[#0a2fa3]/35 blur-[130px]" />
-          </motion.div>
-        )}
 
         {/* data-source network: it appears with the statement, not before it, and grows behind it
             as the words are revealed */}

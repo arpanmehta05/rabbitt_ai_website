@@ -8,7 +8,7 @@ import { Minus, Plus } from "lucide-react";
 // The footer, on the layout it had on main: the brand on the left with its line, one invitation and
 // the social links, then Products, Services, Resources and Company side by side on hairlines, and a
 // bar at the bottom with the copyright and the privacy policy. No arrows. Styled by design.md: Inter,
-// the page's `#060d26`, 12px uppercase labels, muted links that turn white, 8px corners. Below 1024px
+// the page's `#000000`, 12px uppercase labels, muted links that turn white, 8px corners. Below 1024px
 // the four columns become an accordion (design.md §8): one tap on a title opens it.
 
 type FooterLink = { label: string; href: string; category?: boolean };
@@ -82,7 +82,6 @@ export default function MainFooter() {
       data-nav-theme="dark"
       className="relative overflow-hidden border-t border-white/[0.08] bg-page text-white"
     >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_55%_65%_at_12%_38%,rgba(0,97,255,0.2),transparent_70%)]" />
       <div className="rb-container relative pb-8 pt-12 md:pt-16 lg:pt-24">
         <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1.1fr_1.35fr_0.9fr_0.9fr]">
           {/* the brand */}

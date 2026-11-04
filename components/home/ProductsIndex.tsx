@@ -78,11 +78,6 @@ function Row({ product }: { product: Product }) {
 export default function ProductsIndex() {
   return (
     <section aria-labelledby="products-title" className="relative">
-      {/* a soft glow of the brand blue, on the page's own dark background */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute left-[10%] top-[6%] h-[460px] w-[760px] rounded-[50%] bg-brand/15 blur-[140px]" />
-      </div>
-
       <div className="rb-container relative pb-12 pt-12 md:pb-16 lg:pb-24">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <h2

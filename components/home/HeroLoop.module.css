@@ -1,0 +1,132 @@
+.hero { position: relative; min-height: 100svh; overflow: hidden; color: #fff; }
+.backdrop { position: absolute; inset: 0; background: radial-gradient(ellipse at 78% 46%, #07152688, transparent 49%); }
+.backdrop::after { content: ''; position: absolute; inset: 0; background-image: radial-gradient(#a7c7ee26 .8px, transparent .8px); background-size: 36px 36px; mask-image: radial-gradient(ellipse at 70% 48%, black, transparent 75%); }
+.layout { position: relative; min-height: max(730px, 100svh); display: flex; align-items: center; padding-top: 90px; padding-bottom: 135px; }
+.copy { position: relative; z-index: 2; width: 45%; }
+.copy h1 { font-size: clamp(2.75rem, 5.25vw, 5rem); font-weight: 600; line-height: 1.06; letter-spacing: -.045em; margin: 0; }
+.copy h1 > span { display: table; background: linear-gradient(100deg, #fff 23%, #e2edff 43%, #85b5ff 70%, #317df3 100%); background-clip: text; -webkit-text-fill-color: transparent; }
+.copy > p { max-width: 480px; margin-top: 30px; font-size: clamp(16px, 1.3vw, 19px); line-height: 1.65; color: #aeb4bf; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+.actions a { display: inline-flex; height: 48px; align-items: center; justify-content: center; gap: 12px; padding: 0 25px; border-radius: 9px; font-size: 15px; font-weight: 500; transition: background .2s, border-color .2s; }
+.primary { background: #0061ff; border: 1px solid #0061ff; }
+.primary:hover { background: #2175ff; }
+.secondary { border: 1px solid #ffffff29; background: #0004; }
+.secondary:hover { border-color: #ffffff70; background: #ffffff08; }
+.secondary svg { color: #6da8ff; }
+.scene { position: absolute; width: 46%; right: 2%; top: 50%; transform: translateY(-53%); container-type: inline-size; }
+.diagram { position: relative; width: 100%; aspect-ratio: 860 / 660; font-size: 1.55cqw; line-height: 1.45; }
+.connections { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+
+/* The scene sits inside a dashed line that stands for the customer's own cloud. Every picture is
+   drawn in the 860 x 660 units of the svg: one unit is 100/860 cqw, so 10 units is 1.163cqw. The
+   blocks set that as their font size and size everything inside in em, which lets phones scale
+   the same blocks up with one number. */
+.base { stroke: #38516f; stroke-opacity: .5; stroke-width: 1; }
+.pulse { stroke: #9ccbff; stroke-width: 1.6; stroke-linecap: round; stroke-dasharray: 8 92; filter: drop-shadow(0 0 3px #5ba4ff); animation: flow 2.4s linear infinite; }
+.late { animation-delay: -1.2s; }
+.perimeter { stroke-dasharray: 5 7; animation: march 8s linear infinite; }
+.egress { stroke: #9ccbff; stroke-width: 1.6; stroke-linecap: round; stroke-dasharray: 8 92; filter: drop-shadow(0 0 3px #5ba4ff); animation: egress 3.2s cubic-bezier(.3, 0, .6, 1) infinite; }
+.stage { opacity: .4; animation: stageActive 12s linear var(--d, 0s) infinite; }
+
+.tag { position: absolute; display: flex; align-items: center; gap: .8em; padding: .4em 1em; background: #000; font-family: var(--font-mono); font-size: 1.163cqw; line-height: 1.4; letter-spacing: .1em; text-transform: uppercase; color: #8fb0d6; white-space: nowrap; }
+.tag svg { width: 1.2em; height: 1.2em; }
+.boundaryTag { left: 9.19%; top: 4.85%; transform: translateY(-50%); }
+.egressTag { left: 79.19%; top: 4.85%; transform: translate(-50%, -50%); padding: .5em 1.1em; border: 1px solid #7ebca955; border-radius: 999px; color: #8fd0b7; }
+
+.stageLabel { position: absolute; transform: translate(-50%, -50%); background: #04080d; border: 1px solid #ffffff14; border-radius: .6cqw; padding: .3cqw .9cqw; font-family: var(--font-mono); font-size: 1.25cqw; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: #7d8ea5; animation: labelActive 12s linear var(--d, 0s) infinite; }
+.ringCenter { position: absolute; left: 50.58%; top: 46.97%; width: 22%; height: 18%; transform: translate(-50%, -50%); text-align: center; }
+.stageCaption { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+.stageCaption p { margin: .9cqw auto 0; max-width: 16ch; font-size: 1.7cqw; font-weight: 400; line-height: 1.6; color: #ced8e6; }
+
+.block { position: absolute; font-family: var(--font-mono); font-size: 1.163cqw; line-height: 1.45; }
+.indexBlock { left: 12.21%; top: 10.91%; }
+.weightsBlock { left: 71.98%; top: 46.97%; }
+.logBlock { left: 12.21%; top: 60.91%; width: 27.44%; }
+.blockHead { display: flex; align-items: center; gap: .7em; letter-spacing: .08em; color: #7f93ad; white-space: nowrap; }
+.blockHead svg { width: 1.1em; height: 1.1em; color: #7fb3f3; }
+.tiles { display: grid; grid-template-columns: repeat(10, 1.6em); gap: .6em; margin-top: 1.4em; }
+.tiles i { width: 1.6em; height: 1.6em; box-sizing: border-box; border: 1px solid #ffffff14; border-radius: .3em; background: #0f1724; animation: tile 12s steps(1, end) var(--d, 0s) infinite; }
+.labelled { width: 21.4em; margin-top: 1.8em; }
+.labelled > div:first-child { display: flex; justify-content: space-between; color: #8f9bad; }
+.labelled b, .stats b { color: #dfe8f5; font-weight: 400; }
+.bar { height: .3em; margin-top: .7em; border-radius: .3em; background: #ffffff10; overflow: hidden; }
+.bar > span { display: block; width: 24%; height: 100%; background: #649fff; animation: bar 12s ease-out infinite; }
+.weights { display: grid; grid-template-columns: repeat(10, 1.3em); gap: .3em; margin-top: 1.2em; }
+.weights i { width: 1.3em; height: 1.3em; border-radius: .2em; background: rgb(77 155 255 / var(--o, .5)); animation: shimmer 2.6s ease-in-out var(--d, 0s) infinite; }
+.stats { display: flex; gap: 1.6em; margin-top: 1.2em; color: #8191a8; white-space: nowrap; }
+.stats .blue { color: #7bb1ff; }
+.note { display: flex; align-items: center; gap: .6em; margin-top: 1.2em; font-family: var(--font-sans); font-size: 1.25em; color: #97a6b9; white-space: nowrap; }
+.note svg { width: 1.15em; height: 1.15em; color: #7aa8e4; }
+.live { width: .6em; height: .6em; border-radius: 50%; background: #65cba5; box-shadow: 0 0 .8em #65cba580; }
+.logWindow { height: 10em; margin-top: 1.2em; overflow: hidden; mask-image: linear-gradient(transparent, #000 30%, #000 75%, transparent); }
+.logLines { line-height: 2em; color: #9fb2c9; white-space: nowrap; animation: logScroll 7.2s steps(6, end) infinite; }
+.dim { color: #6d819d; }
+.ok { color: #7ebca9; }
+.ms { color: #7bb1ff; }
+
+
+/* The orbit rests at Connect (0s), Train (4s), and Deploy (8s). Everything below shares its
+   twelve-second clock: a stage's picture brightens while the arrow rests there. */
+@keyframes stageActive {
+  0%, 28% { opacity: 1; }
+  36%, 92% { opacity: .4; }
+  100% { opacity: 1; }
+}
+@keyframes labelActive {
+  0%, 28% { color: #e6f0ff; border-color: #4d9bff66; }
+  36%, 92% { color: #7d8ea5; border-color: #ffffff14; }
+  100% { color: #e6f0ff; border-color: #4d9bff66; }
+}
+@keyframes flow { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
+@keyframes march { to { stroke-dashoffset: -120; } }
+@keyframes egress {
+  0% { stroke-dashoffset: 100; opacity: 0; }
+  10%, 70% { opacity: 1; }
+  88%, 100% { stroke-dashoffset: 14; opacity: 0; }
+}
+@keyframes tile {
+  0% { background: #0f1724; border-color: #ffffff14; }
+  3%, 88% { background: #2c6ad0; border-color: #6aa8ff; }
+  95%, 100% { background: #0f1724; border-color: #ffffff14; }
+}
+@keyframes bar {
+  0% { width: 12%; }
+  28%, 92% { width: 24%; }
+  100% { width: 12%; }
+}
+@keyframes shimmer { 0%, 100% { opacity: 1; } 50% { opacity: .3; } }
+@keyframes logScroll { to { transform: translateY(-12em); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse, .egress, .perimeter, .stage, .stageLabel, .tiles i, .bar > span, .weights i, .logLines { animation: none; }
+  .stage { opacity: 1; }
+  .egress { opacity: 0; }
+}
+@media (min-width: 1800px) { .scene { width: 47%; right: 1%; } }
+@media (max-width: 1100px) and (min-width: 1024px) { .actions a { padding-inline: 17px; font-size: 13px; } }
+@media (max-width: 1023px) {
+  .hero { min-height: auto; }
+  .layout { min-height: auto; display: block; padding-top: 150px; padding-bottom: 100px; }
+  .copy { width: 100%; max-width: 650px; }
+  .copy h1 { font-size: clamp(44px, 8vw, 72px); }
+  .copy > p { max-width: 520px; }
+  .scene { position: relative; top: auto; right: auto; width: 100%; max-width: 800px; margin: 60px auto 0; transform: none; }
+}
+/* On phones the orbit is too small to read, so the dashed cloud becomes a box and the three
+   stage pictures stack inside it, in loop order. */
+@media (max-width: 540px) {
+  .layout { padding-top: 130px; padding-bottom: 80px; }
+  .copy > p { margin-top: 22px; font-size: 16px; }
+  .actions { gap: 10px; margin-top: 25px; }
+  .actions a { padding-inline: 18px; font-size: 13px; }
+  .scene { margin-top: 52px; }
+  .diagram { display: flex; flex-direction: column; gap: 9cqw; aspect-ratio: auto; padding: 11cqw 6cqw 8cqw; border: 1px dashed #4d6f96aa; border-radius: 16px; }
+  .connections, .stageLabel, .ringCenter { display: none; }
+  .tag { top: 0; font-size: 2.4cqw; }
+  .boundaryTag { left: 4cqw; }
+  .egressTag { left: auto; right: 4cqw; transform: translateY(-50%); }
+  .block { position: relative; inset: auto; width: auto; font-size: 2.9cqw; }
+  .stage { animation: none; opacity: 1; }
+  .labelled { width: auto; }
+  .logWindow { height: 8em; }
+          }

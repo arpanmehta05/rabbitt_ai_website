@@ -2,9 +2,10 @@ import type { CSSProperties } from "react";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import HeroObject from "./HeroObject";
+import HeroRabbit from "./HeroRabbit";
 
-// The first screen, on the dark page: the headline, one line and two buttons on the left; the right
-// half is kept free for now. The section is taller than the screen on purpose. The client logos
+// The first screen, on the dark page: the headline, one line and two buttons on the left; on the right the
+// glass rabbit (or, for review on /design, the abstract object). The section is taller than the screen on purpose. The client logos
 // that follow are held at the bottom of the screen while this one scrolls away, and then land just
 // below it, still on the dark page.
 //
@@ -13,11 +14,11 @@ import HeroObject from "./HeroObject";
 
 const after = (ms: number) => ({ "--d": `${ms}ms` }) as CSSProperties;
 
-export default function HeroIntro() {
+export default function HeroIntro({ visual = "rabbit" }: { visual?: "rabbit" | "object" }) {
   return (
     <section className="relative min-h-[106svh]">
       <div className="relative h-svh overflow-hidden">
-        {/* a faint grid, and soft glows of the brand blue. Both fade out toward the bottom edge, so
+        {/* a faint grid on the black page. It fades out toward the bottom edge, so
             the screen runs into the plain page below it with no line where it ends. */}
         <div
           aria-hidden
@@ -37,10 +38,6 @@ export default function HeroIntro() {
               WebkitMaskImage: "radial-gradient(ellipse 70% 60% at 40% 40%, #000, transparent)",
             }}
           />
-          <div className="pointer-events-none absolute inset-0 overflow-hidden">
-            <div className="absolute -right-[12%] top-[10%] h-[620px] w-[780px] rounded-[50%] bg-brand/25 blur-[150px]" />
-            <div className="absolute -left-[10%] bottom-[-20%] h-[420px] w-[640px] rounded-[50%] bg-[#0a2fa3]/30 blur-[140px]" />
-          </div>
         </div>
 
         <div className="absolute inset-0 flex items-center pb-32 pt-36">
@@ -78,7 +75,7 @@ export default function HeroIntro() {
               </div>
             </div>
 
-            <HeroObject />
+            {visual === "object" ? <HeroObject /> : <HeroRabbit />}
           </div>
         </div>
       </div>

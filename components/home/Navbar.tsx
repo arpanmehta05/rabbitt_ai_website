@@ -372,7 +372,7 @@ export default function Navbar() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4, ease: EASE }}
             onClick={closeAll}
-            className="fixed inset-0 z-40 hidden bg-[#02050f]/45 backdrop-blur-[3px] lg:block"
+            className="fixed inset-0 z-40 hidden bg-black/55 backdrop-blur-[3px] lg:block"
           />
         )}
       </AnimatePresence>

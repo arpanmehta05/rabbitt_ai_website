@@ -2,7 +2,7 @@
 
 > Single source of truth for the home page (`/`). Read this before touching any UI.
 > Status legend: **DECIDED** (project owner said so, or applied and checked) · **PROPOSED** (my default, not yet confirmed) · **TBD** (needs input).
-> Audited against the code on 2026-11-03: everything below describes what the page does now.
+> Audited against the code and the running page on 2026-11-04: everything below describes what the page does now.
 
 ---
 
@@ -19,7 +19,7 @@ Rabbitt AI is a **service company** that builds **custom AI solutions** for clie
 ## 2. Brand and tone — DECIDED
 
 - **Main colour: blue** (taken from the logo, `#0061ff`).
-- **Supporting colours: white and dark.** The dark theme is a deep blue built from the brand blue: page background `#060d26`, with `#0a1640` and `#0e1d52` for raised surfaces and glows of `#0061ff`. The near-black `#020305` from `main` was tried and dropped as too harsh.
+- **Supporting colours: white and dark.** The dark theme is black, as on the original rabbitt.ai (the owner chose it over the deep blue tried earlier): page background `#000000`, with `#0a0b10` and `#14161f` for raised surfaces. The brand blue `#0061ff` is the only accent.
 - Tone: corporate, plain, confident. Short sentences. No hype words, no jokes.
 
 ## 3. Design principles — DECIDED
@@ -28,21 +28,21 @@ Rabbitt AI is a **service company** that builds **custom AI solutions** for clie
 2. **Corporate.** Calm and trustworthy over playful. One accent colour.
 3. **Little motion.** Smooth scroll plus a few subtle fades (§9).
 4. **Server-first.** Everything meaningful is in the HTML the server sends (§12).
-5. **Real, not generated.** Only real photos, real logos, and our own product screenshots (§14).
+5. **Real, not generated.** Only real photos, real logos, and our own product screenshots (§14). The one exception is the hero object picture, kept on the owner's decision.
 
 ## 4. Theme — DECIDED: one dark page
 
-The whole site is dark, on the one background `#060d26`. The only light thing is the intro screen that plays first. There is no theme toggle, no colour button and no saved preference; every section has a fixed theme and marks itself with `data-nav-theme`, which the navbar reads.
+The whole site is dark, on the one background `#000000`. The only light thing is the intro screen that plays first. There is no theme toggle, no colour button and no saved preference; every section has a fixed theme and marks itself with `data-nav-theme`, which the navbar reads.
 
 | Part | Look |
 |---|---|
 | Intro (plays first) | Light: pale blue-white screen, blue ring and mark |
-| First screen (`HeroIntro`, `HeroObject`) and the client logos | Dark, `#060d26`, with a faint grid and glows of the brand blue that fade out toward the bottom edge; on the right one abstract blue object (§10) |
-| Products | Dark, `#060d26`, one soft blue glow |
-| Statement scene (pinned) | Dark, `#060d26`: faint grid, brand-blue glows, a network of blue and white nodes and lines, white text with "Rabbitt" and "cloud" in the light blue |
-| Numbers and dome (`Backbone`) | Dark, `#060d26`, a soft blue glow behind the burst that fades out before the edges |
-| Closing block with the globe | Dark, `#060d26`, a blue glow behind the globe |
-| Footer | Dark, `#060d26`, a blue glow in the top left |
+| First screen (`HeroLoop`) and the client logos | Dark, `#000000`, with a dot grid on the right that fades toward its edges; no blurred glows; on the right the loop (§10) |
+| Products | Dark, `#000000`, nothing behind the list |
+| Statement scene (pinned) | Dark, `#000000`: faint grid, a network of blue and white nodes and lines, white text with "Rabbitt" and "cloud" in the light blue |
+| Numbers and dome (`Backbone`) | Dark, `#000000`, nothing behind the burst but the black page |
+| Closing block with the globe | Dark, `#000000`, nothing behind the globe |
+| Footer | Dark, `#000000`, no glow |
 
 The navbar is dark over all of these, with a light variant kept for any light section added later.
 
@@ -50,9 +50,9 @@ The navbar is dark over all of these, with a light variant kept for any light se
 
 | Token | Value | Tailwind class | Use |
 |---|---|---|---|
-| `--bg` | `#060d26` | `bg-page` | Page background, footer |
-| `--bg-raised` | `#0a1640` | `bg-raised` | Dropdown panel, folded navbar card, bar once scrolled |
-| `--surface` | `#0e1d52` | `bg-surface` | Inputs, any contained element |
+| `--bg` | `#000000` | `bg-page` | Page background, footer |
+| `--bg-raised` | `#0a0b10` | `bg-raised` | Dropdown panel, folded navbar card, bar once scrolled |
+| `--surface` | `#14161f` | `bg-surface` | Inputs, any contained element |
 | `--line` | `rgba(255,255,255,0.10)` | `border-white/10` | Hairlines and borders |
 | text | `#ffffff` | `text-white` | Headlines |
 | text muted | white at 70% | `text-white/70` | Body copy, links |
@@ -63,7 +63,7 @@ The navbar is dark over all of these, with a light variant kept for any light se
 
 The page and components use these class names, not raw hex values.
 
-Contrast (approximate): white on `#060d26` is very high; white on the brand button is about 5:1 (passes); `#0061ff` as text on `#060d26` is about 3.7:1 and **fails** for body text, so blue text always uses `--brand-text` (about 6.7:1).
+Contrast (approximate): white on `#000000` is very high; white on the brand button is about 5:1 (passes); `#0061ff` as text on `#000000` is about 3.7:1 and **fails** for body text, so blue text always uses `--brand-text` (about 6.7:1).
 
 Rules: one accent. No pink, violet or per-product colour. Product logos keep their own colours only inside the logo.
 
@@ -103,7 +103,7 @@ Honest caveat: this is a reasoned choice, not a law. Geist or Source Sans would 
 ## 7. Spacing, layout, radii — DECIDED (applied)
 
 - **Base unit 4px.** Scale 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 96 · 128.
-- **Content width: the whole screen**, with a side gutter of **20px** (phone), **32px** (tablet), **48px** (desktop) and **64px** (1280px and wider); reading text keeps its own narrow limit. One class does it: `.rb-container` in `globals.css`. The navbar, first screen, logos, products, numbers' heading, closing block (`SplitStage`), dropdown and footer all use it, so their left edges line up (measured at 1440px wide: every one at x = 112px).
+- **Content width: the whole screen**, with a side gutter of **20px** (phone), **32px** (tablet), **48px** (desktop) and **64px** (1280px and wider); reading text keeps its own narrow limit. One class does it: `.rb-container` in `globals.css`. The navbar, first screen, logos, products, numbers' heading, closing block (`SplitStage`), dropdown and footer all use it, so their left edges line up (measured: every one starts at x = 64px at 1440 and 1920 wide, 48px at 1024, 32px at 768 and 20px on a phone).
 - **Section rhythm: 96px** top and bottom on desktop, **64px** on a tablet, **48px** on a phone: `.rb-section`, or `py-12 md:py-16 lg:py-24`. Products is the one exception: its top padding is 48px at every size, because the logos above it carry the space between the two.
 - **Radii:** buttons 8px · cards, chips and the folded navbar card 12px · logos 8px. No pill buttons.
 - **Breakpoints:** 640 · 768 · 1024 · 1280.
@@ -142,7 +142,7 @@ Every interactive element shows one keyboard focus ring: 2px `--brand-text`, 2px
 | Part | Source | What was changed |
 |---|---|---|
 | Intro (`Intro.tsx`) | New | CSS-only: the mark appears, a blue ring draws, name and promise fade in, a line fills, the screen lifts away (~3.3s). Once a day, skippable (button or Escape), off for reduced motion. |
-| First screen (`HeroIntro.tsx`, `HeroObject.tsx`) | New (headline from `new-rewamp`) | Left: the copy and two buttons. Right: one abstract blue object (§10). Both Server Components. |
+| First screen (`HeroLoop.tsx`) | New (headline from `new-rewamp`; the loop after the Prime Intellect home page) | Left: the copy and two buttons. Right: the loop with its four cards (§10). A Server Component. |
 | Client logos (`CompaniesStrip.tsx`) | New, modelled on adyen.com | See §10. |
 | Products (`ProductsIndex.tsx`) | `new-rewamp` | Recoloured onto the dark page, one brand blue, one-weight heading, pointer glow removed, a Server Component. |
 | Statement scene (`ScrollHero.tsx`, `Network.tsx`) | `new-rewamp` | Planet and icon chips removed, blue and white only, no parallax, headline moved to its own first screen. |
@@ -151,7 +151,7 @@ Every interactive element shows one keyboard focus ring: 2px `--brand-text`, 2px
 | Navbar (`Navbar.tsx`, `navData.ts`) | `new-rewamp` | Rebuilt: compact card, new dropdown, no theme toggle. |
 | Footer (`MainFooter.tsx`) | `main` | Arrows removed, styled by this file, accordion on phones. |
 
-Files in `components/home` that are not on the page: `Hero.tsx`, `Logos.tsx`, `Products.tsx`, `Statement.tsx`, `HeroGradient.tsx`, `Footer.tsx`, `ThemeToggle.tsx` and `Companies.tsx`.
+Files in `components/home` that are not on the page: `HeroMark.tsx`, `Hero.tsx`, `Logos.tsx`, `Products.tsx`, `Statement.tsx`, `HeroGradient.tsx`, `Footer.tsx`, `ThemeToggle.tsx` and `Companies.tsx`, plus `hero-options/` (used only by the `/design` review route).
 
 ## 9. Motion — DECIDED: smooth scroll, otherwise minimal
 
@@ -159,7 +159,7 @@ Files in `components/home` that are not on the page: `Hero.tsx`, `Logos.tsx`, `P
 - **Rising into place:** `.rb-rise` on load and `.rb-reveal` as an element scrolls into view, both pure CSS (12px up and fade, 500ms ease-out, where the browser supports scroll timelines). They never hide content before they run, and they do not run for reduced motion.
 - **Hover:** colour, border and underline transitions of 150–500ms.
 - **No parallax.** The network no longer shifts with the scroll.
-- **Owner-chosen exceptions** (decorative, kept on purpose, all static for reduced motion): the logo strip changes five logos every 3.8s; the statement scene's network drifts and sends pulses of light along its lines; the numbers section's burst; the globe turns slowly (nothing else on it moves); in the hero picture, three small lights circle on their own rings (46s, 78s, 120s a turn) and one arc of light slides around the inner ring (9s).
+- **Owner-chosen exceptions** (decorative, kept on purpose, all static for reduced motion): the logo strip changes five logos every 3.8s; the statement scene's network drifts and sends pulses of light along its lines; the numbers section's burst; the globe turns slowly (nothing else on it moves); the hero object drifts slowly up and down (9s), with its three labels moving with it.
 - **Never:** pointer-following effects, auto-playing video with sound, animation that blocks reading, content hidden until JavaScript runs.
 
 ## 10. Page structure — DECIDED (current order)
@@ -170,21 +170,21 @@ Files in `components/home` that are not on the page: `Hero.tsx`, `Logos.tsx`, `P
 - **Statement scene:** pinned for 230svh. Nothing but the faint grid is on screen before the text; the statement fades in first, the network fades in just after it and then grows node by node while the words are revealed word by word.
 - **Closing block:** a hairline of light, then the split stage: copy on the left, a smaller globe (up to 420px) on the right, both centred on the same line (desktop only).
 - **Globe:** the dotted globe as it was on `new-rewamp`: dark blue ocean, continents in fine light dots, a faint graticule and a thin rim of light, turning slowly. The data-centre lines, hub points and pulses were tried and removed at the owner's request.
-- **First screen:** the headline, one line and two buttons on the left. On the right, `HeroObject`: one abstract 3D object in the brand blue (a tilted disc, a pane of glass, a flat disc slicing through it, stepped bars and a six-sided plate), in the manner of the object on Together AI's home page. The picture is `/public/hero-object.png`, a transparent PNG (1195×788) that the owner generated with an image tool from a reference and recoloured to our blues; it is the one generated picture on the site, used on the owner's decision. Three thin labels (Your data, Your model, Your cloud) are live text over it, the picture drifts slowly up and down (9s) behind a soft blue glow, and the motion stops for reduced motion. A Server Component, loaded with `next/image` (priority), shown from 1024px up and sized by the screen's height and the column (checked at 1440×900 and 1280×720). Earlier tries were replaced: a labelled architecture diagram, an abstract orb, the Rabbitt mark (`HeroMark`, kept in the repo) and a code-drawn version of the object. Other options built for review live on the `/design` route (A type-led, B product window, C story scene, D the object); that route is noindex and is deleted once a hero is chosen.
+- **First screen** (`HeroLoop.tsx`): words on the left, vertically centred above the logos: the headline "Own your data. Own your AI." (one h1, Inter 600), one line of copy, a **blue** primary button (`bg-brand`) and a secondary outline button. On the right, from 1024px up, the loop, which fills the whole right side down to the logo strip, drawn on a 700 × 840 grid and sized with container units so it scales as one piece. A ring with a dial of ticks and a slow dotted outer ring; three stage nodes, and their names (Connect, Train, Deploy) set as real text never below 12px, centred on the dotted outer ring at the top, lower right and lower left, each on a solid black plate that breaks the ring and the dial behind it, the word lighting when the arrow is at its stage; one arrow with a glowing arc trailing behind it that travels the ring and rests at each stage (one 12s cycle); in the middle three short bars showing which stage it is, the stage name in the light blue, and the caption under it changing word by word. **No numerals anywhere in the picture** (the big step numbers and the 01 / 02 / 03 tags were tried and dropped). Four cards joined to the ring by hairlines, each running from the middle of a card edge to a point on the ring at an angle chosen to stay clear of the three names (the cards sit at the corners of the right side, so no line crosses a card or a word), each a live little interface that plays out once per cycle in its own stage. A card has a plain header (its name only), a body, and a footer under a hairline that holds a small rounded badge (a thin-line icon in the light blue on a tinted square) and one line of text; there are **no decorative dots and no bare icons on the cards**. Document search: a search that types itself and finds files where they are (HardDrive badge). Data annotation: boxes that draw themselves over a page with their tags above them, and a Labelled 1,204 / 5,000 line with a progress bar (Users badge). Training run: a loss curve being drawn, with Epoch and Loss on one line (KeyRound badge). Support agent: a chat being answered (Cloud badge). Short streaks of light ride the hairlines into the ring in Connect and Train and out of it to the support agent in Deploy. The sample texts in the cards (file names, scores, the chat) are placeholders written for the picture. All CSS, no script (`.rb-*` in `globals.css`); reduced motion shows one still frame. Below 1024px only the words show. Earlier first screens (abstract object, glass rabbit) and the other options live on the `/design` route (A to I, the loop is H); that route is noindex and is deleted once the owner has decided.
 
 Not decided yet: whether a services section, a process section or real client stats are added (§18).
 
 ## 11. Responsive — DECIDED
 
-Works on every device from 320px phones to wide desktops. Checked at 320, 375 and 1440 wide: no horizontal scroll, the hero headline is 40px on the smallest phone, and tap targets are at least 44px.
+Works on every device from 320px phones to wide desktops. Checked at 375 (the pane's smallest width is about 386), 768, 1024, 1440 and 1920 wide: no horizontal scroll, the hero headline is 40px on a phone, and no touch target under 44px was found on a phone.
 - Mobile first. Single column below 768px.
 - Large decorative elements (the globe) are not used below 1024px.
-- Test widths: 320 · 375 · 768 · 1024 · 1440 · 1920 (768, 1024 and 1920 not yet checked).
+- Test widths: 320 · 375 · 768 · 1024 · 1440 · 1920 (all but 320 checked; 320 still needs a real device).
 
 ## 12. Rendering — DECIDED: server-side rendering, pre-rendered
 
 - **Pre-rendered**, not per request: `next build` marks `/` as static (`○`). No `force-dynamic`, no `cookies()` or `headers()` on the home page. The built HTML contains the headline, the logos' names, the product names, the statement, the numbers section, the closing block, the footer links and the skip link, and the share-image tags.
-- **Server Components:** `app/page.tsx`, `HeroIntro`, `HeroObject`, `ProductsIndex`, `CtaSection`.
+- **Server Components:** `app/page.tsx`, `HeroLoop`, `ProductsIndex`, `CtaSection`.
 - **Small client islands**, each for a real reason: `Navbar` (compact bar, dropdown, menu), `MainFooter` (the phone accordion and the Products page's category memory), `CompaniesStrip` (the changing logos), `Backbone` (hover state), `ScrollHero` and `Network` (scroll-linked scene), `SplitStage` and `Globe` (WebGL, desktop only), `Intro` (remembers it was seen), `SmoothScroll`. They are still rendered to HTML on the server.
 - **Not allowed:** `dynamic(..., { ssr: false })` (none left), content that appears only after `useEffect`, data fetched in the browser for first paint.
 - Data (products, nav) lives in plain TypeScript files (`productsData.ts`, `navData.ts`).
@@ -201,9 +201,10 @@ Works on every device from 320px phones to wide desktops. Checked at 320, 375 an
 ## 14. Assets — DECIDED
 
 - Logo `public/logo.svg`, product logos, client logos (`public/brands`, with white versions in `public/brands/dark`).
-- **No AI-generated visuals.** Allowed: real photos, product screenshots, real client logos, Lucide icons, simple shapes drawn in code.
+- **No blurred glow patches** on the black page (large blurred blue blobs look like stains). The hero object sits on plain black with no glow or shadow around it.
+- **No AI-generated visuals**, except `public/hero-object.png` (the hero object, generated by the owner and recoloured to our blues). Allowed: real photos, product screenshots, real client logos, Lucide icons, simple shapes drawn in code.
 - **Share image:** `app/opengraph-image.tsx`, 1200×630, drawn in code from the brand's colours and words (pre-rendered at build). It replaces the logo SVG that was used before.
-- `app/manifest.ts` uses `#060d26` for the theme and background colour.
+- `app/manifest.ts` uses `#000000` for the theme and background colour.
 - Still missing: logos for products that have none (they show a letter).
 
 ## 15. Performance budget — PROPOSED (not yet met)
@@ -219,12 +220,13 @@ The weight is React and Next, `framer-motion` (used by the navbar, the numbers s
 ## 16. Don'ts — DECIDED
 
 - **No double headings:** no bold-clause + light-clause split headlines and no serif-plus-sans mixed headlines. One heading per section: one font, one weight, one colour.
-- **No AI-generated content or visuals.**
-- No pure `#000`, no second accent colour (no pink), no gradient text.
+- **No AI-generated content or visuals** (the hero object picture is the one exception, §14).
+- No second accent colour (no pink), no gradient text on the page. Pure black `#000000` is the page colour by the owner's choice.
 - No pointer-following effects.
 - No second font family.
 - No content hidden until JavaScript runs; no client-only rendered content.
 - No arrows in the footer; no close button on the dropdown; no colour button anywhere.
+- **No text on top of anything.** A word never sits on a line, a ring, a tick, a hairline or another element. Give it clear space, or its own solid plate that breaks what is behind it. Check it at the smallest laptop size (1280 × 720), where the 12px floor makes text biggest compared with a picture that scales down, and at every stage of an animation.
 
 ## 17. Launch checklist
 
@@ -235,6 +237,7 @@ The weight is React and Next, `framer-motion` (used by the navbar, the numbers s
 - [x] First screen, products and closing block are Server Components; `/` pre-renders as static
 - [x] Share image and manifest colours
 - [x] Skip link, global focus ring, 44px tap targets
+- [ ] Delete the `/design` route (`app/design`), `components/home/hero-options` and `HeroMark.tsx` once a hero is chosen
 - [ ] Replace `framer-motion` in the simple places to get under the 150KB budget
 - [ ] Dead links: Whitepapers, Careers, Newsroom (build or remove)
 - [ ] Confirm the numbers and the copy are real and signed off
