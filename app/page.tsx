@@ -6,6 +6,7 @@ import ProductsIndex from "@/components/home/ProductsIndex";
 import ScrollHero from "@/components/home/ScrollHero";
 import Backbone from "@/components/home/Backbone";
 import SplitStage from "@/components/home/SplitStage";
+import CaseStudies from "@/components/home/CaseStudies";
 import CtaSection from "@/components/home/CtaSection";
 import Footer from "@/components/home/MainFooter";
 
@@ -41,6 +42,9 @@ export default function Home() {
           <ScrollHero />
         </div>
         <Backbone />
+        <div data-nav-theme="dark" className="dark bg-page">
+          <CaseStudies />
+        </div>
         <div data-nav-theme="dark" className="dark bg-page">
           {/* a hairline of light, then some room, between the numbers and the closing block */}
           <div className="rb-container" aria-hidden>

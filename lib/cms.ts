@@ -56,6 +56,23 @@ export const fetchCaseStudies = cache(async (): Promise<CaseStudy[]> => {
   );
 });
 
+// The landing page's copy of the list. The page is pre-rendered (design.md §12), so this one is
+// cached and refreshed hourly instead of `no-store`, which would make `/` render on every request.
+// If the CMS cannot be reached it returns nothing and the page simply leaves the section out.
+export const fetchCaseStudiesCached = cache(async (): Promise<CaseStudy[]> => {
+  try {
+    const res = await fetch(`${CMS_BASE}/api/casestudy/rabbitt`, { next: { revalidate: 3600 } });
+    if (!res.ok) return [];
+    const data = await res.json();
+    if (data.status !== "ok") return [];
+    return (data.casestudies as CaseStudy[]).sort(
+      (a, b) => new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime()
+    );
+  } catch {
+    return [];
+  }
+});
+
 export const fetchCaseStudy = cache(async (slug: string): Promise<CaseStudy> => {
   const res = await fetch(`${CMS_BASE}/api/casestudy/rabbitt/${slug}`, { cache: "no-store" });
   if (!res.ok) throw new Error(`CMS case study fetch failed for slug "${slug}": ${res.status}`);
