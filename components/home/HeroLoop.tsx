@@ -56,11 +56,7 @@ export default function HeroLoop() {
         <div className={styles.scene} role="img" aria-label="Everything happens inside your own cloud: your documents are indexed, a private model is trained and its weights stay sealed, agents answer your customers, and no data leaves.">
           <div className={styles.diagram} aria-hidden="true">
             <svg viewBox="0 0 860 660" fill="none" className={styles.connections}>
-              <defs>
-                <radialGradient id="hero-loop-glow"><stop stopColor="#12366b" stopOpacity=".38" /><stop offset="1" stopColor="#07101d" stopOpacity="0" /></radialGradient>
-              </defs>
-              <ellipse cx={CX} cy={CY} rx="270" ry="250" fill="url(#hero-loop-glow)" />
-              <rect x="55" y="32" width="752" height="548" rx="22" stroke="#4d6f96" strokeOpacity=".6" strokeWidth="1.2" className={styles.perimeter} />
+              <rect x="55" y="32" width="752" height="548" rx="22" fill="#000" stroke="#4d6f96" strokeOpacity=".6" strokeWidth="1.2" className={styles.perimeter} />
 
               {connectors.map(({ d }) => <path key={d} d={d} className={styles.base} />)}
               <path d={EGRESS} className={styles.base} strokeDasharray="3 4" />

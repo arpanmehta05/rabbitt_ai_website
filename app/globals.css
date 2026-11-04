@@ -732,7 +732,8 @@ html.skip-intro .intro-scene {
 .rb-intro--out {
   animation: rb-lift 550ms cubic-bezier(0.76, 0, 0.18, 1) 0s forwards;
 }
-html.skip-intro .rb-intro {
+html.skip-intro .rb-intro,
+html.skip-intro .rb-intro-main {
   display: none;
 }
 @keyframes rb-lift {
@@ -751,7 +752,12 @@ html.skip-intro .rb-intro {
   -webkit-mask-image: radial-gradient(ellipse 55% 50% at 50% 50%, #000, transparent);
   mask-image: radial-gradient(ellipse 55% 50% at 50% 50%, #000, transparent);
   opacity: 0;
-  animation: rb-fade 900ms ease-out 0s forwards;
+  animation:
+    rb-fade 900ms ease-out 0s forwards,
+    rb-drift 4s linear infinite;
+}
+@keyframes rb-drift {
+  to { background-position: 80px 80px; }
 }
 .rb-intro__glow {
   position: absolute;
@@ -765,6 +771,11 @@ html.skip-intro .rb-intro {
   background: radial-gradient(closest-side, rgba(0, 97, 255, 0.13), transparent);
   opacity: 0;
   animation: rb-fade 1200ms ease-out 0.1s forwards;
+}
+.rb-intro__glow {
+  animation:
+    rb-fade 1200ms ease-out 0.1s forwards,
+    rb-breathe 2400ms ease-in-out 1.3s infinite;
 }
 .rb-intro__stage {
   position: relative;
@@ -804,7 +815,30 @@ html.skip-intro .rb-intro {
   height: 84px;
   opacity: 0;
   transform: scale(0.86);
+  filter: drop-shadow(0 8px 22px rgba(0, 97, 255, 0.28));
   animation: rb-pop 800ms cubic-bezier(0.2, 0.8, 0.2, 1) 0.2s forwards;
+}
+.rb-intro__dots {
+  fill: none;
+  stroke: rgba(0, 97, 255, 0.4);
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  stroke-dasharray: 0.1 7.8;
+  transform-origin: 100px 100px;
+  opacity: 0;
+  animation:
+    rb-fade 700ms ease-out 0.5s forwards,
+    rb-turn 6s linear 0.5s infinite reverse;
+}
+.rb-intro__orbit {
+  transform-origin: 100px 100px;
+  animation: rb-orbit 1500ms cubic-bezier(0.65, 0, 0.25, 1) 0.25s forwards;
+}
+.rb-intro__orbit-halo {
+  fill: rgba(0, 97, 255, 0.18);
+}
+.rb-intro__orbit-dot {
+  fill: #0061ff;
 }
 .rb-intro__name,
 .rb-intro__line {
@@ -820,6 +854,13 @@ html.skip-intro .rb-intro {
   line-height: 1;
   color: #0061ff;
   animation-delay: 0.95s;
+}
+.rb-intro__name span {
+  display: inline-block;
+  background: linear-gradient(100deg, #05060a 10%, #0b3d91 45%, #0061ff 70%, #4d9bff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 .rb-intro__line {
   margin-top: 12px;
@@ -840,7 +881,7 @@ html.skip-intro .rb-intro {
   display: block;
   height: 100%;
   width: 100%;
-  background: #0061ff;
+  background: linear-gradient(90deg, #0061ff, #4d9bff 60%, #0061ff);
   transform: scaleX(0);
   transform-origin: left;
   animation: rb-fill 2000ms cubic-bezier(0.45, 0, 0.2, 1) 0.3s forwards;
@@ -879,6 +920,13 @@ html.skip-intro .rb-intro {
 @keyframes rb-pop { to { opacity: 1; transform: scale(1); } }
 @keyframes rb-rise { to { opacity: 1; transform: translateY(0); } }
 @keyframes rb-fill { to { transform: scaleX(1); } }
+@keyframes rb-orbit {
+  0% { opacity: 1; transform: rotate(0); }
+  92% { opacity: 1; }
+  to { opacity: 0; transform: rotate(360deg); }
+}
+@keyframes rb-turn { to { transform: rotate(360deg); } }
+@keyframes rb-breathe { 50% { transform: translate(-50%, -50%) scale(1.12); } }
 @media (prefers-reduced-motion: reduce) {
   .rb-intro {
     display: none;
@@ -1069,4 +1117,37 @@ html.skip-intro .rb-intro {
 /* the glow around the hero picture's core */
 .rb-orb {
   filter: drop-shadow(0 0 38px rgba(0, 97, 255, 0.75));
+}
+
+/* FAQ (components/home/Faq.tsx): the answer opens by growing its height and fading in, and settles
+   up by 6px. Where the browser cannot animate to `auto` height it simply opens. No script. */
+:root {
+  interpolate-size: allow-keywords;
+}
+.rb-faq::details-content {
+  opacity: 0;
+  block-size: 0;
+  transition:
+    block-size 0.5s cubic-bezier(0.3, 0.7, 0.2, 1),
+    opacity 0.35s ease-out,
+    content-visibility 0.5s allow-discrete;
+  overflow: clip;
+}
+.rb-faq[open]::details-content {
+  opacity: 1;
+  block-size: auto;
+  transition-delay: 0s, 80ms, 0s;
+}
+.rb-faq__answer {
+  transition: transform 0.5s cubic-bezier(0.3, 0.7, 0.2, 1);
+  transform: translateY(-6px);
+}
+.rb-faq[open] .rb-faq__answer {
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .rb-faq__answer,
+  .rb-faq::details-content {
+    transition: none;
+  }
 }

@@ -87,15 +87,12 @@ export default async function CaseStudies() {
     <section aria-labelledby="case-studies-title" className="rb-section">
       <div className="rb-container">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <div className="rb-reveal">
-            <p className="text-xs font-medium uppercase tracking-[0.08em] text-white/55">Case studies</p>
-            <h2
-              id="case-studies-title"
-              className="mt-4 max-w-3xl text-[clamp(1.875rem,3.4vw,3rem)] font-semibold leading-[1.1] tracking-[-0.025em] text-white"
-            >
-              Results from work already in production.
-            </h2>
-          </div>
+          <h2
+            id="case-studies-title"
+            className="rb-reveal max-w-3xl text-[clamp(1.875rem,3.4vw,3rem)] font-semibold leading-[1.1] tracking-[-0.025em] text-white"
+          >
+            Results from work already in production.
+          </h2>
 
           <Link
             href="/casestudies"

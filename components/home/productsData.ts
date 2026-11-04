@@ -38,13 +38,6 @@ export const products: Product[] = [
     accent: "#2f7bff",
   },
   {
-    name: "OnSkill",
-    detail: "Workforce competency and skill management.",
-    href: "https://onskill.org/",
-    logo: "/onskill.svg",
-    accent: "#2f7bff",
-  },
-  {
     name: "Cloud Watcher",
     detail: "Cloud cost, health, and operations intelligence.",
     href: "https://cloudwatcher.rabbitt.ai/",
@@ -52,11 +45,10 @@ export const products: Product[] = [
     accent: "#38bdf8",
   },
   {
-    name: "Ping U",
-    detail: "Intelligent notifications and incident coordination when the signal matters.",
-    href: "https://www.pingme.rabbitt.ai/",
-    logo: "/pingu.svg",
-    logoLight: "/pingu-light.svg",
-    accent: "#ff4aa8",
+    name: "ChanceRAG",
+    detail: "Retrieval you can trust, grounded in your own documents.",
+    href: "/chancerag",
+    logo: "/chance.svg",
+    accent: "#0061ff",
   },
 ];

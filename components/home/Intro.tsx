@@ -1,81 +1,839 @@
 "use client";
 
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import {
+  AnimatePresence,
+  animate,
+  motion,
+  useMotionValue,
+  useReducedMotion,
+  useTransform,
+  type MotionValue,
+} from "framer-motion";
 
-// The opening, on a light screen: the mark appears, a blue ring draws around it, the name and the
-// promise fade in, a short line fills, and the whole screen lifts away to show the page.
-//
-// It is CSS-only (see .rb-intro in globals.css), so it plays without JavaScript, never blocks the
-// page content, and is already in the server HTML. JavaScript only does two small things: remember
-// that it was seen, so it is not shown again for a day, and let the visitor skip it.
+// The opening, the one from the main branch: the hat appears on a light screen, a laser orbit
+// circles it, a shockwave goes out, the product cards fan out around it and are drawn back in,
+// and the screen turns dark as the mark lifts toward the navbar logo and the page appears.
+// It plays once a day (see markIntroSeen), and the visitor can skip it.
 
-const SEEN_KEY = "rabbitt_intro_timestamp";
-const TOTAL_MS = 3300;
+
+interface ProductNode {
+  id: string;
+  name: string;
+  src: string;
+  pos: { desktop: { x: number; y: number }; tablet: { x: number; y: number } };
+  curveControl: { cx1: number; cy1: number; cx2: number; cy2: number };
+}
+
+const productNodes: ProductNode[] = [
+  {
+    id: "cloudwatcher",
+    name: "CloudWatcher",
+    src: "/cloudwatcher.svg",
+    pos: { desktop: { x: -35, y: -28 }, tablet: { x: -38, y: -30 } },
+    curveControl: { cx1: -10, cy1: -21, cx2: -24, cy2: -28 },
+  },
+  {
+    id: "aiquest",
+    name: "AI Quest",
+    src: "/aiquest.svg",
+    pos: { desktop: { x: -43, y: -4 }, tablet: { x: -44, y: -6 } },
+    curveControl: { cx1: -18, cy1: -7, cx2: -32, cy2: -4 },
+  },
+  {
+    id: "icypluto",
+    name: "IcyPluto",
+    src: "/Icypluto.svg",
+    pos: { desktop: { x: -36, y: 22 }, tablet: { x: -38, y: 20 } },
+    curveControl: { cx1: -14, cy1: 7, cx2: -26, cy2: 22 },
+  },
+  {
+    id: "quill",
+    name: "IcyQuill",
+    src: "/quill.svg",
+    pos: { desktop: { x: -20, y: 38 }, tablet: { x: -24, y: 36 } },
+    curveControl: { cx1: -8, cy1: 15, cx2: -14, cy2: 36 },
+  },
+  {
+    id: "onskill",
+    name: "OnSkill",
+    src: "/onskill.svg",
+    pos: { desktop: { x: 33, y: -30 }, tablet: { x: 36, y: -30 } },
+    curveControl: { cx1: 10, cy1: -23, cx2: 24, cy2: -30 },
+  },
+  {
+    id: "drip",
+    name: "DRIP",
+    src: "/drip.svg",
+    pos: { desktop: { x: 43, y: -6 }, tablet: { x: 44, y: -8 } },
+    curveControl: { cx1: 18, cy1: -9, cx2: 32, cy2: -6 },
+  },
+  {
+    id: "pingu",
+    name: "PingU",
+    src: "/pingu.svg",
+    pos: { desktop: { x: 36, y: 20 }, tablet: { x: 38, y: 18 } },
+    curveControl: { cx1: 14, cy1: 7, cx2: 26, cy2: 20 },
+  },
+  {
+    id: "chance",
+    name: "Chance Rag",
+    src: "/chance.svg",
+    pos: { desktop: { x: 22, y: 38 }, tablet: { x: 24, y: 36 } },
+    curveControl: { cx1: 8, cy1: 15, cx2: 16, cy2: 36 },
+  },
+];
+
+type Point = { x: number; y: number };
+type NodeTargets = Record<string, Point>;
+
+const INTRO_STORAGE_KEY = "rabbitt_intro_timestamp";
+
+function markIntroSeen(): void {
+  try {
+    localStorage.setItem(INTRO_STORAGE_KEY, Date.now().toString());
+    document.cookie = "rabbitt_intro_seen=true; max-age=86400; path=/; SameSite=Lax";
+    document.documentElement.classList.add("skip-intro");
+  } catch {
+    // storage blocked: the intro simply plays again next time
+  }
+}
+
+function nodePath(node: ProductNode) {
+  const target = node.pos.desktop;
+  const distance = Math.hypot(target.x, target.y);
+  const ringRadius = 22;
+  const start = {
+    x: (target.x / distance) * ringRadius,
+    y: (target.y / distance) * ringRadius,
+  };
+  const delta = { x: target.x - start.x, y: target.y - start.y };
+  return `M ${start.x} ${start.y} C ${start.x + delta.x * 0.34} ${start.y + delta.y * 0.34}, ${target.x - delta.x * 0.2} ${target.y - delta.y * 0.2}, ${target.x} ${target.y}`;
+}
+
 
 export default function Intro() {
-  const [leaving, setLeaving] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
+  const [gone, setGone] = useState(false);
+  const [introPhase, setIntroPhase] = useState<"initializing" | "shockwave" | "ecosystem">("initializing");
+  const hatOpeningRef = useRef<HTMLSpanElement>(null);
+  const logoRef = useRef<HTMLDivElement>(null);
+  const desktopNodeRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const mobileNodeRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const [targets, setTargets] = useState<{ nodes: NodeTargets }>({ nodes: {} });
+  const sequenceProgress = useMotionValue(0);
+  const ecosystemReveal = useMotionValue(0);
+  const logoTargetX = useMotionValue(0);
+  const logoTargetY = useMotionValue(0);
+
+  const networkLength = useTransform(sequenceProgress, [0, 0.32, 0.52], [1, 0.08, 0]);
+  const networkOpacity = useTransform(sequenceProgress, [0.18, 0.48], [0.75, 0]);
+  const fieldOpacity = useTransform(sequenceProgress, [0.18, 0.52], [1, 0]);
+  const easedLogo = (p: number) => {
+    const t = Math.max(0, Math.min(1, (p - 0.45) / (0.84 - 0.45)));
+    return t * t * (3 - 2 * t);
+  };
+  const logoX = useTransform([sequenceProgress, logoTargetX] as const, ([p, tx]) => easedLogo(p as number) * (tx as number));
+  const logoY = useTransform([sequenceProgress, logoTargetY] as const, ([p, ty]) => easedLogo(p as number) * (ty as number));
+  const logoScale = useTransform(sequenceProgress, [0.43, 0.84], [1, 0.208333]);
+  const logoOpacity = useTransform(sequenceProgress, [0.76, 0.9], [1, 0]);
+  const lightBgOpacity = useTransform(sequenceProgress, [0, 0.28, 0.68], [1, 0.85, 0]);
+  const darkBgOpacity = useTransform(sequenceProgress, [0.15, 0.48, 0.82], [0, 0.65, 1]);
+  const darkCoreScale = useTransform(sequenceProgress, [0.1, 0.78], [0.65, 1.25]);
+  const darkAtmosphereOpacity = useTransform(sequenceProgress, [0.35, 0.82], [0, 1]);
+  const orbitalCurvesOpacity = useTransform(sequenceProgress, [0.45, 0.85], [0, 0.65]);
+  const overlayOpacity = useTransform(sequenceProgress, [0.86, 1], [1, 0]);
+  const overlayScale = useTransform(sequenceProgress, [0.86, 1], [1, 1.035]);
+
+  const finish = () => {
+    markIntroSeen();
+    setGone(true);
+  };
 
   useEffect(() => {
-    const done = () => {
-      try {
-        localStorage.setItem(SEEN_KEY, Date.now().toString());
-        document.cookie = "rabbitt_intro_seen=true; max-age=86400; path=/; SameSite=Lax";
-      } catch {
-        // storage blocked: the intro simply plays again next time
-      }
+    if (!prefersReducedMotion) return;
+    const t = window.setTimeout(finish, 0);
+    return () => window.clearTimeout(t);
+  }, [prefersReducedMotion]);
+
+  useEffect(() => {
+    if (gone || prefersReducedMotion) return;
+    const a = window.setTimeout(() => setIntroPhase("shockwave"), 550);
+    const b = window.setTimeout(() => setIntroPhase("ecosystem"), 850);
+    return () => {
+      window.clearTimeout(a);
+      window.clearTimeout(b);
     };
-    const t = setTimeout(done, TOTAL_MS);
+  }, [gone, prefersReducedMotion]);
+
+  useEffect(() => {
+    if (gone || prefersReducedMotion || introPhase !== "ecosystem") return;
+    const reveal = animate(ecosystemReveal, 1, { duration: 1.1, ease: "linear" });
+    let controls: ReturnType<typeof animate> | undefined;
+    const start = window.setTimeout(() => {
+      controls = animate(sequenceProgress, 1, {
+        duration: 3.4,
+        ease: [0.45, 0, 0.2, 1],
+        onComplete: finish,
+      });
+    }, 700);
+    return () => {
+      reveal.stop();
+      window.clearTimeout(start);
+      controls?.stop();
+    };
+  }, [gone, introPhase, prefersReducedMotion, ecosystemReveal, sequenceProgress]);
+
+  // no scrolling while it plays; Escape skips it
+  useEffect(() => {
+    if (gone || prefersReducedMotion) return;
+    const prevBody = document.body.style.overflow;
+    const prevDoc = document.documentElement.style.overflow;
+    const stop = (e: Event) => e.preventDefault();
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        done();
-        setLeaving(true);
-      }
+      if (e.key === "Escape") finish();
+      else if ([" ", "ArrowDown", "ArrowUp", "PageDown", "PageUp", "Home", "End"].includes(e.key)) e.preventDefault();
     };
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+    window.addEventListener("wheel", stop, { passive: false });
+    window.addEventListener("touchmove", stop, { passive: false });
     window.addEventListener("keydown", onKey);
     return () => {
-      clearTimeout(t);
+      document.body.style.overflow = prevBody;
+      document.documentElement.style.overflow = prevDoc;
+      window.removeEventListener("wheel", stop);
+      window.removeEventListener("touchmove", stop);
       window.removeEventListener("keydown", onKey);
     };
-  }, []);
+  }, [gone, prefersReducedMotion]);
+
+  // where the cards end up (the hat's opening) and where the mark flies (the navbar logo)
+  useLayoutEffect(() => {
+    if (gone) return;
+    const measure = () => {
+      const opening = hatOpeningRef.current?.getBoundingClientRect();
+      const logo = logoRef.current?.getBoundingClientRect();
+      if (!opening || !logo) return;
+      const active = window.innerWidth >= 768 ? desktopNodeRefs.current : mobileNodeRefs.current;
+      const nodes = productNodes.reduce<NodeTargets>((result, node) => {
+        const rect = active[node.id]?.getBoundingClientRect();
+        if (rect)
+          result[node.id] = {
+            x: opening.left + opening.width / 2 - (rect.left + rect.width / 2),
+            y: opening.top + opening.height / 2 - (rect.top + rect.height / 2),
+          };
+        return result;
+      }, {});
+      setTargets({ nodes });
+      const brand = document.querySelector<HTMLElement>('a[aria-label="Rabbitt AI home"] img')?.getBoundingClientRect();
+      logoTargetX.set(brand ? brand.left + brand.width / 2 - (logo.left + logo.width / 2) : 0);
+      logoTargetY.set(brand ? brand.top + brand.height / 2 - (logo.top + logo.height / 2) : 0);
+    };
+    const id = requestAnimationFrame(measure);
+    window.addEventListener("resize", measure);
+    return () => {
+      cancelAnimationFrame(id);
+      window.removeEventListener("resize", measure);
+    };
+  }, [gone, introPhase, logoTargetX, logoTargetY]);
+
+  if (gone) return null;
+
+  const isInitializing = introPhase === "initializing";
+  const isShockwaveOrAfter = introPhase === "shockwave" || introPhase === "ecosystem";
+  const isEcosystem = introPhase === "ecosystem";
+  const animationProgress = sequenceProgress;
 
   return (
-    <div className={`rb-intro${leaving ? " rb-intro--out" : ""}`} role="presentation">
-      <div className="rb-intro__grid" aria-hidden />
-      <div className="rb-intro__glow" aria-hidden />
+    <motion.div
+      style={{ opacity: overlayOpacity, scale: overlayScale }}
+      className="rb-intro-main fixed inset-0 z-[100] bg-[#020305] font-sans antialiased selection:bg-blue-600 selection:text-white"
+      role="presentation"
+    >
+      <div className="relative h-svh overflow-hidden bg-[#F8FAFC]">
+          <motion.div
+            style={{ opacity: prefersReducedMotion ? 0 : lightBgOpacity }}
+            className="pointer-events-none absolute inset-0 z-0 overflow-hidden bg-[#F8FAFC]"
+          >
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[650px] bg-[radial-gradient(ellipse_65%_50%_at_50%_48%,rgba(191,219,254,0.55),transparent_70%)] blur-2xl opacity-80" />
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#cbd5e1_1px,transparent_1px),linear-gradient(to_bottom,#cbd5e1_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_75%_65%_at_50%_48%,#000_70%,transparent_100%)] opacity-70" />
+          </motion.div>
+          <motion.div
+            style={{ opacity: prefersReducedMotion ? 1 : darkBgOpacity }}
+            className="pointer-events-none absolute inset-0 z-0 overflow-hidden bg-[#020305]"
+          >
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_85%_70%_at_50%_46%,#071022_0%,#030711_52%,#020305_100%)]" />
 
-      <div className="rb-intro__stage">
-        <div className="rb-intro__mark">
-          <svg className="rb-intro__ring" viewBox="0 0 200 200" aria-hidden>
-            <circle cx="100" cy="100" r="92" className="rb-intro__track" />
-            <circle cx="100" cy="100" r="92" className="rb-intro__arc" pathLength={100} />
-          </svg>
-          <Image src="/logo.svg" alt="" width={84} height={84} priority className="rb-intro__logo" />
-        </div>
+            <motion.div
+              style={{ scale: prefersReducedMotion ? 1 : darkCoreScale }}
+              className="absolute top-[46%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[780px] h-[580px] bg-[radial-gradient(circle_380px_at_50%_50%,rgba(37,99,235,0.24)_0%,rgba(14,165,233,0.12)_40%,rgba(99,102,241,0.05)_70%,transparent_100%)] blur-2xl opacity-90 origin-center"
+            />
 
-        <p className="rb-intro__name">Rabbitt AI</p>
-        <p className="rb-intro__line">Own your data. Own your AI.</p>
-        <div className="rb-intro__bar" aria-hidden>
-          <span />
-        </div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1100px] h-[750px] bg-[radial-gradient(ellipse_75%_55%_at_50%_50%,rgba(59,130,246,0.07)_0%,rgba(99,102,241,0.04)_50%,transparent_85%)] blur-3xl pointer-events-none" />
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.045)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.045)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_75%_65%_at_50%_46%,#000_30%,transparent_90%)] opacity-50" />
+
+            <motion.svg
+              style={{
+                opacity: prefersReducedMotion ? 0.65 : orbitalCurvesOpacity,
+              }}
+              className="absolute inset-0 h-full w-full"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              {/* Concentric Soft Orbital Curves */}
+              <ellipse
+                cx="50%"
+                cy="46%"
+                rx="520"
+                ry="310"
+                fill="none"
+                stroke="rgba(56, 189, 248, 0.05)"
+                strokeWidth="1"
+                strokeDasharray="3 8"
+              />
+              <ellipse
+                cx="50%"
+                cy="46%"
+                rx="720"
+                ry="430"
+                fill="none"
+                stroke="rgba(99, 102, 241, 0.04)"
+                strokeWidth="1"
+              />
+              <ellipse
+                cx="50%"
+                cy="46%"
+                rx="920"
+                ry="550"
+                fill="none"
+                stroke="rgba(37, 99, 235, 0.03)"
+                strokeWidth="1"
+                strokeDasharray="2 12"
+              />
+
+              {/* Subtle Infrastructure Contour Waves */}
+              <path
+                d="M -100 260 C 350 180, 800 360, 1350 240 S 1950 320, 2300 260"
+                fill="none"
+                stroke="rgba(56, 189, 248, 0.035)"
+                strokeWidth="1"
+              />
+              <path
+                d="M -100 580 C 450 680, 950 500, 1450 620 S 1950 540, 2300 600"
+                fill="none"
+                stroke="rgba(99, 102, 241, 0.03)"
+                strokeWidth="1"
+              />
+            </motion.svg>
+
+            {/* Tiny Barely Visible Micro-Particles for Cinematic Depth */}
+            <motion.div
+              style={{
+                opacity: prefersReducedMotion ? 1 : darkAtmosphereOpacity,
+              }}
+              className="absolute inset-0"
+            >
+              <div className="absolute top-[22%] left-[18%] h-1 w-1 rounded-full bg-sky-300/30 blur-[0.5px]" />
+              <div className="absolute top-[32%] right-[22%] h-1.5 w-1.5 rounded-full bg-blue-400/25 blur-[0.5px]" />
+              <div className="absolute top-[68%] left-[24%] h-1 w-1 rounded-full bg-indigo-300/25 blur-[0.5px]" />
+              <div className="absolute top-[74%] right-[28%] h-1 w-1 rounded-full bg-sky-300/30 blur-[0.5px]" />
+              <div className="absolute top-[18%] right-[38%] h-0.5 w-0.5 rounded-full bg-white/40" />
+              <div className="absolute top-[82%] left-[42%] h-0.5 w-0.5 rounded-full bg-sky-200/40" />
+              <div className="absolute top-[48%] left-[8%] h-1 w-1 rounded-full bg-blue-300/20 blur-[0.5px]" />
+              <div className="absolute top-[52%] right-[10%] h-1 w-1 rounded-full bg-indigo-200/25 blur-[0.5px]" />
+            </motion.div>
+          </motion.div>
+
+          <div className="absolute inset-0 mx-auto w-full max-w-7xl px-4 sm:px-8">
+            <motion.div
+              style={{ opacity: fieldOpacity }}
+              className="pointer-events-none absolute left-1/2 top-1/2 h-[340px] w-[340px] -translate-x-1/2 -translate-y-1/2 sm:h-[380px] sm:w-[380px]"
+            >
+              <motion.svg
+                className="h-full w-full"
+                animate={{ rotate: 360 }}
+                transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
+                viewBox="0 0 380 380"
+                aria-hidden="true"
+              >
+                <circle
+                  cx="190"
+                  cy="190"
+                  r="155"
+                  fill="none"
+                  stroke="rgba(56,189,248,0.18)"
+                  strokeWidth="1.2"
+                />
+                <circle
+                  cx="190"
+                  cy="190"
+                  r="165"
+                  fill="none"
+                  stroke="rgba(56,189,248,0.09)"
+                  strokeWidth="1"
+                  strokeDasharray="4 6"
+                />
+                <circle cx="190" cy="35" r="2" fill="#94A3B8" opacity="0.6" />
+                <circle cx="190" cy="345" r="2" fill="#94A3B8" opacity="0.6" />
+                <circle cx="35" cy="190" r="2" fill="#94A3B8" opacity="0.6" />
+                <circle cx="345" cy="190" r="2" fill="#94A3B8" opacity="0.6" />
+              </motion.svg>
+            </motion.div>
+            <div className="pointer-events-none absolute inset-0 z-0 hidden md:block">
+              <svg
+                className="h-full w-full"
+                viewBox="-50 -50 100 100"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+              >
+                <defs>
+                  <linearGradient
+                    id="lineGradRest"
+                    x1="0%"
+                    y1="0%"
+                    x2="100%"
+                    y2="100%"
+                  >
+                    <stop offset="0%" stopColor="#38BDF8" stopOpacity="0.7" />
+                    <stop offset="50%" stopColor="#60A5FA" stopOpacity="0.45" />
+                    <stop offset="100%" stopColor="#818CF8" stopOpacity="0.2" />
+                  </linearGradient>
+                </defs>
+                {isEcosystem &&
+                  productNodes.map((node, index) => (
+                    <NodePath
+                      key={node.id}
+                      node={node}
+                      index={index}
+                      ecosystemReveal={ecosystemReveal}
+                      exitLength={networkLength}
+                      exitOpacity={networkOpacity}
+                    />
+                  ))}
+              </svg>
+            </div>
+            <div
+              id="ecosystem"
+              className="absolute inset-0 z-20 hidden md:block"
+            >
+              {isEcosystem &&
+                productNodes.map((node, index) => (
+                  <DesktopNode
+                    key={node.id}
+                    node={node}
+                    index={index}
+                    progress={animationProgress}
+                    target={targets.nodes[node.id]}
+                    nodeRef={(element) => {
+                      desktopNodeRefs.current[node.id] = element;
+                    }}
+                  />
+                ))}
+            </div>
+
+            <div className="absolute inset-0 z-30 flex flex-col items-center justify-center text-center">
+              <AnimatePresence>
+                {isShockwaveOrAfter && !prefersReducedMotion && (
+                  <>
+                    <motion.div
+                      key="shockwave-primary"
+                      initial={{ opacity: 0.85, scale: 0.82 }}
+                      animate={{ opacity: 0, scale: 2.7 }}
+                      transition={{ duration: 0.52, ease: [0.1, 0.9, 0.2, 1] }}
+                      className="pointer-events-none absolute h-[280px] w-[280px] rounded-full border border-blue-500/70"
+                      style={{
+                        boxShadow:
+                          "0 0 35px rgba(37, 99, 235, 0.45), inset 0 0 20px rgba(37, 99, 235, 0.25)",
+                      }}
+                    />
+                    <motion.div
+                      key="shockwave-secondary"
+                      initial={{ opacity: 0.72, scale: 0.86 }}
+                      animate={{ opacity: 0, scale: 2.2 }}
+                      transition={{
+                        duration: 0.44,
+                        delay: 0.035,
+                        ease: [0.1, 0.8, 0.2, 1],
+                      }}
+                      className="pointer-events-none absolute h-[280px] w-[280px] rounded-full border border-sky-400/80"
+                    />
+                    <motion.div
+                      key="shockwave-flash"
+                      initial={{ opacity: 0, scale: 0.6 }}
+                      animate={{
+                        opacity: [0, 0.72, 0.1],
+                        scale: [0.6, 1.35, 1],
+                      }}
+                      transition={{ duration: 0.5, ease: "easeOut" }}
+                      className="pointer-events-none absolute h-72 w-72 rounded-full bg-gradient-to-r from-blue-400/35 via-sky-300/25 to-blue-500/35 blur-3xl"
+                    />
+                  </>
+                )}
+              </AnimatePresence>
+              <AnimatePresence>
+                {isInitializing && !prefersReducedMotion && (
+                  <motion.div
+                    key="laser-orbit"
+                    initial={{ opacity: 0.7 }}
+                    animate={{ opacity: [0.7, 0.7, 0], scale: [1, 1, 1.18] }}
+                    exit={{
+                      opacity: 0,
+                      scale: 1.12,
+                      transition: { duration: 0.1 },
+                    }}
+                    transition={{
+                      opacity: { duration: 0.6, times: [0, 0.82, 1] },
+                      scale: { duration: 0.6 },
+                    }}
+                    className="pointer-events-none absolute h-[340px] w-[340px] sm:h-[380px] sm:w-[380px]"
+                  >
+                    <svg
+                      className="h-full w-full"
+                      viewBox="0 0 380 380"
+                      aria-hidden="true"
+                    >
+                      <defs>
+                        <linearGradient
+                          id="introLaserGrad"
+                          x1="0%"
+                          y1="0%"
+                          x2="100%"
+                          y2="100%"
+                        >
+                          <stop
+                            offset="0%"
+                            stopColor="#0061FF"
+                            stopOpacity="0"
+                          />
+                          <stop
+                            offset="40%"
+                            stopColor="#0061FF"
+                            stopOpacity="0.6"
+                          />
+                          <stop
+                            offset="80%"
+                            stopColor="#38BDF8"
+                            stopOpacity="0.95"
+                          />
+                          <stop
+                            offset="100%"
+                            stopColor="#FFFFFF"
+                            stopOpacity="1"
+                          />
+                        </linearGradient>
+                        <filter
+                          id="introLaserGlow"
+                          x="-10%"
+                          y="-10%"
+                          width="120%"
+                          height="120%"
+                        >
+                          <feDropShadow
+                            dx="0"
+                            dy="0"
+                            stdDeviation="3"
+                            floodColor="#0061FF"
+                            floodOpacity="0.75"
+                          />
+                        </filter>
+                      </defs>
+                      <motion.g
+                        initial={{ rotate: 0 }}
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+                        style={{ transformOrigin: "190px 190px" }}
+                      >
+                        <motion.circle
+                          cx="190"
+                          cy="190"
+                          r="155"
+                          fill="none"
+                          stroke="url(#introLaserGrad)"
+                          strokeWidth="3.5"
+                          strokeLinecap="round"
+                          filter="url(#introLaserGlow)"
+                          initial={{ pathLength: 0.15 }}
+                          animate={{ pathLength: [0.15, 0.9, 1] }}
+                          transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+                        />
+                        <circle
+                          cx="345"
+                          cy="190"
+                          r="4.5"
+                          fill="#FFFFFF"
+                          className="drop-shadow-[0_0_8px_#38BDF8]"
+                        />
+                        <circle cx="345" cy="190" r="2" fill="#FFFFFF" />
+                      </motion.g>
+                    </svg>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+              <motion.div
+                ref={logoRef}
+                style={{
+                  opacity: logoOpacity,
+                  x: logoX,
+                  y: logoY,
+                  scale: logoScale,
+                }}
+                className="relative z-20 flex transform-gpu items-center justify-center will-change-[transform,opacity] [backface-visibility:hidden] [transform:translateZ(0)]"
+              >
+                <motion.div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-56 w-56 -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-400/30 blur-3xl"
+                  animate={{ opacity: [0.35, 0.8, 0.35], scale: [0.9, 1.18, 0.9] }}
+                  transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut" }}
+                />
+                <span
+                  ref={hatOpeningRef}
+                  className="pointer-events-none absolute left-1/2 top-[20%] h-3 w-12 -translate-x-1/2"
+                  aria-hidden="true"
+                />
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{
+                    opacity: 1,
+                    scale: isShockwaveOrAfter
+                      ? [1, 1.18, 0.98, 1.01, 1]
+                      : [0.9, 1],
+                  }}
+                  transition={{
+                    opacity: { duration: 0.3 },
+                    scale: isShockwaveOrAfter
+                      ? {
+                          duration: 0.45,
+                          times: [0, 0.25, 0.55, 0.8, 1],
+                          ease: "easeOut",
+                        }
+                      : { duration: 0.4, ease: "easeOut" },
+                  }}
+                  className="relative h-52 w-40 drop-shadow-[0_14px_28px_rgba(0,97,255,0.28)] sm:h-64 sm:w-48"
+                >
+                  <Image
+                    src="/logo.svg"
+                    alt="Rabbitt AI"
+                    width={208}
+                    height={277}
+                    priority
+                    className="h-full w-full object-contain"
+                  />
+                </motion.div>
+              </motion.div>
+            </div>
+
+            <div className="absolute inset-x-4 bottom-7 z-20 grid grid-cols-2 gap-2.5 md:hidden">
+              {isEcosystem &&
+                productNodes.map((node, index) => (
+                  <MobileNode
+                    key={node.id}
+                    node={node}
+                    index={index}
+                    progress={animationProgress}
+                    target={targets.nodes[node.id]}
+                    nodeRef={(element) => {
+                      mobileNodeRefs.current[node.id] = element;
+                    }}
+                  />
+                ))}
+            </div>
+          </div>
+        <motion.div
+          aria-hidden="true"
+          style={{ scaleX: sequenceProgress }}
+          className="absolute inset-x-0 bottom-0 z-50 h-[2px] origin-left bg-gradient-to-r from-blue-600 via-sky-400 to-blue-500"
+        />
+        <button
+          type="button"
+          onClick={finish}
+          className="absolute bottom-6 right-6 z-50 rounded-lg px-3.5 py-2 text-sm font-medium text-slate-500 transition-colors hover:text-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400"
+        >
+          Skip
+        </button>
       </div>
+    </motion.div>
+  );
+}
 
-      <button
-        type="button"
-        onClick={() => {
-          try {
-            localStorage.setItem(SEEN_KEY, Date.now().toString());
-            document.cookie = "rabbitt_intro_seen=true; max-age=86400; path=/; SameSite=Lax";
-          } catch {
-            // see above
-          }
-          setLeaving(true);
+// NodePath: renders one connector line.
+// Entry: shoots from hat (pathLength 0→1) with per-node stagger driven by ecosystemReveal.
+// Exit: pathLength is multiplied by exitLength so it shrinks as the intro animation plays.
+function NodePath({
+  node,
+  index,
+  ecosystemReveal,
+  exitLength,
+  exitOpacity,
+}: {
+  node: ProductNode;
+  index: number;
+  ecosystemReveal: MotionValue<number>;
+  exitLength: MotionValue<number>;
+  exitOpacity: MotionValue<number>;
+}) {
+  // Stagger: node i starts drawing at (i * 0.09) on the 0→1 clock, finishes at (i * 0.09 + 0.48)
+  const start = index * 0.09;
+  const end = Math.min(1, start + 0.48);
+  const entryLength = useTransform(ecosystemReveal, [start, end], [0, 1], {
+    clamp: true,
+  });
+
+  // Combined pathLength: entry shoots it out, exit pulls it back as intro progresses
+  const pathLength = useTransform(
+    [entryLength, exitLength] as const,
+    ([entry, exit]) => (entry as number) * (exit as number),
+  );
+
+  // Opacity fades in with entry (first 30% of its window) and out with exit
+  const entryOpacity = useTransform(entryLength, [0, 0.3], [0, 0.85], {
+    clamp: true,
+  });
+  const opacity = useTransform(
+    [entryOpacity, exitOpacity] as const,
+    ([entry, exit]) => Math.min(entry as number, exit as number),
+  );
+
+  return (
+    <motion.path
+      d={nodePath(node)}
+      fill="none"
+      stroke="url(#lineGradRest)"
+      strokeWidth="0.22"
+      strokeDasharray="0.6 0.6"
+      style={{ pathLength, opacity }}
+    />
+  );
+}
+
+function DesktopNode({
+  node,
+  index,
+  progress,
+  target,
+  nodeRef,
+}: {
+  node: ProductNode;
+  index: number;
+  progress: MotionValue<number>;
+  target?: Point;
+  nodeRef: (element: HTMLDivElement | null) => void;
+}) {
+  const x = useTransform(
+    progress,
+    [0, 0.2, 0.45],
+    [0, (target?.x ?? 0) * 0.22 * (index % 2 ? -1 : 1), target?.x ?? 0],
+  );
+  const y = useTransform(
+    progress,
+    [0, 0.2, 0.45],
+    [0, (target?.y ?? 0) * 0.2 - (index % 2 ? 28 : -28), target?.y ?? 0],
+  );
+  const scale = useTransform(progress, [0.12, 0.45], [1, 0.18]);
+  const opacity = useTransform(progress, [0.28, 0.48], [1, 0]);
+  return (
+    <motion.div
+      ref={nodeRef}
+      style={{
+        left: `calc(50% + ${node.pos.desktop.x}%)`,
+        top: `calc(50% + ${node.pos.desktop.y}%)`,
+        x,
+        y,
+        scale,
+        opacity,
+      }}
+      className="absolute -translate-x-1/2 -translate-y-1/2 will-change-transform"
+    >
+      <motion.div
+        initial={{ opacity: 0, scale: 0.72, y: 10 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{
+          duration: 0.36,
+          delay: 0.43 + index * 0.035,
+          ease: [0.16, 1, 0.3, 1],
         }}
-        className="rb-intro__skip"
       >
-        Skip
-      </button>
-      <span className="rb-intro__edge" aria-hidden />
+        <NodeCard node={node} />
+      </motion.div>
+    </motion.div>
+  );
+}
+
+function MobileNode({
+  node,
+  index,
+  progress,
+  target,
+  nodeRef,
+}: {
+  node: ProductNode;
+  index: number;
+  progress: MotionValue<number>;
+  target?: Point;
+  nodeRef: (element: HTMLDivElement | null) => void;
+}) {
+  const x = useTransform(
+    progress,
+    [0, 0.2, 0.45],
+    [0, (target?.x ?? 0) * 0.25 * (index % 2 ? -1 : 1), target?.x ?? 0],
+  );
+  const y = useTransform(
+    progress,
+    [0, 0.2, 0.45],
+    [0, (target?.y ?? 0) * 0.2 - (index % 2 ? 18 : -18), target?.y ?? 0],
+  );
+  const scale = useTransform(progress, [0.12, 0.45], [1, 0.14]);
+  const opacity = useTransform(progress, [0.28, 0.48], [1, 0]);
+  return (
+    <motion.div
+      ref={nodeRef}
+      style={{ x, y, scale, opacity }}
+      className="will-change-transform"
+    >
+      <motion.div
+        initial={{ opacity: 0, scale: 0.85, y: 14 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{
+          duration: 0.38,
+          delay: 0.1 + index * 0.045,
+          ease: [0.16, 1, 0.3, 1],
+        }}
+      >
+        <NodeCard node={node} compact />
+      </motion.div>
+    </motion.div>
+  );
+}
+
+function NodeCard({
+  node,
+  compact = false,
+}: {
+  node: ProductNode;
+  compact?: boolean;
+}) {
+  return (
+    <div
+      className={`flex items-center rounded-2xl border border-slate-200/80 bg-gradient-to-b from-white to-slate-50/90 ring-1 ring-white/80 backdrop-blur-md ${compact ? "gap-3 p-3 shadow-[0_6px_18px_-10px_rgba(0,97,255,0.3)]" : "gap-4 px-5 py-3 shadow-[0_14px_34px_-16px_rgba(0,97,255,0.32),0_2px_8px_rgba(15,23,42,0.04)]"}`}
+    >
+      <div
+        className={`${compact ? "h-10 w-10" : "h-14 w-14"} relative flex shrink-0 items-center justify-center`}
+      >
+        <Image
+          src={node.src}
+          alt={node.name}
+          width={56}
+          height={56}
+          className="h-full w-full object-contain"
+        />
+      </div>
+      <span
+        className={`${compact ? "text-xs" : "text-[15px]"} whitespace-nowrap pr-1 font-semibold tracking-tight text-slate-800`}
+      >
+        {node.name}
+      </span>
+      <span className="relative flex h-1.5 w-1.5"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-400/60" /><span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-blue-500/80" /></span>
     </div>
   );
 }

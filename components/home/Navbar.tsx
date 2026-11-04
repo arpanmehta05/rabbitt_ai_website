@@ -396,7 +396,7 @@ export default function Navbar() {
         <div className="rb-container relative flex h-16 items-center justify-between">
           <Link href="/" className="flex h-11 items-center gap-3" aria-label="Rabbitt AI home">
             <Image src="/logo.svg" alt="" width={40} height={40} className="h-10 w-10" priority />
-            <span className="text-[1.5rem] font-semibold leading-none tracking-[-0.04em] text-[#05060a] dark:text-white">
+            <span className="bg-[linear-gradient(100deg,#05060a_20%,#0b3d91_60%,#317df3_100%)] bg-clip-text text-[1.5rem] font-semibold leading-none tracking-[-0.04em] text-transparent dark:bg-[linear-gradient(100deg,#fff_23%,#e2edff_43%,#85b5ff_70%,#317df3_100%)]">
               Rabbitt AI
             </span>
           </Link>
