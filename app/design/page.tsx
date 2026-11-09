@@ -8,6 +8,7 @@ import HeroH from "@/components/home/hero-options/HeroH";
 import HeroLoop from "@/components/home/HeroLoop";
 import HeroJ from "@/components/home/hero-options/HeroJ";
 import HeroIntro from "@/components/home/HeroIntro";
+import HeroPull from "@/components/home/hero-options/HeroPull";
 
 // A review page, not part of the site: the hero options one under the other, so one can be chosen.
 // It is kept out of search engines and out of the sitemap. Delete this folder and
@@ -18,7 +19,8 @@ export const metadata: Metadata = {
 };
 
 // one row per option, in letter order, with no gaps. The component files keep their old names
-// (HeroG is option F, HeroH is G, HeroJ is I; option H is components/home/HeroLoop, the home page's hero); the letters below are the ones shown.
+// (HeroG is option F, HeroH is G, HeroJ is I; option H is components/home/HeroLoop; option J,
+// HeroPull, is the home page's hero); the letters below are the ones shown.
 const options = [
   { id: "a", label: "Option A · Type-led", node: <HeroA /> },
   { id: "b", label: "Option B · Product on show", node: <HeroB /> },
@@ -27,8 +29,9 @@ const options = [
   { id: "e", label: "Option E · The glass rabbit", node: <HeroIntro visual="rabbit" /> },
   { id: "f", label: "Option F · Navy colour block, after Cloudflare", node: <HeroG /> },
   { id: "g", label: "Option G · Light beams, after Raycast", node: <HeroH /> },
-  { id: "h", label: "Option H · The loop, after Prime Intellect (on the home page now)", node: <HeroLoop /> },
+  { id: "h", label: "Option H · The loop, after Prime Intellect", node: <HeroLoop /> },
   { id: "i", label: "Option I · Trails and shapes, after Aiven", node: <HeroJ /> },
+  { id: "j", label: "Option J · The pull, after Krea (on the home page now)", node: <HeroPull replay /> },
 ];
 
 export default function DesignPage() {

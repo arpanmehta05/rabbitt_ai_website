@@ -1,0 +1,61 @@
+/* Option J, "The pull" (after the Krea agent section). Only what Tailwind can't say neatly lives here:
+   the headline's lettering (the same as the live first screen's) and the joke's word-by-word fade. */
+
+.headline {
+  margin: 0;
+  font-size: clamp(2.75rem, 5.25vw, 5rem);
+  font-weight: 600;
+  line-height: 1.06;
+  letter-spacing: -0.045em;
+  text-align: center;
+}
+/* each line is its own block, so the particle text can be drawn at exactly the same place */
+.headline > span {
+  display: block;
+  background: linear-gradient(100deg, #fff 23%, #e2edff 43%, #85b5ff 70%, #317df3 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* the particle canvas eases in instead of appearing in one frame, so the first frames never look like
+   a pop. Reduced motion shows it at once. */
+@keyframes pull-field {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.field {
+  animation: pull-field 1200ms ease-out both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .field {
+    animation: none;
+  }
+}
+
+/* the joke fades in word by word once the hero is in view. It is in the HTML from the start; the
+   animation only fades each word in, and reduced motion shows it all at once. */
+@keyframes pull-word {
+  from {
+    opacity: 0;
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    filter: none;
+  }
+}
+.word {
+  animation: pull-word 280ms ease-out both;
+  animation-delay: var(--d, 0s);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .word {
+    animation: none;
+  }
+}

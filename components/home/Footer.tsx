@@ -1,5 +1,6 @@
 "use client";
 
+import CookieSettingsButton from "@/components/consent/CookieSettingsButton";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
@@ -120,6 +121,7 @@ export default function Footer() {
               <Link href="/privacy" className="transition-colors hover:text-[#0061ff]">
                 Privacy Policy
               </Link>
+              <CookieSettingsButton className="transition-colors hover:text-[#0061ff]" />
               <a href="https://www.linkedin.com/company/rabbitt-ai/posts/?feedView=all" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-[#0061ff]">
                 LinkedIn
               </a>

@@ -118,9 +118,14 @@ const sections: PrivacySection[] = [
           "Required for core site functionality, authentication, and security. Cannot be disabled without impacting service availability.",
       },
       {
-        term: "Analytics Cookies",
+        term: "Analytics Cookies (Google Analytics 4)",
         detail:
-          "Used to understand how visitors interact with our site (pages visited, session length, error events) so we can improve performance.",
+          "Only with your consent. Used to understand how visitors interact with our site (pages visited, session length, traffic source, device, approximate country, button clicks) so we can improve performance. We do not use Google Analytics for advertising.",
+      },
+      {
+        term: "Session Recording (Microsoft Clarity)",
+        detail:
+          "Only with your consent. Records anonymised replays and heatmaps of clicks, scrolling and navigation, and detects errors and frustrated clicks. Text typed into form fields is masked and is not recorded.",
       },
       {
         term: "Personalisation Cookies",
@@ -129,7 +134,7 @@ const sections: PrivacySection[] = [
       },
     ],
     footer:
-      "You can manage or disable non-essential cookies through your browser settings. Note that disabling certain cookies may affect your experience on our platform.",
+      "Analytics and session recording stay off until you accept them in the cookie banner. You can change or withdraw your choice at any time using “Cookie Settings” in the footer, and you can also manage cookies through your browser settings. Declining does not affect your use of the site.",
   },
   {
     id: "international",

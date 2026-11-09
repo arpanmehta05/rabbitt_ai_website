@@ -22,34 +22,34 @@ function Mark({ product }: { product: Product }) {
           alt=""
           width={240}
           height={96}
-          className="h-auto max-h-14 w-auto max-w-[8.5rem] object-contain object-left opacity-90 transition duration-300 group-hover:opacity-100 sm:max-h-[4.5rem] sm:max-w-[10.5rem]"
+          className="h-auto max-h-10 w-auto max-w-[7rem] object-contain object-left opacity-90 transition duration-300 group-hover:opacity-100 sm:max-h-12 sm:max-w-[8rem]"
         />
       </span>
     );
   }
   return (
-    <span className="grid h-14 w-14 place-items-center rounded-xl bg-brand-text/15 text-2xl font-semibold text-brand-text">
+    <span className="grid h-10 w-10 place-items-center rounded-lg bg-brand-text/15 text-lg font-semibold text-brand-text">
       {product.name.charAt(0)}
     </span>
   );
 }
 
 function Row({ product }: { product: Product }) {
-  const className = "group relative block px-1 py-8 sm:py-10 lg:px-4";
+  const className = "group relative block px-1 py-5 sm:py-6 lg:px-4";
   const body = (
     <>
-      <span className="grid items-center gap-x-8 gap-y-4 sm:grid-cols-[11rem_minmax(0,1fr)_minmax(0,1fr)] lg:grid-cols-[12rem_minmax(0,1.2fr)_minmax(0,1fr)_1.75rem]">
-        <span className="flex h-[4.5rem] items-center">
+      <span className="grid items-center gap-x-8 gap-y-3 sm:grid-cols-[8.5rem_11rem_minmax(0,1fr)] lg:grid-cols-[9.5rem_14rem_minmax(0,1fr)_1.5rem]">
+        <span className="flex h-12 items-center">
           <Mark product={product} />
         </span>
 
-        <span className="text-[clamp(1.75rem,2.8vw,2.5rem)] font-medium leading-none tracking-[-0.03em] text-white">
+        <span className="text-[clamp(1.25rem,1.7vw,1.625rem)] font-medium leading-tight tracking-[-0.02em] text-white">
           {product.name}
         </span>
 
-        <span className="max-w-sm text-[15px] leading-snug text-white/70 sm:text-base">{product.detail}</span>
+        <span className="text-[15px] leading-snug text-white/65">{product.detail}</span>
 
-        <ArrowUpRight className="hidden h-6 w-6 -translate-x-2 translate-y-2 text-brand-text opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:translate-y-0 group-hover:opacity-100 lg:block" />
+        <ArrowUpRight className="hidden h-5 w-5-translate-x-2 translate-y-2 text-brand-text opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:translate-y-0 group-hover:opacity-100 lg:block" />
       </span>
 
       {/* the row's hairline, drawn in the brand blue on hover */}
@@ -78,7 +78,7 @@ function Row({ product }: { product: Product }) {
 export default function ProductsIndex() {
   return (
     <section aria-labelledby="products-title" className="relative">
-      <div className="rb-container relative pb-12 pt-12 md:pb-16 lg:pb-24">
+      <div className="rb-container relative pb-12 pt-12 md:pb-16">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <h2
             id="products-title"
@@ -96,7 +96,7 @@ export default function ProductsIndex() {
           </Link>
         </div>
 
-        <ul className="mt-12 border-t border-white/10 lg:mt-16">
+        <ul className="mt-10 border-t border-white/10 lg:mt-12">
           {products.map((product) => (
             <Row key={product.name} product={product} />
           ))}

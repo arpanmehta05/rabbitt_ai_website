@@ -4,7 +4,7 @@
    bottom, so it never meets the logo strip as a hard line. The picture on the right has none behind it:
    the dashed "your cloud" boundary is filled with the page black (see the perimeter rect in the
    component), so the dots stop exactly at that line. */
-.backdrop { position: absolute; inset: 0; background-image: radial-gradient(rgb(255 255 255 / .3) 1px, transparent 1.4px); background-size: 28px 28px; background-position: 14px 14px; -webkit-mask-image: radial-gradient(ellipse 85% 80% at 58% 46%, #000 25%, transparent 100%), linear-gradient(to bottom, transparent, #000 18%, #000 66%, transparent); -webkit-mask-composite: source-in; mask-image: radial-gradient(ellipse 85% 80% at 58% 46%, #000 25%, transparent 100%), linear-gradient(to bottom, transparent, #000 18%, #000 66%, transparent); mask-composite: intersect; }
+.backdrop { position: absolute; inset: 0; background-image: radial-gradient(rgb(255 255 255 / .14) 1px, transparent 1.4px); background-size: 28px 28px; background-position: 14px 14px; -webkit-mask-image: radial-gradient(ellipse 85% 80% at 58% 46%, #000 25%, transparent 100%), linear-gradient(to bottom, transparent, #000 18%, #000 66%, transparent); -webkit-mask-composite: source-in; mask-image: radial-gradient(ellipse 85% 80% at 58% 46%, #000 25%, transparent 100%), linear-gradient(to bottom, transparent, #000 18%, #000 66%, transparent); mask-composite: intersect; }
 .layout { position: relative; min-height: max(730px, 100svh); display: flex; align-items: center; padding-top: 90px; padding-bottom: 135px; }
 .copy { position: relative; z-index: 2; width: 45%; }
 .copy h1 { font-size: clamp(2.75rem, 5.25vw, 5rem); font-weight: 600; line-height: 1.06; letter-spacing: -.045em; margin: 0; }

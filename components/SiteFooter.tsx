@@ -1,5 +1,6 @@
 "use client";
 
+import CookieSettingsButton from "@/components/consent/CookieSettingsButton";
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
@@ -185,6 +186,7 @@ export default function SiteFooter() {
             >
               Privacy Policy
             </a>
+            <CookieSettingsButton className="transition-colors hover:text-white/80" />
           </div>
           <SocialLinks />
         </div>

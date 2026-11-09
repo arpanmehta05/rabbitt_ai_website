@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import { Inter } from "next/font/google";
 import SmoothScroll from "@/components/SmoothScroll";
+import ConsentManager from "@/components/consent/ConsentManager";
 import "./globals.css";
 
 // The one font family for the whole site (see design.md §6).
@@ -115,15 +115,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${inter.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <head>
-        <Script
-          id="rabbitt-intro"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `(function(){try{var k='rabbitt_intro_timestamp';var t=localStorage.getItem(k);var c=document.cookie.indexOf('rabbitt_intro_seen=true')!==-1;if(c||(t&&(Date.now()-parseInt(t,10))<86400000)){document.documentElement.classList.add('skip-intro');}}catch(e){}})();`,
-          }}
-        />
-      </head>
       <body className="font-sans min-h-full flex flex-col" suppressHydrationWarning>
         <script
           type="application/ld+json"
@@ -131,6 +122,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         />
         <SmoothScroll />
         {children}
+        <ConsentManager />
       </body>
     </html>
   );

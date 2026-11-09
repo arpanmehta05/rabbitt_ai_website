@@ -1,5 +1,6 @@
 "use client";
 
+import CookieSettingsButton from "@/components/consent/CookieSettingsButton";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, type ReactNode } from "react";
@@ -162,9 +163,12 @@ export default function MainFooter() {
         {/* the bottom bar: the copyright on the left, the privacy policy on the right */}
         <div className="mt-12 flex flex-col gap-3 border-t border-white/10 pt-7 text-[14px] text-white/55 sm:flex-row sm:items-center sm:justify-between lg:mt-16">
           <p>© 2026 Rabbitt AI. All rights reserved.</p>
-          <Link href="/privacy" className="inline-block py-3 transition-colors hover:text-white sm:py-2">
-            Privacy Policy
-          </Link>
+          <div className="flex flex-wrap items-center gap-x-7">
+            <Link href="/privacy" className="inline-block py-3 transition-colors hover:text-white sm:py-2">
+              Privacy Policy
+            </Link>
+            <CookieSettingsButton className="inline-block py-3 transition-colors hover:text-white sm:py-2" />
+          </div>
         </div>
       </div>
     </footer>

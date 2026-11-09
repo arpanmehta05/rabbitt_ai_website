@@ -14,7 +14,6 @@ const COUNT = 3;
 type Card = {
   slug: string;
   title: string;
-  about: string;
   image: string;
   stat?: { value: string; label: string };
 };
@@ -36,7 +35,6 @@ function toCard(s: CaseStudy): Card {
   return {
     slug: s.slug,
     title: s.title.replace(/\s+/g, " ").trim(),
-    about: s.about,
     image: s.image,
     stat: biggestResult(s.content),
   };
@@ -45,21 +43,19 @@ function toCard(s: CaseStudy): Card {
 function CaseCard({ study }: { study: Card }) {
   return (
     <li className="rb-reveal border-b border-white/10 last:border-b-0 md:border-b-0 md:border-l md:px-8 md:first:border-l-0">
-      <Link href={`/casestudies/${study.slug}`} className="group relative flex h-full flex-col gap-8 py-10 md:min-h-[26rem] md:py-2">
-        <span className="text-xs font-medium uppercase tracking-[0.08em] text-white/55">{study.about}</span>
-
+      <Link href={`/casestudies/${study.slug}`} className="group relative flex h-full flex-col gap-5 py-8 md:py-2 md:pb-6">
         {study.stat && (
-          <span className="flex flex-col gap-4">
-            <span className="text-[clamp(3.5rem,7.2vw,6.5rem)] font-medium leading-[0.9] tracking-[-0.04em] text-white tabular-nums transition-colors duration-300 group-hover:text-brand-text">
+          <span className="flex flex-col gap-2">
+            <span className="text-[clamp(2.5rem,4vw,3.5rem)] font-medium leading-none tracking-[-0.035em] text-white tabular-nums transition-colors duration-300 group-hover:text-brand-text">
               {study.stat.value}
             </span>
-            <span className="text-[15px] leading-snug text-white/70">{study.stat.label}</span>
+            <span className="text-sm leading-snug text-white/65">{study.stat.label}</span>
           </span>
         )}
 
-        <span className="line-clamp-3 text-[17px] font-medium leading-snug text-white">{study.title}</span>
+        <span className="line-clamp-3 text-[15px] font-medium leading-snug text-white/90">{study.title}</span>
 
-        <span className="mt-auto inline-flex items-center gap-1.5 text-[15px] font-medium text-brand-text">
+        <span className="mt-auto inline-flex items-center gap-1.5 pt-2 text-sm font-medium text-brand-text">
           Read the case study
           <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
         </span>
@@ -105,7 +101,7 @@ export default async function CaseStudies() {
 
         {/* the cards carry 32px of padding each side so the three columns are equal; the list is pulled
             out by that much so the first and last cards still line up with the container's edges */}
-        <div className="mt-12 border-t border-white/10 md:pt-10 lg:mt-16">
+        <div className="mt-10 border-t border-white/10 md:pt-8 lg:mt-12">
           <ul className="grid md:-mx-8 md:grid-cols-3">
             {cards.map((study) => (
               <CaseCard key={study.slug} study={study} />

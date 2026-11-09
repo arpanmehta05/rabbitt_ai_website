@@ -717,222 +717,6 @@ html.skip-intro .intro-scene {
   background-color: #000000;
 }
 
-/* ── Intro (components/home/Intro.tsx) ───────────────────────────────────── */
-.rb-intro {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  display: grid;
-  place-items: center;
-  overflow: hidden;
-  background: #f8faff;
-  color: #05060a;
-  animation: rb-lift 850ms cubic-bezier(0.76, 0, 0.18, 1) 2.45s forwards;
-}
-.rb-intro--out {
-  animation: rb-lift 550ms cubic-bezier(0.76, 0, 0.18, 1) 0s forwards;
-}
-html.skip-intro .rb-intro,
-html.skip-intro .rb-intro-main {
-  display: none;
-}
-@keyframes rb-lift {
-  from { transform: translateY(0); visibility: visible; }
-  99% { visibility: visible; }
-  to { transform: translateY(-100%); visibility: hidden; }
-}
-
-.rb-intro__grid {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(0, 97, 255, 0.09) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 97, 255, 0.09) 1px, transparent 1px);
-  background-size: 80px 80px;
-  -webkit-mask-image: radial-gradient(ellipse 55% 50% at 50% 50%, #000, transparent);
-  mask-image: radial-gradient(ellipse 55% 50% at 50% 50%, #000, transparent);
-  opacity: 0;
-  animation:
-    rb-fade 900ms ease-out 0s forwards,
-    rb-drift 4s linear infinite;
-}
-@keyframes rb-drift {
-  to { background-position: 80px 80px; }
-}
-.rb-intro__glow {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 640px;
-  height: 640px;
-  max-width: 120vw;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(0, 97, 255, 0.13), transparent);
-  opacity: 0;
-  animation: rb-fade 1200ms ease-out 0.1s forwards;
-}
-.rb-intro__glow {
-  animation:
-    rb-fade 1200ms ease-out 0.1s forwards,
-    rb-breathe 2400ms ease-in-out 1.3s infinite;
-}
-.rb-intro__stage {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  animation: rb-fade-out 300ms ease-in 2.2s forwards;
-}
-.rb-intro__mark {
-  position: relative;
-  display: grid;
-  place-items: center;
-  width: 188px;
-  height: 188px;
-}
-.rb-intro__ring {
-  position: absolute;
-  inset: 0;
-  transform: rotate(-90deg);
-}
-.rb-intro__track {
-  fill: none;
-  stroke: rgba(0, 97, 255, 0.14);
-  stroke-width: 1.5;
-}
-.rb-intro__arc {
-  fill: none;
-  stroke: #0061ff;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-dasharray: 100;
-  stroke-dashoffset: 100;
-  animation: rb-draw 1500ms cubic-bezier(0.65, 0, 0.25, 1) 0.25s forwards;
-}
-.rb-intro__logo {
-  width: 84px;
-  height: 84px;
-  opacity: 0;
-  transform: scale(0.86);
-  filter: drop-shadow(0 8px 22px rgba(0, 97, 255, 0.28));
-  animation: rb-pop 800ms cubic-bezier(0.2, 0.8, 0.2, 1) 0.2s forwards;
-}
-.rb-intro__dots {
-  fill: none;
-  stroke: rgba(0, 97, 255, 0.4);
-  stroke-width: 1.2;
-  stroke-linecap: round;
-  stroke-dasharray: 0.1 7.8;
-  transform-origin: 100px 100px;
-  opacity: 0;
-  animation:
-    rb-fade 700ms ease-out 0.5s forwards,
-    rb-turn 6s linear 0.5s infinite reverse;
-}
-.rb-intro__orbit {
-  transform-origin: 100px 100px;
-  animation: rb-orbit 1500ms cubic-bezier(0.65, 0, 0.25, 1) 0.25s forwards;
-}
-.rb-intro__orbit-halo {
-  fill: rgba(0, 97, 255, 0.18);
-}
-.rb-intro__orbit-dot {
-  fill: #0061ff;
-}
-.rb-intro__name,
-.rb-intro__line {
-  opacity: 0;
-  transform: translateY(10px);
-  animation: rb-rise 700ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-}
-.rb-intro__name {
-  margin-top: 28px;
-  font-size: 1.75rem;
-  font-weight: 600;
-  letter-spacing: -0.035em;
-  line-height: 1;
-  color: #0061ff;
-  animation-delay: 0.95s;
-}
-.rb-intro__name span {
-  display: inline-block;
-  background: linear-gradient(100deg, #05060a 10%, #0b3d91 45%, #0061ff 70%, #4d9bff 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.rb-intro__line {
-  margin-top: 12px;
-  font-size: 0.95rem;
-  letter-spacing: 0.01em;
-  color: rgba(5, 6, 10, 0.55);
-  animation-delay: 1.3s;
-}
-.rb-intro__bar {
-  margin-top: 36px;
-  width: 168px;
-  height: 2px;
-  border-radius: 2px;
-  background: rgba(0, 97, 255, 0.14);
-  overflow: hidden;
-}
-.rb-intro__bar span {
-  display: block;
-  height: 100%;
-  width: 100%;
-  background: linear-gradient(90deg, #0061ff, #4d9bff 60%, #0061ff);
-  transform: scaleX(0);
-  transform-origin: left;
-  animation: rb-fill 2000ms cubic-bezier(0.45, 0, 0.2, 1) 0.3s forwards;
-}
-.rb-intro__skip {
-  position: absolute;
-  right: 24px;
-  bottom: 24px;
-  padding: 8px 14px;
-  border-radius: 8px;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: rgba(5, 6, 10, 0.55);
-  opacity: 0;
-  animation: rb-fade 400ms ease-out 0.8s forwards;
-  transition: color 150ms;
-}
-.rb-intro__skip:hover {
-  color: #0061ff;
-}
-.rb-intro__skip:focus-visible {
-  outline: 2px solid #4d9bff;
-  outline-offset: 2px;
-}
-.rb-intro__edge {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, #0061ff, transparent);
-}
-@keyframes rb-fade { to { opacity: 1; } }
-@keyframes rb-fade-out { to { opacity: 0; } }
-@keyframes rb-draw { to { stroke-dashoffset: 0; } }
-@keyframes rb-pop { to { opacity: 1; transform: scale(1); } }
-@keyframes rb-rise { to { opacity: 1; transform: translateY(0); } }
-@keyframes rb-fill { to { transform: scaleX(1); } }
-@keyframes rb-orbit {
-  0% { opacity: 1; transform: rotate(0); }
-  92% { opacity: 1; }
-  to { opacity: 0; transform: rotate(360deg); }
-}
-@keyframes rb-turn { to { transform: rotate(360deg); } }
-@keyframes rb-breathe { 50% { transform: translate(-50%, -50%) scale(1.12); } }
-@media (prefers-reduced-motion: reduce) {
-  .rb-intro {
-    display: none;
-  }
-}
-
 /* ── Hide scrollbar utilities ────────────────────────────────────────────── */
 .font-serif-display {
   font-family: var(--font-serif);
@@ -1149,5 +933,17 @@ html.skip-intro .rb-intro-main {
   .rb-faq__answer,
   .rb-faq::details-content {
     transition: none;
+  }
+}
+
+/* cookie banner entrance */
+@keyframes rb-consent-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
   }
 }

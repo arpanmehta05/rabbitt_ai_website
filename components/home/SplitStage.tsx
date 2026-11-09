@@ -1,10 +1,12 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
-// WebGL, loaded as its own chunk and only started on wide screens. It is decoration: nothing the
-// page says depends on it, and the stage markup around it is rendered on the server.
+// WebGL, loaded as its own chunk, only on wide screens, and only once the visitor is getting close to
+// it. It is at the very bottom of the page, so loading three.js and building the scene when the page
+// opens only competed with the first screen's animation for the main thread. It is decoration:
+// nothing the page says depends on it, and the stage markup around it is rendered on the server.
 const Globe = dynamic(() => import("./Globe"));
 
 // The closing part of the page: content in the left column, and in the right column a globe the
@@ -22,13 +24,32 @@ export default function SplitStage({ children }: { children: ReactNode }) {
     return () => mq.removeEventListener("change", update);
   }, []);
 
+  // start the globe about one screen before it comes into view, and keep it once started
+  const stageRef = useRef<HTMLDivElement>(null);
+  const [near, setNear] = useState(false);
+  useEffect(() => {
+    const el = stageRef.current;
+    if (!el || near) return;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          setNear(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: "100% 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [near]);
+
   return (
-    <div className="relative">
+    <div ref={stageRef} className="relative">
       <div className="rb-container relative grid lg:grid-cols-[minmax(0,1.12fr)_minmax(0,0.88fr)] lg:items-center">
         <div className="min-w-0 lg:pr-10">{children}</div>
 
         <div className="hidden justify-center lg:flex">
-          <div className="aspect-square w-full max-w-[min(420px,60svh)]">{wide && <Globe />}</div>
+          <div className="aspect-square w-full max-w-[min(420px,60svh)]">{wide && near && <Globe />}</div>
         </div>
       </div>
     </div>
