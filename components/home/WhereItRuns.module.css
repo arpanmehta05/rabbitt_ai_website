@@ -1,0 +1,75 @@
+/* "Where your AI runs": three options, one explained at a time, chosen with real radio buttons and the
+   :has() selector. No script. Every option is in the HTML, and wherever :has() is not supported all
+   three explanations simply stay visible, so nothing is ever hidden behind something that cannot run. */
+
+/* the radio buttons themselves are visually hidden; their labels are the big words */
+.pick {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.opt {
+  display: inline-block;
+  cursor: pointer;
+  padding-block: 0.15em;
+  color: rgb(255 255 255 / 0.55); /* the lowest text colour the site allows (design.md §5) */
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.18em;
+  transition:
+    color 300ms ease,
+    text-decoration-color 300ms ease;
+}
+.opt:hover {
+  color: #fff;
+}
+.pick:focus-visible + .opt {
+  outline: 2px solid var(--brand-text);
+  outline-offset: 6px;
+}
+
+.panel {
+  max-width: 34rem;
+}
+
+@supports selector(:has(*)) {
+  .panel {
+    display: none;
+  }
+  .root:has(input[id="where-0"]:checked) .panel[data-i="0"],
+  .root:has(input[id="where-1"]:checked) .panel[data-i="1"],
+  .root:has(input[id="where-2"]:checked) .panel[data-i="2"] {
+    display: block;
+    animation: where-in 400ms ease-out both;
+  }
+  .root:has(input[id="where-0"]:checked) .opt[for="where-0"],
+  .root:has(input[id="where-1"]:checked) .opt[for="where-1"],
+  .root:has(input[id="where-2"]:checked) .opt[for="where-2"] {
+    color: #fff;
+    text-decoration-color: var(--brand-text);
+  }
+}
+
+@keyframes where-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .opt {
+    transition: none;
+  }
+  .root .panel {
+    animation: none !important;
+  }
+}

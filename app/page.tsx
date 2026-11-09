@@ -7,6 +7,8 @@ import ScrollHero from "@/components/home/ScrollHero";
 import Backbone from "@/components/home/Backbone";
 import SplitStage from "@/components/home/SplitStage";
 import CaseStudies from "@/components/home/CaseStudies";
+import WhereItRuns from "@/components/home/WhereItRuns";
+import Founder from "@/components/home/Founder";
 import Faq from "@/components/home/Faq";
 import CtaSection from "@/components/home/CtaSection";
 import Footer from "@/components/home/MainFooter";
@@ -44,7 +46,13 @@ export default function Home() {
         </div>
         <Backbone />
         <div data-nav-theme="dark" className="dark bg-page">
+          <WhereItRuns />
+        </div>
+        <div data-nav-theme="dark" className="dark bg-page">
           <CaseStudies />
+        </div>
+        <div data-nav-theme="dark" className="dark bg-page">
+          <Founder />
         </div>
         <div data-nav-theme="dark" className="dark bg-page">
           <Faq />
