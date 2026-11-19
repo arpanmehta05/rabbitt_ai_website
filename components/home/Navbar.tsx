@@ -216,8 +216,8 @@ export default function Navbar({ theme: fallbackTheme = "light" }: { theme?: "li
   const wrapRef = useRef<HTMLElement>(null);
 
   // Compact bar, after the one on adyen.com. Scrolling down folds the bar into a small card at the
-  // top left (logo and menu). It opens again when the pointer comes to it, and as soon as the
-  // page is scrolled up, even a little, without having to reach the top.
+  // top left (logo and menu). Hovering the card does nothing; the hamburger button opens the full
+  // bar, and so does scrolling up, even a little, without having to reach the top.
   const [compact, setCompact] = useState(false);
   const [pointerIn, setPointerIn] = useState(false); // the pointer is on the card or the bar
   const cardRef = useRef<HTMLDivElement>(null);
@@ -341,7 +341,6 @@ export default function Navbar({ theme: fallbackTheme = "light" }: { theme?: "li
       <div
         ref={cardRef}
         inert={expanded}
-        onPointerEnter={pointerEnter}
         className={`fixed left-4 top-4 z-50 origin-top-left transition-[transform,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] sm:left-8 sm:top-5 ${
           expanded ? "pointer-events-none -translate-y-3 scale-95 opacity-0" : "translate-y-0 scale-100 opacity-100"
         }`}

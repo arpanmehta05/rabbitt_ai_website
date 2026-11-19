@@ -1,0 +1,172 @@
+/* The AINama hero, drawn on the Figma 1440 x 884 frame (navbar 64px + hero 820px). From 1024px up the
+   whole thing is one picture that is scaled by --u, so it always fits inside one screen: --u is 1 on
+   a 1440 x 884 screen and gets smaller on a smaller or flatter one (never larger). Below 1024px it is
+   an ordinary stacked page. */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding-top: 64px;
+  --u: 1px;
+}
+
+.title {
+  padding-top: 24px;
+  text-align: center;
+  font-size: clamp(4rem, 25.6vw, 100px);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.045em;
+  color: #fff;
+  user-select: none;
+}
+
+.bookWrap {
+  position: relative;
+  z-index: 10;
+  width: 92%;
+  margin: 0 auto;
+  pointer-events: none;
+}
+.book {
+  display: block;
+  width: 100%;
+  height: auto;
+  transform: rotate(6deg);
+  filter: drop-shadow(0 28px 36px rgb(0 0 0 / 0.55));
+}
+
+.text {
+  position: relative;
+  z-index: 20;
+  padding-bottom: 56px;
+}
+.cols {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  max-width: 1440px;
+  margin-inline: auto;
+}
+.byline {
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: -0.04em;
+}
+.intro {
+  margin-top: 8px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+.btns {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 28px;
+}
+.btn {
+  display: inline-flex;
+  height: 52px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+.quote {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: -0.03em;
+}
+.cap {
+  margin-top: 12px;
+  font-size: 13px;
+}
+.stats {
+  margin-top: 8px;
+  font-size: 13px;
+}
+
+@media (min-width: 1024px) {
+  .hero {
+    --u: min(calc(100vw / 1440), calc(100svh / 884));
+    height: min(100svh, 884px);
+    min-height: 560px;
+  }
+  .title {
+    padding-top: calc(var(--u) * 40);
+    font-size: calc(var(--u) * 330);
+  }
+  .bookWrap {
+    position: absolute;
+    top: calc(64px + var(--u) * 196);
+    left: 50%;
+    width: calc(var(--u) * 690);
+    margin: 0;
+    transform: translateX(-50%);
+  }
+  .book {
+    transform: rotate(8deg);
+  }
+  .text {
+    position: absolute;
+    top: calc(64px + var(--u) * 470);
+    left: 0;
+    right: 0;
+    padding-bottom: 0;
+  }
+  .cols {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 32px;
+  }
+  .col {
+    width: max(230px, calc(var(--u) * 313));
+    flex: none;
+  }
+  .byline {
+    font-size: max(18px, calc(var(--u) * 24));
+  }
+  .intro {
+    margin-top: calc(var(--u) * 12);
+    font-size: max(14px, calc(var(--u) * 17));
+  }
+  .btns {
+    align-items: flex-start;
+    gap: calc(var(--u) * 12);
+    margin-top: calc(var(--u) * 32);
+  }
+  .btn {
+    height: calc(var(--u) * 52);
+    min-height: 44px;
+    padding-inline: 20px;
+    font-size: max(14px, calc(var(--u) * 16));
+  }
+  .btnRequest {
+    min-width: calc(var(--u) * 226);
+  }
+  .quoteCol {
+    padding-top: calc(var(--u) * 46);
+  }
+  .quote {
+    font-size: max(14px, calc(var(--u) * 17));
+  }
+  .cap {
+    margin-top: calc(var(--u) * 24);
+    font-size: max(12px, calc(var(--u) * 14));
+  }
+  .stats {
+    margin-top: calc(var(--u) * 32);
+    font-size: max(12px, calc(var(--u) * 14));
+  }
+}
+
+@media (max-width: 1023.98px) {
+  .btn {
+    width: 100%;
+  }
+}
