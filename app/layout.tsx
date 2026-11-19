@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import SmoothScroll from "@/components/SmoothScroll";
 import ConsentManager from "@/components/consent/ConsentManager";
+import ChatLauncher from "@/components/ChatLauncher";
 import "./globals.css";
 
 // The one font family for the whole site (see design.md §6).
@@ -122,6 +123,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         />
         <SmoothScroll />
         {children}
+        <ChatLauncher />
         <ConsentManager />
       </body>
     </html>

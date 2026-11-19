@@ -155,7 +155,7 @@ window.clarity('consentv2',{ad_Storage:'denied',analytics_Storage:'granted'});`}
           ref={dialogRef}
           role="dialog"
           aria-label="Cookie settings"
-          className="fixed inset-x-4 bottom-4 z-[200] overflow-hidden rounded-xl border border-white/[0.14] bg-black text-white shadow-[0_24px_80px_-12px_rgba(0,0,0,0.9)] motion-safe:animate-[rb-consent-in_0.6s_cubic-bezier(0.16,1,0.3,1)] md:inset-x-auto md:bottom-6 md:right-6 md:w-[400px]"
+          className="fixed inset-x-4 bottom-4 z-[200] overflow-hidden rounded-xl border border-white/[0.14] bg-black text-white shadow-[0_24px_80px_-12px_rgba(0,0,0,0.9)] motion-safe:animate-[rb-consent-in_0.6s_cubic-bezier(0.16,1,0.3,1)] md:inset-x-auto md:bottom-6 md:left-6 md:w-[400px]"
         >
           {/* a single bright hairline along the top edge, the one accent */}
           <span

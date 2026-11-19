@@ -202,14 +202,16 @@ function Panel({ group, onNavigate }: { group: NavGroup; onNavigate: () => void 
 const triggerClass =
   "relative inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-[15px] text-black/65 transition-colors hover:text-black dark:text-white/65 dark:hover:text-white";
 
-export default function Navbar() {
+// `theme` is what the bar looks like where no section has marked itself with data-nav-theme. The home
+// page marks its sections; the other pages are all dark and rely on this default.
+export default function Navbar({ theme: fallbackTheme = "light" }: { theme?: "light" | "dark" } = {}) {
   const [open, setOpen] = useState(false); // mobile menu
   const [mobileGroup, setMobileGroup] = useState<string | null>(null);
   const [openMenu, setOpenMenu] = useState<string | null>(null); // desktop dropdown
   const [hover, setHover] = useState<string | null>(null); // which item the pointer is on
   const [scrolled, setScrolled] = useState(false);
   // the bar takes the theme of the section it is over: sections mark themselves with data-nav-theme
-  const [dark, setDark] = useState(false);
+  const [dark, setDark] = useState(fallbackTheme === "dark");
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const wrapRef = useRef<HTMLElement>(null);
 
@@ -260,7 +262,7 @@ export default function Navbar() {
     const probe = () => {
       frame = 0;
       setScrolled(window.scrollY > 24);
-      let theme = "light";
+      let theme: string = fallbackTheme;
       document.querySelectorAll<HTMLElement>("[data-nav-theme]").forEach((el) => {
         const r = el.getBoundingClientRect();
         if (r.top <= 34 && r.bottom > 34) theme = el.dataset.navTheme ?? theme;
@@ -282,7 +284,7 @@ export default function Navbar() {
       mo.disconnect();
       if (frame) cancelAnimationFrame(frame);
     };
-  }, []);
+  }, [fallbackTheme]);
 
   // close dropdowns on Escape or a click outside
   useEffect(() => {

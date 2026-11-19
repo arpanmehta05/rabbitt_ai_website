@@ -515,10 +515,7 @@ export default function LandingExperience({
             </motion.div>
           </motion.div>
 
-          <SiteNavigation
-            opacity={navOpacity}
-            brandTargetRef={brandTargetRef}
-          />
+          <SiteNavigation />
 
           <div className="absolute inset-0 mx-auto w-full max-w-7xl px-4 sm:px-8">
             <motion.div

@@ -3,9 +3,9 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 
 // The closing block, in the left column of the stage: one headline, one line of copy, one primary
 // button and one text link (design.md §8, CTA block). No box, no ornament. A Server Component.
-export default function CtaSection() {
+export default function CtaSection({ theme = "dark" }: { theme?: "dark" | "light" } = {}) {
   return (
-    <section aria-labelledby="cta-title" className="py-12 md:py-16 lg:py-24">
+    <section aria-labelledby="cta-title" className={`py-12 md:py-16 lg:py-24 ${theme === "light" ? "rb-light" : ""}`}>
       <h2
         id="cta-title"
         className="max-w-2xl text-[clamp(1.875rem,3.4vw,3rem)] font-semibold leading-[1.1] tracking-[-0.025em] text-white"

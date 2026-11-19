@@ -38,6 +38,14 @@ export const products: Product[] = [
     accent: "#2f7bff",
   },
   {
+    name: "Rabbitt Learning",
+    detail: "AI-driven enterprise learning, upskilling and knowledge enablement.",
+    href: "https://learning.rabbitt.ai/",
+    logo: "/logo.svg",
+    logoScale: 1.5,
+    accent: "#0061ff",
+  },
+  {
     name: "Cloud Watcher",
     detail: "Cloud cost, health, and operations intelligence.",
     href: "https://cloudwatcher.rabbitt.ai/",

@@ -1,12 +1,17 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import { marked } from "marked";
 import DOMPurify from "isomorphic-dompurify";
-import { fetchCaseStudy, formatDate, resolveContentImages } from "@/lib/cms";
-import SiteNavigation from "@/components/SiteNavigation";
-import SiteFooter from "@/components/SiteFooter";
+import { fetchCaseStudy, fetchCaseStudiesCached, formatDate, resolveContentImages } from "@/lib/cms";
+import ArticleDetail from "@/components/casestudy/ArticleDetail";
+
+// The case study page: it builds its data from the CMS and renders the shared ArticleDetail (the same
+// page the blog posts use), from the Figma "Case study" frames: a light page. Breadcrumb, the title, one
+// meta line, then the picture beside a short summary and the headline numbers; below, a sticky side
+// column (facts, "In this story", a demo card) next to the article, then three more studies, and the
+// same closing block and footer as the rest of the site. All of it comes from the CMS: the numbers
+// are the "NN% ..." results in the study's own headline, the facts are its industry/client line,
+// its category and its date, and "In this story" lists the article's own headings.
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -30,6 +35,26 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
+const slugify = (s: string) =>
+  s
+    .toLowerCase()
+    .replace(/<[^>]+>/g, "")
+    .replace(/&[a-z]+;/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+
+const strip = (s: string) => s.replace(/<[^>]+>/g, "").replace(/&amp;/g, "&").replace(/&#39;/g, "'").replace(/&quot;/g, '"').trim();
+
+// every "NN% something" in the study's headline, e.g. "15% Increase in Accuracy", "400% Boost in ..."
+function headlineNumbers(heading: string) {
+  const out: { value: string; label: string }[] = [];
+  for (const m of heading.matchAll(/(\d+(?:\.\d+)?)%\s+(.+?)(?=\s+and\s+\d|,|\s[–—-]\s|\s+Leading\b|\s+for\b|$)/g)) {
+    const label = m[2].trim().toLowerCase();
+    out.push({ value: `${m[1]}%`, label });
+  }
+  return out.slice(0, 3);
+}
+
 export default async function CaseStudyDetailPage({ params }: Props) {
   const { slug } = await params;
 
@@ -40,107 +65,48 @@ export default async function CaseStudyDetailPage({ params }: Props) {
     notFound();
   }
 
-  const rawHtml = await marked(resolveContentImages(study.content ?? ""), { breaks: true });
-  const safeHtml = DOMPurify.sanitize(rawHtml);
+  // pull the headline and the industry / client line out of the markdown; the rest is the article
+  let md = resolveContentImages(study.content ?? "");
+  const h1 = md.match(/^#\s+(.+)$/m)?.[1]?.replace(/[*_`]/g, "").trim() ?? study.title;
+  md = md.replace(/^#\s+.+$/m, "");
+  const fact = md.match(/^\*\*(Industry|Client):?\*\*:?\s*(.+)$/im);
+  md = md.replace(/^\*\*Project Success Story\*\*.*$/im, "").replace(/^\*\*(Industry|Client):?\*\*:?\s*.+$/im, "");
+
+  let html = DOMPurify.sanitize(await marked(md, { breaks: true }));
+  const toc: { id: string; label: string }[] = [];
+  html = html.replace(/<h2>([\s\S]*?)<\/h2>/g, (_m, inner: string) => {
+    const text = strip(inner);
+    let id = slugify(text) || `section-${toc.length + 1}`;
+    if (toc.some((t) => t.id === id)) id += `-${toc.length + 1}`;
+    toc.push({ id, label: text.includes(":") ? text.split(":")[0].trim() : text });
+    return `<h2 id="${id}">${text.includes(":") ? text.split(":").slice(1).join(":").trim() : text}</h2>`;
+  });
+
+  const numbers = headlineNumbers(h1);
+  const summary = (study.description || "").replace(/\s+/g, " ").trim();
+  const facts: [string, string][] = [
+    [fact ? (fact[1].toLowerCase() === "client" ? "Client" : "Industry") : "Category", fact ? fact[2].replace(/[*_]/g, "").trim() : study.about],
+    ["Service", study.about],
+    ["Published", formatDate(study.dateAdded)],
+  ].filter(([, v]) => !!v) as [string, string][];
+
+  const others = (await fetchCaseStudiesCached().catch(() => []))
+    .filter((s) => s.slug !== study.slug)
+    .slice(0, 3);
 
   return (
-    <main className="min-h-screen bg-[#020305] text-white">
-      <SiteNavigation />
-
-      <div className="pointer-events-none fixed inset-x-0 top-0 h-[260px] bg-[radial-gradient(ellipse_70%_100%_at_50%_0%,rgba(14,165,233,0.05),transparent_70%)]" />
-
-      <div className="relative mx-auto max-w-[860px] px-6 pb-24 pt-32 sm:px-10 sm:pt-40">
-        {/* Back link */}
-        <Link
-          href="/casestudies"
-          className="mb-10 inline-flex items-center gap-2 text-sm text-slate-400 transition-colors hover:text-white"
-        >
-          <svg className="h-4 w-4" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path d="m10 12-4-4 4-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-          All Case Studies
-        </Link>
-
-        {/* Meta */}
-        <div className="mb-6 flex flex-wrap items-center gap-3">
-          <span className="rounded-full border border-white/[0.1] bg-white/[0.06] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-300">
-            Case Study
-          </span>
-          {study.about && (
-            <span className="rounded-full border border-white/15 bg-black px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-white shadow-sm">
-              {study.about.length > 20 ? study.about.slice(0, 20).trimEnd() + "…" : study.about}
-            </span>
-          )}
-          <time className="text-xs text-slate-500" dateTime={study.dateAdded}>
-            {formatDate(study.dateAdded)}
-          </time>
-        </div>
-
-        {/* Author */}
-        <div className="mb-8 flex items-center gap-3">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden border border-white/[0.1] bg-[#0b1525]">
-            <Image
-              src="/logo.svg"
-              alt="Rabbitt AI"
-              width={22}
-              height={22}
-              className="object-contain opacity-80"
-            />
-          </div>
-          <div>
-            <p className="text-sm font-medium text-white">Rabbitt AI</p>
-            <p className="text-xs text-slate-500">Rabbitt AI Team</p>
-          </div>
-        </div>
-
-        {/* Title */}
-        <h1 className="text-3xl font-semibold leading-[1.12] tracking-[-0.04em] text-white sm:text-4xl lg:text-[2.75rem]">
-          {study.title}
-        </h1>
-
-        {/* Description */}
-        {study.description && (
-          <p className="mt-5 text-lg leading-relaxed text-slate-400">
-            {study.description}
-          </p>
-        )}
-
-        {/* Hero image */}
-        {study.image && (
-          <div className="relative mt-10 w-full overflow-hidden border border-white/[0.08] bg-[#060d1a]">
-            <Image
-              src={study.image}
-              alt={study.title}
-              width={1200}
-              height={800}
-              sizes="(max-width: 860px) 100vw, 860px"
-              className="h-auto w-full object-contain"
-              priority
-            />
-          </div>
-        )}
-
-        {/* Content */}
-        <div
-          className="blog-prose mt-12"
-          dangerouslySetInnerHTML={{ __html: safeHtml }}
-        />
-
-        {/* Footer */}
-        <div className="mt-16 border-t border-white/[0.07] pt-10">
-          <Link
-            href="/casestudies"
-            className="inline-flex items-center gap-2 text-sm font-medium text-sky-400 transition-colors hover:text-sky-300"
-          >
-            <svg className="h-4 w-4" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path d="m10 12-4-4 4-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-            Back to Case Studies
-          </Link>
-        </div>
-      </div>
-
-      <SiteFooter />
-    </main>
+    <ArticleDetail
+      kind="case"
+      title={study.title}
+      summary={summary}
+      about={study.about}
+      image={study.image}
+      dateAdded={study.dateAdded}
+      html={html}
+      toc={toc}
+      facts={facts}
+      numbers={numbers}
+      more={others}
+    />
   );
 }

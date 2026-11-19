@@ -1,13 +1,11 @@
 import Navbar from "@/components/home/Navbar";
 import HeroPull from "@/components/home/hero-options/HeroPull";
 import CompaniesStrip from "@/components/home/CompaniesStrip";
-import ProductsIndex from "@/components/home/ProductsIndex";
-import Services from "@/components/home/Services";
+import ServicesIndex from "@/components/home/ServicesIndex";
+import FeatureCard from "@/components/home/FeatureCard";
 import ScrollHero from "@/components/home/ScrollHero";
 import Backbone from "@/components/home/Backbone";
 import SplitStage from "@/components/home/SplitStage";
-import CaseStudies from "@/components/home/CaseStudies";
-import WhereItRuns from "@/components/home/WhereItRuns";
 import Founder from "@/components/home/Founder";
 import Faq from "@/components/home/Faq";
 import CtaSection from "@/components/home/CtaSection";
@@ -33,24 +31,18 @@ export default function Home() {
       </a>
       <Navbar />
       <main id="main" className="bg-page selection:bg-blue-600 selection:text-white">
-        {/* the first screen, the logos that land right under it, the products and the services, on the dark page */}
+        {/* the first screen, the logos that land right under it, the products card, on the dark page */}
         <div data-nav-theme="dark" className="dark bg-page">
           <HeroPull />
           <CompaniesStrip />
-          <ProductsIndex />
-          <Services />
+          <ServicesIndex />
+          <FeatureCard />
         </div>
         {/* the statement scene, on the same dark page */}
         <div data-nav-theme="dark" className="dark bg-page">
           <ScrollHero />
         </div>
         <Backbone />
-        <div data-nav-theme="dark" className="dark bg-page">
-          <WhereItRuns />
-        </div>
-        <div data-nav-theme="dark" className="dark bg-page">
-          <CaseStudies />
-        </div>
         <div data-nav-theme="dark" className="dark bg-page">
           <Founder />
         </div>

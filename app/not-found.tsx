@@ -1,178 +1,84 @@
-"use client";
-
+import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
-import { motion } from "framer-motion";
-import SiteNavigation from "@/components/SiteNavigation";
-import SiteFooter from "@/components/SiteFooter";
+import { ArrowUpRight } from "lucide-react";
+import Navbar from "@/components/home/Navbar";
+import Buttons from "@/components/home/hero-options/Buttons";
+import CtaSection from "@/components/home/CtaSection";
+import MainFooter from "@/components/home/MainFooter";
 
-const popularLinks = [
-  {
-    title: "Platform Overview",
-    description: "Discover how Rabbitt AI shapes enterprise data into reliable intelligence.",
-    href: "/",
-    badge: "Home",
-  },
-  {
-    title: "Enterprise Products",
-    description: "Explore our full suite of AI products across marketing, learning, and infrastructure.",
-    href: "/products",
-    badge: "Catalog",
-  },
-  {
-    title: "AI Adoption Journey",
-    description: "A structured, 5-stage path from first problem to measurable enterprise impact.",
-    href: "/#services",
-    badge: "Methodology",
-  },
-  {
-    title: "Book an Enterprise Demo",
-    description: "Connect with our AI solutions architects for a technical walkthrough.",
-    href: "/contactus",
-    badge: "Consultation",
-  },
+export const metadata: Metadata = {
+  title: "Page not found",
+  robots: { index: false },
+};
+
+// real pages, in the order a visitor most likely wants them
+const destinations = [
+  { name: "Products", detail: "Private AI that runs in your own cloud.", href: "/products" },
+  { name: "Services", detail: "Data, content and training, for every stage of adopting AI.", href: "/#services" },
+  { name: "Case studies", detail: "Results from work already in production.", href: "/casestudies" },
+  { name: "About", detail: "Who we are and how we work.", href: "/about" },
+  { name: "Blogs", detail: "Notes on private and sovereign AI.", href: "/blogs" },
+  { name: "Contact", detail: "Tell us what you are building.", href: "/contactus" },
 ];
 
+// The 404 page, built from the home page's own parts: the first screen's gradient lettering and
+// buttons, the Services section's bordered card with its hairline link rows, and the closing block.
+// No pictures, no glow.
 export default function NotFound() {
   return (
-    <main className="relative min-h-screen bg-[#020305] text-white flex flex-col justify-between overflow-x-hidden selection:bg-blue-600 selection:text-white">
-      {/* Top Navigation */}
-      <SiteNavigation />
-
-      {/* Hero 404 Section */}
-      <section className="relative z-10 mx-auto flex w-full max-w-5xl flex-col items-center px-6 pt-20 pb-12 text-center sm:pt-24 sm:pb-14 lg:pt-24 lg:pb-16">
-        {/* Ambient Multi-Layer Background Glows */}
-        <div className="pointer-events-none absolute left-1/2 top-1/3 h-[420px] w-[650px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(37,99,235,0.22)_0%,rgba(14,165,233,0.12)_40%,transparent_75%)] blur-[95px]" />
-        <div className="pointer-events-none absolute left-1/2 top-1/2 h-[300px] w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-500/10 blur-[80px]" />
-
-        {/* Subtle Background Grid Accent */}
-        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_40%,#000_30%,transparent_100%)] opacity-60" />
-
-        {/* 404 + Overlapping Rabbitt Logo Composition */}
-        <div className="relative flex flex-col items-center justify-center select-none">
-          {/* Giant Bold White 404 */}
-          <motion.h1
-            initial={{ opacity: 0, scale: 0.94 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="relative z-10 font-sans text-[7.5rem] font-black leading-none tracking-[-0.06em] text-white drop-shadow-[0_20px_50px_rgba(0,0,0,0.9)] sm:text-[11rem] md:text-[13rem] lg:text-[15rem]"
-          >
-            404
-          </motion.h1>
-
-          {/* Rabbitt Logo: on top, top portion overlaps bottom of 404 */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{
-              opacity: 1,
-              y: [0, -10, 0],
-            }}
-            transition={{
-              opacity: { duration: 0.6, delay: 0.15 },
-              y: { duration: 5, repeat: Infinity, ease: "easeInOut" },
-            }}
-            className="relative z-20 -mt-[20%] sm:-mt-[18%] md:-mt-[16%] lg:-mt-[15%] flex items-center justify-center"
-          >
-            {/* Glow underneath the logo */}
-            <div className="pointer-events-none absolute -inset-10 rounded-full bg-sky-500/20 blur-3xl" />
-
-            <div className="relative h-44 w-44 sm:h-56 sm:w-56 md:h-64 md:w-64 lg:h-72 lg:w-72">
-              <Image
-                src="/logo.svg"
-                alt="Rabbitt AI"
-                fill
-                priority
-                className="object-contain drop-shadow-[0_24px_40px_rgba(0,0,0,0.98)] drop-shadow-[0_0_60px_rgba(56,189,248,0.4)]"
-              />
+    <>
+      <Navbar theme="dark" />
+      <main className="dark bg-page text-white selection:bg-blue-600 selection:text-white">
+        <section className="rb-container grid min-h-svh items-center gap-12 pb-16 pt-28 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-16">
+          <div>
+            <p
+              aria-hidden
+              className="select-none bg-[linear-gradient(100deg,#fff_23%,#e2edff_43%,#85b5ff_70%,#317df3_100%)] bg-clip-text pr-[0.06em] text-[clamp(6.5rem,17vw,15rem)] font-semibold leading-[0.85] tracking-[-0.06em] text-transparent"
+            >
+              404
+            </p>
+            <h1 className="mt-6 max-w-[16ch] text-balance text-[clamp(2.25rem,4.4vw,4rem)] font-semibold leading-[1.06] tracking-[-0.035em]">
+              This page is not in our data.
+            </h1>
+            <p className="mt-5 max-w-[42ch] text-[clamp(17px,1.4vw,20px)] leading-relaxed text-white/70">
+              The link may be old, or the page may have moved. Go back to the start, or pick one of
+              the pages on the right.
+            </p>
+            <div className="mt-10">
+              <Buttons />
             </div>
-          </motion.div>
-        </div>
-
-        {/* Informative Copy & Actions */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.25 }}
-          className="relative z-10 mt-4 max-w-xl sm:mt-6"
-        >
-          <h2 className="font-sans text-2xl font-bold tracking-[-0.03em] text-white sm:text-3xl lg:text-4xl">
-            Lost in the Rabbitt hole?
-          </h2>
-          <p className="mt-3 text-sm leading-relaxed text-slate-400 sm:text-base lg:text-lg">
-            The page you are looking for doesn&apos;t exist or has moved to another coordinate in our ecosystem.
-          </p>
-
-          {/* Action CTAs */}
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-4 sm:mt-8">
-            <Link
-              href="/"
-              className="group inline-flex items-center gap-2.5 rounded-full bg-white px-7 py-3.5 text-sm font-semibold text-[#020305] shadow-[0_0_30px_rgba(255,255,255,0.2)] transition-all duration-200 hover:bg-slate-100 hover:scale-[1.02] active:scale-[0.98]"
-            >
-              <span>Back to Home</span>
-              <span aria-hidden="true" className="transition-transform duration-200 group-hover:translate-x-1">
-                →
-              </span>
-            </Link>
-            <Link
-              href="/products"
-              className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.05] px-6 py-3.5 text-sm font-medium text-slate-200 backdrop-blur-sm transition-all duration-200 hover:border-sky-400/50 hover:bg-white/[0.09] hover:text-white"
-            >
-              Explore Products
-            </Link>
           </div>
-        </motion.div>
-      </section>
 
-      {/* Quick Navigation */}
-      <section className="relative z-10 bg-[#030712] py-16">
-        {/* Top hairline */}
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.12] to-transparent" />
+          <div className="rounded-2xl border border-white/10 p-6 sm:p-8 lg:p-10">
+            <h2 className="text-[clamp(1.5rem,2.2vw,2rem)] font-semibold tracking-[-0.025em]">Where to next</h2>
+            <ul className="mt-6">
+              {destinations.map((d) => (
+                <li key={d.href} className="border-b border-white/10 first:border-t">
+                  <Link href={d.href} className="group flex items-center justify-between gap-6 py-4 sm:py-5">
+                    <span className="flex flex-col gap-1">
+                      <span className="text-[clamp(1.125rem,1.6vw,1.5rem)] font-medium leading-tight tracking-[-0.02em] transition-colors duration-300 group-hover:text-brand-text">
+                        {d.name}
+                      </span>
+                      <span className="max-w-[44ch] text-[15px] leading-snug text-white/65">{d.detail}</span>
+                    </span>
+                    <ArrowUpRight
+                      aria-hidden
+                      className="h-5 w-5 shrink-0 text-white/55 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-brand-text"
+                    />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
 
-        <div className="mx-auto max-w-5xl px-6 sm:px-10 lg:px-16">
-          <p className="mb-8 text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">
-            Quick Navigation
-          </p>
-
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            {popularLinks.map((item) => (
-              <Link
-                key={item.title}
-                href={item.href}
-                className="group flex items-center justify-between gap-4 rounded-xl border border-white/[0.1] bg-white/[0.03] px-5 py-4 transition-all duration-200 hover:border-sky-400/30 hover:bg-white/[0.06] hover:shadow-[0_0_20px_rgba(14,165,233,0.06)]"
-              >
-                <div className="flex items-center gap-4 min-w-0">
-                  {/* Dot accent */}
-                  <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-slate-600 transition-colors group-hover:bg-sky-400" />
-                  <div className="min-w-0">
-                    <p className="truncate text-sm font-medium text-slate-200 transition-colors group-hover:text-white">
-                      {item.title}
-                    </p>
-                    <p className="mt-0.5 truncate text-xs text-slate-500 transition-colors group-hover:text-slate-400">
-                      {item.description}
-                    </p>
-                  </div>
-                </div>
-                <svg
-                  viewBox="0 0 14 14"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={1.5}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="h-3.5 w-3.5 shrink-0 text-slate-600 transition-all group-hover:translate-x-0.5 group-hover:text-sky-400"
-                  aria-hidden="true"
-                >
-                  <path d="M2.5 7h9M7.5 3l4 4-4 4" />
-                </svg>
-              </Link>
-            ))}
+        <div className="relative overflow-hidden border-t border-white/[0.08]">
+          <div className="rb-container relative">
+            <CtaSection />
           </div>
         </div>
-      </section>
-
-
-      {/* Shared Footer */}
-      <SiteFooter />
-    </main>
+      </main>
+      <MainFooter />
+    </>
   );
 }
