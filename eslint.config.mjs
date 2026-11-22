@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // the showreel is its own Remotion project with its own config
+    "video/**",
   ]),
 ]);
 

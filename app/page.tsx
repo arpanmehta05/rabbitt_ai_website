@@ -1,11 +1,12 @@
 import Navbar from "@/components/home/Navbar";
 import HeroPull from "@/components/home/hero-options/HeroPull";
 import CompaniesStrip from "@/components/home/CompaniesStrip";
+import ShowreelCard from "@/components/home/ShowreelCard";
 import ServicesIndex from "@/components/home/ServicesIndex";
 import FeatureCard from "@/components/home/FeatureCard";
 import ScrollHero from "@/components/home/ScrollHero";
-import Backbone from "@/components/home/Backbone";
 import SplitStage from "@/components/home/SplitStage";
+import CaseShowcase from "@/components/home/CaseShowcase";
 import Founder from "@/components/home/Founder";
 import Faq from "@/components/home/Faq";
 import CtaSection from "@/components/home/CtaSection";
@@ -31,23 +32,28 @@ export default function Home() {
       </a>
       <Navbar />
       <main id="main" className="bg-page selection:bg-blue-600 selection:text-white">
-        {/* the first screen, the logos that land right under it, the products card, on the dark page */}
+        {/* the first screen, the logos right under it, products, services, then the showreel card that grows
+            to the whole screen as it scrolls in (the same card as AINama's numbers) */}
         <div data-nav-theme="dark" className="dark bg-page">
           <HeroPull />
           <CompaniesStrip />
-          <ServicesIndex />
           <FeatureCard />
+          <ServicesIndex />
+          <ShowreelCard />
         </div>
-        {/* the statement scene, on the same dark page */}
+        {/* the case studies: three customer stories in tabs (placeholder content until the team supplies it) */}
+        <div data-nav-theme="dark" className="dark bg-page">
+          <CaseShowcase />
+        </div>
+        {/* the scroll scene, on the same dark page */}
         <div data-nav-theme="dark" className="dark bg-page">
           <ScrollHero />
         </div>
-        <Backbone />
-        <div data-nav-theme="dark" className="dark bg-page">
-          <Founder />
-        </div>
         <div data-nav-theme="dark" className="dark bg-page">
           <Faq />
+        </div>
+        <div data-nav-theme="dark" className="dark bg-page">
+          <Founder />
         </div>
         <div data-nav-theme="dark" className="dark bg-page">
           {/* a hairline of light, then some room, between the numbers and the closing block */}

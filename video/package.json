@@ -1,0 +1,24 @@
+{
+  "name": "rabbitt-showreel",
+  "version": "1.0.0",
+  "private": true,
+  "description": "The 30-second landing-page showreel (\"the hat trick\"), rendered to MP4 with Remotion. Output: ../public/showreel/",
+  "scripts": {
+    "studio": "remotion studio src/index.ts",
+    "render": "npm run frames && npm run encode",
+    "frames": "remotion render src/index.ts Showreel out/seq/h --sequence --image-format=png --scale=4 && remotion render src/index.ts ShowreelVertical out/seq/v --sequence --image-format=png --scale=4",
+    "encode": "node scripts/encode.mjs"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.545",
+    "@remotion/google-fonts": "^4.0.545",
+    "@remotion/transitions": "^4.0.545",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "remotion": "^4.0.545"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "typescript": "^5.9.3"
+  }
+}

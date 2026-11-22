@@ -1,13 +1,28 @@
 import { ImageResponse } from "next/og";
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 
-// The picture shown when the site is shared (design.md §14, 1200×630). Drawn in code from the
-// brand's own colours and words: no photograph and no generated art.
+// The picture shown when the site is shared (design.md §14, 1200×630). The background is the
+// products card's gradient as drawn in Figma (Landing, "Products section (blue card)": deep navy
+// with four blurred circles in the brand blues), exported at 1200×630 to assets/og-background.png
+// because the image renderer cannot blur. On it: one headline, one line under it, and the Rabbitt
+// mark. Inter, read from assets/fonts (SIL Open Font License), since the renderer does not see the
+// page's fonts.
 
-export const alt = "Rabbitt AI — Own your data. Own your AI.";
+export const alt = "Rabbitt AI. Own your data. Own your AI.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-export default function OpengraphImage() {
+const dataUri = (buf: Buffer, type: string) => `data:${type};base64,${buf.toString("base64")}`;
+
+export default async function OpengraphImage() {
+  const [regular, bold, background, logo] = await Promise.all([
+    readFile(join(process.cwd(), "assets/fonts/Inter-Regular.woff")),
+    readFile(join(process.cwd(), "assets/fonts/Inter-Bold.woff")),
+    readFile(join(process.cwd(), "assets/og-background.png")),
+    readFile(join(process.cwd(), "public/logo.svg")),
+  ]);
+
   return new ImageResponse(
     (
       <div
@@ -17,48 +32,32 @@ export default function OpengraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          padding: "72px 80px",
-          background: "#000000",
+          padding: "72px 88px 60px",
+          backgroundColor: "#050d29",
+          backgroundImage: `url(${dataUri(background, "image/png")})`,
+          backgroundSize: "1200px 630px",
           color: "#ffffff",
-          position: "relative",
+          fontFamily: "Inter",
         }}
       >
-        {/* a soft glow of the brand blue, and a thin blue rule */}
-        <div
-          style={{
-            position: "absolute",
-            right: -160,
-            top: -140,
-            width: 760,
-            height: 760,
-            borderRadius: 760,
-            background: "radial-gradient(circle, rgba(0,97,255,0.55) 0%, rgba(0,97,255,0) 68%)",
-          }}
-        />
-        <div style={{ display: "flex", alignItems: "center", fontSize: 34, fontWeight: 700, letterSpacing: -1 }}>
-          <div
-            style={{
-              width: 14,
-              height: 14,
-              borderRadius: 14,
-              background: "#4d9bff",
-              marginRight: 16,
-            }}
-          />
-          Rabbitt AI
-        </div>
-
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ fontSize: 108, fontWeight: 700, lineHeight: 1.04, letterSpacing: -4 }}>Own your data.</div>
-          <div style={{ fontSize: 108, fontWeight: 700, lineHeight: 1.04, letterSpacing: -4 }}>Own your AI.</div>
-          <div style={{ marginTop: 36, fontSize: 32, color: "rgba(255,255,255,0.7)" }}>
+          <div style={{ fontSize: 112, fontWeight: 700, lineHeight: 1.02, letterSpacing: -5 }}>Own your data.</div>
+          <div style={{ fontSize: 112, fontWeight: 700, lineHeight: 1.02, letterSpacing: -5 }}>Own your AI.</div>
+          <div style={{ marginTop: 32, fontSize: 32, fontWeight: 400, lineHeight: 1.35, color: "rgba(255,255,255,0.8)" }}>
             Private models and agents that run inside your own cloud.
           </div>
         </div>
 
-        <div style={{ display: "flex", height: 4, width: 120, background: "#0061ff" }} />
+        {/* eslint-disable-next-line @next/next/no-img-element -- the image renderer only takes <img> */}
+        <img src={dataUri(logo, "image/svg+xml")} width={132} height={132} alt="" style={{ marginLeft: -10, marginBottom: -12 }} />
       </div>
     ),
-    { ...size },
+    {
+      ...size,
+      fonts: [
+        { name: "Inter", data: regular, style: "normal", weight: 400 },
+        { name: "Inter", data: bold, style: "normal", weight: 700 },
+      ],
+    },
   );
 }
