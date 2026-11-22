@@ -1,8 +1,9 @@
 "use client";
 
 import { useId, useState, type FormEvent } from "react";
-import { ArrowRight, Check, ChevronDown } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 import { TOPICS, type TopicId } from "./contactData";
+import Dropdown from "./Dropdown";
 import { blueButton, input, label } from "./ui";
 
 // The message form (Figma "Contact – Desktop 1440 · Send a message"): "I'd like to discuss [topic]"
@@ -86,21 +87,13 @@ export default function ContactForm({ initialTopic }: { initialTopic?: string })
         <h2 className="text-[24px] font-semibold tracking-[-0.03em] text-white lg:text-[30px]" id={`${uid}-topic-label`}>
           I’d like to discuss
         </h2>
-        <span className="relative inline-flex items-center bg-white/[0.08]">
-          <select
-            aria-labelledby={`${uid}-topic-label`}
-            value={topicId}
-            onChange={(e) => choose(e.target.value as TopicId)}
-            className="cursor-pointer appearance-none bg-transparent py-1.5 pl-3.5 pr-10 text-[24px] font-semibold tracking-[-0.03em] text-brand-text outline-none focus-visible:ring-1 focus-visible:ring-brand-text lg:text-[30px] [&>option]:bg-[#0b0c10] [&>option]:text-[16px] [&>option]:text-white"
-          >
-            {TOPICS.map((t) => (
-              <option key={t.id} value={t.id}>
-                {t.label}
-              </option>
-            ))}
-          </select>
-          <ChevronDown aria-hidden className="pointer-events-none absolute right-3 h-5 w-5 text-brand-text" />
-        </span>
+        <Dropdown
+          size="topic"
+          labelledBy={`${uid}-topic-label`}
+          value={topicId}
+          options={TOPICS.map((t) => ({ value: t.id, label: t.label }))}
+          onChange={(v) => choose(v as TopicId)}
+        />
       </div>
       <p className="max-w-[60ch] text-[15px] leading-[1.55] text-white/60 lg:text-[16px]">{topic.line}</p>
 
@@ -128,20 +121,19 @@ export default function ContactForm({ initialTopic }: { initialTopic?: string })
         </label>
 
         {topic.pick && (
-          <label className={`${label} col-span-2`}>
-            {topic.pick.label}
-            <span className="relative mt-2 block">
-              <select value={f.pick} onChange={(e) => set("pick", e.target.value)} className={`${input} cursor-pointer appearance-none pr-10 [&>option]:bg-[#0b0c10]`}>
-                <option value="">Choose one</option>
-                {topic.pick.options.map((o) => (
-                  <option key={o} value={o}>
-                    {o}
-                  </option>
-                ))}
-              </select>
-              <ChevronDown aria-hidden className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-white/60" />
+          <div className="col-span-2">
+            <span id={`${uid}-pick-label`} className={label}>
+              {topic.pick.label}
             </span>
-          </label>
+            <div className="mt-2">
+              <Dropdown
+                labelledBy={`${uid}-pick-label`}
+                value={f.pick}
+                options={topic.pick.options.map((o) => ({ value: o, label: o }))}
+                onChange={(v) => set("pick", v)}
+              />
+            </div>
+          </div>
         )}
         {"site" in topic && (
           <label className={`${label} col-span-2`}>

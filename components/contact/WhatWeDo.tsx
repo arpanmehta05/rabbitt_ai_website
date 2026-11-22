@@ -60,18 +60,19 @@ export default function WhatWeDo() {
                 </span>
               </span>
               <span className="mt-4 block text-[14px] leading-[1.5] text-white/60 lg:text-[15px]">{item.detail}</span>
-              <span className="mt-3 inline-flex items-center gap-2 text-[14px] font-medium text-white">
+              {/* pinned to the bottom, so the links line up however long the line above is */}
+              <span className="mt-auto inline-flex items-center gap-2 pt-3 text-[14px] font-medium text-white">
                 Learn more
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
               </span>
             </>
           );
           return external(item.href) ? (
-            <a key={item.label} href={item.href} target="_blank" rel="noopener noreferrer" className="group block">
+            <a key={item.label} href={item.href} target="_blank" rel="noopener noreferrer" className="group flex flex-col">
               {body}
             </a>
           ) : (
-            <Link key={item.label} href={item.href} className="group block">
+            <Link key={item.label} href={item.href} className="group flex flex-col">
               {body}
             </Link>
           );
