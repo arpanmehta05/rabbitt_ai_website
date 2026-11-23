@@ -1,27 +1,53 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 ::selection {
-  background: #ffffff;
-  color: #000000;
+  background: #0061FF;
+  color: #ffffff;
 }
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
-  --font-sans: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --foreground: #090d16;
+  /* One family: Inter. Every older font variable points at it, so no page can pick a second one. */
+  --font-sans: var(--font-inter), "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: var(--font-sans);
+  --font-serif: var(--font-sans);
+  --font-serif-display: var(--font-sans);
+  --font-geist-sans: var(--font-sans);
+  --font-mono: var(--font-sans); /* one family site-wide: Inter, also where mono utilities are used */
+  --font-geist-mono: var(--font-mono);
+
+  /* colour tokens (design.md §5), defined once. In classes: bg-page, bg-raised, bg-surface,
+     bg-brand, hover:bg-brand-hover, text-brand-text. */
+  --bg: #000000; /* black, as on the original rabbitt.ai */
+  --bg-raised: #0a0b10;
+  --surface: #14161f;
+  --line: rgba(255, 255, 255, 0.1);
+  --brand: #0061ff;
+  --brand-hover: #1a47d6;
+  --brand-text: #4d9bff;
 }
 
 @theme inline {
+  --color-page: var(--bg);
+  --color-raised: var(--bg-raised);
+  --color-surface: var(--surface);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-text: var(--brand-text);
+  --color-brand: #0061ff;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-sans);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --font-serif: var(--font-serif);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #ffffff;
+    --foreground: #090d16;
   }
 }
 
@@ -29,7 +55,7 @@ html,
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: var(--font-sans);
   /* iOS draws some arrows and symbols (↗ ♨) as colour emoji; keep them as plain text glyphs */
   font-variant-emoji: text;
   /* stop iOS from inflating text sizes after a rotation */
@@ -50,17 +76,763 @@ select {
   font-family: inherit;
 }
 
+/* Page layout (design.md §7): content uses the whole width of the screen, with a side gutter of 20px
+   on a phone, 32px on a tablet, 48px on a desktop and 64px on a wide screen. .rb-section is the vertical rhythm of a section:
+   48px, 64px and 96px above and below. */
+.rb-container {
+  --gutter: 20px;
+  margin-inline: auto;
+  width: 100%;
+  padding-inline: var(--gutter);
+}
+@media (min-width: 640px) {
+  .rb-container {
+    --gutter: 32px;
+  }
+}
+@media (min-width: 1024px) {
+  .rb-container {
+    --gutter: 48px;
+  }
+}
+@media (min-width: 1280px) {
+  .rb-container {
+    --gutter: 64px;
+  }
+}
+.rb-section {
+  padding-block: 48px;
+}
+@media (min-width: 768px) {
+  .rb-section {
+    padding-block: 64px;
+  }
+}
+@media (min-width: 1024px) {
+  .rb-section {
+    padding-block: 96px;
+  }
+}
+
+/* one visible keyboard focus ring everywhere: 2px in the light brand blue, 2px away (design.md §8) */
+:focus-visible {
+  outline: 2px solid var(--brand-text);
+  outline-offset: 2px;
+}
+
+/* Rising into place. .rb-rise plays when the page loads (set --d for a delay); .rb-reveal plays as
+   the element scrolls into view, where the browser supports it. Neither hides anything before it
+   runs, so the content is always in the page, and neither runs for reduced motion. */
+@keyframes rb-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.rb-rise {
+  animation: rb-rise 500ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--d, 0ms);
+}
+@supports (animation-timeline: view()) {
+  .rb-reveal {
+    animation: rb-rise linear both;
+    animation-timeline: view();
+    animation-range: entry 5% entry 40%;
+  }
+}
+/* a slow turn around the middle of the hero picture; --t is how long one turn takes */
+@keyframes rb-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.rb-spin {
+  transform-origin: 300px 300px;
+  animation: rb-spin var(--t, 60s) linear infinite;
+}
+.rb-glow {
+  filter: drop-shadow(0 0 6px rgba(77, 155, 255, 0.95));
+}
+@keyframes rb-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+.rb-float {
+  animation: rb-float 7s ease-in-out infinite;
+}
+@keyframes rb-twinkle {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.rb-twinkle {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: rb-twinkle var(--t, 4s) ease-in-out var(--d, 0s) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .rb-rise,
+  .rb-reveal,
+  .rb-spin,
+  .rb-float,
+  .rb-twinkle {
+    animation: none;
+  }
+}
+
+@keyframes rb-sweep {
+  from {
+    transform: translateX(-40%);
+  }
+  to {
+    transform: translateX(260%);
+  }
+}
+.rb-sweep {
+  animation: rb-sweep 7s ease-in-out infinite;
+}
+@keyframes rb-flow {
+  0% {
+    offset-distance: 0%;
+    opacity: 0;
+  }
+  12%,
+  88% {
+    opacity: 1;
+  }
+  100% {
+    offset-distance: 100%;
+    opacity: 0;
+  }
+}
+.rb-flow {
+  offset-rotate: 0deg;
+  animation: rb-flow var(--t, 5s) linear var(--d, 0s) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .rb-sweep,
+  .rb-flow {
+    animation: none;
+  }
+}
+
+/* The loop picture of the /design option I: one 12s cycle with three stages. The arrow travels the
+   ring and rests at each stage (the first stage at 0-12%, the second at 33-45%, the third at
+   66-78%); the caption and the stage label of the resting stage light up; four lines pulse in turn.
+   The second and third items of each set start at a negative delay, so all three share one clock. */
+@keyframes rb-loop-arrow {
+  0%,
+  12% {
+    transform: rotate(-90deg);
+    animation-timing-function: cubic-bezier(0.6, 0, 0.25, 1);
+  }
+  33.33%,
+  45.33% {
+    transform: rotate(30deg);
+    animation-timing-function: cubic-bezier(0.6, 0, 0.25, 1);
+  }
+  66.66%,
+  78.66% {
+    transform: rotate(150deg);
+    animation-timing-function: cubic-bezier(0.6, 0, 0.25, 1);
+  }
+  100% {
+    transform: rotate(270deg);
+  }
+}
+.rb-loop-arrow {
+  transform-origin: var(--cx) var(--cy);
+  transform: rotate(-90deg);
+  animation: rb-loop-arrow 12s linear infinite;
+}
+/* The words in the middle of the ring change word by word: each word rises out of a clipped line,
+   a beat after the one before it, and when its stage is over it leaves upward the same way. */
+@keyframes rb-word {
+  0% {
+    opacity: 0;
+    transform: translateY(110%);
+  }
+  4.5% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  34.5% {
+    opacity: 0;
+    transform: translateY(-110%);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(110%);
+  }
+}
+.rb-word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(110%);
+  animation: rb-word 12s cubic-bezier(0.2, 0.7, 0.2, 1) calc(var(--d, 0s) + var(--w, 0s)) infinite;
+}
+.is-first .rb-word {
+  opacity: 1;
+  transform: none;
+}
+@keyframes rb-loop-label {
+  0%,
+  30% {
+    opacity: 1;
+  }
+  36%,
+  94% {
+    opacity: 0.35;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.rb-loop-label {
+  opacity: 0.55;
+  animation: rb-loop-label 12s linear var(--d, 0s) infinite;
+}
+@keyframes rb-ray {
+  0% {
+    stroke-opacity: 0.16;
+  }
+  6% {
+    stroke-opacity: 0.95;
+  }
+  22%,
+  100% {
+    stroke-opacity: 0.16;
+  }
+}
+.rb-ray {
+  stroke-opacity: 0.16;
+  animation: rb-ray 12s ease-out var(--d, 0s) infinite;
+}
+@keyframes rb-card {
+  0%,
+  30% {
+    border-color: #4d9bff;
+    background-color: #0d1530;
+  }
+  36%,
+  100% {
+    border-color: rgba(255, 255, 255, 0.15);
+    background-color: #0a0b10;
+  }
+}
+.rb-card {
+  border-color: rgba(255, 255, 255, 0.15);
+  animation: rb-card 12s linear var(--d, 0s) infinite;
+}
+@keyframes rb-mini-bounce {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  30% {
+    transform: translateY(-3px);
+    opacity: 1;
+  }
+}
+.rb-mini-bounce {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: rb-mini-bounce 1.2s ease-in-out var(--d, 0s) infinite;
+}
+/* Inside the cards of the loop picture: each step happens once per 12s cycle, in the first 30% of it
+   (the stage the card belongs to), then the card empties and waits. The steps reveal in order. */
+@keyframes rb-s1 {
+  0%,
+  3% {
+    opacity: 0.12;
+    transform: translateY(6px);
+  }
+  7%,
+  31% {
+    opacity: 1;
+    transform: none;
+  }
+  35%,
+  100% {
+    opacity: 0.12;
+    transform: translateY(-4px);
+  }
+}
+@keyframes rb-s2 {
+  0%,
+  9% {
+    opacity: 0.12;
+    transform: translateY(6px);
+  }
+  13%,
+  31% {
+    opacity: 1;
+    transform: none;
+  }
+  35%,
+  100% {
+    opacity: 0.12;
+    transform: translateY(-4px);
+  }
+}
+@keyframes rb-s3 {
+  0%,
+  15% {
+    opacity: 0.12;
+    transform: translateY(6px);
+  }
+  19%,
+  31% {
+    opacity: 1;
+    transform: none;
+  }
+  35%,
+  100% {
+    opacity: 0.12;
+    transform: translateY(-4px);
+  }
+}
+@keyframes rb-s4 {
+  0%,
+  21% {
+    opacity: 0.12;
+    transform: translateY(6px);
+  }
+  25%,
+  31% {
+    opacity: 1;
+    transform: none;
+  }
+  35%,
+  100% {
+    opacity: 0.12;
+    transform: translateY(-4px);
+  }
+}
+.rb-s1 {
+  animation: rb-s1 12s cubic-bezier(0.2, 0.7, 0.2, 1) var(--d, 0s) infinite;
+}
+.rb-s2 {
+  animation: rb-s2 12s cubic-bezier(0.2, 0.7, 0.2, 1) var(--d, 0s) infinite;
+}
+.rb-s3 {
+  animation: rb-s3 12s cubic-bezier(0.2, 0.7, 0.2, 1) var(--d, 0s) infinite;
+}
+.rb-s4 {
+  animation: rb-s4 12s cubic-bezier(0.2, 0.7, 0.2, 1) var(--d, 0s) infinite;
+}
+@keyframes rb-type {
+  0%,
+  2% {
+    width: 0;
+  }
+  10%,
+  31% {
+    width: var(--tw);
+  }
+  35%,
+  100% {
+    width: 0;
+  }
+}
+.rb-type {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  vertical-align: bottom;
+  animation: rb-type 12s steps(var(--n, 13), end) var(--d, 0s) infinite;
+}
+@keyframes rb-type-late {
+  0%,
+  10% {
+    width: 0;
+  }
+  21%,
+  31% {
+    width: var(--tw);
+  }
+  35%,
+  100% {
+    width: 0;
+  }
+}
+.rb-type-late {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  vertical-align: bottom;
+  animation: rb-type-late 12s steps(var(--n, 16), end) var(--d, 0s) infinite;
+}
+@keyframes rb-caret {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+.rb-caret {
+  display: inline-block;
+  width: 1.5px;
+  height: 1.05em;
+  margin-left: 1px;
+  vertical-align: text-bottom;
+  background: #fff;
+  animation: rb-caret 1s steps(1) infinite;
+}
+@keyframes rb-bar {
+  0%,
+  3% {
+    transform: scaleX(0);
+  }
+  28%,
+  31% {
+    transform: scaleX(1);
+  }
+  35%,
+  100% {
+    transform: scaleX(0);
+  }
+}
+.rb-bar {
+  transform-origin: left;
+  animation: rb-bar 12s cubic-bezier(0.4, 0, 0.2, 1) var(--d, 0s) infinite;
+}
+@keyframes rb-curve {
+  0%,
+  3% {
+    stroke-dashoffset: 1;
+    opacity: 1;
+  }
+  28%,
+  31% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  35%,
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+.rb-curve {
+  stroke-dasharray: 1;
+  animation: rb-curve 12s cubic-bezier(0.4, 0, 0.2, 1) var(--d, 0s) infinite;
+}
+@keyframes rb-head {
+  0%,
+  3% {
+    offset-distance: 0%;
+    opacity: 1;
+  }
+  28%,
+  31% {
+    offset-distance: 100%;
+    opacity: 1;
+  }
+  35%,
+  100% {
+    offset-distance: 100%;
+    opacity: 0;
+  }
+}
+.rb-head {
+  offset-path: var(--path);
+  offset-rotate: 0deg;
+  offset-distance: 100%;
+  animation: rb-head 12s cubic-bezier(0.4, 0, 0.2, 1) var(--d, 0s) infinite;
+}
+/* a packet of data riding a hairline between a card and the ring */
+@keyframes rb-pkt {
+  0% {
+    offset-distance: 0%;
+    opacity: 0;
+  }
+  2% {
+    opacity: 1;
+  }
+  11% {
+    offset-distance: 100%;
+    opacity: 1;
+  }
+  13%,
+  100% {
+    offset-distance: 100%;
+    opacity: 0;
+  }
+}
+.rb-pkt {
+  offset-path: var(--path);
+  offset-rotate: auto;
+  opacity: 0;
+  animation: rb-pkt 12s cubic-bezier(0.5, 0, 0.3, 1) var(--d, 0s) infinite;
+}
+@keyframes rb-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.rb-draw {
+  stroke-dasharray: 1;
+  animation: rb-draw 1.4s cubic-bezier(0.3, 0, 0.2, 1) var(--d, 0s) backwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .rb-loop-arrow,
+  .rb-word,
+  .rb-loop-label,
+  .rb-ray,
+  .rb-card,
+  .rb-s1,
+  .rb-s2,
+  .rb-s3,
+  .rb-s4,
+  .rb-type,
+  .rb-caret,
+  .rb-bar,
+  .rb-curve,
+  .rb-head,
+  .rb-type-late,
+  .rb-pkt,
+  .rb-mini-bounce,
+  .rb-draw {
+    animation: none;
+  }
+}
+
+/* The trails of the /design option J: a row of hollow dots that fill in one after another as a pill
+   rides past them, on one 6s cycle. A dot's own delay (--d) is where in the cycle the pill reaches
+   it. --fill is the colour it fills with. Without motion the dots stay hollow and the pills rest
+   at the end of their trail. */
+@keyframes rb-dot {
+  0% {
+    fill-opacity: 0;
+    stroke: rgba(255, 255, 255, 0.3);
+  }
+  3% {
+    fill-opacity: 1;
+    stroke: var(--fill);
+  }
+  72% {
+    fill-opacity: 1;
+    stroke: var(--fill);
+  }
+  80%,
+  100% {
+    fill-opacity: 0;
+    stroke: rgba(255, 255, 255, 0.3);
+  }
+}
+.rb-dot {
+  fill: var(--fill);
+  fill-opacity: 0;
+  stroke: rgba(255, 255, 255, 0.3);
+  animation: rb-dot 6s linear var(--d, 0s) infinite;
+}
+@keyframes rb-pill {
+  0% {
+    offset-distance: 0%;
+    opacity: 0;
+    animation-timing-function: cubic-bezier(0.5, 0, 0.2, 1);
+  }
+  3% {
+    opacity: 1;
+  }
+  36% {
+    offset-distance: 100%;
+  }
+  72% {
+    offset-distance: 100%;
+    opacity: 1;
+  }
+  80%,
+  100% {
+    offset-distance: 100%;
+    opacity: 0;
+  }
+}
+.rb-pill {
+  offset-path: var(--path);
+  offset-rotate: auto;
+  offset-distance: 100%;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: rb-pill 6s linear var(--d, 0s) infinite;
+}
+@keyframes rb-nudge {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(14px);
+  }
+}
+.rb-nudge {
+  animation: rb-nudge 6s ease-in-out infinite;
+}
+.rb-spin-at {
+  transform-origin: var(--cx) var(--cy);
+  animation: rb-spin var(--t, 26s) linear infinite;
+}
+@keyframes rb-wipe {
+  from {
+    background-size: 0% 88%;
+  }
+  to {
+    background-size: 100% 88%;
+  }
+}
+.rb-wipe {
+  background-image: linear-gradient(#0061ff, #0061ff);
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 100% 88%;
+  animation: rb-wipe 0.9s cubic-bezier(0.3, 0, 0.2, 1) 0.5s backwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .rb-dot,
+  .rb-pill,
+  .rb-nudge,
+  .rb-spin-at,
+  .rb-wipe {
+    animation: none;
+  }
+}
+
 html.skip-intro .intro-scene {
-  background-color: #020305;
+  background-color: #000000;
 }
 
 /* ── Hide scrollbar utilities ────────────────────────────────────────────── */
+.font-serif-display {
+  font-family: var(--font-serif);
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes marquee-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(calc(-100% / 3)); }
+}
+
+@keyframes marquee-right {
+  0% { transform: translateX(calc(-100% / 3)); }
+  100% { transform: translateX(0); }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+.animate-marquee-left {
+  animation: marquee-left 40s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-right {
+  animation: marquee-right 36s linear infinite;
+  will-change: transform;
+}
+
+@keyframes ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-ticker {
+  animation: ticker 40s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee:hover,
+.animate-marquee-right:hover,
+.animate-ticker:hover {
+  animation-play-state: paused;
+}
+
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* ── Site scrollbar ──────────────────────────────────────────────────────── */
+/* One scrollbar for the whole site: a slim track in the colour of the page and a brand-blue thumb that
+   lightens on hover, with no arrow buttons. Chrome, Edge and Safari use the ::-webkit-scrollbar parts;
+   Firefox gets the standard properties, only where the parts are not supported (Chrome ignores the parts
+   when the standard properties are set). The article pages are light, so they get a light track. The strips
+   that hide theirs (.no-scrollbar, the sideways filter rows) still do. */
+:root {
+  --sb-track: #05060a;
+  --sb-thumb: #0061ff;
+  --sb-thumb-hover: #4d9bff;
+}
+html:has(main[data-nav-theme="light"]) {
+  --sb-track: #f3f4f6;
+  --sb-thumb-hover: #1a47d6;
+}
+
+@supports selector(::-webkit-scrollbar) {
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+    background: var(--sb-track);
+  }
+  ::-webkit-scrollbar-track,
+  ::-webkit-scrollbar-corner {
+    background: var(--sb-track);
+  }
+  ::-webkit-scrollbar-thumb {
+    min-height: 48px;
+    border: 3px solid var(--sb-track);
+    border-radius: 999px;
+    background: var(--sb-thumb);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--sb-thumb-hover);
+  }
+  ::-webkit-scrollbar-button {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--sb-thumb) var(--sb-track);
+  }
 }
 
 /* ── Blog / Case Study markdown prose ────────────────────────────────────── */
@@ -132,7 +904,7 @@ html.skip-intro .intro-scene {
   padding: 0.15em 0.45em;
   font-size: 0.88em;
   color: #7dd3fc; /* sky-300 */
-  font-family: var(--font-geist-mono, monospace);
+  font-family: inherit;
 }
 
 .blog-prose pre {
@@ -185,3 +957,136 @@ html.skip-intro .intro-scene {
   color: #94a3b8;
 }
 .blog-prose tr:hover td { background: rgba(255,255,255,0.02); }
+
+/* the glow around the hero picture's core */
+.rb-orb {
+  filter: drop-shadow(0 0 38px rgba(0, 97, 255, 0.75));
+}
+
+/* FAQ (components/home/Faq.tsx): the answer opens by growing its height and fading in, and settles
+   up by 6px. Where the browser cannot animate to `auto` height it simply opens. No script. */
+:root {
+  interpolate-size: allow-keywords;
+}
+.rb-faq::details-content {
+  opacity: 0;
+  block-size: 0;
+  transition:
+    block-size 0.5s cubic-bezier(0.3, 0.7, 0.2, 1),
+    opacity 0.35s ease-out,
+    content-visibility 0.5s allow-discrete;
+  overflow: clip;
+}
+.rb-faq[open]::details-content {
+  opacity: 1;
+  block-size: auto;
+  transition-delay: 0s, 80ms, 0s;
+}
+.rb-faq__answer {
+  transition: transform 0.5s cubic-bezier(0.3, 0.7, 0.2, 1);
+  transform: translateY(-6px);
+}
+.rb-faq[open] .rb-faq__answer {
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .rb-faq__answer,
+  .rb-faq::details-content {
+    transition: none;
+  }
+}
+
+/* cookie banner entrance */
+@keyframes rb-consent-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Website Revamp page: line drawings that draw themselves in once they scroll into view. Shapes carry
+   pathLength="1", so one dash value fits all of them. Nothing is hidden for reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  .rv-draw [data-d] {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+  }
+  [data-in] .rv-draw [data-d],
+  .rv-draw[data-in] [data-d] {
+    animation: rv-draw 700ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: var(--d, 0ms);
+  }
+}
+@keyframes rv-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* the feature card's gradient circles drift a little, slowly, and only for people who allow motion */
+@keyframes rb-drift {
+  to {
+    transform: translate3d(40px, -24px, 0);
+  }
+}
+
+/* Case study article (light page): the CMS markdown, set like the Figma story column. Tables are the
+   label / description rows, so their header row is hidden; a quote gets a blue bar. */
+.cs-prose { color: #4b5563; font-size: 15px; line-height: 1.6; }
+.cs-prose h2 { color: #090d16; font-size: clamp(1.375rem, 2vw, 1.75rem); font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; margin: 3rem 0 1rem; scroll-margin-top: 6rem; }
+.cs-prose h2:first-child { margin-top: 0; }
+.cs-prose > br { display: none; }
+/* the CMS pads articles with empty paragraphs (<p><strong><br></strong></p>); they only make uneven gaps */
+.cs-prose p:empty, .cs-prose p:has(> strong:only-child:empty), .cs-prose p:has(> strong:only-child > br:only-child), .cs-prose p:has(> br:only-child) { display: none; }
+.cs-prose h3 { color: #090d16; font-size: 1.125rem; font-weight: 600; margin: 2rem 0 0.75rem; }
+.cs-prose p { margin: 0 0 1.25rem; font-size: 16px; }
+.cs-prose strong { color: #090d16; font-weight: 600; }
+.cs-prose a { color: #0061ff; text-decoration: underline; text-underline-offset: 3px; }
+.cs-prose ul, .cs-prose ol { margin: 0 0 1.25rem; padding-left: 1.25rem; }
+.cs-prose ul { list-style: disc; } .cs-prose ol { list-style: decimal; }
+.cs-prose li { margin-bottom: 0.4rem; }
+.cs-prose table { width: 100%; border-collapse: collapse; margin: 0 0 1.5rem; font-size: 14px; }
+.cs-prose thead { display: none; }
+.cs-prose tr { border-top: 1px solid #e5e7eb; }
+.cs-prose tr:last-child { border-bottom: 1px solid #e5e7eb; }
+.cs-prose td, .cs-prose th { padding: 1rem 1rem 1rem 0; text-align: left; vertical-align: top; }
+.cs-prose td:first-child { width: 28%; color: #090d16; font-weight: 500; }
+.cs-prose td strong { font-weight: 500; }
+.cs-prose blockquote { border-left: 3px solid #0061ff; margin: 2rem 0; padding: 0.25rem 0 0.25rem 1.25rem; color: #090d16; font-size: 1.375rem; line-height: 1.35; letter-spacing: -0.01em; }
+.cs-prose blockquote p { font-size: inherit; margin: 0 0 0.5rem; }
+.cs-prose img { border-radius: 16px; max-width: 100%; height: auto; margin: 1.5rem 0; }
+@media (max-width: 640px) { .cs-prose td:first-child { width: 40%; } }
+
+/* Website Revamp hero: the drawing draws itself in, markers pop, the ticker runs. */
+.rv-wire { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.3s cubic-bezier(0.22, 1, 0.36, 1); }
+[data-drawn] .rv-wire { stroke-dashoffset: 0; }
+@keyframes rv-pop { from { opacity: 0; transform: scale(0.4); } to { opacity: 1; transform: none; } }
+.rv-pop { animation: rv-pop 200ms ease-out both; }
+@keyframes rv-ticker { to { transform: translateX(-25%); } }
+.rv-ticker { animation: rv-ticker 18s linear infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .rv-wire { transition: none; stroke-dashoffset: 0; }
+  .rv-ticker, .rv-pop { animation: none; }
+}
+
+/* A light version of the dark closing block and footer, for light pages (the case study page). It only
+   re-colours: white text becomes ink, white hairlines become grey, the blue text gets darker. The
+   blue button keeps its white label. */
+.rb-light { background: #ffffff; color: #090d16; }
+.rb-light.bg-page, .rb-light .bg-page { background: #ffffff; }
+.rb-light .text-white:not(.bg-brand) { color: #090d16; }
+.rb-light [class*="text-white/"] { color: #4b5563; }
+.rb-light [class*="border-white"] { border-color: #e5e7eb; }
+.rb-light .text-brand-text { color: #0061ff; }
+.rb-light [class*="hover:text-white"]:hover { color: #090d16; }
+.rb-light [class*="hover:bg-white"]:hover { background: rgba(9, 13, 22, 0.05); }
+.rb-light [class*="hover:border-white"]:hover { border-color: #090d16; }
+
+/* The laptop's material fades in once its outline has been drawn. */
+.rv-fill { opacity: 0; }
+[data-drawn] .rv-fill { opacity: 1; transition: opacity 900ms ease 900ms; }
+@media (prefers-reduced-motion: reduce) { .rv-fill { opacity: 1; transition: none; } }

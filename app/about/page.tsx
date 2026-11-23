@@ -1,231 +1,305 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
-import {
-  ArrowUpRight,
-  Database,
-  Network,
-  Sparkles,
-} from "lucide-react";
-import SiteFooter from "@/components/SiteFooter";
-import SiteNavigation from "@/components/SiteNavigation";
-import ContactCta from "@/components/ContactCta";
-import JarvisHologram from "@/components/JarvisHologram";
+import { ArrowRight } from "lucide-react";
+import Navbar from "@/components/home/Navbar";
+import Footer from "@/components/home/MainFooter";
+import Glow from "@/components/Glow";
+import { blueButton, whiteButton } from "@/components/contact/ui";
 
 export const metadata: Metadata = {
-  title: "About Rabbitt AI | Enterprise intelligence, on your terms",
+  title: "About Rabbitt AI — AI that companies own",
   description:
-    "Rabbitt AI helps enterprises create dependable AI systems around their private data, domain knowledge, and operational reality.",
+    "Rabbitt AI is an enterprise AI company. We build private AI for companies: models trained on their own data, running inside their own cloud, owned by them.",
 };
 
-const operatingPrinciples = [
-  {
-    number: "01",
-    title: "Your intelligence stays yours.",
-    copy: "Your data, model weights, and hard-won domain knowledge remain under your control—across every deployment and every decision.",
-  },
-  {
-    number: "02",
-    title: "Specialisation beats scale for real work.",
-    copy: "We shape systems around the language, workflow, and standards that make your organisation distinctive—not a generic benchmark.",
-  },
-  {
-    number: "03",
-    title: "Trust is part of the architecture.",
-    copy: "Governance, isolation, access controls, and observability are designed in from the first conversation, not added at the end.",
-  },
+// The about page, from the Figma "About" frames: a headline and what the company is, four facts in
+// a 2×2 grid, the mission in one sentence, the story with its timeline, three bets, the founder,
+// "Rented AI | AI you own" as two halves, and the closing pair. Inter, square corners, no borders
+// (hairline dividers only), buttons solid blue or solid white. A Server Component, no script.
+
+const FACTS = [
+  ["London", "Headquarters", "Where Rabbitt AI was founded and is run from."],
+  ["2023", "Founded", "By Harneet Singh, IIT Delhi alumnus and five-time founder."],
+  ["70+", "Enterprise engagements", "Across education, healthcare, finance and customer operations."],
+  ["500+", "AI specialists", "Researchers, engineers and data specialists in our network."],
+] as const;
+
+const MILESTONES = [
+  ["2023", "Founded in London", "A small team with one belief: companies should own the intelligence they create."],
+  ["2024", "Seed round", "$2.1M from TC Group, with angel investors from NVIDIA, Meta and Microsoft."],
+  [
+    "Today",
+    "Six products, 70+ engagements",
+    "IcyPluto, DRIP, RAW, Rabbitt Learning, Cloud Watcher and ChanceRAG, across education, healthcare, finance and customer operations.",
+  ],
+  ["Next", "Every company on its own AI", "Private models as normal as private servers. That is the work ahead."],
+] as const;
+
+const BETS = [
+  [
+    "Companies will want to own their AI, not rent it.",
+    "Your data, model weights and domain knowledge stay under your control in every deployment.",
+  ],
+  [
+    "Specialised models beat general ones at real work.",
+    "We shape each system around your language, workflow and standards, not a public benchmark.",
+  ],
+  [
+    "Trust has to be built in, not added on.",
+    "Isolation, access control and audit are designed in from the first conversation.",
+  ],
+] as const;
+
+const RENTED = [
+  "Runs in their cloud, shared with everyone else.",
+  "The vendor holds the model weights.",
+  "Your data can train their next model.",
+  "Their admins can read your logs.",
+  "They hold the encryption keys.",
+  "The model changes overnight, without notice.",
+];
+const OWNED = [
+  "Runs in your VPC, on-premise or air-gapped.",
+  "You hold the weights. Keep, move and audit them.",
+  "Your data never trains anyone else’s model.",
+  "Your roles decide who sees what.",
+  "You hold the keys, in transit and at rest.",
+  "It changes when you decide, after it is tested.",
 ];
 
-const milestones = [
-  ["2023", "Founded in London", "A focused team with a clear belief: enterprises should own the intelligence they create."],
-  ["2024", "Platform & partnerships", "ChanceRAG launches and the team expands its research and delivery footprint."],
-  ["Today", "Built for enterprise work", "Rabbitt AI supports organisations across education, healthcare, customer operations, and finance."],
-];
+// buttons here are rounded like the navbar's Book a demo (the contact page's are square)
+const blue = `${blueButton} rounded-lg`;
+const white = `${whiteButton} rounded-lg`;
 
-const trustItems = [
-  "Private VPC and air-gapped deployment options",
-  "Role-based access controls and auditability",
-  "Encrypted data handling in transit and at rest",
-  "No third-party training on your enterprise data",
-];
+const ANNOUNCEMENT ="/blogs/rabbittai-raises-21-million-from-tc-group-of-companies";
+
+const h2 = "text-[36px] font-semibold leading-[1.1] tracking-[-0.04em] text-white sm:text-[44px] lg:text-[56px] lg:leading-[1.07]";
+
+// 73 ticks along the axis, a longer one every sixth; the last quarter is the road ahead, so dimmer
+const TICKS = Array.from({ length: 73 }, (_, i) => i);
 
 export default function AboutPage() {
   return (
-    <main className="min-h-screen overflow-hidden bg-[#02050b] text-white selection:bg-sky-300 selection:text-slate-950">
-      <SiteNavigation />
-
-      <section className="relative isolate border-b border-white/[0.09]">
-        <div className="pointer-events-none absolute inset-0 -z-10 bg-[#02050b]" />
-        <div
-          className="pointer-events-none absolute inset-x-0 top-0 h-[600px] -z-10"
-          style={{
-            background: "linear-gradient(180deg, rgba(14, 165, 233, 0.09) 0%, rgba(37, 99, 235, 0.03) 55%, transparent 100%)",
-            maskImage: "linear-gradient(90deg, transparent 0%, black 20%, black 80%, transparent 100%)",
-            WebkitMaskImage: "linear-gradient(90deg, transparent 0%, black 20%, black 80%, transparent 100%)",
-          }}
-        />
-        <div className="pointer-events-none absolute inset-0 -z-10 opacity-[0.18] [background-image:linear-gradient(rgba(148,163,184,0.12)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.12)_1px,transparent_1px)] [background-size:64px_64px] [mask-image:linear-gradient(to_bottom,black,transparent_78%)]" />
-
-        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-6 pb-14 pt-20 sm:px-10 sm:pb-16 sm:pt-24 lg:grid-cols-2 lg:gap-10 lg:px-16">
-          <div className="max-w-2xl">
-            <h1 className="text-balance text-5xl font-semibold leading-[0.96] tracking-[-0.065em] text-white sm:text-7xl lg:text-[5.4rem]">
-              Intelligence should feel like <span className="text-sky-300">your own.</span>
+    <>
+      <Navbar theme="dark" />
+      <main data-nav-theme="dark" className="dark bg-page text-white selection:bg-blue-600 selection:text-white">
+        {/* hero */}
+        <section className="rb-container pt-28 lg:pb-6 lg:pt-[152px]">
+          <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_432px] lg:gap-12">
+            <h1 className="text-[clamp(36px,11.8vw,46px)] font-semibold leading-[1.04] tracking-[-0.045em] sm:text-[72px] lg:text-[96px] lg:leading-none">
+              We build AI
+              <span className="block text-white/40">companies own.</span>
             </h1>
-            <p className="mt-8 max-w-xl text-pretty text-lg leading-8 text-slate-300 sm:text-xl">
-              We partner with ambitious organisations to turn proprietary data into dependable AI systems—built around their people, knowledge, and standards.
-            </p>
-            <div className="mt-10 flex flex-wrap gap-3">
-              <Link
-                href="/contactus"
-                className="group inline-flex items-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-[#020305] shadow-[0_0_0_1px_rgba(255,255,255,0.15),0_8px_32px_rgba(255,255,255,0.08)] transition hover:bg-slate-100"
-              >
-                Start a conversation
-                <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-              </Link>
-              <Link
-                href="/products"
-                className="inline-flex items-center gap-2 rounded-full border border-white/15 px-6 py-3.5 text-sm font-semibold text-white transition hover:border-sky-300/70 hover:bg-white/[0.05]"
-              >
-                Explore our products
-              </Link>
-            </div>
-          </div>
-
-          <div className="relative flex w-full items-center justify-center">
-            <JarvisHologram />
-          </div>
-        </div>
-      </section>
-
-      <section className="border-b border-white/[0.09] bg-[#07111f] px-6 py-7 sm:px-10 lg:px-16">
-        <div className="mx-auto grid max-w-7xl grid-cols-2 divide-x divide-white/10 md:grid-cols-4">
-          {[
-            ["London", "Headquartered"],
-            ["70+", "Enterprise engagements"],
-            ["500+", "AI specialists network"],
-            ["Global", "Delivery footprint"],
-          ].map(([value, label]) => (
-            <div key={label} className="px-4 py-3 first:pl-0 last:pr-0 sm:px-7">
-              <p className="text-xl font-semibold tracking-[-0.04em] text-white sm:text-2xl">{value}</p>
-              <p className="mt-1 text-xs leading-5 text-slate-400">{label}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="border-y border-white/[0.09] bg-[#050b16] px-6 py-24 text-white sm:px-10 sm:py-32 lg:px-16">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
-            <div>
-              <h2 className="max-w-md text-4xl font-semibold leading-[1.02] tracking-[-0.055em] sm:text-6xl">The best AI should make your organisation more itself.</h2>
-            </div>
-            <div className="max-w-2xl pt-1">
-              <p className="text-xl leading-8 text-slate-300 sm:text-2xl sm:leading-9">Generic models can answer questions. They cannot inherit your context, responsibilities, or ambition. That is the gap Rabbitt AI was created to close.</p>
-              <p className="mt-6 text-base leading-7 text-slate-400">We bring research, product engineering, and enterprise delivery together to create systems that are practical from day one—and valuable long after the first prototype.</p>
-            </div>
-          </div>
-
-          <div className="mt-20 divide-y divide-white/10 border-y border-white/10">
-            {operatingPrinciples.map((principle) => (
-              <article key={principle.number} className="grid gap-5 py-8 sm:grid-cols-[72px_1fr_1fr] sm:gap-8 sm:py-10">
-                <p className="font-mono text-xs font-medium text-sky-400">{principle.number}</p>
-                <h3 className="text-2xl font-semibold tracking-[-0.04em] text-white sm:text-3xl">{principle.title}</h3>
-                <p className="max-w-md text-sm leading-7 text-slate-400 sm:text-base">{principle.copy}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="relative overflow-hidden border-y border-white/[0.09] bg-[#02050b] px-6 py-24 sm:px-10 sm:py-32 lg:px-16">
-        <div className="pointer-events-none absolute right-[-12rem] top-1/2 h-[32rem] w-[32rem] -translate-y-1/2 rounded-full bg-sky-500/[0.11] blur-[110px]" />
-        <div className="relative mx-auto grid max-w-7xl gap-16 lg:grid-cols-[1fr_1fr] lg:gap-24">
-          <div>
-            <h2 className="text-4xl font-semibold leading-[1.02] tracking-[-0.055em] text-white sm:text-6xl">A different operating model for enterprise AI.</h2>
-            <p className="mt-7 max-w-lg text-lg leading-8 text-slate-300">We do not sell access to a black box. We help teams establish an enduring capability: one that is secure, adaptable, and measurably useful.</p>
-            <Link href="/products" className="mt-9 inline-flex items-center gap-2 text-sm font-semibold text-sky-300 transition hover:text-white">
-              See the Rabbitt AI platform <ArrowUpRight className="h-4 w-4" />
-            </Link>
-          </div>
-          <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
-            {[
-              [Database, "Own the substrate", "Private data, models, and deployments are designed around your control boundary."],
-              [Network, "Connect the context", "Make knowledge useful across the workflows where decisions actually happen."],
-              [Sparkles, "Keep improving", "A practical foundation for evaluation, adaptation, and responsible scale."],
-            ].map(([Icon, title, copy]) => {
-              const FeatureIcon = Icon as typeof Database;
-              return (
-                <div key={title as string} className="rounded-2xl border border-white/[0.11] bg-white/[0.035] p-6 transition hover:border-sky-300/40 hover:bg-white/[0.055] sm:p-7">
-                  <FeatureIcon className="h-5 w-5 text-sky-300" />
-                  <h3 className="mt-5 text-lg font-semibold text-white">{title as string}</h3>
-                  <p className="mt-2 text-sm leading-6 text-slate-400">{copy as string}</p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      <section className="border-b border-white/[0.09] bg-[#02050b] px-6 py-24 text-white sm:px-10 sm:py-32 lg:px-16">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
-            <h2 className="max-w-md text-4xl font-semibold leading-[1.02] tracking-[-0.055em] sm:text-6xl">London roots.<br />Global perspective.</h2>
-            <p className="max-w-2xl text-lg leading-8 text-slate-300 sm:text-xl">Rabbitt AI was founded by Harneet Singh with the conviction that enterprise AI must be useful enough to trust and accountable enough to own. Today, we work with a global network of researchers, data specialists, and engineers to make that conviction real.</p>
-          </div>
-          <div className="mt-16 grid gap-0 border-t border-white/10 md:grid-cols-3">
-            {milestones.map(([date, title, copy]) => (
-              <article key={date} className="border-b border-white/10 py-7 md:border-b-0 md:border-r md:border-white/10 md:px-8 md:first:pl-0 md:last:border-r-0 md:last:pr-0">
-                <p className="font-mono text-sm font-semibold text-sky-400">{date}</p>
-                <h3 className="mt-6 text-xl font-semibold tracking-[-0.035em]">{title}</h3>
-                <p className="mt-3 text-sm leading-6 text-slate-400">{copy}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="border-b border-white/[0.09] bg-[#050b16] px-6 py-24 text-white sm:px-10 sm:py-32 lg:px-16">
-        <div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-[0.82fr_1.18fr] lg:gap-24">
-          <div>
-            <div className="relative aspect-[4/5] max-w-sm overflow-hidden rounded-[2rem] bg-slate-200 shadow-xl shadow-slate-900/10">
-              <Image src="/assets/harneetsingh.png" alt="Harneet Singh, Founder and Chief AI Officer of Rabbitt AI" fill className="object-cover object-center" sizes="(min-width: 1024px) 360px, 80vw" />
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent p-7 pt-20 text-white">
-                <p className="text-lg font-semibold">Harneet Singh</p>
-                <p className="mt-1 text-sm text-slate-200">Founder &amp; Chief AI Officer</p>
+            <div className="lg:pt-2">
+              <p className="text-[16px] leading-[1.55] text-white/70 lg:text-[18px] lg:leading-[1.6]">
+                Rabbitt AI is an enterprise AI company. Our researchers, engineers and data specialists build private AI
+                for companies: models trained on their own data, running inside their own cloud, owned by them.
+              </p>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <Link href="/contactus" className={`${blue} w-full sm:w-auto`}>
+                  Book a demo
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
+                </Link>
+                <Link href="/products" className={`${white} w-full sm:w-auto`}>
+                  Explore products
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
+                </Link>
               </div>
             </div>
           </div>
-          <div className="self-center">
-            <h2 className="max-w-xl text-4xl font-semibold leading-[1.02] tracking-[-0.055em] sm:text-6xl">Technical ambition, grounded in the work.</h2>
-            <p className="mt-7 max-w-xl text-lg leading-8 text-slate-300">An IIT Delhi alumnus and serial entrepreneur, Harneet has built and scaled technology companies across global markets. At Rabbitt AI, he leads the company’s strategy, research direction, and enterprise model architecture.</p>
-            <div className="mt-9 flex flex-wrap gap-x-6 gap-y-3 border-t border-white/10 pt-7 text-sm font-medium text-slate-300">
-              <span>Europe Top 100 AI Leader</span><span>Author, AI NAMA</span><span>IIT Delhi</span>
+
+          <ul className="mt-12 grid grid-cols-2 gap-x-5 lg:mt-14 lg:gap-x-12">
+            {FACTS.map(([value, label, detail]) => (
+              <li key={label} className="border-t border-white/[0.16] py-6 lg:py-9">
+                <p className="text-[36px] font-semibold leading-[1.1] tracking-[-0.04em] lg:text-[64px] lg:leading-[1.06]">{value}</p>
+                <p className="mt-3 text-[15px] font-semibold lg:text-[18px] lg:leading-[1.4]">{label}</p>
+                <p className="mt-1 text-[13px] leading-[1.45] text-white/55 lg:text-[16px]">{detail}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {/* mission */}
+        <section aria-label="Mission" className="rb-section">
+          <div className="rb-container">
+            <p className="max-w-[1180px] text-[28px] font-medium leading-[1.28] tracking-[-0.04em] sm:text-[40px] lg:text-[52px] lg:leading-[1.19]">
+              Rabbitt AI exists so that every company can <span className="text-brand-text">own the intelligence it creates</span>{" "}
+              – its data, its models and the decisions they make.{" "}
+              <span className="text-white/[0.32]">Generic AI rents you answers. We help you build your own.</span>
+            </p>
+          </div>
+        </section>
+
+        {/* story and timeline */}
+        <section aria-labelledby="story" className="rb-section">
+          <div className="rb-container">
+            <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_432px] lg:gap-12">
+              <h2 id="story" className={h2}>
+                Founded at the <br className="hidden lg:block" />
+                right moment.
+              </h2>
+              <p className="text-[16px] leading-[1.6] text-white/65 lg:mt-2 lg:text-[17px] lg:leading-[1.6]">
+                By 2023 open models were good enough for real work, every enterprise sat on years of private data, and none
+                of them wanted to send it to someone else’s cloud. Rabbitt AI started in London to close that gap.
+              </p>
+            </div>
+
+            <div className="relative mt-12 lg:mt-[72px]">
+              {/* the axis: a tick every ~18px, the last quarter dashed and dimmer */}
+              <div aria-hidden className="absolute inset-x-0 top-0 hidden h-6 lg:block">
+                <div className="absolute inset-x-0 top-6 flex h-3 -translate-y-full items-end justify-between">
+                  {TICKS.map((i) => (
+                    <span key={i} className={`w-px ${i % 6 === 0 ? "h-3" : "h-1.5"} ${i > 54 ? "bg-white/[0.12]" : "bg-white/30"}`} />
+                  ))}
+                </div>
+                <span className="absolute left-0 top-6 h-px w-3/4 bg-white/30" />
+                <span className="absolute right-0 top-6 h-px w-1/4 bg-[repeating-linear-gradient(90deg,#4d9bff_0_4px,transparent_4px_10px)]" />
+              </div>
+
+              <ol className="grid lg:grid-cols-4 lg:gap-x-6">
+                {MILESTONES.map(([year, title, text], i) => {
+                  const last = i === MILESTONES.length - 1;
+                  return (
+                    <li key={year} className="relative pb-9 pl-8 lg:pb-0 lg:pl-0 lg:pt-[76px]">
+                      <span aria-hidden className={`absolute left-0 top-3 h-2.5 w-2.5 ${last ? "bg-brand-text" : "bg-brand"} lg:top-5`} />
+                      {/* mobile: the line down to the next marker, dashed after the last */}
+                      <span
+                        aria-hidden
+                        className={`absolute left-[4.5px] top-[22px] w-px lg:hidden ${
+                          last ? "h-[calc(100%-58px)] bg-[repeating-linear-gradient(180deg,#4d9bff_0_4px,transparent_4px_10px)]" : "h-full bg-white/25"
+                        }`}
+                      />
+                      <span aria-hidden className="absolute left-[4.5px] top-[30px] hidden h-7 w-px bg-white/25 lg:block" />
+                      <p className={`text-[32px] font-semibold leading-[1.15] tracking-[-0.04em] lg:text-[44px] lg:leading-[1.1] ${last ? "text-brand-text" : ""}`}>
+                        {year}
+                      </p>
+                      <h3 className="mt-2.5 text-[16px] font-semibold leading-snug lg:mt-4 lg:text-[17px]">{title}</h3>
+                      <p className="mt-1.5 text-[15px] leading-[1.55] text-white/60 lg:mt-2 lg:max-w-[280px]">{text}</p>
+                    </li>
+                  );
+                })}
+              </ol>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="border-y border-white/[0.09] bg-[#07111f] px-6 py-24 sm:px-10 sm:py-32 lg:px-16">
-        <div className="mx-auto grid max-w-7xl gap-16 lg:grid-cols-[0.9fr_1.1fr] lg:gap-24">
-          <div>
-            <h2 className="text-4xl font-semibold leading-[1.02] tracking-[-0.055em] text-white sm:text-6xl">Security is a product decision.</h2>
-          </div>
-          <div className="self-end">
-            <p className="max-w-xl text-lg leading-8 text-slate-300">Enterprise confidence comes from clear boundaries. Every Rabbitt AI engagement begins with the environment, controls, and operating model required for the work at hand.</p>
-            <div className="mt-10 grid gap-3 sm:grid-cols-2">
-              {trustItems.map((item) => (
-                <div key={item} className="rounded-xl border border-white/10 bg-white/[0.035] p-4 text-sm leading-6 text-slate-200">
-                  {item}
+        {/* three bets */}
+        <section aria-labelledby="bets" className="rb-section">
+          <div className="rb-container">
+            <h2 id="bets" className={h2}>
+              We made three bets.
+            </h2>
+            <div className="mt-8 grid gap-9 lg:mt-[60px] lg:grid-cols-3 lg:gap-5">
+              {BETS.map(([title, text], i) => (
+                <div key={title} className={["", "lg:mt-16", "lg:mt-32"][i]}>
+                  <div className="relative isolate flex h-[220px] items-end overflow-hidden bg-[#111317] p-[22px] pr-7 lg:h-[300px] lg:p-7">
+                    {i !== 1 && <Glow soft={i === 2} blur={63} />}
+                    <h3 className="text-[24px] font-semibold leading-[1.25] tracking-[-0.03em] lg:text-[30px] lg:leading-[1.2]">{title}</h3>
+                  </div>
+                  <p className="mt-4 text-[15px] leading-[1.55] text-white/60 lg:mt-[18px] lg:max-w-[calc(100%-24px)]">{text}</p>
                 </div>
               ))}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <ContactCta />
+        {/* founder */}
+        <section aria-label="The founder" className="rb-section">
+          <div className="rb-container grid gap-8 lg:grid-cols-[520px_minmax(0,1fr)] lg:gap-16">
+            <div className="relative aspect-[5/6] w-full overflow-hidden bg-[#111317] lg:aspect-[13/16]">
+              <Image
+                src="/assets/harneetsingh.png"
+                alt="Harneet Singh, founder of Rabbitt AI"
+                fill
+                sizes="(min-width: 1024px) 520px, 100vw"
+                className="object-cover object-[50%_20%]"
+              />
+            </div>
+            <figure className="lg:pt-6">
+              <blockquote className="max-w-[664px] text-[24px] font-medium leading-[1.33] tracking-[-0.025em] lg:text-[40px] lg:leading-[1.25]">
+                “In the new world, we are helping companies become the landlords of the AI world rather than just the tenants,
+                like the past Internet world.”
+              </blockquote>
+              <figcaption className="mt-6 lg:mt-9">
+                <p className="text-[16px] font-semibold lg:text-[17px]">Harneet Singh</p>
+                <p className="mt-1 text-[14px] text-white/60 lg:text-[15px]">Founder &amp; Chief AI Officer, Rabbitt AI</p>
+              </figcaption>
+              <p className="mt-6 max-w-[600px] text-[16px] leading-[1.6] text-white/70 lg:mt-10 lg:text-[17px] lg:leading-[1.65]">
+                An IIT Delhi alumnus and serial entrepreneur who has built five companies from scratch. He leads Rabbitt AI’s
+                strategy, research direction and model architecture, and wrote AI NAMA, our book on building AI you own.
+              </p>
+              <p className="mt-5 text-[14px] font-medium text-white/85 lg:mt-7 lg:text-[15px]">
+                IIT Delhi <span className="px-1.5 text-white/40">·</span> Europe Top 100 AI Leader{" "}
+                <span className="px-1.5 text-white/40">·</span> Author, AI NAMA
+              </p>
+              <Link
+                href={ANNOUNCEMENT}
+                className="group mt-1 inline-flex items-center gap-1.5 py-3 text-[15px] font-medium text-brand-text lg:mt-[18px] underline-offset-4 transition-colors hover:underline"
+              >
+                Read the funding announcement
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
+              </Link>
+            </figure>
+          </div>
+        </section>
 
-      <SiteFooter />
-    </main>
+        {/* Rented AI | AI you own: two halves, line against line */}
+        <section aria-label="Rented AI and AI you own" className="grid md:grid-cols-2 lg:mt-16">
+          <div className="bg-[#111317] px-5 py-14 sm:px-8 lg:px-12 lg:py-24 xl:px-16">
+            <h2 className="text-[48px] font-semibold leading-[1.08] tracking-[-0.045em] text-white/90 lg:text-[80px] lg:leading-[1.05]">Rented AI.</h2>
+            <p className="mt-3 text-[16px] text-white/45 lg:mt-4 lg:text-[18px]">What most companies sign up for.</p>
+            <ul className="mt-10 lg:mt-[67px]">
+              {RENTED.map((line) => (
+                <li key={line} className="border-t border-white/10 py-[17.5px] text-[18px] leading-[1.45] tracking-[-0.01em] text-white/50 lg:py-6 lg:text-[22px] lg:leading-[1.4]">
+                  {line}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="relative isolate overflow-hidden px-5 py-14 sm:px-8 lg:px-12 lg:py-24 xl:px-16">
+            <Glow blur={150} />
+            <h2 className="text-[48px] font-semibold leading-[1.08] tracking-[-0.045em] lg:text-[80px] lg:leading-[1.05]">AI you own.</h2>
+            <p className="mt-3 text-[16px] text-white/75 lg:mt-4 lg:text-[18px]">What Rabbitt AI builds with you.</p>
+            <ul className="mt-10 lg:mt-[67px]">
+              {OWNED.map((line) => (
+                <li key={line} className="border-t border-white/[0.18] py-[17.5px] text-[18px] font-medium leading-[1.45] tracking-[-0.01em] lg:py-6 lg:text-[22px] lg:leading-[1.4]">
+                  {line}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        {/* closing */}
+        <section aria-label="Work with us" className="rb-container grid gap-3 pb-24 pt-24 lg:grid-cols-2 lg:gap-5 lg:pb-[120px] lg:pt-[160px]">
+          <div className="relative isolate flex flex-col overflow-hidden bg-[#111317] px-6 py-8 lg:min-h-[380px] lg:p-12">
+            <Glow blur={80} />
+            <h2 className="text-[32px] font-semibold leading-[1.12] tracking-[-0.04em] lg:text-[44px] lg:leading-[1.09]">
+              Build your own AI
+              <span className="block">with us.</span>
+            </h2>
+            <p className="mt-4 max-w-[460px] text-[16px] leading-[1.6] text-white/80 lg:mt-6 lg:text-[17px]">
+              Bring one use case. We will run it on your own data, inside your cloud, and show you what it does for your team.
+            </p>
+            <Link href="/contactus" className={`${white} mt-8 self-start lg:mt-auto`}>
+              Book a demo
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
+            </Link>
+          </div>
+          <div className="flex flex-col bg-[#111317] px-6 py-8 lg:min-h-[380px] lg:p-12">
+            <h2 className="text-[32px] font-semibold leading-[1.12] tracking-[-0.04em] lg:text-[44px] lg:leading-[1.09]">Join the team.</h2>
+            <p className="mt-4 max-w-[460px] text-[16px] leading-[1.6] text-white/65 lg:mt-6 lg:text-[17px]">
+              We hire researchers, engineers and data specialists who want to ship AI that people can own.
+            </p>
+            <Link href="/contactus?topic=other" className={`${blue} mt-8 self-start lg:mt-auto`}>
+              Write to us
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
+            </Link>
+          </div>
+        </section>
+      </main>
+      <Footer />
+    </>
   );
 }

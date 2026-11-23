@@ -102,7 +102,7 @@ export default function ContentTypesWheel() {
               y={y - (item.label.length === 2 ? 6 : 0)}
               textAnchor="middle"
               fill="white"
-              fontFamily="Arial, sans-serif"
+              fontFamily="var(--font-sans)"
               fontSize={item.label.length === 1 ? "13" : "12"}
               fontWeight="700"
               style={{ textShadow: "0 2px 5px rgba(0,0,0,0.8)" }}
@@ -141,7 +141,7 @@ export default function ContentTypesWheel() {
           y="328"
           textAnchor="middle"
           fill="#9ad5ff"
-          fontFamily="Arial, sans-serif"
+          fontFamily="var(--font-sans)"
           fontSize="12"
           fontWeight="700"
           letterSpacing="3"
@@ -153,7 +153,7 @@ export default function ContentTypesWheel() {
           y="360"
           textAnchor="middle"
           fill="white"
-          fontFamily="Arial, sans-serif"
+          fontFamily="var(--font-sans)"
           fontSize="29"
           fontWeight="800"
         >
@@ -164,7 +164,7 @@ export default function ContentTypesWheel() {
           y="391"
           textAnchor="middle"
           fill="#55b5ff"
-          fontFamily="Arial, sans-serif"
+          fontFamily="var(--font-sans)"
           fontSize="29"
           fontWeight="800"
         >

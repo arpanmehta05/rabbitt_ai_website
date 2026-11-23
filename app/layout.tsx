@@ -1,16 +1,15 @@
 import type { Metadata } from "next";
-import Script from "next/script";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
+import SmoothScroll from "@/components/SmoothScroll";
+import ConsentManager from "@/components/consent/ConsentManager";
+import ChatLauncher from "@/components/ChatLauncher";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// The one font family for the whole site (see design.md §6).
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -51,14 +50,7 @@ export const metadata: Metadata = {
     siteName: "Rabbitt AI",
     locale: "en_US",
     type: "website",
-    images: [
-      {
-        url: "/logo.svg",
-        width: 1200,
-        height: 630,
-        alt: "Rabbitt AI — Own Your Data. Own Your AI.",
-      },
-    ],
+    // the share image is app/opengraph-image.tsx, which Next adds on its own
   },
   twitter: {
     card: "summary_large_image",
@@ -66,7 +58,6 @@ export const metadata: Metadata = {
     description:
       "Next-generation enterprise generative AI solutions. Build, fine-tune, and deploy sovereign LLMs on private enterprise data.",
     creator: "@rabbitt_ai",
-    images: ["/logo.svg"],
   },
   robots: {
     index: true,
@@ -122,24 +113,18 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${inter.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <head>
-        <Script
-          id="rabbitt-intro"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `(function(){try{var k='rabbitt_intro_timestamp';var t=localStorage.getItem(k);var c=document.cookie.indexOf('rabbitt_intro_seen=true')!==-1;if(c||(t&&(Date.now()-parseInt(t,10))<86400000)){document.documentElement.classList.add('skip-intro');}}catch(e){}})();`,
-          }}
-        />
-      </head>
-      <body className={`${geistSans.className} font-sans min-h-full flex flex-col`} suppressHydrationWarning>
+      <body className="font-sans min-h-full flex flex-col" suppressHydrationWarning>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        <SmoothScroll />
         {children}
+        <ChatLauncher />
+        <ConsentManager />
       </body>
     </html>
   );

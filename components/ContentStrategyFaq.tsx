@@ -44,7 +44,10 @@ export default function ContentStrategyFaq() {
             {faqs.map(([question, answer], index) => {
               const expanded = open === index;
               return (
-                <article key={question} className="border-b border-white/[0.12]">
+                <article
+                  key={question}
+                  className="border-b border-white/[0.12]"
+                >
                   <button
                     type="button"
                     onClick={() => setOpen(expanded ? -1 : index)}

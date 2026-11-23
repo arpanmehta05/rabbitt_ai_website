@@ -1,29 +1,46 @@
+// The case study index while it loads, in the shape of the page (Figma "Case studies – Desktop 1440"):
+// the headline and intro, the count and filters, the lead story with its number, then three stories.
+// Grey blocks on black, square, no borders.
+const block = "animate-pulse bg-white/[0.06]";
+
 export default function CaseStudiesLoading() {
   return (
-    <div className="min-h-screen bg-[#020305]">
-      <div className="mx-auto max-w-[1440px] px-6 sm:px-10 lg:px-16">
-        <div className="border-b border-white/[0.07] pb-12 pt-36 sm:pt-44">
-          <div className="max-w-3xl space-y-4">
-            <div className="h-3 w-24 animate-pulse rounded-full bg-white/[0.06]" />
-            <div className="h-12 w-72 animate-pulse rounded-xl bg-white/[0.06]" />
-            <div className="h-5 w-96 animate-pulse rounded-lg bg-white/[0.04]" />
-          </div>
+    <div className="min-h-screen bg-page" aria-busy="true">
+      <div className="rb-container pb-10 pt-28 lg:pb-12 lg:pt-40">
+        <div className="max-w-[36rem] space-y-3">
+          <div className={`h-10 w-full lg:h-14 ${block}`} />
+          <div className={`h-10 w-2/3 lg:h-14 ${block}`} />
         </div>
-        <div className="py-16">
-          <div className="mb-10 flex gap-3">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="h-8 w-24 animate-pulse border border-white/[0.06] bg-white/[0.03]" />
-            ))}
+        <div className={`mt-6 h-4 w-80 max-w-full ${block}`} />
+      </div>
+      <div className="rb-container pb-24">
+        <div className="border-t border-white/[0.08] pt-8">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className={`h-3 w-16 ${block}`} />
+            <div className="flex gap-2">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className={`h-9 w-24 ${block}`} />
+              ))}
+            </div>
           </div>
-          <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-            {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div key={i} className="overflow-hidden border border-white/[0.07] bg-[#060d1a]">
-                <div className="aspect-[16/9] w-full animate-pulse bg-white/[0.04]" />
-                <div className="space-y-3 p-6">
-                  <div className="h-4 w-full animate-pulse rounded-lg bg-white/[0.05]" />
-                  <div className="h-4 w-4/5 animate-pulse rounded-lg bg-white/[0.04]" />
-                  <div className="h-3 w-1/3 animate-pulse rounded-lg bg-white/[0.03]" />
-                </div>
+          <div className="mt-8 grid gap-6 border-b border-white/[0.08] pb-12 lg:mt-10 lg:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)] lg:gap-12 lg:pb-16">
+            <div className={`aspect-[16/9] ${block}`} />
+            <div>
+              <div className={`h-3 w-32 lg:mt-2 ${block}`} />
+              <div className={`mt-5 h-[72px] w-40 lg:h-24 ${block}`} />
+              <div className={`mt-5 h-6 w-full ${block}`} />
+              <div className={`mt-2 h-6 w-3/4 ${block}`} />
+              <div className={`mt-4 h-4 w-full ${block}`} />
+              <div className={`mt-2 h-4 w-5/6 ${block}`} />
+            </div>
+          </div>
+          <div className="mt-8 grid gap-6 sm:grid-cols-2 sm:gap-y-12 lg:mt-12 lg:grid-cols-3">
+            {[1, 2, 3].map((i) => (
+              <div key={i}>
+                <div className={`aspect-[16/9] ${block}`} />
+                <div className={`mt-4 h-3 w-32 ${block}`} />
+                <div className={`mt-2.5 h-4 w-full ${block}`} />
+                <div className={`mt-2 h-4 w-2/3 ${block}`} />
               </div>
             ))}
           </div>
