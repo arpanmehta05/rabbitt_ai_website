@@ -1,7 +1,7 @@
 import CookieSettingsButton from "@/components/consent/CookieSettingsButton";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 // The footer, from the Figma "Footer / Extended" component (dark and light). One grid, so everything
 // lines up: the brand block, then Products, Services, Resources, Company and Legal on fixed columns
@@ -128,13 +128,6 @@ export default function MainFooter({ theme = "dark" }: { theme?: "dark" | "light
             <p className="mt-4 max-w-[300px] text-[15px] leading-[22px] text-white/65">
               Private AI that runs on your data, inside your own cloud. Nothing leaves, nothing trains on your content.
             </p>
-            <Link
-              href="/contactus"
-              className="group mt-5 inline-flex h-11 items-center gap-2 rounded-[10px] border border-white/50 px-[18px] text-[15px] font-medium text-white transition-colors hover:border-white hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-text"
-            >
-              Book a demo
-              <ArrowRight aria-hidden className="h-4 w-4 text-brand-text transition-transform group-hover:translate-x-0.5" />
-            </Link>
           </section>
 
           {columns.map((column) => (
