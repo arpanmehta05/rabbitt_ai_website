@@ -3,22 +3,12 @@
 import Link from "next/link";
 import { useState } from "react";
 import { ArrowRight } from "lucide-react";
+import Glow from "@/components/Glow";
 import { WHAT_WE_DO } from "./contactData";
 
 // "What we can do for you" (Figma): Services, Products and Data as tabs, three cards each. A card is
 // a box with the name in the middle, then one line and a link under it. The first box carries the
-// products card's gradient, the second is plain, the third a softer gradient. No borders.
-
-function Glow({ soft = false }: { soft?: boolean }) {
-  return (
-    <span aria-hidden className={`pointer-events-none absolute inset-0 -z-10 ${soft ? "opacity-50" : ""}`}>
-      <span className="absolute -left-[10%] -top-[20%] h-[90%] w-[55%] rounded-full bg-[#0061ff]/55 blur-[60px]" />
-      <span className="absolute left-[45%] top-[5%] h-[95%] w-[70%] rounded-full bg-[#4d9bff]/40 blur-[60px]" />
-      <span className="absolute left-[25%] top-[55%] h-[70%] w-[50%] rounded-full bg-[#1a47d6]/60 blur-[60px]" />
-      <span className="absolute -left-[15%] top-[45%] h-[60%] w-[50%] rounded-full bg-black/50 blur-[60px]" />
-    </span>
-  );
-}
+// products card's gradient (shared Glow), the second is plain, the third a softer gradient. No borders.
 
 export default function WhatWeDo() {
   const [tab, setTab] = useState(WHAT_WE_DO[0].id);
