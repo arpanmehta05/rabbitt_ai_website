@@ -775,6 +775,55 @@ html.skip-intro .intro-scene {
   scrollbar-width: none;
 }
 
+/* ── Site scrollbar ──────────────────────────────────────────────────────── */
+/* One scrollbar for the whole site: a slim track in the colour of the page and a brand-blue thumb that
+   lightens on hover, with no arrow buttons. Chrome, Edge and Safari use the ::-webkit-scrollbar parts;
+   Firefox gets the standard properties, only where the parts are not supported (Chrome ignores the parts
+   when the standard properties are set). The article pages are light, so they get a light track. The strips
+   that hide theirs (.no-scrollbar, the sideways filter rows) still do. */
+:root {
+  --sb-track: #05060a;
+  --sb-thumb: #0061ff;
+  --sb-thumb-hover: #4d9bff;
+}
+html:has(main[data-nav-theme="light"]) {
+  --sb-track: #f3f4f6;
+  --sb-thumb-hover: #1a47d6;
+}
+
+@supports selector(::-webkit-scrollbar) {
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+    background: var(--sb-track);
+  }
+  ::-webkit-scrollbar-track,
+  ::-webkit-scrollbar-corner {
+    background: var(--sb-track);
+  }
+  ::-webkit-scrollbar-thumb {
+    min-height: 48px;
+    border: 3px solid var(--sb-track);
+    border-radius: 999px;
+    background: var(--sb-thumb);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--sb-thumb-hover);
+  }
+  ::-webkit-scrollbar-button {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--sb-thumb) var(--sb-track);
+  }
+}
+
 /* ── Blog / Case Study markdown prose ────────────────────────────────────── */
 .blog-prose {
   color: #cbd5e1; /* slate-300 */

@@ -8,7 +8,7 @@ import { whiteButton } from "@/components/contact/ui";
 import { DETAILS, PDF_HREF, SECTIONS, SHORT_VERSION } from "./policy";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy — Rabbitt AI",
+  title: "Privacy Policy",
   description:
     "How Rabbitt AI collects, uses, shares and protects personal data, and the choices you have.",
 };
